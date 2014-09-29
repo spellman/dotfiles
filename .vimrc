@@ -7,13 +7,9 @@ set nocompatible
 " No swap files
 set noswapfile
 
-
-
 " Enable Pathogen
 call pathogen#helptags()
 call pathogen#runtime_append_all_bundles()
-
-
 
 " Enable Vundle
 set rtp+=~/.vim/bundle/vundle/
@@ -41,10 +37,10 @@ Plugin 'vim-scripts/paredit.vim'
 
 
 " Edit vimrc.
-nnoremap <leader>ev :vsp $MYVIMRC<cr>
+nnoremap <Leader>ev :sp $MYVIMRC<cr>
 
 " Source vimrc.
-nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <Leader>sv :source $MYVIMRC<cr>
 
 " Increase command history from 20 (default) to 100
 set history=100
@@ -100,28 +96,24 @@ set shiftwidth=2
 " Tabs to spaces
 set expandtab
 
+" Autoindent on
+set autoindent
+
 augroup myfiletypes
   autocmd!
-  " Autoindent with two spaces, always expand tabs
-  autocmd FileType ruby,eruby,yaml,javascript set ai sw=2 sts=2 et
-  autocmd FileType html,css,scss setlocal ai sw=2 sts=2 et
 
   " Ruby
-  autocmd FileType ruby nnoremap <buffer> <leader>c I#<esc>
+  autocmd FileType ruby nnoremap <buffer> <Leader>c I#<esc>
 
   " Javascript
-  autocmd FileType javascript nnoremap <buffer> <leader>c I//<esc>
+  autocmd FileType javascript nnoremap <buffer> <Leader>c I//<esc>
+  autocmd FileType javascript let g:html_indent_inctags = "html,body,head,tbody"
+  autocmd FileType javascript let g:html_indent_script1 = "inc"
+  autocmd FileType javascript let g:html_indent_style1 = "inc"
 
   " Clojure
-  autocmd FileType clojure nnoremap <buffer> <leader>c I;<esc>
+  autocmd FileType clojure nnoremap <buffer> <Leader>c I;<esc>
 augroup END
-
-
-
-" Javascript stuff
-let g:html_indent_inctags = "html,body,head,tbody"
-let g:html_indent_script1 = "inc"
-let g:html_indent_style1 = "inc"
 
 
 
@@ -224,9 +216,10 @@ if &term =~ '256color'
   set t_ut=
 endif
 
+" <F2> to toggle paste mode for insert
 set pastetoggle=<F2>
 
-" Ease navigation of wrapped lines
+" Easy navigation of wrapped lines
 nnoremap j gj
 nnoremap k gk
 
@@ -251,15 +244,15 @@ cnoremap w!! w !sudo tee % >/dev/null
 "nnoremap <Leader>t :TMiniBufExplorer<cr>
 
 " Put new window above current or on the left for vertical split
-let g:miniBufExplSplitBelow=0
+"let g:miniBufExplSplitBelow=0
 
 
 
 " Minitest.vim mappings
-nnoremap <Leader>t :call RunCurrentTestFile()<CR>
-nnoremap <Leader>s :call RunNearestTest()<CR>
-nnoremap <Leader>l :call RunLastTest()<CR>
-nnoremap <Leader>a :call RunAllTests()<CR>
+nmap <Leader>t <Plug>vim-minitest#RunCurrentTestFile
+nmap <Leader>s <Plug>vim-minitest#RunNearestTest
+nmap <Leader>l <Plug>vim-minitest#RunLastTest
+nmap <Leader>a <Plug>vim-minitest#RunAllTests
 
 
 
@@ -284,44 +277,44 @@ nnoremap <Leader>rl :call Send_to_Tmux("load '".@%."'\n")<CR>
 "
 " Documentation Settings
 " ----------------------
-" <leader>m - view docs for a function
-"nnoremap <buffer> <leader>d <Plug>FireplaceK
+" <Leader>m - view docs for a function
+"nnoremap <buffer> <Leader>d <Plug>FireplaceK
 "
-" <leader>M - view source of function
-"nnoremap <buffer> <leader>D <Plug>FireplaceSource
+" <Leader>M - view source of function
+"nnoremap <buffer> <Leader>D <Plug>FireplaceSource
 "
 "
 " Eval Settings
 " ----------------------
-" <leader>ee - evaluate whole file
-"nnoremap <buffer> <leader>ee :%Eval<CR>
+" <Leader>ee - evaluate whole file
+"nnoremap <buffer> <Leader>ee :%Eval<CR>
 "
-" <leader>el - evaluates outermost form for the current line
-"nnoremap <buffer> <leader>el :Eval<CR>
+" <Leader>el - evaluates outermost form for the current line
+"nnoremap <buffer> <Leader>el :Eval<CR>
 "
-" <leader>ei - evaluates local form (nested part of function)
-"exe 'nnoremap <buffer> <leader>ei <Plug>FireplaceEditab' . &cedit . 'i<CR>'
+" <Leader>ei - evaluates local form (nested part of function)
+"exe 'nnoremap <buffer> <Leader>ei <Plug>FireplaceEditab' . &cedit . 'i<CR>'
 "
-" <leader>tt - run clojure test
-"nnoremap <buffer> <leader>tt :Eval (clojure.test/run-tests)<CR>
+" <Leader>tt - run clojure test
+"nnoremap <buffer> <Leader>tt :Eval (clojure.test/run-tests)<CR>
 "
 "
 " 'Require' Settings
 " ----------------------
-" <leader>rr -  require<leader> reload
-"nnoremap <buffer> <leader>rr :Require<CR>
+" <Leader>rr -  require<Leader> reload
+"nnoremap <buffer> <Leader>rr :Require<CR>
 "
-" <leader>R  -  require, reload-all
-"nnoremap <buffer> <leader>R :Require!<CR>
+" <Leader>R  -  require, reload-all
+"nnoremap <buffer> <Leader>R :Require!<CR>
 "
 "
 " Quasi-REPL Settings
 " ----------------------
-" <leader>qr - one-line repl (to quickly evaluate an expression)
-"nmap <buffer> <leader>qr <Plug>FireplacePrompt
+" <Leader>qr - one-line repl (to quickly evaluate an expression)
+"nmap <buffer> <Leader>qr <Plug>FireplacePrompt
 "
-" <leader>Q ten-line repl (to see previously evaluated expressions)
-"exe 'nmap <buffer> <leader>Q <Plug>FireplacePrompt' . &cedit . 'i'
+" <Leader>Q ten-line repl (to see previously evaluated expressions)
+"exe 'nmap <buffer> <Leader>Q <Plug>FireplacePrompt' . &cedit . 'i'
 
 
 
