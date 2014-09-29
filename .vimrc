@@ -19,24 +19,24 @@ call pathogen#runtime_append_all_bundles()
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" My Bundles
-Bundle 'spellman/vim-minitest'
+" My Plugins
+Plugin 'spellman/vim-minitest'
 
-" Other Bundles
-Bundle 'gmarik/vundle'
-"Bundle 'minibufexpl.vim'
-"Bundle 'pangloss/vim-javascript'
-Bundle 'rking/ag.vim'
-Bundle 'jgdavey/tslime.vim'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'kien/ctrlp.vim'
-"Bundle 'luochen1990/rainbow'
-Bundle 'guns/vim-clojure-static'
-Bundle 'guns/vim-clojure-highlight'
-Bundle 'tpope/vim-fireplace'
-Bundle 'tpope/vim-classpath'
-"Bundle 'kien/rainbow_parentheses.vim'
-Bundle 'vim-scripts/paredit.vim'
+" Other Plugins
+Plugin 'gmarik/vundle'
+"Plugin 'minibufexpl.vim'
+"Plugin 'pangloss/vim-javascript'
+Plugin 'rking/ag.vim'
+Plugin 'jgdavey/tslime.vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'kien/ctrlp.vim'
+Plugin 'guns/vim-clojure-static'
+Plugin 'guns/vim-clojure-highlight'
+Plugin 'tpope/vim-fireplace'
+Plugin 'tpope/vim-classpath'
+"Plugin 'kien/rainbow_parentheses.vim'
+"Plugin 'luochen1990/rainbow'
+Plugin 'vim-scripts/paredit.vim'
 
 
 
