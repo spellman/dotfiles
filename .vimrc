@@ -17,6 +17,7 @@ call vundle#rc()
 
 " My Plugins
 Plugin 'spellman/vim-minitest'
+Plugin 'spellman/vim-fireplace-addon'
 
 " Other Plugins
 Plugin 'gmarik/vundle'
@@ -113,6 +114,8 @@ augroup myfiletypes
 
   " Clojure
   autocmd FileType clojure nnoremap <buffer> <Leader>c I;<esc>
+  autocmd FileType clojure nmap <buffer> <Leader>r <Plug>fireplace-addon#PrintFireplaceResultOperator
+  autocmd FileType clojure vmap <buffer> <Leader>r <Plug>fireplace-addon#PrintFireplaceResultOperator
 augroup END
 
 
