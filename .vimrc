@@ -1,3 +1,6 @@
+" Change the mapleader from \ to ,
+let mapleader=","
+
 " Set not compatible with vi to enable stuff.
 set nocompatible
 
@@ -36,9 +39,6 @@ Bundle 'tpope/vim-classpath'
 Bundle 'vim-scripts/paredit.vim'
 
 
-
-" Change the mapleader from \ to ,
-let mapleader=","
 
 " Edit vimrc.
 nnoremap <leader>ev :vsp $MYVIMRC<cr>
