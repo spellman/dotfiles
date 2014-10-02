@@ -43,6 +43,9 @@ nnoremap <Leader>ev :sp $MYVIMRC<cr>
 " Source vimrc.
 nnoremap <Leader>sv :source $MYVIMRC<cr>
 
+"Always show status line, even when only one window is open.
+set laststatus=2
+
 " Increase command history from 20 (default) to 100
 set history=100
 
