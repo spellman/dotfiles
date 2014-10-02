@@ -61,6 +61,7 @@ runtime macros/matchit.vim
 
 " Match bracket pairs with tab.
 nnoremap <tab> %
+onoremap <tab> %
 vnoremap <tab> %
 
 " <TAB> shows list of possible commands
