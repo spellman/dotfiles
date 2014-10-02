@@ -56,6 +56,10 @@ set undolevels=1000
 "   etc.
 runtime macros/matchit.vim
 
+" Match bracket pairs with tab.
+nnoremap <tab> %
+vnoremap <tab> %
+
 " <TAB> shows list of possible commands
 set wildmode=list:longest
 
@@ -106,6 +110,9 @@ set autoindent
 set textwidth=79
 set formatoptions=cj
 
+" Strip trailing whitespace in the current file.
+nnoremap <leader>sw :%s/\s\+$//<cr>:let @/=''<CR>
+
 augroup myfiletypes
   autocmd!
 
@@ -122,6 +129,10 @@ augroup myfiletypes
   autocmd FileType clojure nnoremap <buffer> <Leader>c I; <esc>
   autocmd FileType clojure nmap <buffer> <Leader>r <Plug>fireplace-addon#PrintFireplaceResultOperator
   autocmd FileType clojure vmap <buffer> <Leader>r <Plug>fireplace-addon#PrintFireplaceResultOperator
+
+  " CSS
+  " Sort CSS properties
+  autocmd FileType html,css nnoremap <buffer> <leader>sc ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR>
 augroup END
 
 
