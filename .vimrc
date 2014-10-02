@@ -60,9 +60,13 @@ runtime macros/matchit.vim
 set wildmode=list:longest
 
 " / searches case-sensitive only if searching for capital letter
-" * searches consistently case-sensitive. 
-set ignorecase 
+" * searches consistently case-sensitive.
+set ignorecase
 set smartcase
+
+" Highlight search terms...
+set hlsearch
+set incsearch " ...dynamically as they are typed.
 
 " Keep 3 lines below cursor instead of it being at bottom (default)
 set scrolloff=3
@@ -75,7 +79,7 @@ set ruler
 
 " Intuitive backspacing in insert mode
 set backspace=indent,eol,start
- 
+
 " File-type highlighting and configuration.
 " Run :filetype (without args) to see what you may have
 " to turn on yourself, or just set them all to be sure.
@@ -84,36 +88,38 @@ filetype on
 filetype plugin on
 filetype indent on
 
-" Highlight search terms...
-set hlsearch
-set incsearch " ...dynamically as they are typed.
-
 " Tab is 2 spaces
 set tabstop=2
-
-" Shift indent by 2 spaces
-set shiftwidth=2
+set softtabstop=2
 
 " Tabs to spaces
 set expandtab
 
+" Shift indent by 2 spaces
+set shiftwidth=2
+
 " Autoindent on
 set autoindent
+
+" c: Auto-wrap comments to textwidth
+" j: Remove comment leader when joining lines 'where it makes sense'.
+set textwidth=79
+set formatoptions=cj
 
 augroup myfiletypes
   autocmd!
 
   " Ruby
-  autocmd FileType ruby nnoremap <buffer> <Leader>c I#<esc>
+  autocmd FileType ruby nnoremap <buffer> <Leader>c I# <esc>
 
   " Javascript
-  autocmd FileType javascript nnoremap <buffer> <Leader>c I//<esc>
+  autocmd FileType javascript nnoremap <buffer> <Leader>c I// <esc>
   autocmd FileType javascript let g:html_indent_inctags = "html,body,head,tbody"
   autocmd FileType javascript let g:html_indent_script1 = "inc"
   autocmd FileType javascript let g:html_indent_style1 = "inc"
 
   " Clojure
-  autocmd FileType clojure nnoremap <buffer> <Leader>c I;<esc>
+  autocmd FileType clojure nnoremap <buffer> <Leader>c I; <esc>
   autocmd FileType clojure nmap <buffer> <Leader>r <Plug>fireplace-addon#PrintFireplaceResultOperator
   autocmd FileType clojure vmap <buffer> <Leader>r <Plug>fireplace-addon#PrintFireplaceResultOperator
 augroup END
