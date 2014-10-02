@@ -389,5 +389,11 @@ let g:paredit_electric_return = 0
 
 
 
+" Vim-Clojure-Static
+" Align multiline strings to character after opening quote.
+let g:clojure_align_multiline_strings = 1
+
+
+
 " Colorscheme to apply on starting Vim.
 call ColorDark()
