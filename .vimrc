@@ -17,7 +17,7 @@ call vundle#rc()
 
 " My Plugins
 Plugin 'spellman/vim-minitest'
-Plugin 'spellman/vim-fireplace-addon'
+Plugin 'file:///home/cort/Projects/vim-fireplace-addon'
 
 " Other Plugins
 Plugin 'gmarik/vundle'
@@ -31,9 +31,10 @@ Plugin 'guns/vim-clojure-static'
 Plugin 'guns/vim-clojure-highlight'
 Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-classpath'
+Plugin 'vim-scripts/paredit.vim'
+"Plugin 'dgrnbrg/vim-redl'
 "Plugin 'kien/rainbow_parentheses.vim'
 "Plugin 'luochen1990/rainbow'
-Plugin 'vim-scripts/paredit.vim'
 
 
 
