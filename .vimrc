@@ -255,7 +255,7 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
 " Clear highlighted searches with ,/
-nnoremap <silent> ,/ :nohlsearch<CR>
+nnoremap <silent> <Leader>/ :nohlsearch<CR>
 
 "Apply sudo after opening a file that requires it for editing. Use w!!
 cnoremap w!! w !sudo tee % >/dev/null
