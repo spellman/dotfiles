@@ -1001,7 +1001,6 @@ This requires library `rainbow-mode'.")
 ;;   "Also remove font-lock keywords for dark colors."
 ;;   (font-lock-remove-keywords nil dark-colors-font-lock-keywords))
 
-(set-face-foreground 'dired-directory "dark-cyan")
 ;;; Footer
 
 ;;;###autoload

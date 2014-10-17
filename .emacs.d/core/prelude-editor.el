@@ -237,6 +237,7 @@ The body of the advice is in BODY."
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; dired - reuse dired buffer
+(require 'dired+)
 (toggle-diredp-find-file-reuse-dir 1)
 
 ;; always delete and copy recursively

@@ -43,7 +43,4 @@
                                                   (abbreviate-file-name (buffer-file-name))
                                                   "%b"))))
 
-;; Use dark as the default theme.
-(load-theme 'dark t)
-
 (provide 'prelude-ui)

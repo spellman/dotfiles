@@ -61,6 +61,7 @@
     discover-my-major
     diff-hl
     diminish
+    dired+
     dired-details+
     ;easy-kill
     elisp-slime-nav

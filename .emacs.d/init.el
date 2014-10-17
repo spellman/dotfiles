@@ -91,6 +91,10 @@ by Prelude.")
   (message "Loading personal configuration files in %s..." prelude-personal-dir)
   (mapc 'load (directory-files prelude-personal-dir 't "^[^#].*el$")))
 
+;; load default theme - dark
+(load-theme 'dark t)
+
+
 (message "Prelude is ready.")
 
 (prelude-eval-after-init
