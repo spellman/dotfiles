@@ -97,8 +97,8 @@ by Prelude.")
 
 (message "Prelude is ready.")
 
-(prelude-eval-after-init
- ;; greet the use with some useful tip
- (run-at-time 5 nil 'prelude-tip-of-the-day))
+;(prelude-eval-after-init
+; ;; greet the use with some useful tip
+; (run-at-time 5 nil 'prelude-tip-of-the-day))
 
 ;;; init.el ends here

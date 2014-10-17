@@ -40,6 +40,6 @@
 (define-key helm-grep-mode-map (kbd "n")   'helm-grep-mode-jump-other-window-forward)
 (define-key helm-grep-mode-map (kbd "p")   'helm-grep-mode-jump-other-window-backward)
 
-(push "Press <C-c p h> to navigate a project in Helm." prelude-tips)
+;(push "Press <C-c p h> to navigate a project in Helm." prelude-tips)
 
 (provide 'prelude-helm)
