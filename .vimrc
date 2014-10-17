@@ -33,7 +33,7 @@ Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-classpath'
 Plugin 'vim-scripts/paredit.vim'
 "Plugin 'dgrnbrg/vim-redl'
-"Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'kien/rainbow_parentheses.vim'
 "Plugin 'luochen1990/rainbow'
 
 
@@ -298,65 +298,26 @@ nnoremap <Leader>rl :call Send_to_Tmux("load '".@%."'\n")<CR>
 
 
 
-" Fireplace
-"
-" Documentation Settings
-" ----------------------
-" <Leader>m - view docs for a function
-"nnoremap <buffer> <Leader>d <Plug>FireplaceK
-"
-" <Leader>M - view source of function
-"nnoremap <buffer> <Leader>D <Plug>FireplaceSource
-"
-"
-" Eval Settings
-" ----------------------
-" <Leader>ee - evaluate whole file
-"nnoremap <buffer> <Leader>ee :%Eval<CR>
-"
-" <Leader>el - evaluates outermost form for the current line
-"nnoremap <buffer> <Leader>el :Eval<CR>
-"
-" <Leader>ei - evaluates local form (nested part of function)
-"exe 'nnoremap <buffer> <Leader>ei <Plug>FireplaceEditab' . &cedit . 'i<CR>'
-"
-" <Leader>tt - run clojure test
-"nnoremap <buffer> <Leader>tt :Eval (clojure.test/run-tests)<CR>
-"
-"
-" 'Require' Settings
-" ----------------------
-" <Leader>rr -  require<Leader> reload
-"nnoremap <buffer> <Leader>rr :Require<CR>
-"
-" <Leader>R  -  require, reload-all
-"nnoremap <buffer> <Leader>R :Require!<CR>
-"
-"
-" Quasi-REPL Settings
-" ----------------------
-" <Leader>qr - one-line repl (to quickly evaluate an expression)
-"nmap <buffer> <Leader>qr <Plug>FireplacePrompt
-"
-" <Leader>Q ten-line repl (to see previously evaluated expressions)
-"exe 'nmap <buffer> <Leader>Q <Plug>FireplacePrompt' . &cedit . 'i'
+"Rainbow parentheses for plugin kien/rainbow_parentheses.vim
+au VimEnter * RainbowParenthesesToggleAll
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
 
-
-
-" Rainbow parentheses for plugin kien/rainbow_parentheses.vim
-"au VimEnter * RainbowParenthesesToggleAll
-"au Syntax * RainbowParenthesesLoadRound
-"au Syntax * RainbowParenthesesLoadSquare
-"au Syntax * RainbowParenthesesLoadBraces
-
-"let g:rbpt_colorpairs = [
-"\     ['lightred',   'firebrick3'],
-"\     ['darkred',    'DarkOrchid3'],
-"\     ['darkmagenta',    'SeaGreen3'],
-"\     ['lightblue',       'RoyalBlue3'],
-"\     ['gray',     'SeaGreen3'],
-"\     ['yellow',    'RoyalBlue3'],
-"\   ]
+let g:rbpt_colorpairs = [
+\     ['37', '37'],
+\     ['148', '148'],
+\     ['29', '29'],
+\     ['153', '153'],
+\     ['93', '93'],
+\     ['22', '22'],
+\     ['166', '166'],
+\     ['63', '63'],
+\     ['28', '28'],
+\     ['142', '142'],
+\     ['19', '19'],
+\     ['41', '41']
+\   ]
 
 
 
