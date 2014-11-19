@@ -144,6 +144,7 @@
   '(progn
     ;;;; Custom Cider key bindings
     ;;;  Unmap default Cider keys of interest.
+    (define-key cider-mode-map (kbd "C-c C-d") nil) ; 'cider-doc-map
     (define-key cider-mode-map (kbd "C-c C-n") nil) ; 'cider-eval-ns-form
     (define-key cider-mode-map (kbd "C-c M-n") nil) ; 'cider-repl-set-ns
     (define-key cider-mode-map (kbd "C-c C-k") nil) ; 'cider-load-current-buffer
@@ -155,7 +156,9 @@
     (define-key cider-mode-map (kbd "C-c C-c") nil) ; 'cider-eval-defun-at-point
     (define-key cider-mode-map (kbd "C-c C-m") nil) ; 'cider-macroexpand-1
 
-    ;; Idea of keymap: emulate vim's operator-object paradigm.
+    (define-key cider-mode-map (kbd "K") 'cider-doc-map)
+
+    ;; Idea of expression-eval keys: emulate vim's operator-object paradigm.
     ;; e n -> eval (v) namespace (n)
     ;; n b -> switch REPL namespace (v) to buffer namespace (n)
     ;;
@@ -166,75 +169,64 @@
     ;; b e -> insert into buffer (v) evaluated last s-exp (n)
     ;; ...
 
-    (defvar my-cider-mode-map
-      (let (my-cider-mode-map)
-        (define-prefix-command 'my-cider-mode-map)
-        ;; Eval namespace form.
-        ;; e n -> eval (v) namespace (n)
-        (define-key my-cider-mode-map (kbd "e n") 'cider-eval-ns-form)
+    (evil-leader/set-key
+      ;; Eval namespace form.
+      ;; e n -> eval (v) namespace (n)
+      "e n" 'cider-eval-ns-form
 
-        ;; Switch to namespace of current buffer.
-        ;; n b -> switch repl namespace (v) to buffer namespace (n)
-        (define-key my-cider-mode-map (kbd "n b") 'cider-repl-set-ns)
+      ;; Switch to namespace of current buffer.
+      ;; n b -> switch repl namespace (v) to buffer namespace (n)
+      "n b" 'cider-repl-set-ns
 
-        ;; load current buffer.
-        ;; l b -> load (v) buffer (n)
-        (define-key my-cider-mode-map (kbd "l b") 'cider-load-current-buffer)
+      ;; load current buffer.
+      ;; l b -> load (v) buffer (n)
+      "l b" 'cider-load-current-buffer
 
-        ;; Load file.
-        ;; l f -> load (v) file (n)
-        (define-key my-cider-mode-map (kbd "l f") 'cider-load-file)
+      ;; Load file.
+      ;; l f -> load (v) file (n)
+      "l f" 'cider-load-file
 
-        ;; Insert form preceding point into REPL.
-        ;; i   -> insert (into REPL) (v) last s-exp (n).
-        (define-key my-cider-mode-map (kbd "i") 'cider-insert-last-sexp-in-repl)
+      ;; Insert form preceding point into REPL.
+      ;; i   -> insert (into REPL) (v) last s-exp (n).
+      "i" 'cider-insert-last-sexp-in-repl
 
-        ;; Eval form preceding point, echo result.
-        ;; e e -> echo (v) evaluated last s-exp (n)
-        (define-key my-cider-mode-map (kbd "e e") 'cider-eval-last-sexp)
+      ;; Eval form preceding point, echo result.
+      ;; e e -> echo (v) evaluated last s-exp (n)
+      "e e" 'cider-eval-last-sexp
 
-        ;; Eval form preceding point, insert result into current buffer.
-        ;; b e -> insert into buffer (v) evaluated last s-exp (n)
-        (define-key my-cider-mode-map (kbd "b e")
-                        (lambda ()
-                          (interactive)
-                          (let ((current-prefix-arg '(4))) ; C-u prefix
-                            (call-interactively 'cider-eval-last-sexp))))
+      ;; Eval form preceding point, insert result into current buffer.
+      ;; b e -> insert into buffer (v) evaluated last s-exp (n)
+      "b e" (lambda ()
+              (interactive)
+              (let ((current-prefix-arg '(4))) ; C-u prefix
+                (call-interactively 'cider-eval-last-sexp)))
 
-        ;; Eval top-level form at point, echo result.
-        ;; e E -> echo (v) evaluated top-level form at point (n)
-        (define-key my-cider-mode-map (kbd "e E") 'cider-eval-defun-at-point)
+      ;; Eval top-level form at point, echo result.
+      ;; e E -> echo (v) evaluated top-level form at point (n)
+      "e E" 'cider-eval-defun-at-point
 
-        ;; Eval top-level form at point, insert result into current buffer.
-        ;; b E -> insert into buffer (v) evaluated top level form at point (n)
-        (define-key my-cider-mode-map (kbd "b E")
-                        (lambda ()
-                          (interactive)
-                          (let ((current-prefix-arg '(4))) ; C-u prefix
-                            (call-interactively 'cider-eval-defun-at-point))))
+      ;; Eval top-level form at point, insert result into current buffer.
+      ;; b E -> insert into buffer (v) evaluated top level form at point (n)
+      "b E" (lambda ()
+              (interactive)
+              (let ((current-prefix-arg '(4))) ; C-u prefix
+                (call-interactively 'cider-eval-defun-at-point)))
 
-        ;; Eval region (visual selection), echo result.
-        ;; e r -> echo (v) evaluated region (n)
-        (define-key my-cider-mode-map (kbd "e r") 'cider-eval-region)
+      ;; Eval region (visual selection), echo result.
+      ;; e r -> echo (v) evaluated region (n)
+      "e r" 'cider-eval-region
 
-        ;; Macroexpand-1 the form at point.
-        ;; m 1 -> insert into buffer (v) the macroexpand-1 of form at point (n).
-        (define-key my-cider-mode-map (kbd "m 1") 'cider-macroexpand-1)
+      ;; Macroexpand-1 the form at point.
+      ;; m 1 -> insert into buffer (v) the macroexpand-1 of form at point (n).
+      "m 1" 'cider-macroexpand-1
 
-        ;; Macroexpand the form at point.
-        ;; m m -> insert into buffer (v) the macroexpand of form at point (n).
-        (define-key my-cider-mode-map (kbd "m m")
-                        (lambda ()
-                          (interactive)
-                          (let ((current-prefix-arg '(4))) ; C-u prefix
-                            (call-interactively 'cider-macroexpand-1))))
-
-        my-cider-mode-map)
-      "Keymap for Cider commands after the prefix")
-
-    ;; Note "," prefix for my-cider-mode-map
-    (define-key evil-normal-state-local-map (kbd ",") 'my-cider-mode-map)
-    (define-key evil-normal-state-local-map (kbd "K") 'cider-doc-map)
+      ;; Macroexpand the form at point.
+      ;; m m -> insert into buffer (v) the macroexpand of form at point (n).
+      "m m" (lambda ()
+              (interactive)
+              (let ((current-prefix-arg '(4))) ; C-u prefix
+                (call-interactively 'cider-macroexpand-1)))
+      )
     ))
 
 (eval-after-load 'cider-repl
