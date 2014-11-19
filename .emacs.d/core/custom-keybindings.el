@@ -117,22 +117,22 @@
      ;; Move to next/previous s-exp at same level.
      (define-key paredit-mode-map (kbd "M-f") 'paredit-forward)
      (define-key paredit-mode-map (kbd "M-b") 'paredit-backward)
-    (evil-leader/set-key
-      "w (" 'paredit-wrap-round
-      "w [" 'paredit-wrap-square
-      "w {" 'paredit-wrap-curly
-      "w <" 'paredit-wrap-angled
-      "s" 'paredit-splice-sexp
-      "f" 'paredit-splice-sexp-killing-forward
-      "b" 'paredit-splice-sexp-killing-backward
-      "r" 'paredit-raise-sexp
-      "L" 'paredit-forward-slurp-sexp
-      "H" 'paredit-backward-slurp-sexp
-      ">" 'paredit-forward-barf-sexp
-      "<" 'paredit-backward-barf-sexp
-      "S" 'paredit-split-sexp
-      "j" 'paredit-join-sexp
-      )))
+     (evil-leader/set-key
+       "w (" 'paredit-wrap-round
+       "w [" 'paredit-wrap-square
+       "w {" 'paredit-wrap-curly
+       "w <" 'paredit-wrap-angled
+       "s s" 'paredit-splice-sexp
+       "s f" 'paredit-splice-sexp-killing-forward
+       "s b" 'paredit-splice-sexp-killing-backward
+       "r" 'paredit-raise-sexp
+       "L" 'paredit-forward-slurp-sexp
+       "H" 'paredit-backward-slurp-sexp
+       ">" 'paredit-forward-barf-sexp
+       "<" 'paredit-backward-barf-sexp
+       "S" 'paredit-split-sexp
+       "j" 'paredit-join-sexps
+       )))
 
 
 
