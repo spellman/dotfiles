@@ -1,0 +1,11 @@
+20141118
+I tried making custom keymaps and symbols to go on top of the system stuff, as per http://madduck.net/docs/extending-xkb/ and other links in my Chrome bookmarks folder "Keyboard Key Mapping"/"xkb keyboard config". Did not work for me under Linux Mint 14 on October 9, 2014.
+
+Therefore, I modified the following system symbol files instead:
+/usr/share/X11/xkb/symbols/
+                           altwin
+                           altwindefault
+                           pc
+                           pcdefault
+
+The symbols/ directory contained in this directory has copies of the modified versions of the above files.
