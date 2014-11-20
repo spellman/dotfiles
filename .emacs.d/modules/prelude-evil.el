@@ -6,7 +6,6 @@
    evil-matchit
    evil-nerd-commenter
    evil-numbers ; vim style numeric incrementing and decrementing
-   evil-surround
    evil-visualstar ; search visual selection with *
    goto-chg ; g; and g-, to go to recent changes
    ))
@@ -96,7 +95,6 @@
 ;; *Messages*, …).
 ;; (https://github.com/cofi/evil-leader)
 (global-evil-leader-mode t)
-(global-evil-surround-mode 1)
 (evil-mode 1)
 
 ;; Easy navigation of wrapped lines (I.e., nnoremap j gj)

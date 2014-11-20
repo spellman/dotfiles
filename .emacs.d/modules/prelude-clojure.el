@@ -6,6 +6,7 @@
   '(progn
      (defun prelude-clojure-mode-defaults ()
        (subword-mode +1)
+       (put-clojure-indent 'match 1)
        (run-hooks 'prelude-lisp-coding-hook))
 
      (setq prelude-clojure-mode-hook 'prelude-clojure-mode-defaults)
@@ -21,6 +22,7 @@
 
      (defun prelude-cider-repl-mode-defaults ()
        (subword-mode +1)
+       (setq cider-repl-use-pretty-printing t)
        (run-hooks 'prelude-interactive-lisp-coding-hook))
 
      (setq prelude-cider-repl-mode-hook 'prelude-cider-repl-mode-defaults)
