@@ -108,13 +108,5 @@ fi
 # mint-fourtue.
 /usr/bin/mint-fortune
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
-
-# rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-
-
 # Set default editor
 export EDITOR=vim
