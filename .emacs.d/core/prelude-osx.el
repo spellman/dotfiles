@@ -37,12 +37,17 @@
         (setq ns-alternate-modifier 'control)
         (setq ns-right-alternate-modifier 'meta)
         (setq ns-command-modifier 'meta)
-        (message "Left Alt -> CONTROL\nLeft Win -> META\nRight Alt -> META\nRight Win -> META."))
+        (message "Left Alt -> CONTROL\nLeft Win -> META\nRight Alt -> META\nRight Win -> META"))
     (progn ; swap to mac keyboard settings
       (setq ns-command-modifier 'control)
       (setq ns-right-command-modifier 'meta)
       (setq ns-alternate-modifier 'meta)
       (message "Left Command -> CONTROL\nLeft Option -> META\nRight Command -> META\nRight Option -> META"))))
+
+;; Default to mac modifier keys.
+(setq ns-command-modifier 'control)
+(setq ns-right-command-modifier 'meta)
+(setq ns-alternate-modifier 'meta)
 
 (define-key prelude-mode-map (kbd "C-c w") 'prelude-swap-win-mac-keyboards)
 (define-key prelude-mode-map (kbd "s-/") 'hippie-expand)

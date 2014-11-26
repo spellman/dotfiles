@@ -1,9 +1,14 @@
 (when (fboundp 'tool-bar-mode)
   (tool-bar-mode -1))
 (menu-bar-mode -1)
-(blink-cursor-mode t)
+(blink-cursor-mode -1)
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
+
+(set-face-attribute 'default nil
+                    :family "Monaco"
+                    :height 130
+                    :weight 'normal)
 
 ;; Nice scrolling
 (setq scroll-margin 3
@@ -11,6 +16,9 @@
       auto-window-vscroll nil
       scroll-step 1
       )
+
+;; No scroll bars
+(set-scroll-bar-mode nil)
 
 ; Show line numbers.
 (prelude-require-package 'linum)

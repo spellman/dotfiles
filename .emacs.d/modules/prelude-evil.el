@@ -16,7 +16,7 @@
       evil-emacs-state-cursor  '("red" box)
       evil-normal-state-cursor '("gray" box)
       evil-visual-state-cursor '("gray" box)
-      evil-insert-state-cursor '("gray" bar)
+      evil-insert-state-cursor '("gray" box)
       evil-motion-state-cursor '("gray" box)
       evil-replace-state-cursor '("gray" box)
       evil-operator-state-cursor '("gray" box))

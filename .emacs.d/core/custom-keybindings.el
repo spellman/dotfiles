@@ -1,5 +1,7 @@
 (require 'evil)
 (require 'paredit)
+(require 'cider)
+(require 'projectile)
 
 ;;; Prelude Global keybindings
 ;; Align your code in a pretty way.
@@ -95,7 +97,7 @@
         ("history"                  . git-timemachine)
         ("[er]eval-region"          . eval-region)
         ("[eb]eval-buffer"          . eval-buffer)
-        ("ag"                       . ag-project)
+        ("ag"                       . projectile-ag)
         ("agl"                      . ag)
         ("agf"                      . ag-project-files)
         ("sh"                       . ansi-term)
@@ -180,7 +182,7 @@
 
       ;; load current buffer.
       ;; l b -> load (v) buffer (n)
-      "l b" 'cider-load-current-buffer
+      "l b" 'cider-load-buffer
 
       ;; Load file.
       ;; l f -> load (v) file (n)
@@ -303,14 +305,17 @@
 
 
 ;;; Projectile
-(define-minor-mode evil-projectile-mode
-  "Buffer local minor mode for evil-projectile"
-  :init-value nil
-  :keymap (make-sparse-keymap) ; defines evil-projectile-mode-map
-  :group 'evil-projectile)
-(add-hook 'projectile-mode-hook 'evil-projectile-mode) ;; Only load with projectile-mode.
-(evil-define-key 'normal evil-projectile-mode-map (kbd "C-p") 'projectile-find-file)
+(eval-after-load 'projectile
+  '(progn
+     (define-key evil-normal-state-map (kbd "C-p") nil)
+     (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file)))
 
-
+;; (define-minor-mode evil-projectile-mode
+;;   "Buffer local minor mode for evil-projectile"
+;;   :init-value nil
+;;   :keymap (make-sparse-keymap) ; defines evil-projectile-mode-map
+;;   :group 'evil-projectile)
+;; (add-hook 'projectile-mode-hook 'evil-projectile-mode) ;; Only load with projectile-mode.
+;; (evil-define-key 'normal evil-projectile-mode-map (kbd "C-p") 'projectile-find-file)
 
 (provide 'custom-keybindings)

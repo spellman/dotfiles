@@ -1,6 +1,6 @@
 (require 'prelude-lisp)
-(prelude-require-packages '(clojure-mode))
-(quelpa 'cider)
+(prelude-require-packages '(clojure-mode cider))
+;(quelpa 'cider)
 
 (eval-after-load 'clojure-mode
   '(progn
