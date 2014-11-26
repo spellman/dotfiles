@@ -61,13 +61,21 @@ fi
 #fi
 unset color_prompt force_color_prompt
 
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+case $OS in
+  'Linux')
+    # If this is an xterm set the title to user@host:dir
+    case "$TERM" in
+      xterm*|rxvt*)
+        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+      ;;
+    *) ;;
+    esac
     ;;
-*)
+  'Darwin')
+    # Custom bash prompt via kirsle.net/wizards/ps1.html
+    export PS1="\[$(tput bold)\]\[$(tput setaf 2)\]\u@\h \[$(tput sgr0)\]\[$(tput setaf 4)\]\w \\$ \[$(tput sgr0)\]"
     ;;
+  *) ;;
 esac
 
 # enable color support of ls and also add handy aliases
