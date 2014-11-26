@@ -31,7 +31,7 @@ if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
 fi
 
 # set 256 colors
-export TERM=xterm-256color
+#export TERM=xterm-256color
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
