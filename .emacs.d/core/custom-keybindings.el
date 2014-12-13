@@ -64,8 +64,9 @@
 ;; Easy window movement
 (global-set-key (kbd "C-w") 'evil-window-map)
 
+(global-set-key (kbd "M-h") help-map)
+
 ;; Evil normal
-(define-key evil-normal-state-map (kbd "g h") help-map)
 (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
 (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
 (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
