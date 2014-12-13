@@ -15,26 +15,27 @@ call pathogen#runtime_append_all_bundles()
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-" My Plugins
-Plugin 'spellman/vim-minitest'
-Plugin 'file:///home/cort/Projects/vim-fireplace-addon'
-
-" Other Plugins
+" Not My Plugins
 Plugin 'gmarik/vundle'
 "Plugin 'minibufexpl.vim'
 "Plugin 'pangloss/vim-javascript'
+Plugin 'tpope/vim-rails'
 Plugin 'rking/ag.vim'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'kien/ctrlp.vim'
 Plugin 'guns/vim-clojure-static'
-Plugin 'guns/vim-clojure-highlight'
 Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-classpath'
-Plugin 'vim-scripts/paredit.vim'
-"Plugin 'dgrnbrg/vim-redl'
+"Plugin 'vim-scripts/paredit.vim'
+Plugin 'guns/vim-sexp'
+Plugin 'tpope/vim-repeat'
+Plugin 'dgrnbrg/vim-redl'
 Plugin 'kien/rainbow_parentheses.vim'
 "Plugin 'luochen1990/rainbow'
+
+" My Plugins
+Plugin 'spellman/vim-minitest'
 
 
 
