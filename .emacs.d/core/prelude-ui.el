@@ -7,7 +7,7 @@
 
 (set-face-attribute 'default nil
                     :family "Monaco"
-                    :height 130
+                    :height 80
                     :weight 'normal)
 
 ;; Nice scrolling
@@ -18,7 +18,7 @@
       )
 
 ;; No scroll bars
-(set-scroll-bar-mode nil)
+;(set-scroll-bar-mode nil)
 
 ; Show line numbers.
 (prelude-require-package 'linum)

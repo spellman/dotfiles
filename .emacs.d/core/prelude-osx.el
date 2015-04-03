@@ -52,4 +52,9 @@
 (define-key prelude-mode-map (kbd "C-c w") 'prelude-swap-win-mac-keyboards)
 (define-key prelude-mode-map (kbd "s-/") 'hippie-expand)
 
+(set-face-attribute 'default nil
+                    :family "Monaco"
+                    :height 130
+                    :weight 'normal)
+
 (provide 'prelude-osx)
