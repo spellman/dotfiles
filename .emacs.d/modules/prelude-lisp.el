@@ -3,9 +3,14 @@
 
 ;; a great lisp coding hook
 (defun prelude-lisp-coding-defaults ()
-  (modify-syntax-entry ?: "w") ; consider : to be part of :keyword
-  (modify-syntax-entry ?! "w") ; consider : to be part of :keyword
-  (modify-syntax-entry ?? "w") ; consider : to be part of :keyword
+  (modify-syntax-entry ?: "w") ; consider : to be part of :word
+  (modify-syntax-entry ?! "w") ; consider ! to be part of word!
+  (modify-syntax-entry ?? "w") ; consider ? to be part of word?
+  (modify-syntax-entry ?- "w") ; consider - to be part of word-
+  (modify-syntax-entry ?> "w") ; consider > to be part of word>
+  (modify-syntax-entry ?< "w") ; consider < to be part of word<
+  (modify-syntax-entry ?= "w") ; consider = to be part of word=
+  (modify-syntax-entry ?* "w") ; consider * to be part of word=
   )
 
 (setq prelude-lisp-coding-hook 'prelude-lisp-coding-defaults)
