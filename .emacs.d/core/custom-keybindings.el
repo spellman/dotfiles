@@ -64,7 +64,7 @@
 ;; Easy window movement
 (global-set-key (kbd "C-w") 'evil-window-map)
 
-(global-set-key (kbd "M-h") help-map)
+(global-set-key (kbd "C-c h") help-map)
 
 ;; Evil normal
 (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
@@ -147,7 +147,6 @@
   '(progn
     ;;;; Custom Cider key bindings
     ;;;  Unmap default Cider keys of interest.
-    (define-key cider-mode-map (kbd "C-c C-d") nil) ; 'cider-doc-map
     (define-key cider-mode-map (kbd "C-c C-n") nil) ; 'cider-eval-ns-form
     (define-key cider-mode-map (kbd "C-c M-n") nil) ; 'cider-repl-set-ns
     (define-key cider-mode-map (kbd "C-c C-k") nil) ; 'cider-load-current-buffer
@@ -158,8 +157,6 @@
     (define-key cider-mode-map (kbd "C-M-x") nil) ; 'cider-eval-defun-at-point
     (define-key cider-mode-map (kbd "C-c C-c") nil) ; 'cider-eval-defun-at-point
     (define-key cider-mode-map (kbd "C-c C-m") nil) ; 'cider-macroexpand-1
-
-    (define-key cider-mode-map (kbd "K") 'cider-doc-map)
 
     ;; Idea of expression-eval keys: emulate vim's operator-object paradigm.
     ;; e n -> eval (v) namespace (n)
@@ -234,7 +231,8 @@
 
 (eval-after-load 'cider-repl
   '(progn
-    (define-key evil-normal-state-local-map (kbd "K") 'cider-doc-map)
+    (define-key cider-repl-mode-map (kbd "M-[ a") 'cider-repl-backward-input)
+    (define-key cider-repl-mode-map (kbd "M-[ b") 'cider-repl-forward-input)
     ))
 
 
