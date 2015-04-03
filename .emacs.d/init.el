@@ -93,6 +93,18 @@ by Prelude.")
 
 ;; load default theme - dark
 (load-theme 'dark t)
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+        (lambda (frame)
+            (select-frame frame)
+            (load-theme 'dark t)))
+    (load-theme 'dark t))
+
+;; automatically save state before killing emacs (require revive.el)
+;(add-hook 'kill-emacs-query-functions
+;          (lambda ()
+;            (save-current-configuration)
+;            t))
 
 
 (message "Prelude is ready.")

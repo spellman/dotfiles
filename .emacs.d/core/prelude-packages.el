@@ -51,6 +51,7 @@
     ;move-text
     operate-on-number
     rainbow-mode
+    revive
     smartparens
     smartrep
     undo-tree

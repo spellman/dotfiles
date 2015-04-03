@@ -348,6 +348,11 @@ indent yanked text (with prefix arg don't indent)."
     ("%" . apply-operation-to-number-at-point)
     ("'" . operate-on-number-at-point)))
 
+;; enable revive.el
+(autoload 'save-current-configuration "revive" "Save status" t)
+(autoload 'resume "revive" "Resume Emacs" t)
+(autoload 'wipe "revive" "Wipe Emacs" t)
+
 (provide 'prelude-editor)
 
 ;;; prelude-editor.el ends here
