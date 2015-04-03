@@ -1,6 +1,9 @@
 # Note that ~/.profile includes ~/.bashrc.
 source ~/.profile
 
+# NVM
+export PATH=./node_modules/.bin:$PATH
+
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
 
