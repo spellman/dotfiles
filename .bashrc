@@ -26,9 +26,9 @@ shopt -s checkwinsize
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
+#if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
+#    debian_chroot=$(cat /etc/debian_chroot)
+#fi
 
 # set 256 colors
 #export TERM=xterm-256color
@@ -65,8 +65,9 @@ case $OS in
   'Linux')
     # If this is an xterm set the title to user@host:dir
     case "$TERM" in
-      xterm*|rxvt*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+      xterm*|rxvt*|screen*)
+        PS1="[\u@\h \[$(tput sgr0)\]\w] \\$ "
+        #PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
       ;;
     *) ;;
     esac
@@ -125,9 +126,6 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-
-# mint-fourtue.
-/usr/bin/mint-fortune
 
 # Set default editor
 export EDITOR=vim
