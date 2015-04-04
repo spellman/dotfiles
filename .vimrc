@@ -261,6 +261,16 @@ nnoremap <silent> <Leader>/ :nohlsearch<CR>
 "Apply sudo after opening a file that requires it for editing. Use w!!
 cnoremap w!! w !sudo tee % >/dev/null
 
+"Move lines and selections up and down.
+nnoremap <silent> <C-Up> :move -2<CR>
+nnoremap <silent> <C-Down> :move +<CR>
+xnoremap <silent> <C-Up> :move '<-2<CR>gv
+xnoremap <silent> <C-Down> :move '>+<CR>gv
+imap <silent> <C-Up> <C-O><C-Up>
+imap <silent> <C-Down> <C-O><C-Down>
+smap <silent> <C-Up> <C-G><C-Up><C-G>
+smap <silent> <C-Down> <C-G><C-Down><C-G>
+
 
 
 " Mini Buffer Explorer
