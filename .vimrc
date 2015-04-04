@@ -40,7 +40,7 @@ Plugin 'spellman/vim-minitest'
 
 
 " Edit vimrc.
-nnoremap <Leader>ev :sp $MYVIMRC<cr>
+nnoremap <Leader>ev :tabedit $MYVIMRC<cr>
 
 " Source vimrc.
 nnoremap <Leader>sv :source $MYVIMRC<cr>
