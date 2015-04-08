@@ -119,6 +119,7 @@
 (eval-after-load 'paredit
   '(progn
      ;; Move to next/previous s-exp at same level.
+     (define-paredit-pair ?\" ?\" "quote")
      (define-key paredit-mode-map (kbd "M-f") 'paredit-forward)
      (define-key paredit-mode-map (kbd "M-b") 'paredit-backward)
      (evil-leader/set-key
@@ -126,6 +127,7 @@
        "w [" 'paredit-wrap-square
        "w {" 'paredit-wrap-curly
        "w <" 'paredit-wrap-angled
+       "w \"" 'paredit-wrap-quote
        "s s" 'paredit-splice-sexp
        "s f" 'paredit-splice-sexp-killing-forward
        "s b" 'paredit-splice-sexp-killing-backward
