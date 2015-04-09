@@ -161,7 +161,8 @@
     (define-key cider-mode-map (kbd "C-c C-c") nil) ; 'cider-eval-defun-at-point
     (define-key cider-mode-map (kbd "C-c C-m") nil) ; 'cider-macroexpand-1
 
-    ;; Idea of expression-eval keys: emulate vim's operator-object paradigm.
+    ;; Idea of expression-eval keys: emulate vim's operator-object paradigm
+    ;; of verb (v) noun (n).
     ;; e n -> eval (v) namespace (n)
     ;; n b -> switch REPL namespace (v) to buffer namespace (n)
     ;;
