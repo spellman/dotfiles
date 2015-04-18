@@ -113,6 +113,14 @@
   "/" 'evil-ex-nohighlight
   )
 
+;; Remove enter and space from motion state map.
+(defun my-move-key (keymap-from keymap-to key)
+  "Moves key binding from one keymap to another, deleting from the old location. "
+  (define-key keymap-to key (lookup-key keymap-from key))
+  (define-key keymap-from key nil))
+(my-move-key evil-motion-state-map evil-normal-state-map (kbd "RET"))
+(my-move-key evil-motion-state-map evil-normal-state-map " ")
+
 
 
 ;;; Paredit
@@ -237,6 +245,8 @@
   '(progn
     (define-key cider-repl-mode-map (kbd "M-[ a") 'cider-repl-backward-input)
     (define-key cider-repl-mode-map (kbd "M-[ b") 'cider-repl-forward-input)
+    (evil-define-key 'insert cider-repl-mode-map (kbd "C-d") 'cider-repl-backward-input)
+    (evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-backward-input)
     ))
 
 
