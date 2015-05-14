@@ -14,8 +14,7 @@
 (setq scroll-margin 3
       scroll-conservatively 100000
       auto-window-vscroll nil
-      scroll-step 1
-      )
+      scroll-step 1)
 
 ;; No scroll bars
 ;(set-scroll-bar-mode nil)

@@ -92,7 +92,7 @@ by Prelude.")
   (mapc 'load (directory-files prelude-personal-dir 't "^[^#].*el$")))
 
 ;; load default theme - dark
-(load-theme 'dark t)
+(message "Loading dark theme...")
 (if (daemonp)
     (add-hook 'after-make-frame-functions
         (lambda (frame)
@@ -100,7 +100,8 @@ by Prelude.")
             (load-theme 'dark t)))
     (load-theme 'dark t))
 
-;; automatically save state before killing emacs (require revive.el)
+
+;; automatically save state before killing emacs (requires revive.el)
 ;(add-hook 'kill-emacs-query-functions
 ;          (lambda ()
 ;            (save-current-configuration)
