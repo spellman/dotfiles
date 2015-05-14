@@ -57,7 +57,7 @@
 (setq cider-repl-history-size 1000)
 
 ;; Store REPL history in a file.
-(setq cider-repl-history-file "~/.cider-repl-history")
+;(setq cider-repl-history-file "~/.cider-repl-history")
 
 ;; Pretty-print REPL results.
 ;;(setq cider-repl-use-pretty-printing t)
