@@ -33,6 +33,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'dgrnbrg/vim-redl'
 Plugin 'kien/rainbow_parentheses.vim'
 "Plugin 'luochen1990/rainbow'
+Plugin 'tpope/vim-git'
 
 " My Plugins
 Plugin 'spellman/vim-minitest'
