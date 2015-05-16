@@ -30,8 +30,7 @@ This functions should be added to the hooks of major modes for programming."
   "Default coding hook, useful with any programming language."
   (enable-paredit-mode)
   (rainbow-delimiters-mode +1)
-  (modify-syntax-entry ?_ "w") ; consider _ to be part of words
-  (modify-syntax-entry ?- "w") ; consider - to be part of words
+  (modify-syntax-entry ?_ "w") ; consider _ to be part of word_
   (prelude-enable-whitespace)
   (prelude-local-comment-auto-fill)
   (prelude-font-lock-comment-annotations))
