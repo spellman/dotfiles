@@ -2,10 +2,16 @@
 (require 'cl)
 (require 'package)
 
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-; (add-to-list 'package-archives
-;              '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
+;; (add-to-list 'package-archives
+;;             '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/") t)
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+;(add-to-list 'package-archives '("marmalade " . "https://marmalade-repo.org/packages/ ") t)
+
+(setq package-pinned-packages '((cider . "melpa-stable")))
+
 ;; set package-user-dir to be relative to Prelude install path
 (setq package-user-dir (expand-file-name "elpa" prelude-dir))
 (package-initialize)
@@ -26,7 +32,7 @@
     ag
     ;anzu
     ;browse-kill-ring
-    dash
+    ;dash
     discover-my-major
     diff-hl
     diminish
@@ -51,7 +57,7 @@
     ;move-text
     operate-on-number
     rainbow-mode
-    smartparens
+    ;smartparens
     smartrep
     undo-tree
     zenburn-theme)
@@ -77,13 +83,12 @@ Missing packages are installed automatically."
 
 (defun prelude-install-packages ()
   "Install all packages listed in `prelude-packages'."
-  (unless (prelude-packages-installed-p)
-    ;; check for new packages (package versions)
-    (message "%s" "Emacs Prelude is now refreshing its package database...")
-    (package-refresh-contents)
-    (message "%s" " done.")
-    ;; install the missing packages
-    (prelude-require-packages prelude-packages)))
+  ;; check for new packages (package versions)
+  (message "%s" "Emacs Prelude is now refreshing its package database...")
+  (package-refresh-contents)
+  (message "%s" " done.")
+  ;; install the missing packages
+  (prelude-require-packages prelude-packages))
 
 ;; run package installation
 (prelude-install-packages)
