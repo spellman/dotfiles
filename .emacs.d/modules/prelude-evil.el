@@ -7,7 +7,7 @@
    evil-nerd-commenter
    evil-numbers ; vim style numeric incrementing and decrementing
    evil-visualstar ; search visual selection with *
-   goto-chg ; g; and g-, to go to recent changes
+   goto-chg ; g; and g, to go to recent changes
    ))
 
 ;;; Settings; to be set before requiring (loading) Evil, according to manual:
@@ -67,7 +67,7 @@
 ;(setq evil-motion-state-modes (append evil-emacs-state-modes evil-motion-state-modes))
 ;   (setq evil-emacs-state-modes nil)
 
-;; Enable evile in the following modes.
+;; Enable evil in the following modes.
 ;;   Copied from Bling .emacs.d/config/init-evil.el (with group changed to
 ;;   prelude).
 (defcustom dotemacs-evil-state-modes

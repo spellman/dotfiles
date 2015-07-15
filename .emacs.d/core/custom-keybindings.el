@@ -76,6 +76,7 @@
 (define-key evil-normal-state-map (kbd "C-S-A") 'evil-numbers/dec-at-pt)
 (define-key evil-normal-state-map (kbd "g s") 'prelude-goto-symbol)
 (define-key evil-normal-state-map (kbd "Y") 'prelude-yank-to-end-of-line)
+(define-key evil-normal-state-map (kbd "SPC") 'evil-forward-char)
 
 ;; Evil insert
 ;; fix conflict with electric-indent-mode in 24.4
@@ -108,13 +109,6 @@
   "g" 'magit-status
   )
 
-;; Remove enter and space from motion state map.
-(defun my-move-key (keymap-from keymap-to key)
-  "Moves key binding from one keymap to another, deleting from the old location. "
-  (define-key keymap-to key (lookup-key keymap-from key))
-  (define-key keymap-from key nil))
-(my-move-key evil-motion-state-map evil-normal-state-map (kbd "RET"))
-(my-move-key evil-motion-state-map evil-normal-state-map " ")
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 
 
