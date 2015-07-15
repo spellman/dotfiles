@@ -171,6 +171,7 @@
     (define-key cider-mode-map (kbd "C-M-x") nil) ; 'cider-eval-defun-at-point
     (define-key cider-mode-map (kbd "C-c C-c") nil) ; 'cider-eval-defun-at-point
     (define-key cider-mode-map (kbd "C-c C-m") nil) ; 'cider-macroexpand-1
+    (define-key cider-mode-map (kbd "C-:") nil) ; 'clojure-toggle-keyword-string
 
     ;; Idea of expression-eval keys: emulate vim's operator-object paradigm
     ;; of verb (v) noun (n).
@@ -241,6 +242,8 @@
               (interactive)
               (let ((current-prefix-arg '(4))) ; C-u prefix
                 (call-interactively 'cider-macroexpand-1)))
+
+      ":" 'clojure-toggle-keyword-string
       )
     ))
 
