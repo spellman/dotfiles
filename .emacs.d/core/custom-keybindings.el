@@ -2,6 +2,7 @@
 (require 'paredit)
 (require 'cider)
 (require 'projectile)
+(require 'magit)
 ;(require 'revive)
 
 ;;; Prelude Global keybindings
@@ -39,7 +40,6 @@
 (unless (fboundp 'toggle-frame-fullscreen)
   (global-set-key (kbd "<f11>") 'prelude-fullscreen))
 (global-set-key (kbd "<f12>") 'menu-bar-mode) ; toggle menu-bar visibility
-(global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-=") 'er/expand-region)
 ;;;
 
@@ -89,13 +89,8 @@
 ;; Evil Ex (ex-mode-mapping is defined in core/custom-defuns.el)
 (mapc 'ex-mode-mapping
       '(("!"                        . shell-command)
-        ;; Hold off on Magit stuff for now - I have enough to learn with Emacs
-        ;; and Evil.
-        ;("log"                      . magit-log)
         ("[buff]ers"                . ibuffer)
-        ;("[br]branch"               . magit-branch-manager)
         ("reset-directory"          . reset-current-dir)
-        ;("log"                      . magit-file-log)
         ("history"                  . git-timemachine)
         ("[er]eval-region"          . eval-region)
         ("[eb]eval-buffer"          . eval-buffer)
@@ -109,8 +104,8 @@
 ;; Mapleader
 (evil-leader/set-leader ",")
 (evil-leader/set-key
-  ;"h h" 'help-for-help-internal
   "/" 'evil-ex-nohighlight
+  "g" 'magit-status
   )
 
 ;; Remove enter and space from motion state map.
@@ -120,6 +115,7 @@
   (define-key keymap-from key nil))
 (my-move-key evil-motion-state-map evil-normal-state-map (kbd "RET"))
 (my-move-key evil-motion-state-map evil-normal-state-map " ")
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 
 
 
