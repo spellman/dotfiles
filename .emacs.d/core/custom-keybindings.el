@@ -126,10 +126,13 @@
 ;;; Paredit
 (eval-after-load 'paredit
   '(progn
+     (define-key paredit-mode-map (kbd "M-s") nil)
      ;; Move to next/previous s-exp at same level.
      (define-paredit-pair ?\" ?\" "quote")
-     (define-key paredit-mode-map (kbd "M-f") 'paredit-forward)
-     (define-key paredit-mode-map (kbd "M-b") 'paredit-backward)
+     (define-key paredit-mode-map (kbd "M-g") 'paredit-forward)
+     (define-key paredit-mode-map (kbd "M-f") 'paredit-forward-down)
+     (define-key paredit-mode-map (kbd "M-d") 'paredit-backward-up)
+     (define-key paredit-mode-map (kbd "M-s") 'paredit-backward)
      (evil-leader/set-key
        "w (" 'paredit-wrap-round
        "w [" 'paredit-wrap-square
