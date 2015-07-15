@@ -7,7 +7,7 @@
 
 (set-face-attribute 'default nil
                     :family "Monaco"
-                    :height 80
+                    :height 100
                     :weight 'normal)
 
 ;; Nice scrolling
