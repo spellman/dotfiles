@@ -2,7 +2,7 @@
 (require 'paredit)
 (require 'cider)
 (require 'projectile)
-(require 'revive)
+;(require 'revive)
 
 ;;; Prelude Global keybindings
 ;; Align your code in a pretty way.
@@ -323,11 +323,12 @@
      (define-key evil-normal-state-map (kbd "C-p") nil)
      (define-key evil-normal-state-map (kbd "C-p") 'projectile-find-file)))
 
-(eval-after-load 'revive
-  '(progn
-     (define-key ctl-x-map (kbd "S") 'save-current-configuration)
-     (define-key ctl-x-map (kbd "F") 'resume)
-     (define-key ctl-x-map (kbd "K") 'wipe)))
+;;; Revive
+;(eval-after-load 'revive
+;  '(progn
+;     (define-key ctl-x-map (kbd "S") 'save-current-configuration)
+;     (define-key ctl-x-map (kbd "F") 'resume)
+;     (define-key ctl-x-map (kbd "K") 'wipe)))
 
 ;; (define-minor-mode evil-projectile-mode
 ;;   "Buffer local minor mode for evil-projectile"
