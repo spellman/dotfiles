@@ -25,27 +25,17 @@
 ;    (eval-buffer)))
 
 (defvar prelude-packages
-  '(;ace-jump-mode
-    ;ace-jump-buffer
-    ;ace-window
-    ;ack-and-a-half
-    ag
-    ;anzu
-    ;browse-kill-ring
-    ;dash
+  '(ag
     aggressive-indent
+    dash
     discover-my-major
-    diff-hl
     diminish
     dired+
     dired-details+
-    ;easy-kill
     elisp-slime-nav
     epl
     expand-region
-    flycheck
     ;gist
-    git-timemachine
     gitconfig-mode
     gitignore-mode
     ;god-mode
@@ -55,10 +45,8 @@
     paredit
     projectile
     magit
-    ;move-text
     operate-on-number
     rainbow-mode
-    ;smartparens
     smartrep
     undo-tree
     zenburn-theme)

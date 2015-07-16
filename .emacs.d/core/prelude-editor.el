@@ -326,30 +326,30 @@ indent yanked text (with prefix arg don't indent)."
 (setq undo-strong-limit 1500000)
 
 ;; enable winner-mode to manage window configurations
-(winner-mode +1)
+;(winner-mode +1)
 
 ;; diff-hl
-(global-diff-hl-mode +1)
-(add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+;(global-diff-hl-mode +1)
+;(add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 
 ;; easy-kill
 ;(global-set-key [remap kill-ring-save] 'easy-kill)
 ;(global-set-key [remap mark-sexp] 'easy-mark)
 
 ;; operate-on-number
-(require 'operate-on-number)
-(smartrep-define-key global-map "C-c ."
-  '(("+" . apply-operation-to-number-at-point)
-    ("-" . apply-operation-to-number-at-point)
-    ("*" . apply-operation-to-number-at-point)
-    ("/" . apply-operation-to-number-at-point)
-    ("\\" . apply-operation-to-number-at-point)
-    ("^" . apply-operation-to-number-at-point)
-    ("<" . apply-operation-to-number-at-point)
-    (">" . apply-operation-to-number-at-point)
-    ("#" . apply-operation-to-number-at-point)
-    ("%" . apply-operation-to-number-at-point)
-    ("'" . operate-on-number-at-point)))
+;(require 'operate-on-number)
+;(smartrep-define-key global-map "C-c ."
+;  '(("+" . apply-operation-to-number-at-point)
+;    ("-" . apply-operation-to-number-at-point)
+;    ("*" . apply-operation-to-number-at-point)
+;    ("/" . apply-operation-to-number-at-point)
+;    ("\\" . apply-operation-to-number-at-point)
+;    ("^" . apply-operation-to-number-at-point)
+;    ("<" . apply-operation-to-number-at-point)
+;    (">" . apply-operation-to-number-at-point)
+;    ("#" . apply-operation-to-number-at-point)
+;    ("%" . apply-operation-to-number-at-point)
+;    ("'" . operate-on-number-at-point)))
 
 ;; enable revive.el
 (autoload 'save-current-configuration "revive" "Save status" t)
