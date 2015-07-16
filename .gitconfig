@@ -16,5 +16,9 @@
 	savewindowsettings = true
 [gui]
 	editor = vim
+	fontui = -family \"DejaVu Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+	fontdiff = -family Monaco -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+	recentrepo = /home/cort/Projects/dm_app/engine
+	recentrepo = /home/cort/Projects/quantity
 [push]
 	default = simple
