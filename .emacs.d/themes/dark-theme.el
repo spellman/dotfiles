@@ -597,6 +597,11 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(magit-diff-removed-highlight ((t (:foreground ,dark-red-2))))
    `(magit-diff-removed ((t (:foreground ,dark-red-2))))
    `(magit-hash ((t (:foreground ,dark-fg-05))))
+   `(magit-blame-heading ((t (:foreground ,dark-bg-1 :background ,dark-fg-05 :weight bold))))
+   ;;`(magit-blame-summary ((t (:foreground ,dark-fg-05))))
+   ;;`(magit-blame-hash ((t (:foreground ,dark-fg-05))))
+   ;;`(magit-blame-name ((t (:foreground ,dark-fg-05))))
+   ;;`(magit-blame-date ((t (:foreground ,dark-fg-05))))
 ;;;;; message-mode
    `(message-cited-text ((t (:inherit font-lock-comment-face))))
    `(message-header-name ((t (:foreground ,dark-green+1))))

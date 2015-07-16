@@ -103,9 +103,26 @@
 (define-key evil-motion-state-map (kbd "<remap> <evil-next-line>") 'evil-next-visual-line)
 (define-key evil-motion-state-map (kbd "<remap> <evil-previous-line>") 'evil-previous-visual-line)
 
-  
+
 
 ;; Initial states
 (evil-set-initial-state 'cider-nrepl-mode 'insert)
+
+
+;; Place magit-blame-mode keymap above evil
+;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
+(eval-after-load 'magit
+  '(progn
+     (evil-make-overriding-map magit-blame-mode-map 'normal)
+     ;; force update evil keymaps after magit-blame-mode loaded
+     (add-hook 'magit-blame-mode-hook #'evil-normalize-keymaps)))
+
+;; Alternative method
+;;(defadvice magit-blame-mode (after magit-blame-change-to-emacs-state activate compile)
+;;           "when entering magit-blame mode, change evil normal state to emacs state"
+;;           (if (evil-normal-state-p)
+;;             (evil-emacs-state)
+;;             (evil-normal-state)))
+;;(ad-activate 'magit-blame-mode)
 
 (provide 'prelude-evil)

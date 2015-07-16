@@ -106,10 +106,7 @@
 (evil-leader/set-leader ",")
 (evil-leader/set-key
   "/" 'evil-ex-nohighlight
-  "g" 'magit-status
   )
-
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 
 
 
@@ -244,6 +241,12 @@
     (evil-define-key 'insert cider-repl-mode-map (kbd "C-d") 'cider-repl-backward-input)
     (evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-backward-input)
     ))
+
+
+
+;;; Magit
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 
 
 
