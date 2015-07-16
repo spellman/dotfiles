@@ -21,8 +21,6 @@
       evil-replace-state-cursor '("gray" box)
       evil-operator-state-cursor '("gray" box))
 
-;; Evil Nerd Commenter operator key
-(setq evilnc-hotkey-comment-operator "gc")
 
 ;(setq evil-jumper-auto-center t)
 ;(setq evil-jumper-auto-save-interval 3600)
