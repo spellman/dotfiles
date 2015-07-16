@@ -21,9 +21,8 @@
       evil-replace-state-cursor '("gray" box)
       evil-operator-state-cursor '("gray" box))
 
-
-;(setq evil-jumper-auto-center t)
-;(setq evil-jumper-auto-save-interval 3600)
+;;(setq evil-jumper-auto-center t)
+;;(setq evil-jumper-auto-save-interval 3600)
 
 ;;; Search with evil search (as opposed to isearch)
 (setq evil-search-module 'evil-search)

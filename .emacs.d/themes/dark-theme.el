@@ -120,8 +120,8 @@ Also bind `class' to ((class color) (min-colors 89))."
      ((t (:foreground ,dark-fg-175
                       :background ,dark-bg-1
                       :box (:line-width -1 :style released-button)))))
-   ;`(region ((,class (:background ,dark-bg-1))
-   ;          (t :inverse-video t)))
+   ;;`(region ((,class (:background ,dark-bg-1))
+   ;;          (t :inverse-video t)))
    `(region ((,class (:background ,dark-fg :foreground ,dark-bg))))
    `(secondary-selection ((t (:background ,dark-bg+2))))
    `(trailing-whitespace ((t (:background ,dark-red))))
@@ -860,17 +860,17 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(term-color-black ((t (:foreground ,dark-bg
                                        :background ,dark-bg-1))))
    `(term-color-red ((t (:foreground ,dark-red-2
-                                       :background ,dark-red-4))))
+                                     :background ,dark-red-4))))
    `(term-color-green ((t (:foreground ,dark-green
                                        :background ,dark-green+2))))
    `(term-color-yellow ((t (:foreground ,dark-orange
-                                       :background ,dark-yellow))))
+                                        :background ,dark-yellow))))
    `(term-color-blue ((t (:foreground ,dark-blue-1
                                       :background ,dark-blue-4))))
    `(term-color-magenta ((t (:foreground ,dark-magenta
                                          :background ,dark-red))))
    `(term-color-cyan ((t (:foreground ,dark-cyan
-                                       :background ,dark-blue))))
+                                      :background ,dark-blue))))
    `(term-color-white ((t (:foreground ,dark-fg
                                        :background ,dark-fg-1))))
    '(term-default-fg-color ((t (:inherit term-color-white))))

@@ -61,8 +61,11 @@
 ;; (I.e., do not require double space.)
 (setq sentence-end-double-space nil)
 
+;; Comment out electric-indent while I try aggressive-indent.
 ;; Auto-indent on return, instead of requiring <tab>.
-(electric-indent-mode t)
+;;(electric-indent-mode t)
+(global-aggressive-indent-mode 1)
+;(add-to-list 'aggressive-indent-excluded-modes 'html-mode)
 
 ;; meaningful names for buffers with the same name
 (require 'uniquify)

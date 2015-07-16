@@ -33,6 +33,7 @@
     ;anzu
     ;browse-kill-ring
     ;dash
+    aggressive-indent
     discover-my-major
     diff-hl
     diminish
