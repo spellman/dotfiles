@@ -738,9 +738,11 @@ Also bind `class' to ((class color) (min-colors 89))."
    `(persp-selected-face ((t (:foreground ,dark-yellow-2 :inherit mode-line))))
 ;;;;; powerline
    `(powerline-active1 ((t (:background ,dark-bg-1 :inherit mode-line))))
-   `(powerline-active2 ((t (:background ,dark-bg+2 :inherit mode-line))))
-   `(powerline-inactive1 ((t (:background ,dark-bg+1 :inherit mode-line-inactive))))
-   `(powerline-inactive2 ((t (:background ,dark-bg+3 :inherit mode-line-inactive))))
+   `(powerline-active2 ((t (:background ,dark-bg-1 :inherit mode-line))))
+   `(powerline-active3 ((t (:background ,dark-bg-1 :inherit mode-line))))
+   `(powerline-inactive1 ((t (:background ,dark-bg-1 :inherit mode-line-inactive))))
+   `(powerline-inactive2 ((t (:background ,dark-bg-1 :inherit mode-line-inactive))))
+   `(powerline-inactive3 ((t (:background ,dark-bg-1 :inherit mode-line-inactive))))
 ;;;;; proofgeneral
    `(proof-active-area-face ((t (:underline t))))
    `(proof-boring-face ((t (:foreground ,dark-fg :background ,dark-bg+2))))

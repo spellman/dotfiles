@@ -107,7 +107,7 @@
 
 
 ;; Place magit-blame-mode keymap above evil
-;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
+;; see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
 (eval-after-load 'magit
   '(progn
      (evil-make-overriding-map magit-blame-mode-map 'normal)

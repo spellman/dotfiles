@@ -137,7 +137,7 @@
        "s s" 'paredit-splice-sexp
        "s f" 'paredit-splice-sexp-killing-forward
        "s b" 'paredit-splice-sexp-killing-backward
-       "r" 'paredit-raise-sexp
+       "s r" 'paredit-raise-sexp
        "L" 'paredit-forward-slurp-sexp
        "H" 'paredit-backward-slurp-sexp
        ">" 'paredit-forward-barf-sexp
@@ -198,8 +198,27 @@
       "l f" 'cider-load-file
 
       ;; Insert form preceding point into REPL.
-      ;; i   -> insert (into REPL) (v) last s-exp (n).
-      "i" 'cider-insert-last-sexp-in-repl
+      ;; i e -> insert (into REPL) (v) last s-exp (n)
+      "i e" 'cider-insert-last-sexp-in-repl
+
+      ;; Insert top-level form form at point into REPL.
+      ;; i E -> insert (into REPL) (v) top-level form at point (n)
+      "i E" 'cider-insert-defun-in-repl
+
+      ;; Insert form preceding point into REPL and eval it.
+      ;; r e -> insert into REPL (v) evaluated last s-exp (n)
+      "r e" (lambda ()
+              (interactive)
+              (let ((current-prefix-arg '(4))) ; C-u prefix
+                (call-interactively 'cider-insert-last-sexp-in-repl)))
+
+      ;; Insert top-level form form at point into REPL and eval it.
+      ;; r E -> insert into REPL (v) evaluated top-level form at point (n)
+      "r E" (lambda ()
+              (interactive)
+              (let ((current-prefix-arg '(4))) ; C-u prefix
+                (call-interactively 'cider-insert-defun-in-repl)))
+      
 
       ;; Eval form preceding point, echo result.
       ;; e e -> echo (v) evaluated last s-exp (n)

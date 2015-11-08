@@ -1,6 +1,5 @@
 (require 'prelude-lisp)
 (prelude-require-packages '(clojure-mode cider))
-;(quelpa 'cider)
 
 (eval-after-load 'clojure-mode
   '(progn
@@ -42,10 +41,10 @@
 (setq cider-stacktrace-fill-column 80)
 
 ;; Set the result prefix for REPL evaluation (default no prefix).
-(setq cider-repl-result-prefix ";; => ")
+(setq cider-repl-result-prefix ";;=> ")
 
 ;; Change the result prefix for interactive evaluation (default =>).
-(setq cider-interactive-eval-result-prefix ";; => ")
+(setq cider-interactive-eval-result-prefix ";;=> ")
 
 ;; Font-lock REPL input and output as in clojure-mode.
 (setq cider-repl-use-clojure-font-lock t)
@@ -60,6 +59,6 @@
 ;(setq cider-repl-history-file "~/.cider-repl-history")
 
 ;; Pretty-print REPL results.
-;;(setq cider-repl-use-pretty-printing t)
+;(setq cider-repl-use-pretty-printing t)
 
 (provide 'prelude-clojure)
