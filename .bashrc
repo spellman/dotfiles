@@ -129,3 +129,5 @@ fi
 
 # Set default editor
 export EDITOR=vim
+
+export NVM_DIR="/home/cort/.nvm"

@@ -1,5 +1,8 @@
-# Note that ~/.profile includes ~/.bashrc.
-source ~/.profile
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+elif [ -f ${default_dir}Bashrc ]; then
+	. ${default_dir}Bashrc;
+fi
 
 # NVM
 export PATH=./node_modules/.bin:$PATH
