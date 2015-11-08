@@ -1,5 +1,7 @@
-" Change the mapleader from \ to ,
-let mapleader=","
+" Set the mapleader.
+" let mapleader="\"
+map <Space> <Leader>
+set showcmd
 
 " Set not compatible with vi to enable stuff.
 set nocompatible
@@ -17,6 +19,9 @@ call vundle#rc()
 
 " Not My Plugins
 Plugin 'gmarik/vundle'
+Plugin 'vim-scripts/CSApprox'
+Plugin 'tpope/vim-vinegar'
+Plugin 'tpope/vim-fugitive'
 "Plugin 'minibufexpl.vim'
 "Plugin 'pangloss/vim-javascript'
 Plugin 'tpope/vim-rails'
@@ -28,9 +33,9 @@ Plugin 'guns/vim-clojure-static'
 Plugin 'tpope/vim-fireplace'
 Plugin 'tpope/vim-classpath'
 "Plugin 'vim-scripts/paredit.vim'
-Plugin 'guns/vim-sexp'
+"Plugin 'guns/vim-sexp'
 Plugin 'tpope/vim-repeat'
-Plugin 'dgrnbrg/vim-redl'
+"Plugin 'dgrnbrg/vim-redl'
 Plugin 'kien/rainbow_parentheses.vim'
 "Plugin 'luochen1990/rainbow'
 Plugin 'tpope/vim-git'
@@ -46,8 +51,11 @@ nnoremap <Leader>ev :tabedit $MYVIMRC<cr>
 " Source vimrc.
 nnoremap <Leader>sv :source $MYVIMRC<cr>
 
-"Always show status line, even when only one window is open.
+" Always show status line, even when only one window is open.
 set laststatus=2
+
+" Show git status in status line, via vim-fugitive.
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
 " Increase command history from 20 (default) to 100
 set history=100
@@ -134,8 +142,6 @@ augroup myfiletypes
 
   " Clojure
   autocmd FileType clojure nnoremap <buffer> <Leader>c I; <esc>
-  autocmd FileType clojure nmap <buffer> <Leader>r <Plug>fireplace-addon#PrintFireplaceResultOperator
-  autocmd FileType clojure vmap <buffer> <Leader>r <Plug>fireplace-addon#PrintFireplaceResultOperator
 
   " CSS
   " Sort CSS properties
@@ -146,9 +152,6 @@ augroup END
 
 " Multiple buffers
 set hidden
-
-" 'Optimal usage' of project plugin
-let g:proj_flags="imstvcg"
 
 set suffixesadd=.rb
 set includeexpr+=substitute(v:fname,'s$','','g')
@@ -212,9 +215,9 @@ function ColorDark()
     " IMPORTANT: Uncomment one of the following lines to force
     " using 256 colors (or 88 colors) if your terminal supports it,
     " but does not automatically use 256 colors by default.
-    "set t_Co=256
+    set t_Co=256
     "set t_Co=88
-    "let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
+    let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
     colorscheme dark
 endfunction
 
@@ -256,7 +259,7 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-" Clear highlighted searches with ,/
+" Clear highlighted searches
 nnoremap <silent> <Leader>/ :nohlsearch<CR>
 
 "Apply sudo after opening a file that requires it for editing. Use w!!
@@ -271,6 +274,12 @@ imap <silent> <C-Up> <C-O><C-Up>
 imap <silent> <C-Down> <C-O><C-Down>
 smap <silent> <C-Up> <C-G><C-Up><C-G>
 smap <silent> <C-Down> <C-G><C-Down><C-G>
+
+" Open file explorer
+nnoremap <silent> <Leader>fj :Explore<CR>
+
+" ctrlp.vim
+nnoremap <Leader>p :<C-U>CtrlPMixed<CR>
 
 
 
@@ -311,25 +320,28 @@ nnoremap <Leader>rl :call Send_to_Tmux("load '".@%."'\n")<CR>
 
 
 "Rainbow parentheses for plugin kien/rainbow_parentheses.vim
-au VimEnter * RainbowParenthesesToggleAll
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-
 let g:rbpt_colorpairs = [
-\     ['37', '37'],
-\     ['148', '148'],
-\     ['29', '29'],
-\     ['153', '153'],
-\     ['93', '93'],
-\     ['22', '22'],
-\     ['166', '166'],
-\     ['63', '63'],
-\     ['28', '28'],
-\     ['142', '142'],
-\     ['19', '19'],
-\     ['41', '41']
+\     ['117', '#93E0E3'],
+\     ['172', '#D0BF8F'],
+\     ['47', '#BFEBBF'],
+\     ['253', '#DADADA'],
+\     ['24', '#366060'],
+\     ['28', '#7F9F7F'],
+\     ['130', '#DFAF8F'],
+\     ['69', '#6CA0A3'],
+\     ['40', '#8FB28F'],
+\     ['155', '#E0CF9F'],
+\     ['111', '#94BFF3'],
+\     ['119', '#9FC59F']
 \   ]
+" NOTE: For some reason, it starts with the fourth pair down and goes up.
+autocmd VimEnter * RainbowParenthesesToggleAll
+autocmd BufEnter * RainbowParenthesesLoadRound
+autocmd BufEnter * RainbowParenthesesLoadSquare
+autocmd BufEnter * RainbowParenthesesLoadBraces
+"autocmd Syntax * RainbowParenthesesLoadRound
+"autocmd Syntax * RainbowParenthesesLoadSquare
+"autocmd Syntax * RainbowParenthesesLoadBraces
 
 
 
@@ -357,10 +369,8 @@ let g:rbpt_colorpairs = [
 "\   }
 "\}
 
-
-
 " Paredit for plugin vim-scripts/paredit.vim
-let g:paredit_electric_return = 0
+"let g:paredit_electric_return = 0
 
 
 

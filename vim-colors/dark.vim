@@ -20,64 +20,64 @@ endif
 
 let g:colors_name = 'dark'
 
-hi Cursor		       ctermfg=153  ctermbg=235  cterm=bold,reverse
-hi Normal		       ctermfg=153  ctermbg=235  cterm=none
-hi Visual                       ctermbg=235  cterm=reverse
+hi Cursor		       guifg=#DADADA  guibg=#303030  gui=bold,reverse
+hi Normal		       guifg=#DADADA  guibg=#303030  gui=none
+hi Visual          guifg=#DADADA  guibg=#5F5F5F  gui=reverse
 
-hi Comment	       ctermfg=103  ctermbg=235  cterm=none
+hi Comment	       guifg=#8A8A8A  guibg=#303030  gui=none
 
-hi Constant	       ctermfg=153  ctermbg=235  cterm=none
-hi String          ctermfg=153  ctermbg=235  cterm=none
-hi Identifier      ctermfg=153  ctermbg=235  cterm=none
-hi Function        ctermfg=153  ctermbg=235  cterm=none
-hi Type			       ctermfg=153  ctermbg=235  cterm=none
-hi Statement	     ctermfg=153  ctermbg=235  cterm=none
-hi Keyword         ctermfg=153  ctermbg=235  cterm=none
-hi PreProc	       ctermfg=153  ctermbg=235  cterm=none
-hi Number          ctermfg=153  ctermbg=235  cterm=none
-hi Special	       ctermfg=153  ctermbg=235  cterm=none
-hi Title		       ctermfg=153  ctermbg=235  cterm=none
+hi Constant	       guifg=#DADADA  guibg=#303030  gui=none
+hi String          guifg=#DADADA  guibg=#303030  gui=none
+hi Identifier      guifg=#DADADA  guibg=#303030  gui=none
+hi Function        guifg=#DADADA  guibg=#303030  gui=none
+hi Type			       guifg=#DADADA  guibg=#303030  gui=none
+hi Statement	     guifg=#DADADA  guibg=#303030  gui=none
+hi Keyword         guifg=#DADADA  guibg=#303030  gui=none
+hi PreProc	       guifg=#DADADA  guibg=#303030  gui=none
+hi Number          guifg=#DADADA  guibg=#303030  gui=none
+hi Special	       guifg=#DADADA  guibg=#303030  gui=none
+hi Title		       guifg=#DADADA  guibg=#303030  gui=none
 
-hi Todo			       ctermfg=153  ctermbg=060  cterm=none
+hi Todo			       guifg=#DADADA  guibg=#767676  gui=none
 
-hi FoldColumn	     ctermfg=189  ctermbg=000  cterm=none
-hi Folded		       ctermfg=189  ctermbg=060  cterm=none
+hi FoldColumn	     guifg=#DADADA  guibg=#262626  gui=none
+hi Folded		       guifg=#DADADA  guibg=#767676  gui=none
 
-hi DiffAdd	       ctermfg=034  ctermbg=235  cterm=none
-hi DiffDelete	     ctermfg=009  ctermbg=235  cterm=none
-hi DiffText		     ctermfg=153  ctermbg=235  cterm=none
-hi DiffChange	     ctermfg=172  ctermbg=235  cterm=none
+hi DiffAdd	       guifg=#8FB28F  guibg=#262626  gui=none
+hi DiffDelete	     guifg=#DCA3A3  guibg=#262626  gui=none
+hi DiffText		     guifg=#DADADA  guibg=#303030  gui=none
+hi DiffChange	     guifg=#6CA0A3  guibg=#262626  gui=none
 
-hi CursorLine	     ctermfg=235  ctermbg=060  cterm=none
-hi CursorColumn    ctermfg=235  ctermbg=060  cterm=none
-hi CursorIM	       ctermfg=195  ctermbg=235  cterm=bold
+hi CursorLine	     guifg=#303030  guibg=#767676  gui=none
+hi CursorColumn    guifg=#303030  guibg=#767676  gui=none
+hi CursorIM	       guifg=#DADADA  guibg=#303030  gui=bold
 
-hi MatchParen      ctermfg=159  ctermbg=060  cterm=bold
+hi MatchParen      guifg=#DADADA  guibg=#767676  gui=bold
 
-hi Pmenu		       ctermfg=153  ctermbg=239  cterm=none
-hi PmenuSbar	     ctermfg=153  ctermbg=060  cterm=none
-hi PmenuSel	       ctermfg=189  ctermbg=060  cterm=none
+hi Pmenu		       guifg=#DADADA  guibg=#262626  gui=none
+hi PmenuSbar	     guifg=#DADADA  guibg=#767676  gui=none
+hi PmenuSel	       guifg=#DADADA  guibg=#767676  gui=none
 
-hi TabLine		     ctermfg=103  ctermbg=233  cterm=none
-hi TabLineFill     ctermfg=235  ctermbg=233  cterm=none
-hi TabLineSel	     ctermfg=153  ctermbg=233  cterm=bold
+hi TabLine		     guifg=#8A8A8A  guibg=#262626  gui=none
+hi TabLineFill     guifg=#303030  guibg=#262626  gui=none
+hi TabLineSel	     guifg=#DADADA  guibg=#262626  gui=bold
 
-hi Directory	     ctermfg=111  ctermbg=235  cterm=none
+hi Directory	     guifg=#DADADA  guibg=#303030  gui=none
 
-hi Error		       ctermfg=235  ctermbg=189  cterm=none
-hi ErrorMsg		     ctermfg=235  ctermbg=189  cterm=none
-hi IncSearch	                               cterm=reverse
-hi LineNr	         ctermfg=060  ctermbg=234  cterm=none
-hi ModeMsg	       ctermfg=060  ctermbg=235  cterm=none
-hi MoreMsg	       ctermfg=060  ctermbg=235  cterm=bold
-hi NonText	       ctermfg=060  ctermbg=235  cterm=none
-hi Question	       ctermfg=103  ctermbg=235  cterm=none
-hi Search		                                 cterm=reverse
-hi SpecialKey	     ctermfg=153  ctermbg=235  cterm=bold
-hi StatusLine	     ctermfg=103  ctermbg=233  cterm=bold
-hi StatusLineNC    ctermfg=060  ctermbg=233  cterm=none
-hi Underlined	     ctermfg=061  ctermbg=235  cterm=underline
-hi VertSplit	     ctermfg=060  ctermbg=233  cterm=none
-hi VisualNOS	     ctermfg=060  ctermbg=235  cterm=reverse
-hi WarningMsg	     ctermfg=189  ctermbg=235  cterm=none
-hi WildMenu		     ctermfg=235  ctermbg=189  cterm=reverse
+hi Error		       guifg=#303030  guibg=#DADADA  gui=none
+hi ErrorMsg		     guifg=#303030  guibg=#DADADA  gui=none
+hi IncSearch	                               gui=reverse
+hi LineNr	         guifg=#767676  guibg=#262626  gui=none
+hi ModeMsg	       guifg=#767676  guibg=#303030  gui=none
+hi MoreMsg	       guifg=#767676  guibg=#303030  gui=bold
+hi NonText	       guifg=#767676  guibg=#303030  gui=none
+hi Question	       guifg=#8A8A8A  guibg=#303030  gui=none
+hi Search		                                 gui=reverse
+hi SpecialKey	     guifg=#DADADA  guibg=#303030  gui=bold
+hi StatusLine	     guifg=#8A8A8A  guibg=#262626  gui=bold
+hi StatusLineNC    guifg=#767676  guibg=#262626  gui=none
+hi Underlined	     guifg=#767676  guibg=#303030  gui=underline
+hi VertSplit	     guifg=#767676  guibg=#262626  gui=none
+hi VisualNOS	     guifg=#767676  guibg=#303030  gui=reverse
+hi WarningMsg	     guifg=#DADADA  guibg=#303030  gui=none
+hi WildMenu		     guifg=#303030  guibg=#DADADA  gui=reverse
