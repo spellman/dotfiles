@@ -50,7 +50,7 @@ values."
    ;; configuration in `dotspacemacs/config'.
    dotspacemacs-additional-packages
    '(
-     helm-ag
+     ag
      rainbow-mode
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
@@ -58,6 +58,7 @@ values."
    '(
      aggressive-indent
      emmet-mode
+     helm-ag
      jade-mode
      smartparens
      tagedit
