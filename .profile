@@ -20,3 +20,7 @@
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+
+# ibus fix for Android Studio until ibus is updated to 1.5.11
+export IBUS_ENABLE_SYNC_MODE=1
+export STUDIO_JDK="/usr/java/jdk1.8.0_65"

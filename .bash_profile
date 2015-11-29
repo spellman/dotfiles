@@ -4,8 +4,13 @@ elif [ -f ${default_dir}Bashrc ]; then
 	. ${default_dir}Bashrc;
 fi
 
+# Android Studio
+export PATH="/opt/android-studio/bin:$PATH"
+export PATH="$HOME/Android/Sdk/tools:$PATH"
+export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
+
 # NVM
-export PATH=./node_modules/.bin:$PATH
+export PATH="$HOME/node_modules/.bin:$PATH"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
