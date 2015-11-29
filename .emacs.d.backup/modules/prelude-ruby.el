@@ -32,9 +32,9 @@
      (defun prelude-ruby-mode-defaults ()
        (inf-ruby-minor-mode +1)
        (ruby-tools-mode +1)
-       (modify-syntax-entry ?: "w") ; consider : to be part of :keyword
-       (modify-syntax-entry ?! "w") ; consider : to be part of :keyword
-       (modify-syntax-entry ?? "w") ; consider : to be part of :keyword
+       (modify-syntax-entry ?: "w") ; consider : to be part of :word
+       (modify-syntax-entry ?! "w") ; consider ! to be part of word!
+       (modify-syntax-entry ?? "w") ; consider ? to be part of word?
        (subword-mode +1) ; CamelCase aware editing operations
        (rbenv-use-corresponding))
 

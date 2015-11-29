@@ -10,7 +10,7 @@
   (modify-syntax-entry ?> "w") ; consider > to be part of word>
   (modify-syntax-entry ?< "w") ; consider < to be part of word<
   (modify-syntax-entry ?= "w") ; consider = to be part of word=
-  (modify-syntax-entry ?* "w") ; consider * to be part of word=
+  (modify-syntax-entry ?* "w") ; consider * to be part of word*
   )
 
 (setq prelude-lisp-coding-hook 'prelude-lisp-coding-defaults)

@@ -234,6 +234,72 @@ layers configuration. You are free to put any user code."
     (define-key evil-visual-state-map "j" 'evil-next-visual-line)
     (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
+    ;; Free up C-h in normal mode
+    (global-set-key (kbd "C-c h") help-map)
+
+    ;; Window Movements
+    (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+    (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+    (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+    (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
+
+    ;; Helper function to bind a list of ex-mode mappings.
+    (defun ex-mode-mapping (cmd)
+      (let ((binding (car cmd))
+            (fn (cdr cmd)))
+        (evil-ex-define-cmd binding fn)))
+
+    ;; Evil Ex
+    (mapc 'ex-mode-mapping
+          '(("[buff]ers"                . ibuffer)
+            ("reset-directory"          . reset-current-dir)
+            ("history"                  . git-timemachine)
+            ("[er]eval-region"          . eval-region)
+            ("[eb]eval-buffer"          . eval-buffer)
+            ("ag"                       . projectile-ag)
+            ("agl"                      . ag)
+            ("agf"                      . ag-project-files)
+            ("sh"                       . ansi-term)
+            ("[E]xplore"                . dired-jump)
+            ))
+
+    ;; Paredit
+    (eval-after-load 'paredit
+      '(progn
+        (define-key paredit-mode-map (kbd "M-s") nil)
+        ;; Move to next/previous s-exp at same level.
+        (define-paredit-pair ?\" ?\" "quote")
+        (define-key paredit-mode-map (kbd "M-g") 'paredit-forward)
+        (define-key paredit-mode-map (kbd "M-f") 'paredit-forward-down)
+        (define-key paredit-mode-map (kbd "M-d") 'paredit-backward-up)
+        (define-key paredit-mode-map (kbd "M-s") 'paredit-backward)
+        (evil-leader/set-key
+          "w (" 'paredit-wrap-round
+          "w [" 'paredit-wrap-square
+          "w {" 'paredit-wrap-curly
+          "w <" 'paredit-wrap-angled
+          "w \"" 'paredit-wrap-quote
+          "s s" 'paredit-splice-sexp
+          "s f" 'paredit-splice-sexp-killing-forward
+          "s b" 'paredit-splice-sexp-killing-backward
+          "s r" 'paredit-raise-sexp
+          "L" 'paredit-forward-slurp-sexp
+          "H" 'paredit-backward-slurp-sexp
+          ">" 'paredit-forward-barf-sexp
+          "<" 'paredit-backward-barf-sexp
+          "S" 'paredit-split-sexp
+          "J" 'paredit-join-sexps
+          )
+        ))
+
+    (eval-after-load 'cider-repl
+      '(progn
+         (define-key cider-repl-mode-map (kbd "M-[ a") 'cider-repl-backward-input)
+         (define-key cider-repl-mode-map (kbd "M-[ b") 'cider-repl-forward-input)
+         (evil-define-key 'insert cider-repl-mode-map (kbd "C-d") 'cider-repl-backward-input)
+         (evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-backward-input)
+         ))
+
     (setq-default
      global-hl-line-mode nil
 
@@ -246,9 +312,113 @@ layers configuration. You are free to put any user code."
 
      magit-push-always-verify nil
      magit-repository-directories '("~/Projects/")
+
+     scroll-margin 3
      )
 
-    (defun my-web-mode-hook ()
+    ;; Show line numbers.
+    (require 'linum)
+    (global-linum-mode t)
+
+    (defun cws-prog-mode-hook-fn ()
+      "Default coding hook, useful with any programming language."
+      (progn
+        (enable-paredit-mode)
+        (rainbow-delimiters-mode +1)
+        (modify-syntax-entry ?_ "w")     ; consider _ to be part of word_
+        ;; (message "cws prog mode hook")
+        ))
+    (setq cws-prog-mode-hook 'cws-prog-mode-hook-fn)
+
+    (defun cws-lisp-mode-hook-fn ()
+      (progn
+        (subword-mode +1)
+        (modify-syntax-entry ?: "w")     ; consider : to be part of :word
+        (modify-syntax-entry ?! "w")     ; consider ! to be part of word!
+        (modify-syntax-entry ?? "w")     ; consider ? to be part of word?
+        (modify-syntax-entry ?- "w")     ; consider - to be part of word-
+        (modify-syntax-entry ?> "w")     ; consider > to be part of word>
+        (modify-syntax-entry ?< "w")     ; consider < to be part of word<
+        (modify-syntax-entry ?= "w")     ; consider = to be part of word=
+        (modify-syntax-entry ?* "w")     ; consider * to be part of word*
+        ;; (message "cws lisp mode hook")
+        ))
+    (setq cws-lisp-mode-hook 'cws-lisp-mode-hook-fn)
+
+    (defun cws-emacs-lisp-mode-hook-fn ()
+      (progn
+        (run-hooks 'cws-lisp-mode-hook)
+        (turn-on-eldoc-mode)
+        (rainbow-mode +1)
+        ;; (message "cws emacs lisp mode hook")
+        ))
+    (setq cws-emacs-lisp-mode-hook 'cws-emacs-lisp-mode-hook-fn)
+
+    (defun cws-interactive-lisp-mode-hook-fn ()
+      (progn
+        (enable-paredit-mode)
+        (rainbow-delimiters-mode +1)
+        (whitespace-mode -1)
+        (linum-mode -1)
+        ;; (message "cws interactive lisp mode hook")
+        ))
+    (setq cws-interactive-lisp-mode-hook 'cws-interactive-lisp-mode-hook-fn)
+
+    (defun cws-clojure-mode-hook-fn ()
+      (progn
+        (run-hooks 'cws-lisp-mode-hook)
+        (put-clojure-indent 'match 1)
+        ;; (message "cws clojure mode hook")
+        ))
+    (setq cws-clojure-mode-hook 'cws-clojure-mode-hook-fn)
+
+    (defun cws-cider-repl-mode-hook-fn ()
+      (progn
+        (run-hooks 'cws-clojure-mode-hook)
+        (run-hooks 'cws-interactive-lisp-mode-hook)
+        (setq cider-repl-use-pretty-printing t)
+        ;; (message "cws clojure repl mode hook")
+        ))
+    (setq cws-cider-repl-mode-hook 'cws-cider-repl-mode-hook-fn)
+
+    (add-hook 'prog-mode-hook
+              (lambda () (run-hooks 'cws-prog-mode-hook))
+              t)
+    (add-hook 'emacs-lisp-mode-hook
+              (lambda () (run-hooks 'cws-emacs-lisp-mode-hook))
+              t)
+    (add-hook 'clojure-mode-hook
+              (lambda () (run-hooks 'cws-clojure-mode-hook))
+              t)
+    (add-hook 'cider-repl-mode-hook
+              (lambda () (run-hooks 'cws-cider-repl-mode-hook))
+              t)
+
+    ;;;; Cider REPL
+    ;; Show REPL buffer on Cider connect.
+    (setq cider-repl-pop-to-buffer-on-connect t)
+    ;; Font-lock REPL input and output as in clojure-mode.
+    (setq cider-repl-use-clojure-font-lock t)
+    ;; Wrap REPL history.
+    (setq cider-repl-wrap-history t)
+    ;; Set maximum number of items kept in the REPL history (default 500).
+    (setq cider-repl-history-size 1000)
+
+    (defun conditionally-enable-paredit-mode ()
+      "Enable `paredit' in the minibuffer, during `eval-expression'."
+      (if (eq this-command 'eval-expression)
+          (enable-paredit-mode)))
+    (add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
+
+    (defun cws-ruby-mode-hook ()
+      (subword-mode +1) ; CamelCase aware editing operations
+      (modify-syntax-entry ?: "w") ; consider : to be part of :word
+      (modify-syntax-entry ?! "w") ; consider ! to be part of word!
+      (modify-syntax-entry ?? "w") ; consider ? to be part of word?
+      )
+    (add-hook 'ruby-mode-hook 'cws-ruby-mode-hook t)
+
+    (defun cws-web-mode-hook ()
       "Hooks for Web mode."
       (setq web-mode-markup-indent-offset 2)
       (setq web-mode-css-indent-offset 2)
@@ -257,13 +427,13 @@ layers configuration. You are free to put any user code."
       (setq web-mode-attr-indent-offset 2)
       (setq web-mode-indent-style 2)
       )
-    (add-hook 'web-mode-hook  'my-web-mode-hook)
+    (add-hook 'web-mode-hook 'cws-web-mode-hook)
 
-    (defun my-css-mode-hook ()
+    (defun cws-css-mode-hook ()
       "Hooks for CSS mode."
       (setq css-indent-offset 2)
       )
-    (add-hook 'css-mode-hook  'my-css-mode-hook)
+    (add-hook 'css-mode-hook 'cws-css-mode-hook)
     ))
 
 ;; Do not write anything past this comment. This is where Emacs will

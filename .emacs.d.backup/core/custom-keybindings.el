@@ -218,7 +218,6 @@
               (interactive)
               (let ((current-prefix-arg '(4))) ; C-u prefix
                 (call-interactively 'cider-insert-defun-in-repl)))
-      
 
       ;; Eval form preceding point, echo result.
       ;; e e -> echo (v) evaluated last s-exp (n)
