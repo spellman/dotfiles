@@ -23,4 +23,8 @@ fi
 
 # ibus fix for Android Studio until ibus is updated to 1.5.11
 export IBUS_ENABLE_SYNC_MODE=1
-export STUDIO_JDK="/usr/java/jdk1.8.0_65"
+export STUDIO_JDK="/usr/java/default"
+export ANDROID_HOME="/home/cort/Android/Sdk"
+export JAVA_HOME="/usr/java/default"
+export JAVA8_HOME="/usr/java/default"
+export JAVA7_HOME="/usr/java/java7"
