@@ -20,11 +20,19 @@ call vundle#rc()
 " Not My Plugins
 Plugin 'gmarik/vundle'
 Plugin 'vim-scripts/CSApprox'
+Plugin 'sheerun/vim-polyglot'
 Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-fugitive'
+Plugin 'easymotion/vim-easymotion'
 "Plugin 'minibufexpl.vim'
-"Plugin 'pangloss/vim-javascript'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'othree/yajs.vim'
+Plugin 'othree/javascript-libraries-syntax.vim'
+"Plugin 'othree/html5.vim'
+Plugin 'jason0x43/vim-js-indent'
 Plugin 'tpope/vim-rails'
+Plugin 'tpope/vim-endwise'
 Plugin 'rking/ag.vim'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'altercation/vim-colors-solarized'
@@ -39,6 +47,8 @@ Plugin 'tpope/vim-repeat'
 Plugin 'kien/rainbow_parentheses.vim'
 "Plugin 'luochen1990/rainbow'
 Plugin 'tpope/vim-git'
+Plugin 'haya14busa/incsearch.vim'
+
 
 " My Plugins
 Plugin 'spellman/vim-minitest'
@@ -128,33 +138,13 @@ set formatoptions=cj
 " Strip trailing whitespace in the current file.
 nnoremap <leader>sw :%s/\s\+$//<cr>:let @/=''<CR>
 
-augroup myfiletypes
-  autocmd!
-
-  " Ruby
-  autocmd FileType ruby nnoremap <buffer> <Leader>c I# <esc>
-
-  " Javascript
-  autocmd FileType javascript nnoremap <buffer> <Leader>c I// <esc>
-  autocmd FileType javascript let g:html_indent_inctags = "html,body,head,tbody"
-  autocmd FileType javascript let g:html_indent_script1 = "inc"
-  autocmd FileType javascript let g:html_indent_style1 = "inc"
-
-  " Clojure
-  autocmd FileType clojure nnoremap <buffer> <Leader>c I; <esc>
-
-  " CSS
-  " Sort CSS properties
-  autocmd FileType html,css nnoremap <buffer> <leader>sc ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR>
-augroup END
-
-
+" incsearch.vim
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 " Multiple buffers
 set hidden
-
-set suffixesadd=.rb
-set includeexpr+=substitute(v:fname,'s$','','g')
 
 " Don't redraw while executing macros
 set lazyredraw
@@ -162,54 +152,6 @@ set lazyredraw
 
 
 " Color schemes
-function ColorWombat()
-    syntax on
-    " IMPORTANT: Uncomment one of the following lines to force
-    " using 256 colors (or 88 colors) if your terminal supports it,
-    " but does not automatically use 256 colors by default.
-    set t_Co=256
-    "set t_Co=88
-    let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
-    colorscheme wombat
-endfunction
-
-function ColorSolarizedDark()
-    syntax on
-    " IMPORTANT: Uncomment one of the following lines to force
-    " using 256 colors (or 88 colors) if your terminal supports it,
-    " but does not automatically use 256 colors by default.
-    set t_Co=256
-    "set t_Co=88
-    let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
-    set background=dark
-    let g:solarized_termcolors=256
-    colorscheme solarized
-endfunction
-
-function ColorSolarizedLight()
-    syntax on
-    " IMPORTANT: Uncomment one of the following lines to force
-    " using 256 colors (or 88 colors) if your terminal supports it,
-    " but does not automatically use 256 colors by default.
-    set t_Co=256
-    "set t_Co=88
-    let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
-    set background=light
-    let g:solarized_termcolors=256
-    colorscheme solarized
-endfunction
-
-function ColorGreen()
-    syntax on
-    " IMPORTANT: Uncomment one of the following lines to force
-    " using 256 colors (or 88 colors) if your terminal supports it,
-    " but does not automatically use 256 colors by default.
-    set t_Co=256
-    "set t_Co=88
-    let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
-    colorscheme green
-endfunction
-
 function ColorDark()
     syntax on
     " IMPORTANT: Uncomment one of the following lines to force
@@ -221,24 +163,14 @@ function ColorDark()
     colorscheme dark
 endfunction
 
-function ColorBlackOnWhite()
-    syntax on
-    " IMPORTANT: Uncomment one of the following lines to force
-    " using 256 colors (or 88 colors) if your terminal supports it,
-    " but does not automatically use 256 colors by default.
-    set t_Co=256
-    "set t_Co=88
-    let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
-    colorscheme basic
-endfunction
-
 function ColorHC()
     syntax off
     set t_Co=0
     set background=dark
 endfunction
 
-
+" Probably not the good way to do this. See the updates at the bottom of
+" http://snk.tuxfamily.org/log/vim-256color-bce.html
 if &term =~ '256color'
   " Disable Background Color Erase (BCE) so that color schemes
   " work properly when Vim is used inside tmux and GNU screen.
@@ -275,22 +207,8 @@ imap <silent> <C-Down> <C-O><C-Down>
 smap <silent> <C-Up> <C-G><C-Up><C-G>
 smap <silent> <C-Down> <C-G><C-Down><C-G>
 
-" Open file explorer
-nnoremap <silent> <Leader>fj :Explore<CR>
-
 " ctrlp.vim
 nnoremap <Leader>p :<C-U>CtrlPMixed<CR>
-
-
-
-" Mini Buffer Explorer
-"nnoremap <Leader>b :MiniBufExplorer<cr>
-"nnoremap <Leader>c :CMiniBufExplorer<cr>
-"nnoremap <Leader>u :UMiniBufExplorer<cr>
-"nnoremap <Leader>t :TMiniBufExplorer<cr>
-
-" Put new window above current or on the left for vertical split
-"let g:miniBufExplSplitBelow=0
 
 
 
@@ -339,9 +257,6 @@ autocmd VimEnter * RainbowParenthesesToggleAll
 autocmd BufEnter * RainbowParenthesesLoadRound
 autocmd BufEnter * RainbowParenthesesLoadSquare
 autocmd BufEnter * RainbowParenthesesLoadBraces
-"autocmd Syntax * RainbowParenthesesLoadRound
-"autocmd Syntax * RainbowParenthesesLoadSquare
-"autocmd Syntax * RainbowParenthesesLoadBraces
 
 
 
@@ -371,6 +286,10 @@ autocmd BufEnter * RainbowParenthesesLoadBraces
 
 " Paredit for plugin vim-scripts/paredit.vim
 "let g:paredit_electric_return = 0
+
+
+" Send command Android device to bring up the React Native developer menu.
+nnoremap <Leader>rr :!adb shell input keyevent 82 <enter>
 
 
 
