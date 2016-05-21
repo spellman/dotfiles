@@ -9,22 +9,20 @@ set nocompatible
 " No swap files
 set noswapfile
 
-" Enable Pathogen
-call pathogen#helptags()
-call pathogen#runtime_append_all_bundles()
-
-" Enable Vundle
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" Enable Vundle.
+filetype off
+" Set the runtime path to include Vundle and initialize.
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " Not My Plugins
-Plugin 'gmarik/vundle'
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-scripts/CSApprox'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'tpope/vim-vinegar'
 Plugin 'tpope/vim-fugitive'
 Plugin 'easymotion/vim-easymotion'
-"Plugin 'minibufexpl.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'othree/yajs.vim'
@@ -35,7 +33,6 @@ Plugin 'tpope/vim-rails'
 Plugin 'tpope/vim-endwise'
 Plugin 'rking/ag.vim'
 Plugin 'jgdavey/tslime.vim'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'kien/ctrlp.vim'
 Plugin 'guns/vim-clojure-static'
 Plugin 'tpope/vim-fireplace'
@@ -49,10 +46,12 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'tpope/vim-git'
 Plugin 'haya14busa/incsearch.vim'
 
-
 " My Plugins
 Plugin 'spellman/vim-minitest'
 
+" All of your Plugins must be added before the following line:
+call vundle#end()
+filetype plugin indent on
 
 
 " Edit vimrc.
@@ -67,8 +66,8 @@ set laststatus=2
 " Show git status in status line, via vim-fugitive.
 set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
-" Increase command history from 20 (default) to 100
-set history=100
+" Increase command history from 20 (default) to 1000
+set history=1000
 
 " Increase undo history from default to 1000
 set undolevels=1000
