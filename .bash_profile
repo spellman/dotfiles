@@ -5,7 +5,7 @@ elif [ -f ${default_dir}Bashrc ]; then
 fi
 
 # Android Studio
-export PATH="/opt/android-studio/bin:$PATH"
+export PATH="/usr/local/android-studio/bin:$PATH"
 export PATH="$HOME/Android/Sdk/tools:$PATH"
 export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 
@@ -14,10 +14,3 @@ export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
-
-# rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-
-eval "$(rbenv init -)"
-#[[ -s /home/cort/.nvm/nvm.sh ]] && . /home/cort/.nvm/nvm.sh # This loads NVM
-#[[ -r $NVM_DIR/bash_completion ]] && . $NVM_DIR/bash_completion # Bash completion
