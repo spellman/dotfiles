@@ -1,0 +1,58 @@
+" Set the mapleader.
+" let mapleader="\"
+map <Space> <Leader>
+set showcmd
+
+" / searches case-sensitive only if searching for capital letter
+" * searches consistently case-sensitive.
+set ignorecase
+set smartcase
+
+" Highlight search terms...
+set hlsearch
+set incsearch " ...dynamically as they are typed.
+
+" Keep 3 lines below cursor instead of it being at bottom (default)
+set scrolloff=3
+
+" Increase command history from 20 (default) to 1000
+set history=1000
+
+" Easy navigation of wrapped lines
+nnoremap j gj
+nnoremap k gk
+
+" Easy window navigation
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Clear highlighted searches
+nnoremap <silent> <Leader>/ :nohlsearch<CR>
+
+" Preserve IntelliJ search
+nnoremap g/ :action Find<cr>
+
+" actions
+nnoremap <Leader>q :action CloseContent<cr>
+nnoremap <Leader>Q :action ReopenClosedTab<cr>
+nnoremap <C-6> :action VimFilePrevious<cr>
+nnoremap <Leader>e :action SearchEverywhere<cr>
+nnoremap <Leader>f :action GotoFile<cr>
+nnoremap <Leader>c :action GotoClass<cr>
+nnoremap <Leader>t :action GotoSymbol<cr>
+nnoremap <Leader>a :action GotoAction<cr>
+nnoremap <Leader>B :action ToggleLineBreakpoint<cr>
+
+" code navigation
+nnoremap <Leader>] :action GotoImplementation<cr>
+nnoremap <Leader>[ :action GotoSuperMethod<cr>
+nnoremap <Leader>b ;action GotoDeclaration<cr>
+nnoremap <Leader>u :action FindUsages<cr>
+nnoremap <Leader>gt :action GotoTest<cr>
+nnoremap <Leader>k :action HighlightUsagesInFile<cr>
+nnoremap \r :action RunClass<cr>
+nnoremap \R :action Run<cr>
+nnoremap \d :action DebugClass<cr>
+nnoremap \D :action Debug<cr>
