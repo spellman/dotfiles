@@ -86,7 +86,7 @@ values."
     (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
     (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-    (setq package-pinned-packages '((cider . "melpa-stable")))
+    ;;(setq package-pinned-packages '((cider . "melpa-stable")))
 
     (setq-default
      ;; If non nil ELPA repositories are contacted via HTTPS whenever it's
