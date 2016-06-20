@@ -37,8 +37,8 @@ values."
      pandoc
      react
      (ruby :variables
-           ruby-enable-enh-ruby-mode t
-           ruby-version-manager 'rbenv)
+           ;ruby-enable-enh-ruby-mode t
+           ruby-version-manager 'chruby)
      ruby-on-rails
      ;; org
      ;; (shell :variables
@@ -86,7 +86,6 @@ values."
     (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/") t)
     (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
     (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-    ;;(setq package-pinned-packages '((cider . "melpa-stable")))
 
     (setq-default
      ;; If non nil ELPA repositories are contacted via HTTPS whenever it's
@@ -437,13 +436,12 @@ you should place you code here."
       )
     (add-hook 'ruby-mode-hook 'cws-ruby-mode-hook)
 
-    (eval-after-load 'js2
-      '(progn
-         (defun device-options ()
-           (interactive)
-           (shell-command "adb shell input keyevent 82"))
-         (evil-leader/set-key "d o" 'device-options)
-         ))
+    (with-eval-after-load 'js2
+      (defun device-options ()
+         (interactive)
+         (shell-command "adb shell input keyevent 82"))
+      (evil-leader/set-key "d o" 'device-options)
+      )
 
     (with-eval-after-load 'web-mode
       (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
@@ -451,33 +449,32 @@ you should place you code here."
       (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil)))
 
     ;; Paredit
-    (eval-after-load 'paredit
-      '(progn
-         (define-key paredit-mode-map (kbd "M-s") nil)
-         (define-paredit-pair ?\" ?\" "quote")
-         (define-key paredit-mode-map (kbd "M-g") 'paredit-forward)
-         (define-key paredit-mode-map (kbd "M-f") 'paredit-forward-down)
-         (define-key paredit-mode-map (kbd "M-d") 'paredit-backward-up)
-         (define-key paredit-mode-map (kbd "M-s") 'paredit-backward)
-         (define-key paredit-mode-map (kbd "{") 'paredit-open-curly)
-         (define-key paredit-mode-map (kbd "}") 'paredit-close-curly)
-         (evil-leader/set-key
-           "w (" 'paredit-wrap-round
-           "w [" 'paredit-wrap-square
-           "w {" 'paredit-wrap-curly
-           "w <" 'paredit-wrap-angled
-           "w \"" 'paredit-wrap-quote
-           "s s" 'paredit-splice-sexp
-           "s f" 'paredit-splice-sexp-killing-forward
-           "s b" 'paredit-splice-sexp-killing-backward
-           "s r" 'paredit-raise-sexp
-           "L" 'paredit-forward-slurp-sexp
-           "H" 'paredit-backward-slurp-sexp
-           ">" 'paredit-forward-barf-sexp
-           "<" 'paredit-backward-barf-sexp
-           "S" 'paredit-split-sexp
-           "j" 'paredit-join-sexps
-           )))
+    (with-eval-after-load 'paredit
+      (define-key paredit-mode-map (kbd "M-s") nil)
+      (define-paredit-pair ?\" ?\" "quote")
+      (define-key paredit-mode-map (kbd "M-g") 'paredit-forward)
+      (define-key paredit-mode-map (kbd "M-f") 'paredit-forward-down)
+      (define-key paredit-mode-map (kbd "M-d") 'paredit-backward-up)
+      (define-key paredit-mode-map (kbd "M-s") 'paredit-backward)
+      (define-key paredit-mode-map (kbd "{") 'paredit-open-curly)
+      (define-key paredit-mode-map (kbd "}") 'paredit-close-curly)
+      (evil-leader/set-key
+        "w (" 'paredit-wrap-round
+        "w [" 'paredit-wrap-square
+        "w {" 'paredit-wrap-curly
+        "w <" 'paredit-wrap-angled
+        "w \"" 'paredit-wrap-quote
+        "s s" 'paredit-splice-sexp
+        "s f" 'paredit-splice-sexp-killing-forward
+        "s b" 'paredit-splice-sexp-killing-backward
+        "s r" 'paredit-raise-sexp
+        "L" 'paredit-forward-slurp-sexp
+        "H" 'paredit-backward-slurp-sexp
+        ">" 'paredit-forward-barf-sexp
+        "<" 'paredit-backward-barf-sexp
+        "S" 'paredit-split-sexp
+        "j" 'paredit-join-sexps
+        ))
 
     (defun conditionally-enable-paredit-mode ()
       "Enable `paredit' in the minibuffer, during `eval-expression'."
@@ -498,7 +495,16 @@ you should place you code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("592ea02e2d690692b4085a3db8e8984e27805263240d874dd50c9f0c30157410" default)))
  '(evil-shift-width 2)
  '(package-archive-upload-base "/home/cort/local-emacs-packages/")
  '(paradox-github-token t)
  '(standard-indent 2))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
