@@ -32,6 +32,9 @@ shopt -s checkwinsize
 
 # set 256 colors
 #export TERM=xterm-256color
+if [ -n "$DISPLAY" -a "$TERM" == "xterm" ]; then
+    export TERM=xterm-256color
+fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
