@@ -25,7 +25,7 @@ values."
      ;; ----------------------------------------------------------------
      ;; auto-completion
      better-defaults
-     clojure
+     clojure-with-inf-clojure ; my package
      dash
      emacs-lisp
      evil-commentary
@@ -59,6 +59,7 @@ values."
    '(
      ag
      focused-theme
+     paredit
      rainbow-mode
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
@@ -299,8 +300,10 @@ you should place you code here."
 
     (setq-default
      global-hl-line-mode nil
+
      ;; js2-mode
      js2-basic-offset 2
+
      ;; web-mode
      css-indent-offset 2
      web-mode-markup-indent-offset 2
@@ -347,31 +350,36 @@ you should place you code here."
           '(("[E]xplore"                . dired-jump)
             ))
 
-    (eval-after-load 'cider-repl
-      '(progn
-         (define-key cider-repl-mode-map (kbd "M-[ a") 'cider-repl-backward-input)
-         (define-key cider-repl-mode-map (kbd "M-[ b") 'cider-repl-forward-input)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-d") 'cider-repl-backward-input)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-backward-input)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-h") 'evil-window-left)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-j") 'evil-window-down)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-k") 'evil-window-up)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-l") 'evil-window-right)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-newline-and-indent)
-         ))
+    (with-eval-after-load 'inf-clojure
+      ;(define-key cider-repl-mode-map (kbd "M-[ a") 'cider-repl-backward-input)
+      ;(define-key cider-repl-mode-map (kbd "M-[ b") 'cider-repl-forward-input)
+      ;(evil-define-key 'insert cider-repl-mode-map (kbd "C-d") 'cider-repl-backward-input)
+      ;(evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-backward-input)
+      (evil-define-key 'normal inf-clojure-mode-map (kbd "C-h") 'evil-window-left)
+      (evil-define-key 'normal inf-clojure-mode-map (kbd "C-j") 'evil-window-down)
+      (evil-define-key 'normal inf-clojure-mode-map (kbd "C-k") 'evil-window-up)
+      (evil-define-key 'normal inf-clojure-mode-map (kbd "C-l") 'evil-window-right)
+      (evil-define-key 'insert inf-clojure-mode-map (kbd "C-h") 'evil-window-left)
+      (evil-define-key 'insert inf-clojure-mode-map (kbd "C-j") 'evil-window-down)
+      (evil-define-key 'insert inf-clojure-mode-map (kbd "C-k") 'evil-window-up)
+      (evil-define-key 'insert inf-clojure-mode-map (kbd "C-l") 'evil-window-right)
+      )
 
     (defun cws-prog-mode-hook ()
       "Default coding hook, useful with any programming language."
       (progn
         (rainbow-delimiters-mode 1)
-        (enable-paredit-mode)
         (modify-syntax-entry ?_ "w")     ; consider _ to be part of word_
-        ;; (message "cws prog mode hook")
+        (linum-on)
+        (message "cws prog mode hook")
         ))
     (add-hook 'prog-mode-hook 'cws-prog-mode-hook)
 
     (defun cws-lisp-mode-hook ()
       (progn
+        (use-package paredit
+          :config (enable-paredit-mode))
+
         (subword-mode +1)
         (modify-syntax-entry ?: "w")     ; consider : to be part of :word
         (modify-syntax-entry ?! "w")     ; consider ! to be part of word!
@@ -381,7 +389,7 @@ you should place you code here."
         (modify-syntax-entry ?< "w")     ; consider < to be part of word<
         (modify-syntax-entry ?= "w")     ; consider = to be part of word=
         (modify-syntax-entry ?* "w")     ; consider * to be part of word*
-        ;; (message "cws lisp mode hook")
+        (message "cws lisp mode hook")
         ))
     (spacemacs/add-to-hook 'lisp-mode-hook '(cws-lisp-mode-hook))
 
@@ -389,44 +397,60 @@ you should place you code here."
       (progn
         (turn-on-eldoc-mode)
         (rainbow-mode +1)
-        ;; (message "cws emacs lisp mode hook")
+        (message "cws emacs lisp mode hook")
         ))
     (spacemacs/add-to-hook 'emacs-lisp-mode-hook '(cws-lisp-mode-hook
                                                    cws-emacs-lisp-mode-hook))
 
-    (eval-after-load 'clojure-mode
-      '(progn
-         (defun cws-clojure-mode-hook ()
-           (progn
-             (put-clojure-indent 'match 1)
-             ;; (message "cws clojure mode hook")
-             ))
-         (spacemacs/add-to-hook 'clojure-mode-hook '(cws-lisp-mode-hook
-                                                     cws-clojure-mode-hook))
-         ))
+    (with-eval-after-load 'clojure-mode
+      (defun cws-clojure-mode-hook ()
+        (progn
+          (message "cws clojure mode hook")
+          (put-clojure-indent 'match 1)
+          ))
 
-    (eval-after-load 'cider
-      '(progn
-         (setq nrepl-log-messages t)
+      (defun figwheel-repl ()
+        (interactive)
+        (run-clojure "lein trampoline run -m clojure.main script/figwheel.clj"))
 
-         (defun cws-cider-repl-mode-hook ()
-           (progn
-             (enable-paredit-mode)
-             (rainbow-delimiters-mode +1)
-             (whitespace-mode -1)
-             (linum-mode -1)
-             (setq cider-repl-use-pretty-printing t)
-             (setq cider-repl-pop-to-buffer-on-connect t)
-             (setq cider-repl-use-clojure-font-lock t)
-             (setq cider-repl-wrap-history t)
-             (setq cider-repl-history-size 1000)
-             ;; (message "cws clojure repl mode hook")
-             ))
-         (spacemacs/add-to-hook 'cider-repl-mode-hook '(cws-lisp-mode-hook
-                                                        cws-clojure-mode-hook
-                                                        cws-cider-repl-mode-hook))
-         (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-         ))
+      (dolist (m '(clojure-mode clojurec-mode clojurescript-mode clojurex-mode))
+        (spacemacs/set-leader-keys-for-major-mode m
+          "sz" #'figwheel-repl
+          )
+        )
+
+      (add-hook 'clojure-mode-hook #'inf-clojure-minor-mode)
+
+      (spacemacs/add-to-hook 'clojure-mode-hook '(cws-lisp-mode-hook
+                                                  cws-clojure-mode-hook))
+     )
+
+    ;; (eval-after-load 'cider
+    ;;   '(progn
+    ;;      (setq nrepl-log-messages t)
+
+    ;;      (defun cws-cider-repl-mode-hook ()
+    ;;        (progn
+    ;;          (enable-paredit-mode)
+    ;;          (rainbow-delimiters-mode +1)
+    ;;          (whitespace-mode -1)
+    ;;          (linum-mode -1)
+    ;;          (setq cider-repl-use-pretty-printing t)
+    ;;          (setq cider-repl-pop-to-buffer-on-connect t)
+    ;;          (setq cider-repl-use-clojure-font-lock t)
+    ;;          (setq cider-repl-wrap-history t)
+    ;;          (setq cider-repl-history-size 1000)
+    ;;          ;; (message "cws clojure repl mode hook")
+    ;;          ))
+    ;;      (spacemacs/add-to-hook 'cider-repl-mode-hook '(cws-lisp-mode-hook
+    ;;                                                     cws-clojure-mode-hook
+    ;;                                                     cws-cider-repl-mode-hook))
+    ;;      (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+    ;;      ))
+    (with-eval-after-load 'inf-clojure
+      (spacemacs/add-to-hook 'inf-clojure-mode-hook '(cws-lisp-mode-hook
+                                                      cws-clojure-mode-hook))
+      )
 
     (defun cws-ruby-mode-hook ()
       (subword-mode +1) ; CamelCase aware editing operations
