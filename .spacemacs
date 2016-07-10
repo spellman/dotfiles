@@ -299,8 +299,10 @@ you should place you code here."
 
     (setq-default
      global-hl-line-mode nil
+
      ;; js2-mode
      js2-basic-offset 2
+
      ;; web-mode
      css-indent-offset 2
      web-mode-markup-indent-offset 2
@@ -347,18 +349,17 @@ you should place you code here."
           '(("[E]xplore"                . dired-jump)
             ))
 
-    (eval-after-load 'cider-repl
-      '(progn
-         (define-key cider-repl-mode-map (kbd "M-[ a") 'cider-repl-backward-input)
-         (define-key cider-repl-mode-map (kbd "M-[ b") 'cider-repl-forward-input)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-d") 'cider-repl-backward-input)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-backward-input)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-h") 'evil-window-left)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-j") 'evil-window-down)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-k") 'evil-window-up)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-l") 'evil-window-right)
-         (evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-newline-and-indent)
-         ))
+    (with-eval-after-load 'cider-repl
+      (define-key cider-repl-mode-map (kbd "M-[ a") 'cider-repl-backward-input)
+      (define-key cider-repl-mode-map (kbd "M-[ b") 'cider-repl-forward-input)
+      (evil-define-key 'insert cider-repl-mode-map (kbd "C-d") 'cider-repl-backward-input)
+      (evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-backward-input)
+      (evil-define-key 'insert cider-repl-mode-map (kbd "C-h") 'evil-window-left)
+      (evil-define-key 'insert cider-repl-mode-map (kbd "C-j") 'evil-window-down)
+      (evil-define-key 'insert cider-repl-mode-map (kbd "C-k") 'evil-window-up)
+      (evil-define-key 'insert cider-repl-mode-map (kbd "C-l") 'evil-window-right)
+      (evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-newline-and-indent)
+      )
 
     (defun cws-prog-mode-hook ()
       "Default coding hook, useful with any programming language."
@@ -394,39 +395,37 @@ you should place you code here."
     (spacemacs/add-to-hook 'emacs-lisp-mode-hook '(cws-lisp-mode-hook
                                                    cws-emacs-lisp-mode-hook))
 
-    (eval-after-load 'clojure-mode
-      '(progn
-         (defun cws-clojure-mode-hook ()
-           (progn
-             (put-clojure-indent 'match 1)
-             ;; (message "cws clojure mode hook")
-             ))
-         (spacemacs/add-to-hook 'clojure-mode-hook '(cws-lisp-mode-hook
-                                                     cws-clojure-mode-hook))
-         ))
+    (with-eval-after-load 'clojure-mode
+      (defun cws-clojure-mode-hook ()
+         (progn
+           (put-clojure-indent 'match 1)
+           ;; (message "cws clojure mode hook")
+           ))
+      (spacemacs/add-to-hook 'clojure-mode-hook '(cws-lisp-mode-hook
+                                                  cws-clojure-mode-hook))
+      )
 
-    (eval-after-load 'cider
-      '(progn
-         (setq nrepl-log-messages t)
+    (with-eval-after-load 'cider
+      (setq nrepl-log-messages t)
 
-         (defun cws-cider-repl-mode-hook ()
-           (progn
-             (enable-paredit-mode)
-             (rainbow-delimiters-mode +1)
-             (whitespace-mode -1)
-             (linum-mode -1)
-             (setq cider-repl-use-pretty-printing t)
-             (setq cider-repl-pop-to-buffer-on-connect t)
-             (setq cider-repl-use-clojure-font-lock t)
-             (setq cider-repl-wrap-history t)
-             (setq cider-repl-history-size 1000)
-             ;; (message "cws clojure repl mode hook")
-             ))
-         (spacemacs/add-to-hook 'cider-repl-mode-hook '(cws-lisp-mode-hook
-                                                        cws-clojure-mode-hook
-                                                        cws-cider-repl-mode-hook))
-         (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
-         ))
+      (defun cws-cider-repl-mode-hook ()
+        (progn
+          (enable-paredit-mode)
+          (rainbow-delimiters-mode +1)
+          (whitespace-mode -1)
+          (linum-mode -1)
+          (setq cider-repl-use-pretty-printing t)
+          (setq cider-repl-pop-to-buffer-on-connect t)
+          (setq cider-repl-use-clojure-font-lock t)
+          (setq cider-repl-wrap-history t)
+          (setq cider-repl-history-size 1000)
+          ;; (message "cws clojure repl mode hook")
+          ))
+      (spacemacs/add-to-hook 'cider-repl-mode-hook '(cws-lisp-mode-hook
+                                                     cws-clojure-mode-hook
+                                                     cws-cider-repl-mode-hook))
+      (add-hook 'cider-mode-hook 'turn-on-eldoc-mode)
+      )
 
     (defun cws-ruby-mode-hook ()
       (subword-mode +1) ; CamelCase aware editing operations
