@@ -25,8 +25,8 @@ fi
 export IBUS_ENABLE_SYNC_MODE=1
 # Aliases for symlinks to respective JDK home directories, as per
 # https://stackoverflow.com/questions/23318109/is-it-possible-to-use-java-8-for-android-development
-export STUDIO_JDK="/usr/lib/jvm/default"
+export STUDIO_JDK="/usr/java/default"
 export ANDROID_HOME="/home/cort/Android/Sdk"
-export JAVA_HOME="/usr/lib/jvm/default"
-export JAVA8_HOME="/usr/lib/jvm/java8"
-export JAVA7_HOME="/usr/lib/jvm/java7"
+export JAVA_HOME="/usr/java/default"
+export JAVA8_HOME="/usr/java/java8"
+export JAVA7_HOME="/usr/java/java7"

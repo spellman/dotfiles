@@ -1,2 +1,2 @@
 alias ec='emacsclient'
-alias en='emacs -nw'
+alias en='emacs-nox'
