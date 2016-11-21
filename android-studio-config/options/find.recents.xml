@@ -1,0 +1,9 @@
+<application>
+  <component name="FindRecents">
+    <findStrings>
+      <find>REFRESH_INSTRUCTIONS</find>
+      <find>REFRESH_INSTRUCTIONS f</find>
+      <find>EDN</find>
+    </findStrings>
+  </component>
+</application>

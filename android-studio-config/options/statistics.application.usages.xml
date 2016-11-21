@@ -1,0 +1,62 @@
+<application>
+  <component name="StatisticsApplicationUsages">
+    <group name="Git">
+      <project id="X-RayInstructions" values="config.save.policy.STASH,config.repo.sync.NOT_DECIDED,config.cherry-pick.autocommit.disabled,config.update.type.BRANCH_DEFAULT,config.force.push.enabled,config.warn.about.detached.enabled,config.push.autoupdate.disabled,data.remotes.in.project.1,config.warn.about.crlf.enabled,data.local.branches.count.2+,config.push.update.all.roots.enabled,config.ssh.enabled,data.remote.branches.count.2+" collectionTime="1479082376329" />
+      <project id="Image" values="config.warn.about.detached.enabled,config.warn.about.crlf.enabled,config.push.autoupdate.disabled,config.cherry-pick.autocommit.disabled,data.local.branches.count.2+,config.save.policy.STASH,config.update.type.BRANCH_DEFAULT,data.remotes.in.project.1,data.remote.branches.count.2+,config.force.push.enabled,config.repo.sync.NOT_DECIDED,config.push.update.all.roots.enabled,config.ssh.enabled" collectionTime="1479705805166" />
+      <project id="TicTacToe" values="config.push.update.all.roots.enabled,config.warn.about.crlf.enabled,config.ssh.enabled,config.save.policy.STASH,config.update.type.BRANCH_DEFAULT,config.cherry-pick.autocommit.disabled,config.warn.about.detached.enabled,config.repo.sync.NOT_DECIDED,config.push.autoupdate.disabled,config.force.push.enabled" collectionTime="1469675291123" />
+    </group>
+    <group name="vcs">
+      <project id="X-RayInstructions" values="Git" collectionTime="1479082376294" />
+      <project id="Image" values="Git" collectionTime="1479705805130" />
+    </group>
+    <group name="frameworks">
+      <project id="X-RayInstructions" values="android,android-gradle,java-gradle" collectionTime="1479082376294" />
+      <project id="Image" values="android,java-gradle,android-gradle" collectionTime="1479705805130" />
+      <project id="TicTacToe" values="android,android-gradle,java-gradle" collectionTime="1469675291066" />
+    </group>
+    <group name="run-configuration-type">
+      <project id="Image" values="AndroidRunConfigurationType" collectionTime="1479705805131" />
+      <project id="TicTacToe" values="AndroidRunConfigurationType" collectionTime="1469675291066" />
+    </group>
+    <group name="language-level">
+      <project id="X-RayInstructions" values="JDK_1_8" collectionTime="1479082376329" />
+      <project id="Image" values="JDK_1_7" collectionTime="1479705805163" />
+      <project id="TicTacToe" values="JDK_1_7" collectionTime="1469675291123" />
+    </group>
+    <group name="file-type">
+      <project id="X-RayInstructions" values="Groovy,JAVA,AIDL,Images,PLAIN_TEXT,ARCHIVE,Properties,ProGuard File,UNKNOWN,XML,IDEA_MODULE" collectionTime="1479082376329" />
+      <project id="Image" values="ARCHIVE,Groovy,IDEA_MODULE,ProGuard File,Properties,JAVA,XML,AIDL,Kotlin,PLAIN_TEXT,Images,Layout Inspector" collectionTime="1479705805156" />
+      <project id="TicTacToe" values="Groovy,IDEA_MODULE,AIDL,XML,JAVA,Properties,UNKNOWN,ARCHIVE,PLAIN_TEXT,ProGuard File,Images" collectionTime="1469675291116" />
+    </group>
+    <group name="module type">
+      <project id="X-RayInstructions" values="JAVA_MODULE" collectionTime="1479082376294" />
+      <project id="Image" values="JAVA_MODULE" collectionTime="1479705805130" />
+      <project id="TicTacToe" values="JAVA_MODULE" collectionTime="1469675291066" />
+    </group>
+  </component>
+  <component name="UsageTrigger">
+    <counts>
+      <entry feature="execute.AndroidRunConfigurationType.Debug" count="25" />
+      <entry feature="execute.AndroidRunConfigurationType.Run" count="592" />
+      <entry feature="ide.settings.Android_SDK" count="12" />
+      <entry feature="ide.settings.Appearance" count="5" />
+      <entry feature="ide.settings.Code_Style" count="2" />
+      <entry feature="ide.settings.Colors_&amp;_Fonts" count="6" />
+      <entry feature="ide.settings.Editor_Tabs" count="1" />
+      <entry feature="ide.settings.Font" count="9" />
+      <entry feature="ide.settings.Gradle" count="4" />
+      <entry feature="ide.settings.Instant_Run" count="10" />
+      <entry feature="ide.settings.Java" count="2" />
+      <entry feature="ide.settings.Kotlin" count="4" />
+      <entry feature="ide.settings.Kotlin_Compiler" count="1" />
+      <entry feature="ide.settings.Plugins" count="4" />
+      <entry feature="ide.settings.Project_Structure" count="3" />
+      <entry feature="ide.settings.Vim_Emulation" count="1" />
+      <entry feature="ideaapp.started" count="146" />
+      <entry feature="terminal.linux" count="2" />
+      <entry feature="tips.of.the.day.next" count="3" />
+      <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="3" />
+      <entry feature="welcome.screen.WelcomeScreen.OpenProject" count="1" />
+    </counts>
+  </component>
+</application>

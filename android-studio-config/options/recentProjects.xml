@@ -1,0 +1,55 @@
+<application>
+  <component name="RecentProjectsManager">
+    <option name="recentPaths">
+      <list>
+        <option value="$USER_HOME$/Projects/Image" />
+        <option value="$USER_HOME$/Projects/X-RayInstructions" />
+        <option value="$USER_HOME$/Projects/TicTacToe" />
+      </list>
+    </option>
+    <option name="openPaths">
+      <list>
+        <option value="$USER_HOME$/Projects/Image" />
+      </list>
+    </option>
+    <option name="lastPath" value="$USER_HOME$/Projects/Image" />
+    <option name="additionalInfo">
+      <map>
+        <entry key="$USER_HOME$/Projects/Image">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="AI-145.3360264" />
+              <option name="productionCode" value="AI" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1479747485048" />
+              <option name="buildTimestamp" value="1476766800000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Projects/TicTacToe">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="AI-143.2915827" />
+              <option name="productionCode" value="AI" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1469674323404" />
+              <option name="buildTimestamp" value="1464238800000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Projects/X-RayInstructions">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="AI-145.3360264" />
+              <option name="productionCode" value="AI" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1479082358984" />
+              <option name="buildTimestamp" value="1476766800000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="lastProjectLocation" value="$USER_HOME$/Projects" />
+  </component>
+</application>
