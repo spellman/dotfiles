@@ -35,24 +35,24 @@ nnoremap <silent> <Leader>/ :nohlsearch<CR>
 nnoremap g/ :action Find<cr>
 
 " actions
-nnoremap <Leader>q :action CloseContent<cr>
-nnoremap <Leader>Q :action ReopenClosedTab<cr>
-nnoremap <C-6> :action VimFilePrevious<cr>
-nnoremap <Leader>e :action SearchEverywhere<cr>
-nnoremap <Leader>f :action GotoFile<cr>
-nnoremap <Leader>c :action GotoClass<cr>
-nnoremap <Leader>t :action GotoSymbol<cr>
-nnoremap <Leader>a :action GotoAction<cr>
-nnoremap <Leader>B :action ToggleLineBreakpoint<cr>
+nnoremap <Leader>q :action CloseContent<CR>
+nnoremap <Leader>Q :action ReopenClosedTab<CR>
+nnoremap <C-6> :action VimFilePrevious<CR>
+nnoremap <Leader>e :action SearchEverywhere<CR>
+nnoremap <Leader>f :action GotoFile<CR>
+nnoremap <Leader>c :action GotoClass<CR>
+nnoremap <Leader>t :action GotoSymbol<CR>
+nnoremap <Leader>a :action GotoAction<CR>
+nnoremap <Leader>B :action ToggleLineBreakpoint<CR>
 
 " code navigation
-nnoremap <Leader>] :action GotoImplementation<cr>
-nnoremap <Leader>[ :action GotoSuperMethod<cr>
-nnoremap <Leader>b ;action GotoDeclaration<cr>
-nnoremap <Leader>u :action FindUsages<cr>
-nnoremap <Leader>gt :action GotoTest<cr>
-nnoremap <Leader>k :action HighlightUsagesInFile<cr>
-nnoremap \r :action RunClass<cr>
-nnoremap \R :action Run<cr>
-nnoremap \d :action DebugClass<cr>
-nnoremap \D :action Debug<cr>
+nnoremap <Leader>] :action GotoImplementation<CR>
+nnoremap <Leader>[ :action GotoSuperMethod<CR>
+nnoremap <Leader>b :action GotoDeclaration<CR>
+nnoremap <Leader>u :action FindUsages<CR>
+nnoremap <Leader>gt :action GotoTest<CR>
+nnoremap <Leader>k :action HighlightUsagesInFile<CR>
+nnoremap \r :action RunClass<CR>
+nnoremap \R :action Run<CR>
+nnoremap \d :action DebugClass<CR>
+nnoremap \D :action Debug<CR>
