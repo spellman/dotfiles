@@ -4,6 +4,10 @@ elif [ -f ${default_dir}Bashrc ]; then
 	. ${default_dir}Bashrc;
 fi
 
+if [ -f ~/.profile ]; then
+	. ~/.profile
+fi
+
 # Linuxbrew
 export PATH="$HOME/.linuxbrew/bin:$PATH"
 export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
