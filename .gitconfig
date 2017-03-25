@@ -1,6 +1,7 @@
 [user]
 	name = Cort Spellman
 	email = spellman.cort@gmail.com
+	signingkey = C993A435DDC82EC66DBDD8224315D70304A80B5E
 [credential]
 	helper = cache
 [diff]
@@ -22,3 +23,5 @@
 	recentrepo = /home/cort/Projects/quantity
 [push]
 	default = simple
+[gpg]
+	program = gpg2
