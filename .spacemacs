@@ -39,12 +39,18 @@ values."
      ;; auto-completion
      ;; better-defaults
      clojure
+     (elm :variables
+          ;; elm-format-command "elm-format"
+          elm-format-on-save t
+          elm-sort-imports-on-save t)
+     elixir
      emacs-lisp
      evil-commentary
      git
      github
+     go
+     helm
      html
-     ivy
      javascript
      markdown
      org
@@ -53,14 +59,18 @@ values."
      (ruby :variables
            ruby-version-manager 'chruby)
      ruby-on-rails
+     (typescript :variables
+                 typescript-fmt-on-save t)
      vim-empty-lines
      vinegar
+     windows-scripts
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
+     yaml
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -69,9 +79,12 @@ values."
    dotspacemacs-additional-packages
    '(
      focused-theme
+     go-guru
+     gorepl-mode
      kotlin-mode
      pt
      rainbow-mode
+     skewer-mode
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -485,6 +498,10 @@ you should place your code here."
       (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
       (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil)))
 
+    (add-hook 'js2-mode-hook 'skewer-mode)
+    (add-hook 'css-mode-hook 'skewer-css-mode)
+    (add-hook 'html-mode-hook 'skewer-html-mode)
+
     ;; Paredit
     (with-eval-after-load 'paredit
       (define-key paredit-mode-map (kbd "M-s") nil)
@@ -523,6 +540,8 @@ you should place your code here."
       (define-key slime-repl-mode-map
         (read-kbd-macro paredit-backward-delete-key) nil))
     (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
+
+    (add-hook 'go-mode-hook #'gorepl-mode)
   ))
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -532,12 +551,32 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(standard-indent 2)
+ '(clean-aindent-mode t)
+ '(elm-format-on-save t t)
+ '(elm-indent-after-keywords
+   (quote
+    (("of" 4)
+     ("in" 4 0)
+     ("{" 0)
+     "if" "then" "else" "let")))
+ '(elm-indent-offset 4)
+ '(elm-sort-imports-on-save t t)
  '(evil-shift-width 2)
+ '(helm-always-two-windows t t)
+ '(helm-bookmark-show-location t t)
+ '(helm-display-function (quote spacemacs//display-helm-window) t)
+ '(helm-display-header-line nil t)
+ '(helm-echo-input-in-header-line t t)
+ '(helm-split-window-in-side-p t t)
+ '(indent-tabs-mode nil)
+ '(js-indent-level 2)
  '(js2-bounce-indent-p t)
  '(package-selected-packages
    (quote
-    (focused-theme rainbow-mode pt kotlin-mode web-mode web-beautify tagedit smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv pug-mode projectile-rails rake orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mmm-mode minitest markdown-toc markdown-mode magit-gitflow magit-gh-pulls livid-mode skewer-mode simple-httpd less-css-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc htmlize haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md feature-mode evil-magit magit magit-popup git-commit with-editor evil-commentary emmet-mode coffee-mode clj-refactor inflections edn multiple-cursors paredit yasnippet peg cider-eval-sexp-fu cider seq queue clojure-mode chruby bundler inf-ruby ws-butler window-numbering which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline smex restart-emacs request rainbow-delimiters quelpa popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word counsel-projectile column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link))))
+    (powershell ob-elixir flycheck-mix alchemist company elixir-mode gorepl-mode go-playground gotest go-guru go-eldoc go-mode helm-themes helm-swoop helm-projectile helm-mode-manager helm-gitignore helm-flx helm-descbinds helm-css-scss helm-ag ace-jump-helm-line ts-comint tide typescript-mode flycheck tern elm-mode yaml-mode pandoc-mode ox-pandoc focused-theme rainbow-mode pt kotlin-mode web-mode web-beautify tagedit smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv pug-mode projectile-rails rake orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mmm-mode minitest markdown-toc markdown-mode magit-gitflow magit-gh-pulls livid-mode skewer-mode simple-httpd less-css-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc htmlize haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md feature-mode evil-magit magit magit-popup git-commit with-editor evil-commentary emmet-mode coffee-mode clj-refactor inflections edn multiple-cursors paredit yasnippet peg cider-eval-sexp-fu cider seq queue clojure-mode chruby bundler inf-ruby ws-butler window-numbering which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline smex restart-emacs request rainbow-delimiters quelpa popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word counsel-projectile column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link)))
+ '(spaceline-helm-mode t)
+ '(standard-indent 2)
+ '(typescript-indent-level 2))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
