@@ -2,27 +2,75 @@
   <component name="RecentProjectsManager">
     <option name="recentPaths">
       <list>
+        <option value="$USER_HOME$/Projects/DeviceOwner" />
         <option value="$USER_HOME$/Projects/Image" />
         <option value="$USER_HOME$/Projects/X-RayInstructions" />
+        <option value="$USER_HOME$/Projects/Template" />
+        <option value="$USER_HOME$/Projects/Testbed2" />
+        <option value="$USER_HOME$/Projects/Testbed" />
         <option value="$USER_HOME$/Projects/TicTacToe" />
       </list>
     </option>
     <option name="openPaths">
       <list>
-        <option value="$USER_HOME$/Projects/Image" />
+        <option value="$USER_HOME$/Projects/DeviceOwner" />
       </list>
     </option>
-    <option name="lastPath" value="$USER_HOME$/Projects/Image" />
+    <option name="lastPath" value="$USER_HOME$/Projects/DeviceOwner" />
     <option name="additionalInfo">
       <map>
+        <entry key="$USER_HOME$/Projects/DeviceOwner">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="AI-162.3764568" />
+              <option name="productionCode" value="AI" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1490469689193" />
+              <option name="buildTimestamp" value="1487916000000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
         <entry key="$USER_HOME$/Projects/Image">
           <value>
             <RecentProjectMetaInfo>
-              <option name="build" value="AI-145.3360264" />
+              <option name="build" value="AI-162.3764568" />
               <option name="productionCode" value="AI" />
               <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
-              <option name="projectOpenTimestamp" value="1479747485048" />
-              <option name="buildTimestamp" value="1476766800000" />
+              <option name="projectOpenTimestamp" value="1490423513856" />
+              <option name="buildTimestamp" value="1487916000000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Projects/Template">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="AI-145.3537739" />
+              <option name="productionCode" value="AI" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1482387473555" />
+              <option name="buildTimestamp" value="1480658400000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Projects/Testbed">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="AI-145.3537739" />
+              <option name="productionCode" value="AI" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1481782283362" />
+              <option name="buildTimestamp" value="1480658400000" />
+            </RecentProjectMetaInfo>
+          </value>
+        </entry>
+        <entry key="$USER_HOME$/Projects/Testbed2">
+          <value>
+            <RecentProjectMetaInfo>
+              <option name="build" value="AI-145.3537739" />
+              <option name="productionCode" value="AI" />
+              <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
+              <option name="projectOpenTimestamp" value="1481858842706" />
+              <option name="buildTimestamp" value="1480658400000" />
             </RecentProjectMetaInfo>
           </value>
         </entry>
@@ -40,11 +88,11 @@
         <entry key="$USER_HOME$/Projects/X-RayInstructions">
           <value>
             <RecentProjectMetaInfo>
-              <option name="build" value="AI-145.3360264" />
+              <option name="build" value="AI-145.3537739" />
               <option name="productionCode" value="AI" />
               <option name="binFolder" value="$APPLICATION_HOME_DIR$/bin" />
-              <option name="projectOpenTimestamp" value="1479082358984" />
-              <option name="buildTimestamp" value="1476766800000" />
+              <option name="projectOpenTimestamp" value="1485844249877" />
+              <option name="buildTimestamp" value="1480658400000" />
             </RecentProjectMetaInfo>
           </value>
         </entry>

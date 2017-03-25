@@ -1,60 +1,100 @@
 <application>
   <component name="StatisticsApplicationUsages">
+    <group name="libraries">
+      <project id="Image" values="kotlin-java-runtime" collectionTime="1490424099868" />
+      <project id="DeviceOwner" values="kotlin-java-runtime" collectionTime="1490424102300" />
+    </group>
     <group name="Git">
-      <project id="X-RayInstructions" values="config.save.policy.STASH,config.repo.sync.NOT_DECIDED,config.cherry-pick.autocommit.disabled,config.update.type.BRANCH_DEFAULT,config.force.push.enabled,config.warn.about.detached.enabled,config.push.autoupdate.disabled,data.remotes.in.project.1,config.warn.about.crlf.enabled,data.local.branches.count.2+,config.push.update.all.roots.enabled,config.ssh.enabled,data.remote.branches.count.2+" collectionTime="1479082376329" />
-      <project id="Image" values="config.warn.about.detached.enabled,config.warn.about.crlf.enabled,config.push.autoupdate.disabled,config.cherry-pick.autocommit.disabled,data.local.branches.count.2+,config.save.policy.STASH,config.update.type.BRANCH_DEFAULT,data.remotes.in.project.1,data.remote.branches.count.2+,config.force.push.enabled,config.repo.sync.NOT_DECIDED,config.push.update.all.roots.enabled,config.ssh.enabled" collectionTime="1479705805166" />
-      <project id="TicTacToe" values="config.push.update.all.roots.enabled,config.warn.about.crlf.enabled,config.ssh.enabled,config.save.policy.STASH,config.update.type.BRANCH_DEFAULT,config.cherry-pick.autocommit.disabled,config.warn.about.detached.enabled,config.repo.sync.NOT_DECIDED,config.push.autoupdate.disabled,config.force.push.enabled" collectionTime="1469675291123" />
+      <project id="Image" values="config.force.push.enabled,data.remote.branches.count.1,config.update.type.BRANCH_DEFAULT,config.push.update.all.roots.enabled,config.cherry-pick.autocommit.disabled,config.repo.sync.NOT_DECIDED,data.remotes.in.project.1,config.ssh.enabled,config.warn.about.crlf.enabled,config.warn.about.detached.enabled,config.save.policy.STASH,config.push.autoupdate.disabled,data.local.branches.count.2+" collectionTime="1490424099875" />
+      <project id="TicTacToe" values="config.warn.about.crlf.enabled,config.ssh.enabled,config.update.type.BRANCH_DEFAULT,config.save.policy.STASH,config.force.push.enabled,config.repo.sync.NOT_DECIDED,config.push.update.all.roots.enabled,config.push.autoupdate.disabled,config.warn.about.detached.enabled,config.cherry-pick.autocommit.disabled" collectionTime="1469675291123" />
+      <project id="X-RayInstructions" values="config.update.type.BRANCH_DEFAULT,config.push.autoupdate.disabled,config.force.push.enabled,config.push.update.all.roots.enabled,data.remotes.in.project.1,config.save.policy.STASH,config.cherry-pick.autocommit.disabled,config.warn.about.detached.enabled,config.ssh.enabled,data.local.branches.count.2+,data.remote.branches.count.2+,config.warn.about.crlf.enabled,config.repo.sync.NOT_DECIDED" collectionTime="1485844263331" />
+      <project id="Template" values="config.ssh.enabled,config.force.push.enabled,config.push.autoupdate.disabled,config.warn.about.crlf.enabled,config.cherry-pick.autocommit.disabled,config.push.update.all.roots.enabled,config.warn.about.detached.enabled,config.repo.sync.NOT_DECIDED,config.save.policy.STASH,config.update.type.BRANCH_DEFAULT" collectionTime="1482387529844" />
+      <project id="Testbed2" values="config.cherry-pick.autocommit.disabled,config.update.type.BRANCH_DEFAULT,config.push.update.all.roots.enabled,config.warn.about.crlf.enabled,config.repo.sync.NOT_DECIDED,config.force.push.enabled,config.ssh.enabled,config.save.policy.STASH,config.push.autoupdate.disabled,config.warn.about.detached.enabled" collectionTime="1481866759805" />
+      <project id="Testbed" values="config.repo.sync.NOT_DECIDED,config.force.push.enabled,config.push.update.all.roots.enabled,config.push.autoupdate.disabled,config.ssh.enabled,config.warn.about.crlf.enabled,config.update.type.BRANCH_DEFAULT,config.warn.about.detached.enabled,config.cherry-pick.autocommit.disabled,config.save.policy.STASH" collectionTime="1481782732565" />
+      <project id="DeviceOwner" values="config.save.policy.STASH,config.cherry-pick.autocommit.disabled,config.push.autoupdate.disabled,data.remote.branches.count.0,data.remotes.in.project.0,data.local.branches.count.0,config.update.type.BRANCH_DEFAULT,config.ssh.enabled,config.push.update.all.roots.enabled,config.warn.about.crlf.enabled,config.repo.sync.NOT_DECIDED,config.force.push.enabled,config.warn.about.detached.enabled" collectionTime="1490424102302" />
     </group>
     <group name="vcs">
-      <project id="X-RayInstructions" values="Git" collectionTime="1479082376294" />
-      <project id="Image" values="Git" collectionTime="1479705805130" />
+      <project id="X-RayInstructions" values="Git" collectionTime="1485844263296" />
+      <project id="Image" values="Git" collectionTime="1490424099832" />
+      <project id="DeviceOwner" values="Git" collectionTime="1490424102263" />
     </group>
     <group name="frameworks">
-      <project id="X-RayInstructions" values="android,android-gradle,java-gradle" collectionTime="1479082376294" />
-      <project id="Image" values="android,java-gradle,android-gradle" collectionTime="1479705805130" />
-      <project id="TicTacToe" values="android,android-gradle,java-gradle" collectionTime="1469675291066" />
+      <project id="Image" values="kotlin-language,java-gradle,android-gradle,android" collectionTime="1490424099833" />
+      <project id="TicTacToe" values="android,java-gradle,android-gradle" collectionTime="1469675291066" />
+      <project id="X-RayInstructions" values="android,java-gradle,android-gradle" collectionTime="1485844263296" />
+      <project id="Template" values="android-gradle,java-gradle,android" collectionTime="1482387529807" />
+      <project id="Testbed2" values="java-gradle,android-gradle,android" collectionTime="1481866759763" />
+      <project id="Testbed" values="android,java-gradle,android-gradle" collectionTime="1481782732516" />
+      <project id="DeviceOwner" values="java-gradle,kotlin-language,android,android-gradle" collectionTime="1490424102264" />
     </group>
     <group name="run-configuration-type">
-      <project id="Image" values="AndroidRunConfigurationType" collectionTime="1479705805131" />
+      <project id="DeviceOwner" values="AndroidRunConfigurationType" collectionTime="1490424102264" />
+      <project id="Image" values="AndroidRunConfigurationType" collectionTime="1490424099834" />
       <project id="TicTacToe" values="AndroidRunConfigurationType" collectionTime="1469675291066" />
+      <project id="Testbed2" values="AndroidRunConfigurationType" collectionTime="1481866759764" />
+      <project id="Template" values="AndroidRunConfigurationType" collectionTime="1482387529807" />
+      <project id="Testbed" values="AndroidRunConfigurationType" collectionTime="1481782732517" />
     </group>
     <group name="language-level">
-      <project id="X-RayInstructions" values="JDK_1_8" collectionTime="1479082376329" />
-      <project id="Image" values="JDK_1_7" collectionTime="1479705805163" />
+      <project id="Image" values="JDK_1_8,JDK_1_7" collectionTime="1490424099874" />
       <project id="TicTacToe" values="JDK_1_7" collectionTime="1469675291123" />
+      <project id="X-RayInstructions" values="JDK_1_8" collectionTime="1485844263331" />
+      <project id="Template" values="JDK_1_7,JDK_1_8" collectionTime="1482387529844" />
+      <project id="Testbed2" values="JDK_1_7" collectionTime="1481866759804" />
+      <project id="Testbed" values="JDK_1_7" collectionTime="1481782732565" />
+      <project id="DeviceOwner" values="JDK_1_7" collectionTime="1490424102302" />
+    </group>
+    <group name="images.ide.background">
+      <project id="Image" values="frame 0,editor 0" collectionTime="1490424099870" />
+      <project id="DeviceOwner" values="editor 0,frame 0" collectionTime="1490424102301" />
+    </group>
+    <group name="VCS Log 2">
+      <project id="Image" values="data.git.root.count.1,data.commit.count.100+" collectionTime="1490424099870" />
+      <project id="DeviceOwner" values="data.commit.count.0,data.git.root.count.1" collectionTime="1490424102301" />
     </group>
     <group name="file-type">
-      <project id="X-RayInstructions" values="Groovy,JAVA,AIDL,Images,PLAIN_TEXT,ARCHIVE,Properties,ProGuard File,UNKNOWN,XML,IDEA_MODULE" collectionTime="1479082376329" />
-      <project id="Image" values="ARCHIVE,Groovy,IDEA_MODULE,ProGuard File,Properties,JAVA,XML,AIDL,Kotlin,PLAIN_TEXT,Images,Layout Inspector" collectionTime="1479705805156" />
-      <project id="TicTacToe" values="Groovy,IDEA_MODULE,AIDL,XML,JAVA,Properties,UNKNOWN,ARCHIVE,PLAIN_TEXT,ProGuard File,Images" collectionTime="1469675291116" />
+      <project id="Image" values="Layout Inspector,XML,ProGuard File,ARCHIVE,UNKNOWN,Properties,IDEA_MODULE,Images,JAVA,Kotlin,PLAIN_TEXT,Groovy" collectionTime="1490424099862" />
+      <project id="TicTacToe" values="ARCHIVE,XML,UNKNOWN,IDEA_MODULE,JAVA,PLAIN_TEXT,Properties,Images,AIDL,Groovy,ProGuard File" collectionTime="1469675291116" />
+      <project id="X-RayInstructions" values="UNKNOWN,Groovy,PLAIN_TEXT,AIDL,Properties,IDEA_MODULE,ARCHIVE,Images,JAVA,XML,ProGuard File" collectionTime="1485844263330" />
+      <project id="Template" values="XML,ProGuard File,Groovy,JAVA,Properties,PLAIN_TEXT,UNKNOWN,Images,IDEA_MODULE,AIDL,ARCHIVE" collectionTime="1482387529843" />
+      <project id="Testbed2" values="JAVA,XML,AIDL,IDEA_MODULE,ARCHIVE,Groovy,UNKNOWN,Properties,ProGuard File,PLAIN_TEXT,Images" collectionTime="1481866759796" />
+      <project id="Testbed" values="UNKNOWN,ProGuard File,Images,Groovy,JAVA,Kotlin,ARCHIVE,AIDL,PLAIN_TEXT,Properties,XML,IDEA_MODULE" collectionTime="1481782732563" />
+      <project id="DeviceOwner" values="Properties,IDEA_MODULE,Kotlin,JAVA,Groovy,PLAIN_TEXT,Images,UNKNOWN,ProGuard File,XML,ARCHIVE" collectionTime="1490424102300" />
     </group>
     <group name="module type">
-      <project id="X-RayInstructions" values="JAVA_MODULE" collectionTime="1479082376294" />
-      <project id="Image" values="JAVA_MODULE" collectionTime="1479705805130" />
+      <project id="Image" values="JAVA_MODULE" collectionTime="1490424099833" />
       <project id="TicTacToe" values="JAVA_MODULE" collectionTime="1469675291066" />
+      <project id="X-RayInstructions" values="JAVA_MODULE" collectionTime="1485844263296" />
+      <project id="Template" values="JAVA_MODULE" collectionTime="1482387529807" />
+      <project id="Testbed2" values="JAVA_MODULE" collectionTime="1481866759763" />
+      <project id="Testbed" values="JAVA_MODULE" collectionTime="1481782732516" />
+      <project id="DeviceOwner" values="JAVA_MODULE" collectionTime="1490424102264" />
     </group>
   </component>
   <component name="UsageTrigger">
     <counts>
-      <entry feature="execute.AndroidRunConfigurationType.Debug" count="25" />
-      <entry feature="execute.AndroidRunConfigurationType.Run" count="592" />
-      <entry feature="ide.settings.Android_SDK" count="12" />
-      <entry feature="ide.settings.Appearance" count="5" />
+      <entry feature="execute.AndroidRunConfigurationType.Debug" count="28" />
+      <entry feature="execute.AndroidRunConfigurationType.Run" count="1249" />
+      <entry feature="ide.help.reference.VersionControl.Git.UpdateProject" count="1" />
+      <entry feature="ide.settings.Android_SDK" count="13" />
+      <entry feature="ide.settings.Appearance" count="10" />
       <entry feature="ide.settings.Code_Style" count="2" />
       <entry feature="ide.settings.Colors_&amp;_Fonts" count="6" />
       <entry feature="ide.settings.Editor_Tabs" count="1" />
       <entry feature="ide.settings.Font" count="9" />
-      <entry feature="ide.settings.Gradle" count="4" />
-      <entry feature="ide.settings.Instant_Run" count="10" />
+      <entry feature="ide.settings.Gradle" count="6" />
+      <entry feature="ide.settings.Inspections" count="1" />
+      <entry feature="ide.settings.Instant_Run" count="12" />
       <entry feature="ide.settings.Java" count="2" />
-      <entry feature="ide.settings.Kotlin" count="4" />
+      <entry feature="ide.settings.Keymap" count="3" />
+      <entry feature="ide.settings.Kotlin" count="5" />
       <entry feature="ide.settings.Kotlin_Compiler" count="1" />
-      <entry feature="ide.settings.Plugins" count="4" />
+      <entry feature="ide.settings.Plugins" count="5" />
       <entry feature="ide.settings.Project_Structure" count="3" />
-      <entry feature="ide.settings.Vim_Emulation" count="1" />
-      <entry feature="ideaapp.started" count="146" />
+      <entry feature="ide.settings.Vim_Emulation" count="2" />
+      <entry feature="ideaapp.started" count="265" />
       <entry feature="terminal.linux" count="2" />
-      <entry feature="tips.of.the.day.next" count="3" />
+      <entry feature="tips.of.the.day.next" count="5" />
       <entry feature="welcome.screen.WelcomeScreen.CreateNewProject" count="3" />
       <entry feature="welcome.screen.WelcomeScreen.OpenProject" count="1" />
     </counts>

@@ -4,6 +4,11 @@
       <find>REFRESH_INSTRUCTIONS</find>
       <find>REFRESH_INSTRUCTIONS f</find>
       <find>EDN</find>
+      <find>.javaClass</find>
+      <find>Log.</find>
     </findStrings>
+    <replaceStrings>
+      <replace>::class.java</replace>
+    </replaceStrings>
   </component>
 </application>

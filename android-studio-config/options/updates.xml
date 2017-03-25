@@ -1,15 +1,5 @@
 <application>
   <component name="UpdatesConfigurable">
-    <knownUpdateChannels>
-      <item value="AI-2-eap" />
-      <item value="AI-2-milestone" />
-      <item value="AI-2-beta" />
-      <item value="AI-2-release" />
-      <item value="AI-1-eap" />
-      <item value="AI-1-milestone" />
-      <item value="AI-1-beta" />
-      <item value="AI-1-release" />
-    </knownUpdateChannels>
     <enabledExternalComponentSources>
       <item value="Android SDK" />
     </enabledExternalComponentSources>

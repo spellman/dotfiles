@@ -84,9 +84,6 @@
     <option name="CLASS_NAMES_IN_JAVADOC" value="3" />
   </JavaCodeStyleSettings>
   <Objective-C-extensions>
-    <option name="GENERATE_INSTANCE_VARIABLES_FOR_PROPERTIES" value="ASK" />
-    <option name="RELEASE_STYLE" value="IVAR" />
-    <option name="TYPE_QUALIFIERS_PLACEMENT" value="BEFORE" />
     <file>
       <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Import" />
       <option name="com.jetbrains.cidr.lang.util.OCDeclarationKind" value="Macro" />
@@ -394,7 +391,6 @@
     <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
     <option name="ALIGN_MULTILINE_BINARY_OPERATION" value="true" />
     <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
-    <option name="ALIGN_MULTILINE_METHOD_BRACKETS" value="true" />
     <option name="CALL_PARAMETERS_WRAP" value="1" />
     <option name="METHOD_PARAMETERS_WRAP" value="1" />
     <indentOptions>
