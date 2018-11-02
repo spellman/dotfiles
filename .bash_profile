@@ -8,15 +8,13 @@ if [ -f ~/.profile ]; then
 	. ~/.profile
 fi
 
-# Linuxbrew
-export PATH="$HOME/.linuxbrew/bin:$PATH"
-export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
-export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+# Set default editor
+export EDITOR=vim
 
 # Android Studio
-export PATH="/usr/local/android-studio/bin:$PATH"
-export PATH="$HOME/Android/Sdk/tools:$PATH"
-export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
+#export PATH="/usr/local/android-studio/bin:$PATH"
+#export PATH="$HOME/Android/Sdk/tools:$PATH"
+#export PATH="$HOME/Android/Sdk/platform-tools:$PATH"
 
 # NVM
 #export PATH="$HOME/node_modules/.bin:$PATH"

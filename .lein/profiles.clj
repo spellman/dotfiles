@@ -19,6 +19,16 @@
                   [refactor-nrepl "2.4.0-SNAPSHOT"]
                   ]
 
+;;         :repl-options {:init (do
+;;                                (try
+;;                                  (require '[clojure.spec.alpha :as s])
+;;                                  (require '[clojure.spec.test.alpha :as stest])
+;;                                  (add-watch (deref #'s/registry-ref) :spec-instrumentation
+;;                                             (fn [_ _ _ registry]
+;;                                               (stest/instrument (filter symbol? (keys registry)))))
+;;                                  (catch Exception e
+;; (prn "Warning" e))))}
+
 
         :dependencies [
                        ;; CIDER

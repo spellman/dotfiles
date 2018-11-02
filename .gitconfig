@@ -3,7 +3,7 @@
 	email = spellman.cort@gmail.com
 	signingkey = C993A435DDC82EC66DBDD8224315D70304A80B5E
 [credential]
-	helper = cache
+	helper = cache --timeout=7200
 [diff]
 	tool = diffmerge
 [difftool "diffmerge"]
@@ -25,3 +25,11 @@
 	default = simple
 [gpg]
 	program = gpg2
+[github]
+	user = spellman
+[magithub]
+	online = false
+[magithub "status"]
+	includeStatusHeader = false
+	includePullRequestsSection = false
+	includeIssuesSection = false

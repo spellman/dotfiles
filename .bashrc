@@ -130,14 +130,3 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-# Set default editor
-export EDITOR=vim
-
-# Enable chruby - https://github.com/postmodern/chruby
-source /usr/local/share/chruby/chruby.sh
-# Auto-switch current version of Ruby on cd, based on .ruby-version files.
-source /usr/local/share/chruby/auto.sh
-
-export NVM_DIR="/home/cort/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -r $NVM_DIR/bash_completion ] && . $NVM_DIR/bash_completion # Bash completion

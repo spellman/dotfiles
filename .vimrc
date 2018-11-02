@@ -46,9 +46,6 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'tpope/vim-git'
 Plugin 'haya14busa/incsearch.vim'
 
-" My Plugins
-Plugin 'spellman/vim-minitest'
-
 " All of your Plugins must be added before the following line:
 call vundle#end()
 filetype plugin indent on
