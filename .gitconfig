@@ -33,3 +33,5 @@
 	includeStatusHeader = false
 	includePullRequestsSection = false
 	includeIssuesSection = false
+[core]
+	excludesfile = /Users/cort/.gitignore
