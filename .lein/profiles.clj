@@ -16,7 +16,7 @@
 
                   ;; CIDER
                   [cider/cider-nrepl "0.18.0"]
-                  [refactor-nrepl "2.4.0-SNAPSHOT"]
+                  [refactor-nrepl "2.4.0"]
                   ]
 
 ;;         :repl-options {:init (do
@@ -32,10 +32,11 @@
 
         :dependencies [
                        ;; CIDER
-                       [org.clojure/tools.nrepl "0.2.13"]
+                       ;; [org.clojure/tools.nrepl "0.2.13"]
+                       [nrepl "0.5.1"]
 
                        ;; CLJS CIDER
-                       [cider/piggieback "0.3.6"]
+                       [cider/piggieback "0.3.10"]
                        [figwheel-sidecar "0.5.16"]
                        ]
 
@@ -60,12 +61,13 @@
  ;; CIDER
  :repl {:plugins [
                   [cider/cider-nrepl "0.18.0"]
-                  [refactor-nrepl "2.4.0-SNAPSHOT"]
+                  [refactor-nrepl "2.4.0"]
                   ]
         :dependencies [
-                       [org.clojure/tools.nrepl "0.2.13"]
+                       ;; [org.clojure/tools.nrepl "0.2.13"]
+                       [nrepl "0.5.1"]
 
-                       [cider/piggieback "0.3.6"]
+                       [cider/piggieback "0.3.10"]
                        [figwheel-sidecar "0.5.16"]
                        ]
 
