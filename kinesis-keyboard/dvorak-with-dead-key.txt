@@ -3,155 +3,156 @@
 
 
 
-{=}>{-lshift}{2}{+lshift}
-{kp-=}>{-lshift}{2}{+lshift}{kptoggle}
+{=}>{speed9}{-lshift}{2}{+lshift}
+{kp-=}>{speed9}{-lshift}{2}{+lshift}{kptoggle}
 
-{kp-1}>{1}{kptoggle}
+{kp-1}>{speed9}{1}{kptoggle}
 
-{kp-2}>{2}{kptoggle}
+{kp-2}>{speed9}{2}{kptoggle}
 
-{kp-3}>{3}{kptoggle}
+{kp-3}>{speed9}{3}{kptoggle}
 
-{kp-4}>{4}{kptoggle}
+{kp-4}>{speed9}{4}{kptoggle}
 
-{kp-5}>{5}{kptoggle}
+{kp-5}>{speed9}{5}{kptoggle}
 
-{kp-tab}>{tab}{kptoggle}
+{kp-tab}>{speed9}{tab}{kptoggle}
 
-{kp-'}>{'}{kptoggle}
+{kp-'}>{speed9}{'}{kptoggle}
 
-{kp-,}>{-lshift}{2}{+lshift}{kptoggle}
+{kp-,}>{speed9}{-lshift}{2}{+lshift}{kptoggle}
 
-{kp-.}>{-lshift}{6}{+lshift}{kptoggle}
+{kp-.}>{speed9}{-lshift}{6}{+lshift}{kptoggle}
 
-{kp-p}>{-lshift}{7}{+lshift}{kptoggle}
+{kp-p}>{speed9}{-lshift}{7}{+lshift}{kptoggle}
 
-{kp-y}>{y}{kptoggle}
+{kp-y}>{speed9}{y}{kptoggle}
 
 [caps]>[escape]
-{kp-caps}>{escape}{kptoggle}
+{kp-caps}>{speed9}{escape}{kptoggle}
 
-{kp-a}>{-lshift}{,}{+lshift}{kptoggle}
+{kp-a}>{speed9}{-lshift}{,}{+lshift}{kptoggle}
 
-{kp-o}>{-lshift}{obrack}{+lshift}{kptoggle}
+{kp-o}>{speed9}{-lshift}{obrack}{+lshift}{kptoggle}
 
-{kp-e}>{obrack}{kptoggle}
+{kp-e}>{speed9}{obrack}{kptoggle}
 
-{kp-u}>{-lshift}{9}{+lshift}{kptoggle}
+{kp-u}>{speed9}{-lshift}{9}{+lshift}{kptoggle}
 
-{kp-i}>{/}{kptoggle}
+{kp-i}>{speed9}{/}{kptoggle}
 
-{kp-;}>{\}{kptoggle}
+{kp-;}>{speed9}{\}{kptoggle}
 
-{kp-q}>{-lshift}{3}{+lshift}{kptoggle}
+{kp-q}>{speed9}{-lshift}{3}{+lshift}{kptoggle}
 
-{kp-j}>{-lshift}{5}{+lshift}{kptoggle}
+{kp-j}>{speed9}{-lshift}{5}{+lshift}{kptoggle}
 
-{kp-k}>{-lshift}{;}{+lshift}{kptoggle}
+{kp-k}>{speed9}{-lshift}{;}{+lshift}{kptoggle}
 
-{kp-x}>{x}{kptoggle}
+{kp-x}>{speed9}{x}{kptoggle}
 
 [`]>[lwin]
-{kp-`}>{lwin}{kptoggle}
+{kp-`}>{speed9}{lwin}{kptoggle}
 
 [intl-\]>[/]
-{kp-insert}>{kp-insert}{kptoggle}
+{kp-insert}>{speed9}{kp-insert}{kptoggle}
 
-{kp-left}>{left}{kptoggle}
+{kp-left}>{speed9}{left}{kptoggle}
 
-{kp-right}>{right}{kptoggle}
+{kp-right}>{speed9}{right}{kptoggle}
 
 
 
-{kp-6}>{6}{kptoggle}
+{kp-6}>{speed9}{6}{kptoggle}
 
-{numlk}>{7}{kptoggle}
+{numlk}>{speed9}{7}{kptoggle}
 
-{kp=}>{8}{kptoggle}
+{kp=}>{speed9}{8}{kptoggle}
 
-{kpdiv}>{9}{kptoggle}
+{kpdiv}>{speed9}{9}{kptoggle}
 
-{kpmult}>{0}{kptoggle}
+{kpmult}>{speed9}{0}{kptoggle}
 
 [hyphen]>[=]
-{kp-hyphen}>{=}{kptoggle}
+{kp-hyphen}>{speed9}{=}{kptoggle}
 
-{kp-f}>{f}{kptoggle}
+{kp-f}>{speed9}{f}{kptoggle}
 
-{kp7}>{-lshift}{hyphen}{+lshift}{kptoggle}
+{kp7}>{speed9}{-lshift}{hyphen}{+lshift}{kptoggle}
 
-{kp8}>{-lshift}{4}{+lshift}{kptoggle}
+{kp8}>{speed9}{-lshift}{4}{+lshift}{kptoggle}
 
-{kp9}>{-lshift}{8}{+lshift}{kptoggle}
+{kp9}>{speed9}{-lshift}{8}{+lshift}{kptoggle}
 
-{kpmin}>{l}{kptoggle}
+{kpmin}>{speed9}{l}{kptoggle}
 
 [/]>[delete]
-{kp-/}>{delete}{kptoggle}
+{kp-/}>{speed9}{delete}{kptoggle}
 
-{kp-d}>{-lshift}{/}{+lshift}{kptoggle}
+{kp-d}>{speed9}{-lshift}{/}{+lshift}{kptoggle}
 
-{kp4}>{-lshift}{0}{+lshift}{kptoggle}
+{kp4}>{speed9}{-lshift}{0}{+lshift}{kptoggle}
 
-{kp5}>{cbrack}{kptoggle}
+{kp5}>{speed9}{cbrack}{kptoggle}
 
-{kp6}>{-lshift}{cbrack}{+lshift}{kptoggle}
+{kp6}>{speed9}{-lshift}{cbrack}{+lshift}{kptoggle}
 
-{kpplus}>{-lshift}{.}{+lshift}{kptoggle}
+{kpplus}>{speed9}{-lshift}{.}{+lshift}{kptoggle}
 
 [\]>[hyphen]
-{kp-\}>{hyphen}{kptoggle}
+{kp-\}>{speed9}{hyphen}{kptoggle}
 
-{kp-b}>{b}{kptoggle}
+{kp-b}>{speed9}{b}{kptoggle}
 
-{kp1}>{-lshift}{1}{+lshift}{kptoggle}
+{kp1}>{speed9}{-lshift}{1}{+lshift}{kptoggle}
 
-{kp2}>{=}{kptoggle}
+{kp2}>{speed9}{=}{kptoggle}
 
-{kp3}>{-lshift}{=}{+lshift}{kptoggle}
+{kp3}>{speed9}{-lshift}{=}{+lshift}{kptoggle}
 
-{kpenter1}>{-lshift}{\}{+lshift}{kptoggle}
+{kpenter1}>{speed9}{-lshift}{\}{+lshift}{kptoggle}
 
 [up]>[down]
-{kp-up}>{down}{kptoggle}
+{kp-up}>{speed9}{down}{kptoggle}
 
 [down]>[up]
-{kp-down}>{up}{kptoggle}
+{kp-down}>{speed9}{up}{kptoggle}
 
-{kp.}>{obrack}{kptoggle}
+{kp.}>{speed9}{obrack}{kptoggle}
 
-{kpenter2}>{cbrack}{kptoggle}
+{kpenter2}>{speed9}{cbrack}{kptoggle}
 
 
 
 [lctrl]>[rctrl]
-{kp-lctrl}>{rctrl}{kptoggle}
+{kp-lctrl}>{speed9}{rctrl}{kptoggle}
 
 [lalt]>[`]
-{kp-lalt}>{`}{kptoggle}
+{kp-lalt}>{speed9}{`}{kptoggle}
 
 [bspace]>[kptoggle]
 [kp-bspace]>[kptoggle]
 
 [delete]>[bspace]
-{kp-delete}>{bspace}
+{kp-delete}>{speed9}{bspace}
 
-{kp-home}>{home}{kptoggle}
+{kp-home}>{speed9}{home}{kptoggle}
 
-{kp-end}>{end}{kptoggle}
+{kp-end}>{speed9}{end}{kptoggle}
 
 
 
 [rwin]>[\]
-{kp-rwin}>{\}{kptoggle}
+{kp-rwin}>{speed9}{\}{kptoggle}
 
 [rctrl]>[ralt]
-{kp-rctrl}>{ralt}
+{kp-rctrl}>{speed9}{ralt}
 
-{kp-pup}>{pup}{kptoggle}
+{kp-pup}>{speed9}{pup}{kptoggle}
 
-{kp-pdown}>{pdown}{kptoggle}
+{kp-pdown}>{speed9}{pdown}{kptoggle}
 
-{kp-enter}>{enter}{kptoggle}
+{kp-enter}>{speed9}{enter}{kptoggle}
 
-{kp0}>{space}{kptoggle}
+{kp0}>{speed9}{space}{kptoggle}
+
