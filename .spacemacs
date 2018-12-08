@@ -33,8 +33,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
-     ;; ----------------------------------------------------------------
+   '(;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
@@ -928,14 +927,19 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(cider-boot-parameters "cider repl -s wait")
  '(clean-aindent-mode t)
- '(elm-format-on-save t)
- '(elm-indent-after-keywords '(("of" 4) ("in" 4 0) ("{" 0) "if" "then" "else" "let"))
+ '(elm-format-on-save t t)
+ '(elm-indent-after-keywords
+   (quote
+    (("of" 4)
+     ("in" 4 0)
+     ("{" 0)
+     "if" "then" "else" "let")))
  '(elm-indent-offset 4)
- '(elm-sort-imports-on-save t)
+ '(elm-sort-imports-on-save t t)
  '(evil-shift-width 2)
  '(helm-always-two-windows t)
- '(helm-bookmark-show-location t)
- '(helm-display-function 'spacemacs//display-helm-window)
+ '(helm-bookmark-show-location t t)
+ '(helm-display-function (quote spacemacs//display-helm-window))
  '(helm-display-header-line nil)
  '(helm-echo-input-in-header-line t)
  '(helm-split-window-in-side-p t)
