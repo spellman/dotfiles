@@ -222,8 +222,8 @@ It should only modify the values of Spacemacs settings."
    '(
      ;; focused
      zenburn
-     spacemacs-dark
      spacemacs-light
+     spacemacs-dark
      )
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
@@ -947,22 +947,29 @@ This function is called at the very end of Spacemacs initialization."
  '(elm-indent-offset 4)
  '(elm-sort-imports-on-save t t)
  '(evil-shift-width 2)
- '(helm-always-two-windows t)
+ '(helm-always-two-windows t t)
  '(helm-bookmark-show-location t t)
- '(helm-display-function (quote spacemacs//display-helm-window))
- '(helm-display-header-line nil)
- '(helm-echo-input-in-header-line t)
+ '(helm-display-function (quote spacemacs//display-helm-window) t)
+ '(helm-display-header-line nil t)
+ '(helm-echo-input-in-header-line t t)
  '(helm-split-window-in-side-p t)
  '(indent-tabs-mode nil)
  '(js-indent-level 2)
  '(js2-bounce-indent-p t)
  '(package-selected-packages
-   '(zenburn-theme symon string-inflection spaceline-all-the-icons seeing-is-believing ruby-refactor ruby-hash-syntax rjsx-mode prettier-js pippel pipenv password-generator overseer org-brain nameless mvn meghanada maven-test-mode magithub ghub+ apiwrap magit-svn json-navigator hierarchy importmagic epc ctable concurrent deferred impatient-mode helm-xref helm-purpose window-purpose imenu-list helm-org-rifle helm-git-grep groovy-mode groovy-imports gradle-mode gitignore-templates git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter evil-org evil-lion evil-goggles evil-cleverparens ensime sbt-mode scala-mode elm-test-runner editorconfig doom-modeline eldoc-eval shrink-path all-the-icons memoize diff-hl counsel swiper ivy clojure-cheatsheet centered-cursor-mode browse-at-remote font-lock+ dotenv-mode treepy graphql deadgrep deft sesman yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic magit-gitflow magit-gh-pulls evil-magit magit magit-popup org-journal skewer-mode org-mime parent-mode flx pkg-info epl popup ghub let-alist goto-chg org-category-capture sql-indent ag powerline projectile iedit anzu diminish hydra spinner bind-key packed avy highlight smartparens bind-map f evil undo-tree dash helm helm-core async s eclim winum flycheck-credo powershell ob-elixir flycheck-mix alchemist company elixir-mode helm-themes helm-swoop helm-projectile helm-mode-manager helm-gitignore helm-flx helm-descbinds helm-css-scss helm-ag ace-jump-helm-line ts-comint tide typescript-mode flycheck tern elm-mode yaml-mode pandoc-mode ox-pandoc focused-theme rainbow-mode pt kotlin-mode web-mode web-beautify tagedit smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv pug-mode projectile-rails rake orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mmm-mode minitest markdown-toc markdown-mode livid-mode simple-httpd less-css-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc htmlize haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md feature-mode git-commit with-editor evil-commentary emmet-mode coffee-mode clj-refactor inflections edn multiple-cursors paredit yasnippet peg cider-eval-sexp-fu cider seq queue clojure-mode chruby bundler inf-ruby ws-butler window-numbering which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline smex restart-emacs request rainbow-delimiters quelpa popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word counsel-projectile column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link))
+   (quote
+    (yasnippet-snippets helm-company helm-c-yasnippet fuzzy company-web web-completion-data company-tern company-statistics company-emacs-eclim company-anaconda clojure-snippets auto-yasnippet ac-ispell auto-complete treepy graphql deadgrep deft sesman yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic magit-gitflow magit-gh-pulls evil-magit magit magit-popup org-journal skewer-mode org-mime parent-mode flx pkg-info epl popup ghub let-alist goto-chg org-category-capture sql-indent ag powerline projectile iedit anzu diminish hydra spinner bind-key packed avy highlight smartparens bind-map f evil undo-tree dash helm helm-core async s eclim winum flycheck-credo powershell ob-elixir flycheck-mix alchemist company elixir-mode helm-themes helm-swoop helm-projectile helm-mode-manager helm-gitignore helm-flx helm-descbinds helm-css-scss helm-ag ace-jump-helm-line ts-comint tide typescript-mode flycheck tern elm-mode yaml-mode pandoc-mode ox-pandoc focused-theme rainbow-mode pt kotlin-mode web-mode web-beautify tagedit smeargle slim-mode scss-mode sass-mode rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv pug-mode projectile-rails rake orgit org-projectile org-present org org-pomodoro alert log4e gntp org-download mmm-mode minitest markdown-toc markdown-mode livid-mode simple-httpd less-css-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc htmlize haml-mode gnuplot gitignore-mode github-search github-clone github-browse-file gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gist gh marshal logito pcache ht gh-md feature-mode git-commit with-editor evil-commentary emmet-mode coffee-mode clj-refactor inflections edn multiple-cursors paredit yasnippet peg cider-eval-sexp-fu cider seq queue clojure-mode chruby bundler inf-ruby ws-butler window-numbering which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline smex restart-emacs request rainbow-delimiters quelpa popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-make google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word counsel-projectile column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link)))
  '(safe-local-variable-values
-   '((cider-refresh-after-fn . "integrant.repl/resume")
+   (quote
+    ((eval when
+           (require
+            (quote rainbow-mode)
+            nil t)
+           (rainbow-mode 1))
+     (cider-refresh-after-fn . "integrant.repl/resume")
      (cider-refresh-before-fn . "integrant.repl/suspend")
      (elixir-enable-compilation-checking . t)
-     (elixir-enable-compilation-checking)))
+     (elixir-enable-compilation-checking))))
  '(spaceline-helm-mode t)
  '(standard-indent 2)
  '(typescript-indent-level 2))
