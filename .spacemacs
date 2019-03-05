@@ -50,8 +50,11 @@ This function should only modify configuration layer settings."
           elm-sort-imports-on-save t)
      emacs-lisp
      evil-commentary
-     git
-     github
+     (git :variables
+          git-magit-status-fullscreen t
+          git-enable-github-support t
+          git-gutter-use-fringe t)
+     ;; github
      helm
      html
      java
