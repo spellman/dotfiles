@@ -767,10 +767,12 @@ you should place your code here."
     (with-eval-after-load 'paredit
       (define-key paredit-mode-map (kbd "M-s") nil)
       (define-paredit-pair ?\" ?\" "quote")
-      (define-key paredit-mode-map (kbd "M-g") 'paredit-forward)
-      (define-key paredit-mode-map (kbd "M-f") 'paredit-forward-down)
-      (define-key paredit-mode-map (kbd "M-d") 'paredit-backward-up)
-      (define-key paredit-mode-map (kbd "M-s") 'paredit-backward)
+      (define-key paredit-mode-map (kbd "M-h") 'paredit-backward)
+      (define-key paredit-mode-map (kbd "M-j") 'paredit-backward-down)
+      (define-key paredit-mode-map (kbd "M-J") 'paredit-backward-up)
+      (define-key paredit-mode-map (kbd "M-l") 'paredit-forward)
+      (define-key paredit-mode-map (kbd "M-k") 'paredit-forward-down)
+      (define-key paredit-mode-map (kbd "M-K") 'paredit-forward-up)
       (define-key paredit-mode-map (kbd "{") 'paredit-open-curly)
       (define-key paredit-mode-map (kbd "}") 'paredit-close-curly)
       (evil-leader/set-key
@@ -780,15 +782,15 @@ you should place your code here."
         "w <" 'paredit-wrap-angled
         "w \"" 'paredit-wrap-quote
         "s s" 'paredit-splice-sexp
-        "s f" 'paredit-splice-sexp-killing-forward
-        "s b" 'paredit-splice-sexp-killing-backward
+        "s h" 'paredit-splice-sexp-killing-backward
+        "s l" 'paredit-splice-sexp-killing-forward
         "s r" 'paredit-raise-sexp
-        "L" 'paredit-forward-slurp-sexp
-        "H" 'paredit-backward-slurp-sexp
-        ">" 'paredit-forward-barf-sexp
-        "<" 'paredit-backward-barf-sexp
-        "S" 'paredit-split-sexp
-        "j" 'paredit-join-sexps
+        "s C-h" 'paredit-backward-slurp-sexp
+        "s C-l" 'paredit-forward-slurp-sexp
+        "s M-h" 'paredit-backward-barf-sexp
+        "s M-l" 'paredit-forward-barf-sexp
+        "s C-s" 'paredit-split-sexp
+        "s C-j" 'paredit-join-sexps
         ))
 
     (defun conditionally-enable-paredit-mode ()
