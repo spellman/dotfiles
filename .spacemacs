@@ -553,6 +553,9 @@ you should place your code here."
      web-mode-indent-style 2
      )
 
+    (setq projectile-indexing-method 'alien)
+    (setq projectile-enable-caching t)
+
     ;; Set pasting to replace a visual selection in Spacemacs, like in Vim:
     ;; From https://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard
     ;; Imagine the following scenario.  One wants to paste some previously copied
