@@ -16,7 +16,8 @@
 
 {kp-5}>{speed9}{5}{kptoggle}
 
-{kp-tab}>{speed9}{tab}{kptoggle}
+{tab}>{speed9}{-lctrl}{tab}{+lctrl}
+{kp-tab}>{speed9}{-lctrl}{tab}{+lctrl}{kptoggle}
 
 {kp-'}>{speed9}{'}{kptoggle}
 
@@ -41,6 +42,9 @@
 
 {kp-i}>{speed9}{/}{kptoggle}
 
+{lshift}>{speed9}{-lctrl}{-lshift}{tab}{+lshift}{+lctrl}
+{kp-lshift}>{speed9}{-lctrl}{-lshift}{tab}{+lshift}{+lctrl}{kptoggle}
+
 {kp-;}>{speed9}{\}{kptoggle}
 
 {kp-q}>{speed9}{-lshift}{3}{+lshift}{kptoggle}
@@ -51,11 +55,11 @@
 
 {kp-x}>{speed9}{x}{kptoggle}
 
-[`]>[lwin]
-{kp-`}>{speed9}{lwin}{kptoggle}
+[`]>[home]
+{kp-`}>{speed9}{home}{kptoggle}
 
-[intl-\]>[/]
-{kp-insert}>{speed9}{kp-insert}{kptoggle}
+[intl-\]>[end]
+{kp-insert}>{speed9}{end}{kptoggle}
 
 {kp-left}>{speed9}{left}{kptoggle}
 
@@ -86,8 +90,8 @@
 
 {kpmin}>{speed9}{l}{kptoggle}
 
-[/]>[delete]
-{kp-/}>{speed9}{delete}{kptoggle}
+{/}>{speed9}{-lshift}{hyphen}{+lshift}
+{kp-/}>{speed9}{-lshift}{hyphen}{+lshift}{kptoggle}
 
 {kp-d}>{speed9}{-lshift}{/}{+lshift}{kptoggle}
 
@@ -112,45 +116,54 @@
 
 {kpenter1}>{speed9}{-lshift}{\}{+lshift}{kptoggle}
 
+[rshift]>[tab]
+{kp-rshift}>{speed9}{tab}{kptoggle}
+
 [up]>[down]
 {kp-up}>{speed9}{down}{kptoggle}
 
 [down]>[up]
 {kp-down}>{speed9}{up}{kptoggle}
 
-{kp.}>{speed9}{obrack}{kptoggle}
+[obrack]>[pdown]
+{kp.}>{speed9}{pdown}{kptoggle}
 
-{kpenter2}>{speed9}{cbrack}{kptoggle}
+[cbrack]>[pup]
+{kpenter2}>{speed9}{pup}{kptoggle}
 
 
 
-[lctrl]>[rctrl]
-{kp-lctrl}>{speed9}{rctrl}{kptoggle}
+[lctrl]>[lwin]
+[kp-lctrl]>[lwin]
 
-[lalt]>[`]
-{kp-lalt}>{speed9}{`}{kptoggle}
+[lalt]>[\]
+{kp-lalt}>{speed9}{\}{kptoggle}
 
 [bspace]>[kptoggle]
 [kp-bspace]>[kptoggle]
 
 [delete]>[bspace]
-{kp-delete}>{speed9}{bspace}
+{kp-delete}>{speed9}{bspace}{kptoggle}
 
-{kp-home}>{speed9}{home}{kptoggle}
+[home]>[`]
+{kp-home}>{speed9}{`}{kptoggle}
 
-{kp-end}>{speed9}{end}{kptoggle}
+[end]>[lshift]
+[kp-end]>[lshift]
 
 
 
-[rwin]>[\]
-{kp-rwin}>{speed9}{\}{kptoggle}
+[rwin]>[/]
+{kp-rwin}>{speed9}{/}{kptoggle}
 
-[rctrl]>[ralt]
-{kp-rctrl}>{speed9}{ralt}
+[rctrl]>[lctrl]
+[kp-rctrl]>[lctrl]
 
-{kp-pup}>{speed9}{pup}{kptoggle}
+{pup}>{speed9}{-lshift}{'}{+lshift}
+{kp-pup}>{speed9}{-lshift}{'}{+lshift}{kptoggle}
 
-{kp-pdown}>{speed9}{pdown}{kptoggle}
+[pdown]>[lalt]
+[kp-pdown]>[lalt]
 
 {kp-enter}>{speed9}{enter}{kptoggle}
 
