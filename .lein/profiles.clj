@@ -10,14 +10,17 @@
  :user {:plugins [[lein-ring "0.12.2"]
                   [lein-midje "3.2.1"] ;; Only needed if you run tests
                   [lein-pprint "1.1.1"] ;; Convenience for viewing effective project config
+                  [lein-ancient "0.6.15"]
                   [lein-cljfmt "0.5.7"]
 
                   #_[s3-wagon-private "1.3.1"]
 
                   ;; CIDER
-                  [cider/cider-nrepl "0.18.0"]
+                  [cider/cider-nrepl "0.21.1"]
                   [refactor-nrepl "2.4.0"]
                   ]
+
+        :aliases {"omni" ["do" ["clean"] ["with-profile" "-user" "deps" ":tree"] ["v"] ["midje"]]}
 
 ;;         :repl-options {:init (do
 ;;                                (try
@@ -33,7 +36,7 @@
         :dependencies [
                        ;; CIDER
                        ;; [org.clojure/tools.nrepl "0.2.13"]
-                       [nrepl "0.5.1"]
+                       [nrepl "0.6.0"]
 
                        ;; CLJS CIDER
                        [cider/piggieback "0.3.10"]
@@ -60,12 +63,12 @@
 
  ;; CIDER
  :repl {:plugins [
-                  [cider/cider-nrepl "0.18.0"]
+                  [cider/cider-nrepl "0.21.1"]
                   [refactor-nrepl "2.4.0"]
                   ]
         :dependencies [
                        ;; [org.clojure/tools.nrepl "0.2.13"]
-                       [nrepl "0.5.1"]
+                       [nrepl "0.6.0"]
 
                        [cider/piggieback "0.3.10"]
                        [figwheel-sidecar "0.5.16"]
