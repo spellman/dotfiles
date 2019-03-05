@@ -48,6 +48,15 @@ nnoremap <Leader>c :action GotoClass<CR>
 nnoremap <Leader>t :action GotoSymbol<CR>
 nnoremap <Leader>a :action GotoAction<CR>
 nnoremap <Leader>B :action ToggleLineBreakpoint<CR>
+" Cursive
+nnoremap <Leader>w( :action :cursive.actions.paredit/wrap-paren<CR>
+vnoremap <Leader>w( :action :cursive.actions.paredit/wrap-paren<CR>
+nnoremap <Leader>w[ :action :cursive.actions.paredit/wrap-square<CR>
+vnoremap <Leader>w[ :action :cursive.actions.paredit/wrap-square<CR>
+nnoremap <Leader>w{ :action :cursive.actions.paredit/wrap-curly<CR>
+vnoremap <Leader>w{ :action :cursive.actions.paredit/wrap-curly<CR>
+nnoremap <Leader>w" :action :cursive.actions.paredit/wrap-quotes<CR>
+vnoremap <Leader>w" :action :cursive.actions.paredit/wrap-quotes<CR>
 
 " code navigation
 nnoremap <Leader>] :action GotoImplementation<CR>
