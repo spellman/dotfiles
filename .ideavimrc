@@ -18,6 +18,10 @@ set scrolloff=3
 " Increase command history from 20 (default) to 1000
 set history=1000
 
+" Disable bell
+set visualbell
+set noerrorbells
+
 " Easy navigation of wrapped lines
 nnoremap j gj
 nnoremap k gk
