@@ -5,13 +5,13 @@
  :s3 {:plugins [[s3-wagon-private "1.3.1"]]}
 
  ;; Linter
- :kibit {:plugins [[lein-kibit "0.1.6-beta2"]]}
+ :kibit {:plugins [[lein-kibit "0.1.6"]]}
 
- :user {:plugins [[lein-ring "0.12.2"]
+ :user {:plugins [[lein-ring "0.12.5"]
                   [lein-midje "3.2.1"] ;; Only needed if you run tests
-                  [lein-pprint "1.1.1"] ;; Convenience for viewing effective project config
+                  [lein-pprint "1.2.0"] ;; Convenience for viewing effective project config
                   [lein-ancient "0.6.15"]
-                  [lein-cljfmt "0.5.7"]
+                  [lein-cljfmt "0.6.4"]
 
                   #_[s3-wagon-private "1.3.1"]
 
@@ -39,8 +39,8 @@
                        [nrepl "0.6.0"]
 
                        ;; CLJS CIDER
-                       [cider/piggieback "0.3.10"]
-                       [figwheel-sidecar "0.5.16"]
+                       [cider/piggieback "0.4.0"]
+                       [figwheel-sidecar "0.5.18"]
                        ]
 
 
@@ -70,8 +70,8 @@
                        ;; [org.clojure/tools.nrepl "0.2.13"]
                        [nrepl "0.6.0"]
 
-                       [cider/piggieback "0.3.10"]
-                       [figwheel-sidecar "0.5.16"]
+                       [cider/piggieback "0.4.0"]
+                       [figwheel-sidecar "0.5.18"]
                        ]
 
         ;; Load CIDER, refactor-nrepl and piggieback middleware
