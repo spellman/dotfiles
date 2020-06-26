@@ -777,23 +777,22 @@ you should place your code here."
       (define-key paredit-mode-map (kbd "M-K") 'paredit-forward-up)
       (define-key paredit-mode-map (kbd "{") 'paredit-open-curly)
       (define-key paredit-mode-map (kbd "}") 'paredit-close-curly)
-      (evil-leader/set-key
-        "w (" 'paredit-wrap-round
-        "w [" 'paredit-wrap-square
-        "w {" 'paredit-wrap-curly
-        "w <" 'paredit-wrap-angled
-        "w \"" 'paredit-wrap-quote
-        "s s" 'paredit-splice-sexp
-        "s h" 'paredit-splice-sexp-killing-backward
-        "s l" 'paredit-splice-sexp-killing-forward
-        "s r" 'paredit-raise-sexp
-        "s C-h" 'paredit-backward-slurp-sexp
-        "s C-l" 'paredit-forward-slurp-sexp
-        "s M-h" 'paredit-backward-barf-sexp
-        "s M-l" 'paredit-forward-barf-sexp
-        "s C-s" 'paredit-split-sexp
-        "s C-j" 'paredit-join-sexps
-        ))
+      (define-key paredit-mode-map (kbd "C-w (") 'paredit-wrap-round)
+      (define-key paredit-mode-map (kbd "C-w [") 'paredit-wrap-square)
+      (define-key paredit-mode-map (kbd "C-w {") 'paredit-wrap-curly)
+      (define-key paredit-mode-map (kbd "C-w <") 'paredit-wrap-angled)
+      (define-key paredit-mode-map (kbd "C-w \"") 'paredit-wrap-quote)
+      (define-key paredit-mode-map (kbd "C-s s") 'paredit-splice-sexp)
+      (define-key paredit-mode-map (kbd "C-s h") 'paredit-splice-sexp-killing-backward)
+      (define-key paredit-mode-map (kbd "C-s l") 'paredit-splice-sexp-killing-forward)
+      (define-key paredit-mode-map (kbd "C-s r") 'paredit-raise-sexp)
+      (define-key paredit-mode-map (kbd "C-s C-h") 'paredit-backward-slurp-sexp)
+      (define-key paredit-mode-map (kbd "C-s C-l") 'paredit-forward-slurp-sexp)
+      (define-key paredit-mode-map (kbd "C-s M-h") 'paredit-backward-barf-sexp)
+      (define-key paredit-mode-map (kbd "C-s M-l") 'paredit-forward-barf-sexp)
+      (define-key paredit-mode-map (kbd "C-s C-s") 'paredit-split-sexp)
+      (define-key paredit-mode-map (kbd "C-s C-j") 'paredit-join-sexps)
+      )
 
     (defun conditionally-enable-paredit-mode ()
       "Enable `paredit' in the minibuffer, during `eval-expression'."
