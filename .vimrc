@@ -45,6 +45,7 @@ Plugin 'kien/rainbow_parentheses.vim'
 "Plugin 'luochen1990/rainbow'
 Plugin 'tpope/vim-git'
 Plugin 'haya14busa/incsearch.vim'
+Plugin 'rickhowe/diffchar.vim'
 
 " All of your Plugins must be added before the following line:
 call vundle#end()
