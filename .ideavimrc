@@ -13,7 +13,7 @@ set hlsearch
 set incsearch " ...dynamically as they are typed.
 
 " Keep 3 lines below cursor instead of it being at bottom (default)
-set scrolloff=3
+set scrolloff=1
 
 " Increase command history from 20 (default) to 1000
 set history=1000
@@ -23,8 +23,10 @@ set visualbell
 set noerrorbells
 
 " Easy navigation of wrapped lines
-nnoremap j gj
-nnoremap k gk
+"nnoremap j gj
+"nnoremap k gk
+nnoremap <expr> k v:count == 0 ? 'gk' : 'k'
+nnoremap <expr> j v:count == 0 ? 'gj' : 'j'
 
 " Easy window navigation
 nnoremap <C-h> <C-w>h
@@ -37,6 +39,20 @@ nnoremap <silent> <Leader>/ :nohlsearch<CR>
 
 " Preserve IntelliJ search
 nnoremap g/ :action Find<cr>
+vnoremap g/ :action Find<cr>
+
+" Consider various characters to be part of words
+" See https://clojure.org/reference/reader#_symbols
+set iskeyword+=*
+set iskeyword+=+
+set iskeyword+=!
+set iskeyword+=-
+set iskeyword+=_
+set iskeyword+='
+set iskeyword+=?
+set iskeyword+=<
+set iskeyword+=>
+set iskeyword+==
 
 " actions
 nnoremap <Leader>q :action CloseContent<CR>
@@ -69,3 +85,17 @@ nnoremap \r :action RunClass<CR>
 nnoremap \R :action Run<CR>
 nnoremap \d :action DebugClass<CR>
 nnoremap \D :action Debug<CR>
+
+" Join via IDE -- I don't know what this is but the plugin showed a popup asking me to do it.
+set ideajoin
+
+" yank to system clipboard and make unnamed register (default for pasting) pull from system clipboard
+set clipboard+=unnamedplus
+
+" Emulated plugins
+set surround
+" Emulates vim-surround
+" Commands: ys, cs, ds, S
+set commentary
+" Emulates commentary.vim
+" Commands: gcc, gc + motion, v_gc
