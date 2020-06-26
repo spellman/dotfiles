@@ -1,7 +1,7 @@
 [user]
 	name = Cort Spellman
 	email = spellman.cort@gmail.com
-	signingkey = C993A435DDC82EC66DBDD8224315D70304A80B5E
+	signingkey = 6E6CB388C3001DEDCD86801833587A2B87E07510
 [credential]
 	helper = cache --timeout=7200
 [diff]
@@ -24,7 +24,7 @@
 [push]
 	default = simple
 [gpg]
-	program = gpg2
+	program = gpg
 [github]
 	user = spellman
 [magithub]

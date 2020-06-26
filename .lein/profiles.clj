@@ -59,6 +59,8 @@
                                       refactor-nrepl.middleware/wrap-refactor
                                       cider.piggieback/wrap-cljs-repl]
                    }
+
+        :signing {:gpg-key "6E6CB388C3001DEDCD86801833587A2B87E07510"}
         }
 
  ;; CIDER

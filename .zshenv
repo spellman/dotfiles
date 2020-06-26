@@ -4,6 +4,10 @@ alias mfc="ln -sf manifest-chrome.json ~/Projects/ferret/resources/unpacked/mani
 alias mff="ln -sf manifest-firefox.json ~/Projects/ferret/resources/unpacked/manifest.json"
 alias scout-devel="USE_UNPACKED_EXTENSION=true lein devel"
 alias scout-docker="DOCKER_USER_UID=1000 DOCKER_USER_HOME=/home/cort ./bin/enter"
+# GPG
+alias gpg2="gpg"
+GPG_TTY=$(tty)
+export GPG_TTY
 
 # Preferred editor for local and remote sessions
 export EDITOR='vim'
