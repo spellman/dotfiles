@@ -221,7 +221,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-themes
    '(
      ;; focused
-     zenburn
+     ;; zenburn
      spacemacs-light
      spacemacs-dark
      )
