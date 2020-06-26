@@ -513,6 +513,8 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
+  (setenv "PATH" (concat (getenv "PATH") ":/Users/cort/.nvm/versions/node/v9.11.2/bin/"))
+  (setq exec-path (append exec-path '("/Users/cort/.nvm/versions/node/v9.11.2/bin/")))
   )
 
 (defun dotspacemacs/user-load ()
