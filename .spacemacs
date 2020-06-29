@@ -1,4 +1,4 @@
-;; -*- mode: emacs-lisp -*-
+;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -34,51 +34,38 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(vimscript
+     html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     ;; auto-completion
-     ;; better-defaults
      auto-completion
+     ;; better-defaults
      csv
-     clojure
-     deft
-     (elm :variables
-          ;; elm-format-command "elm-format"
-          elm-format-on-save t
-          elm-sort-imports-on-save t)
+     (clojure :variables
+              clojure-enable-clj-refactor t
+              clojure-enable-linters 'clj-kondo)
      emacs-lisp
-     evil-commentary
      (git :variables
           git-magit-status-fullscreen t
           git-enable-github-support t
           git-gutter-use-fringe t)
-     ;; github
      helm
-     html
-     java
-     javascript
+     (javascript :variables
+                 node-add-modules-path t
+                 javascript-backend 'tern)
      markdown
-     org
-     pandoc
-     python
-     react
-     (ruby :variables
-           ruby-version-manager 'chruby)
-     ruby-on-rails
-     sql
-     (typescript :variables
-                 typescript-fmt-on-save t)
-     vim-empty-lines
-     vinegar
-     windows-scripts
+     multiple-cursors
+     ;; org
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
-     ;; syntax-checking
+     syntax-checking
+     react
+     treemacs
+     vinegar
      ;; version-control
      yaml
      )
@@ -87,24 +74,20 @@ This function should only modify configuration layer settings."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages
-   '(
-     ;; focused-theme
-     kotlin-mode
-     deadgrep
-     rainbow-mode
-     zenburn-theme
-     )
+   ;; To use a local version of a package, use the `:location' property:
+   ;; '(your-package :location "~/path/to/your-package/")
+   ;; Also include the dependencies as they will not be resolved automatically.
+   dotspacemacs-additional-packages '(paredit-everywhere
+                                      rainbow-mode
+                                      idle-highlight-mode)
+
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages
-   '(
-     highlight-parentheses
-     jade-mode
-     smartparens
-     )
+   dotspacemacs-excluded-packages '(highlight-parentheses
+                                    smartparens
+                                    yasnippet)
 
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -129,10 +112,10 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-enable-emacs-pdumper nil
 
-   ;; File path pointing to emacs 27.1 executable compiled with support
-   ;; for the portable dumper (this is currently the branch pdumper).
-   ;; (default "emacs-27.0.50")
-   dotspacemacs-emacs-pdumper-executable-file "emacs-27.0.50"
+   ;; Name of executable file pointing to emacs 27+. This executable must be
+   ;; in your PATH.
+   ;; (default "emacs")
+   dotspacemacs-emacs-pdumper-executable-file "emacs"
 
    ;; Name of the Spacemacs dump file. This is the file will be created by the
    ;; portable dumper in the cache directory under dumps sub-directory.
@@ -148,7 +131,8 @@ It should only modify the values of Spacemacs settings."
    ;; This variable has no effect if Emacs is launched with the parameter
    ;; `--insecure' which forces the value of this variable to nil.
    ;; (default t)
-   dotspacemacs-elpa-https nil
+   dotspacemacs-elpa-https t
+
    ;; Maximum allowed time in seconds to contact an ELPA repository.
    ;; (default 5)
    dotspacemacs-elpa-timeout 5
@@ -187,16 +171,14 @@ It should only modify the values of Spacemacs settings."
    ;; (default 'vim)
    dotspacemacs-editing-style 'vim
 
-   ;; If non-nil output loading progress in `*Messages*' buffer. (default nil)
-   dotspacemacs-verbose-loading nil
-
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
    ;; banner, `random' chooses a random text banner in `core/banners'
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner nil
+   dotspacemacs-startup-banner 'official
+
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
@@ -209,6 +191,11 @@ It should only modify the values of Spacemacs settings."
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
 
+   ;; Default major mode for a new empty buffer. Possible values are mode
+   ;; names such as `text-mode'; and `nil' to use Fundamental mode.
+   ;; (default `text-mode')
+   dotspacemacs-new-empty-buffer-major-mode 'text-mode
+
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
 
@@ -219,35 +206,29 @@ It should only modify the values of Spacemacs settings."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes
-   '(
-     ;; focused
-     ;; zenburn
-     spacemacs-light
-     spacemacs-dark
-     )
+   dotspacemacs-themes '(spacemacs-light
+                         spacemacs-dark)
 
    ;; Set the theme for the Spaceline. Supported themes are `spacemacs',
-   ;; `all-the-icons', `custom', `vim-powerline' and `vanilla'. The first three
-   ;; are spaceline themes. `vanilla' is default Emacs mode-line. `custom' is a
-   ;; user defined themes, refer to the DOCUMENTATION.org for more info on how
-   ;; to create your own spaceline theme. Value can be a symbol or list with\
-   ;; additional properties.
+   ;; `all-the-icons', `custom', `doom', `vim-powerline' and `vanilla'. The
+   ;; first three are spaceline themes. `doom' is the doom-emacs mode-line.
+   ;; `vanilla' is default Emacs mode-line. `custom' is a user defined themes,
+   ;; refer to the DOCUMENTATION.org for more info on how to create your own
+   ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
    dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
 
-   ;; If non nil the cursor color matches the state color in GUI Emacs.
+   ;; If non-nil the cursor color matches the state color in GUI Emacs.
+   ;; (default t)
    dotspacemacs-colorize-cursor-according-to-state t
 
-   ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
-   ;; quickly tweak the mode-line size to make separators look not too crappy.
+   ;; Default font or prioritized list of fonts.
    dotspacemacs-default-font '("Monaco"
-                               :size 11 ; Mac
-                               ;; :size 13 ; Linux
+                               :size 13.0
                                :weight normal
-                               :width normal
-                               :powerline-scale 1.1)
-   ;; The leader key
+                               :width normal)
+
+   ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
 
    ;; The key used for Emacs commands `M-x' (after pressing on the leader key).
@@ -276,21 +257,6 @@ It should only modify the values of Spacemacs settings."
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
    dotspacemacs-distinguish-gui-tab nil
-
-   ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
-   dotspacemacs-remap-Y-to-y$ t
-
-   ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
-   ;; there. (default t)
-   dotspacemacs-retain-visual-state-on-shift t
-
-   ;; If non-nil, J and K move lines up and down when in visual mode.
-   ;; (default nil)
-   dotspacemacs-visual-line-move-text nil
-
-   ;; If non nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
-   ;; (default nil)
-   dotspacemacs-ex-substitute-global nil
 
    ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name "Default"
@@ -321,25 +287,9 @@ It should only modify the values of Spacemacs settings."
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 5
 
-   ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
-   dotspacemacs-helm-resize nil
-
-   ;; if non nil, the helm header is hidden when there is only one source.
-   ;; (default nil)
-   dotspacemacs-helm-no-header nil
-
-   ;; define the position to display `helm', options are `bottom', `top',
-   ;; `left', or `right'. (default 'bottom)
-   dotspacemacs-helm-position 'bottom
-
-   ;; Controls fuzzy matching in helm. If set to `always', force fuzzy matching
-   ;; in all non-asynchronous sources. If set to `source', preserve individual
-   ;; source settings. Else, disable fuzzy matching in all sources.
-   ;; (default 'always)
-   dotspacemacs-helm-use-fuzzy 'always
-
-   ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
-   ;; several times cycle between the kill ring content. (default nil)
+   ;; If non-nil, the paste transient-state is enabled. While enabled, after you
+   ;; paste something, pressing `C-j' and `C-k' several times cycles through the
+   ;; elements in the `kill-ring'. (default nil)
    dotspacemacs-enable-paste-transient-state nil
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
@@ -377,17 +327,22 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil) (Emacs 24.4+ only)
    dotspacemacs-maximized-at-startup nil
 
+   ;; If non-nil the frame is undecorated when Emacs starts up. Combine this
+   ;; variable with `dotspacemacs-maximized-at-startup' in OSX to obtain
+   ;; borderless fullscreen. (default nil)
+   dotspacemacs-undecorated-at-startup nil
+
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-active-transparency 100
+   dotspacemacs-active-transparency 90
 
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
-   dotspacemacs-inactive-transparency 100
+   dotspacemacs-inactive-transparency 90
 
-   ;; If non nil show the titles of transient states. (default t)
+   ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
 
    ;; If non-nil show the color guide hint for transient state keys. (default t)
@@ -404,10 +359,14 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-smooth-scrolling t
 
    ;; Control line numbers activation.
-   ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
-   ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
+   ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
+   ;; `prog-mode' and `text-mode' derivatives. If set to `relative', line
+   ;; numbers are relative. If set to `visual', line numbers are also relative,
+   ;; but lines are only visual lines are counted. For example, folded lines
+   ;; will not be counted and wrapped lines are counted as multiple lines.
    ;; This variable can also be set to a property list for finer control:
    ;; '(:relative nil
+   ;;   :visual nil
    ;;   :disabled-for-modes dired-mode
    ;;                       doc-view-mode
    ;;                       markdown-mode
@@ -415,6 +374,7 @@ It should only modify the values of Spacemacs settings."
    ;;                       pdf-view-mode
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
+   ;; When used in a plist, `visual' takes precedence over `relative'.
    ;; (default nil)
    dotspacemacs-line-numbers t
 
@@ -427,7 +387,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-smartparens-strict-mode nil
 
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
-   ;; over any automatically added closing parenthesis, bracket, quote, etc…
+   ;; over any automatically added closing parenthesis, bracket, quote, etc...
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
    dotspacemacs-smart-closing-parenthesis nil
 
@@ -449,7 +409,8 @@ It should only modify the values of Spacemacs settings."
 
    ;; If non-nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server t
+   dotspacemacs-persistent-server nil
+
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `rg', `ag', `pt', `ack' and `grep'.
    ;; (default '("rg" "ag" "pt" "ack" "grep"))
@@ -485,10 +446,6 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
 
-   package-archives (cons '("local-packages" . "/home/cort/local-emacs-packages/")
-                          package-archives)
-   auto-window-vscroll nil
-
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
    dotspacemacs-zone-out-when-idle nil
@@ -496,8 +453,7 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs nil
-   ))
+   dotspacemacs-pretty-docs nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -508,14 +464,11 @@ See the header of this file for more information."
   (spacemacs/load-spacemacs-env))
 
 (defun dotspacemacs/user-init ()
-  "Initialization function for user code.
-It is called immediately after `dotspacemacs/init', before layer configuration
-executes.
- This function is mostly useful for variables that need to be set
-before packages are loaded. If you are unsure, you should try in setting them in
-`dotspacemacs/user-config' first."
-  (setenv "PATH" (concat (getenv "PATH") ":/Users/cort/.nvm/versions/node/v9.11.2/bin/"))
-  (setq exec-path (append exec-path '("/Users/cort/.nvm/versions/node/v9.11.2/bin/")))
+  "Initialization for user code:
+This function is called immediately after `dotspacemacs/init', before layer
+configuration.
+It is mostly for variables that should be set before packages are loaded.
+If you are unsure, try setting them in `dotspacemacs/user-config' first."
   )
 
 (defun dotspacemacs/user-load ()
@@ -526,38 +479,51 @@ dump."
   )
 
 (defun dotspacemacs/user-config ()
-  "Configuration function for user code.
-This function is called at the very end of Spacemacs initialization after
-layers configuration.
-This is the place where most of your configurations should be done. Unless it is
-explicitly specified that a variable should be set before a package is loaded,
-you should place your code here."
+  "Configuration for user code:
+This function is called at the very end of Spacemacs startup, after layer
+configuration.
+Put your configuration code here, except for variables that should be set
+before packages are loaded."
+
   (progn
-    (require 'package-x)
+    ;; Make projectile find file go at a usable speed.
+    (setq projectile-indexing-method 'alien
+          projectile-enable-caching t)
 
+    (setq scroll-margin 3)
 
-    (setq-default
-     global-hl-line-mode nil
-     spaceline-major-mode-p nil
-     spaceline-minor-modes-p nil
-     spaceline-buffer-encoding-abbrev-p nil
-     spaceline-version-control-p nil
+    (rainbow-delimiters-mode 1)
 
-     ;; js2-mode
-     js2-basic-offset 2
+    ;; Window Movements
+    ;; * Free up C-h in normal mode.
+    (global-set-key (kbd "C-h") nil)
+    (global-set-key (kbd "C-c h") 'help-map)
+    ;; * Set preferred Vim-style window movements.
+    (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
+    (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
+    (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
+    (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
 
-     ;; web-mode
-     css-indent-offset 2
-     web-mode-markup-indent-offset 2
-     web-mode-css-indent-offset 2
-     web-mode-code-indent-offset 2
-     web-mode-sql-indent-offset 2
-     web-mode-attr-indent-offset 2
-     web-mode-indent-style 2
-     )
+    ;; Make evil-mode up/down operate in screen lines instead of logical lines
+    (define-key evil-motion-state-map "j" 'evil-next-visual-line)
+    (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
+    (define-key evil-visual-state-map "j" 'evil-next-visual-line)
+    (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
 
-    (setq projectile-indexing-method 'alien)
-    (setq projectile-enable-caching t)
+    ;; Git
+    (setq vc-follow-symlinks t)
+
+    ;; Editing
+    (defun cws-prog-mode-hook ()
+      "Default coding hook, useful with any programming language."
+      (progn
+        (rainbow-delimiters-mode 1)
+        (modify-syntax-entry ?_ "w")     ; consider _ to be part of word_
+        (idle-highlight-mode t)
+        ;; (message "cws prog mode hook")
+        ))
+    (spacemacs/add-to-hook 'prog-mode-hook '(cws-prog-mode-hook
+                                             paredit-everywhere-mode))
 
     ;; Set pasting to replace a visual selection in Spacemacs, like in Vim:
     ;; From https://emacs.stackexchange.com/questions/14940/emacs-doesnt-paste-in-evils-visual-mode-with-every-os-clipboard
@@ -582,191 +548,6 @@ you should place your code here."
     ;; `evil-visual-update-x-selection' do nothing:
     (fset 'evil-visual-update-x-selection 'ignore)
 
-    (setq
-     evil-shift-width 2
-
-     ivy-re-builders-alist '((t . ivy--regex-fuzzy))
-     ivy-initial-inputs-alist nil
-
-     magit-push-always-verify nil
-     magit-repository-directories '("~/Projects/")
-
-     scroll-margin 3
-
-     x-select-enable-clipboard t
-     x-select-enable-primary t
-     )
-
-    ;; Make evil-mode up/down operate in screen lines instead of logical lines
-    (define-key evil-motion-state-map "j" 'evil-next-visual-line)
-    (define-key evil-motion-state-map "k" 'evil-previous-visual-line)
-    (define-key evil-visual-state-map "j" 'evil-next-visual-line)
-    (define-key evil-visual-state-map "k" 'evil-previous-visual-line)
-
-    ;; Free up C-h in normal mode
-    (global-set-key (kbd "C-h") nil)
-    (global-set-key (kbd "C-c h") 'help-map)
-
-    ;; Window Movements
-    (define-key evil-normal-state-map (kbd "C-h") 'evil-window-left)
-    (define-key evil-normal-state-map (kbd "C-j") 'evil-window-down)
-    (define-key evil-normal-state-map (kbd "C-k") 'evil-window-up)
-    (define-key evil-normal-state-map (kbd "C-l") 'evil-window-right)
-
-    ;; Helper function to bind a list of ex-mode mappings.
-    (defun ex-mode-mapping (cmd)
-      (let ((binding (car cmd))
-            (fn (cdr cmd)))
-        (evil-ex-define-cmd binding fn)))
-
-    ;; Evil Ex
-    (mapc 'ex-mode-mapping
-          '(("[E]xplore"                . dired-jump)
-            ))
-
-    (with-eval-after-load 'cider-repl
-      (define-key cider-repl-mode-map (kbd "M-[ a") 'cider-repl-backward-input)
-      (define-key cider-repl-mode-map (kbd "M-[ b") 'cider-repl-forward-input)
-      (evil-define-key 'insert cider-repl-mode-map (kbd "C-d") 'cider-repl-backward-input)
-      (evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-backward-input)
-      (evil-define-key 'insert cider-repl-mode-map (kbd "C-h") 'evil-window-left)
-      (evil-define-key 'insert cider-repl-mode-map (kbd "C-j") 'evil-window-down)
-      (evil-define-key 'insert cider-repl-mode-map (kbd "C-k") 'evil-window-up)
-      (evil-define-key 'insert cider-repl-mode-map (kbd "C-l") 'evil-window-right)
-      (evil-define-key 'insert cider-repl-mode-map (kbd "C-f") 'cider-repl-newline-and-indent)
-      )
-
-
-
-    (defun cws-prog-mode-hook ()
-      "Default coding hook, useful with any programming language."
-      (progn
-        (rainbow-delimiters-mode 1)
-        (modify-syntax-entry ?_ "w")     ; consider _ to be part of word_
-        ;; (message "cws prog mode hook")
-        ))
-    (add-hook 'prog-mode-hook 'cws-prog-mode-hook)
-
-
-
-    ;; Clojure
-    (defun cws-lisp-mode-hook ()
-      (progn
-        (enable-paredit-mode)
-        (subword-mode +1)
-        (modify-syntax-entry ?: "w")     ; consider : to be part of :word
-        (modify-syntax-entry ?! "w")     ; consider ! to be part of word!
-        (modify-syntax-entry ?? "w")     ; consider ? to be part of word?
-        (modify-syntax-entry ?- "w")     ; consider - to be part of word-
-        (modify-syntax-entry ?> "w")     ; consider > to be part of word>
-        (modify-syntax-entry ?< "w")     ; consider < to be part of word<
-        (modify-syntax-entry ?= "w")     ; consider = to be part of word=
-        (modify-syntax-entry ?* "w")     ; consider * to be part of word*
-        ;; (message "cws lisp mode hook")
-        ))
-    (spacemacs/add-to-hook 'lisp-mode-hook '(cws-lisp-mode-hook))
-
-    (defun cws-emacs-lisp-mode-hook ()
-      (progn
-        (turn-on-eldoc-mode)
-        (rainbow-mode +1)
-        ;; (message "cws emacs lisp mode hook")
-        ))
-    (spacemacs/add-to-hook 'emacs-lisp-mode-hook '(cws-lisp-mode-hook
-                                                   cws-emacs-lisp-mode-hook))
-
-    (with-eval-after-load 'clojure-mode
-      (defun cws-clojure-mode-hook ()
-        (progn
-          (put-clojure-indent 'match 1)
-          ;; (message "cws clojure mode hook")
-          ))
-      (spacemacs/add-to-hook 'clojure-mode-hook '(cws-lisp-mode-hook
-                                                  cws-clojure-mode-hook))
-      )
-
-    ;; 2018-08-08
-    ;; For CIDER 0.18.0, sayid and refactor-nrepl are broken right now QQ
-    ;; https://roomkey.slack.com/archives/C02BXQQUC/p1533737499000101
-    ;; https://roomkey.slack.com/archives/C02BXQQUC/p1533737513000146
-    (setq sayid-inject-dependencies-at-jack-in nil)
-    (setq cljr-inject-dependencies-at-jack-in nil)
-
-    (with-eval-after-load 'cider
-      (setq nrepl-log-messages t)
-      (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
-
-      (defun cws-cider-repl-mode-hook ()
-        (progn
-          (enable-paredit-mode)
-          (rainbow-delimiters-mode +1)
-          (whitespace-mode -1)
-          (linum-mode -1)
-          (setq cider-repl-use-pretty-printing t)
-          (setq cider-repl-pop-to-buffer-on-connect t)
-          (setq cider-repl-use-clojure-font-lock t)
-          (setq cider-repl-wrap-history t)
-          (setq cider-repl-history-size 1000)
-          (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
-
-          ;; (message "cws clojure repl mode hook")
-          ))
-
-      ;; Adam Frey's method of configuring cider-jack-in
-      ;; https://roomkey.slack.com/archives/C02BXQQUC/p1538746943000100
-      (defun cider-prompt-for-jack-in-options (orig-fn project-type)
-        (interactive)
-        (let ((res (funcall orig-fn project-type)))
-          (read-string "Enter global-options: " res)))
-      (advice-add 'cider-jack-in-global-options :around #'cider-prompt-for-jack-in-options)
-
-      (spacemacs/add-to-hook 'cider-repl-mode-hook '(cws-lisp-mode-hook
-                                                     cws-clojure-mode-hook
-                                                     cws-cider-repl-mode-hook))
-      (add-hook 'cider-mode-hook 'turn-on-eldoc-mode)
-      )
-
-    ;; Define macro to type (figwheel-sidecar.repl-api/cljs-repl) ENTER
-    ;; so that this macro persists across Emacs restarts.
-    (fset 'figwheel-cljs-repl
-          (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item '([escape 105 40 102 105 103 119 104 101 101 108 45 115 105 100 101 99 97 114 46 114 101 112 108 45 97 112 105 47 99 108 106 115 45 114 101 112 108 41 return escape] 0 "%d") arg)))
-    ;; Save the macro to the evil f register:
-    (evil-set-register ?f [escape 105 40 102 105 103 119 104 101 101 108 45 115 105 100 101 99 97 114 46 114 101 112 108 45 97 112 105 47 99 108 106 115 45 114 101 112 108 41 return escape])
-
-
-
-    ;; Ruby
-    (defun cws-ruby-mode-hook ()
-      (subword-mode +1) ; CamelCase aware editing operations
-      (modify-syntax-entry ?: "w") ; consider : to be part of :word
-      (modify-syntax-entry ?! "w") ; consider ! to be part of word!
-      (modify-syntax-entry ?? "w") ; consider ? to be part of word?
-      (modify-syntax-entry ?= "w") ; consider = to be part of word?
-      )
-    (add-hook 'ruby-mode-hook 'cws-ruby-mode-hook)
-
-
-
-    ;; React Native
-    ;; Bring up on-device device options screen for React Native app.
-    (with-eval-after-load 'js2
-      (defun device-options ()
-        (interactive)
-        (shell-command "adb shell input keyevent 82"))
-      (evil-leader/set-key "d o" 'device-options)
-      )
-
-
-
-    ;; Web
-    (with-eval-after-load 'web-mode
-      (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
-      (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
-      (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil)))
-
-
-
-    ;; Paredit
     (with-eval-after-load 'paredit
       (define-key paredit-mode-map (kbd "M-s") nil)
       (define-paredit-pair ?\" ?\" "quote")
@@ -795,98 +576,100 @@ you should place your code here."
       (define-key paredit-mode-map (kbd "C-s C-j") 'paredit-join-sexps)
       )
 
-    (defun conditionally-enable-paredit-mode ()
-      "Enable `paredit' in the minibuffer, during `eval-expression'."
-      (if (eq this-command 'eval-expression)
-          (enable-paredit-mode)))
-    (add-hook 'minibuffer-setup-hook 'conditionally-enable-paredit-mode)
+    ;; Lisp
+    (defun cws-lisp-mode-hook ()
+      (progn
+        (enable-paredit-mode)
+        (subword-mode +1)
+        (modify-syntax-entry ?: "w")     ; consider : to be part of :word
+        (modify-syntax-entry ?! "w")     ; consider ! to be part of word!
+        (modify-syntax-entry ?? "w")     ; consider ? to be part of word?
+        (modify-syntax-entry ?- "w")     ; consider - to be part of word-
+        (modify-syntax-entry ?> "w")     ; consider > to be part of word>
+        (modify-syntax-entry ?< "w")     ; consider < to be part of word<
+        (modify-syntax-entry ?= "w")     ; consider = to be part of word=
+        (modify-syntax-entry ?* "w")     ; consider * to be part of word*
+        ;; (message "cws lisp mode hook")
+        ))
+    (spacemacs/add-to-hook 'lisp-mode-hook '(cws-lisp-mode-hook))
 
-    (defun override-slime-repl-bindings-with-paredit ()
-      (define-key slime-repl-mode-map
-        (read-kbd-macro paredit-backward-delete-key) nil))
-    (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
+    ;; Elisp
+    (defun cws-emacs-lisp-mode-hook ()
+      (progn
+        (turn-on-eldoc-mode)
+        (rainbow-mode +1)
+        ;; (message "cws emacs lisp mode hook")
+        ))
+    (spacemacs/add-to-hook 'emacs-lisp-mode-hook '(cws-lisp-mode-hook
+                                                   cws-emacs-lisp-mode-hook))
 
+    ;; Clojure
+    (with-eval-after-load 'clojure-mode
+      (spacemacs/set-leader-keys "en" 'flycheck-next-error)
+      (spacemacs/set-leader-keys "ep" 'flycheck-previous-error)
 
+      (defun cws-clojure-mode-hook ()
+        (progn
+          (put-clojure-indent 'match 1)
+          (put-clojure-indent 'when 2)
+          (put-clojure-indent 'cond 2)
+          ;; (message "cws clojure mode hook")
+          )))
 
-    ;; Org Mode
-    (with-eval-after-load 'org
-      (setq org-directory "~/Dropbox/org")
-      ;; 2018-06-27 https://blog.aaronbieber.com/2016/01/30/dig-into-org-mode.html
-      ;; Task states following "|" complete tasks.
-      (setq org-todo-keywords
-            '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
-      (setq org-agenda-text-search-extra-files '(agenda-archives))
-      (setq org-blank-before-new-entry (quote ((heading) (plain-list-item))))
-      (setq org-log-done (quote time))
-      (setq org-log-reschedule (quote time))
+    (dolist (m '(clojure-mode-hook clojurec-mode clojurescript-mode-hook))
+      (spacemacs/add-to-hook m '(cws-lisp-mode-hook
+                                 cws-clojure-mode-hook
+                                 company-mode)))
 
-      ;; https://blog.aaronbieber.com/2016/09/24/an-agenda-for-life-with-org-mode.html
-      (defun air-org-skip-subtree-if-priority (priority)
-        "Skip an agenda subtree if it has a priority of PRIORITY.
+    (with-eval-after-load 'cider
+      (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
 
-PRIORITY may be one of the characters ?A, ?B, or ?C."
-        (let ((subtree-end (save-excursion (org-end-of-subtree t)))
-              (pri-value (* 1000 (- org-lowest-priority priority)))
-              (pri-current (org-get-priority (thing-at-point 'line t))))
-          (if (= pri-value pri-current)
-              subtree-end
-            nil)))
+      (defun cws-cider-repl-mode-hook ()
+        (progn
+          (enable-paredit-mode)
+          (whitespace-mode -1)
+          (linum-mode -1)
+          (setq cider-repl-use-pretty-printing t)
+          (setq cider-repl-pop-to-buffer-on-connect t)
+          (setq cider-repl-use-clojure-font-lock t)
+          (setq cider-repl-wrap-history t)
+          (setq cider-repl-history-size 1000)
+          (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
+          ;; (message "cws clojure repl mode hook")
+          ))
 
-      (defun air-org-skip-subtree-if-habit ()
-        "Skip an agenda entry if it has a STYLE property equal to \"habit\"."
-        (let ((subtree-end (save-excursion (org-end-of-subtree t))))
-          (if (string= (org-entry-get nil "STYLE") "habit")
-              subtree-end
-            nil)))
+      ;; Adam Frey's method of configuring cider-jack-in
+      ;; https://roomkey.slack.com/archives/C02BXQQUC/p1538746943000100
+      ;; (defun cider-prompt-for-jack-in-options (orig-fn project-type)
+      ;;   (interactive)
+      ;;   (let ((res (funcall orig-fn project-type)))
+      ;;     (read-string "Enter global-options: " res)))
+      ;; (advice-add 'cider-jack-in-global-options :around #'cider-prompt-for-jack-in-options)
 
-      (setq org-agenda-custom-commands
-            '(("d" "Daily agenda and all TODOs"
-               ((tags "PRIORITY=\"A\""
-                      ((org-agenda-skip-function '(org-agenda-skip-entry-if 'todo 'done))
-                       (org-agenda-overriding-header "High-priority unfinished tasks:")))
-                (agenda "" ((org-agenda-span 1)))
-                (alltodo ""
-                         ((org-agenda-skip-function '(or (air-org-skip-subtree-if-habit)
-                                                         (air-org-skip-subtree-if-priority ?A)
-                                                         (org-agenda-skip-if nil '(scheduled deadline))))
-                          (org-agenda-overriding-header "ALL normal priority tasks:"))))
-               ((org-agenda-compact-blocks t)))))
-
-      ;; Org Agenda and Capture, from Adam Frey
-      (setq org-agenda-files '("~/Dropbox/org"))
-      (setq org-default-notes-file "~/Dropbox/org/notes.org")
-      (setq org-capture-templates
-            `(("t" "To Do" entry (file "todo.org")
-               "* TODO %?\n%U\n" :empty-lines 1)
-              ("n" "Note" entry (file "") ; "" => org-default-notes-file
-               "* %? :NOTE:\n%U\n%a\n" :empty-lines 1)
-              ("r" "To Read" entry (file "to-read.org") ; "" => org-default-notes-file
-               "* TOREAD %?\n%U\n" :empty-lines 1)
-              ;; ("j" "Journal Entry"
-              ;;  entry (file+datetree "~/Dropbox/org/journal.org")
-              ;;  "* %?"
-              ;;  :empty-lines 1)
-              ))
-
-      (setq org-refile-targets '("refile.org"))
+      (spacemacs/add-to-hook 'cider-repl-mode-hook '(cws-lisp-mode-hook
+                                                     cws-clojure-mode-hook
+                                                     cws-cider-repl-mode-hook))
+      (spacemacs/add-to-hook 'cider-mode-hook '(turn-on-eldoc-mode))
       )
 
-    ;; Deft for org mode
-    ;; https://jblevins.org/projects/deft/
-    ;; https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Btools/deft
-    ;; https://lepisma.github.io/2016/03/17/org-mode/
-    (setq deft-directory "~/Dropbox/org")
-
-    ;; (with-eval-after-load 'desktop
-    ;;   ;; don't use desktop mode for terminal
-    ;;   (when (display-graphic-p)
-    ;;     (desktop-save-mode 1) ;; is x window
-    ;;     ())
-
-    ;;   ;; Add variables to desktop saving
-    ;;   (add-to-list 'desktop-globals-to-save 'register-alist))
-
-    ))
+    ;; JavaScript and React, from Spacemacs React layer README
+    (add-to-list 'exec-path "~/.local/npm-packages/bin" t)
+    (setq-default js-indent-level 2)
+    (setq js2-strict-missing-semi-warning nil)
+    (setq css-indent-offset 2)
+    ;; js2-mode
+    (setq js2-basic-offset 2)
+    ;; web-mode
+    (setq web-mode-markup-indent-offset 2)
+    (setq web-mode-markup-indent-offset 2)
+    (setq web-mode-css-indent-offset 2)
+    (setq web-mode-code-indent-offset 2)
+    (with-eval-after-load 'web-mode
+      (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
+      (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+      (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil)))
+    )
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -902,7 +685,12 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags counsel swiper ivy zenburn-theme yasnippet-snippets yaml-mode web-mode tide typescript-mode sql-indent projectile-rails paradox pandoc-mode orgit org-mime org-brain link-hint js2-refactor hl-todo helm-xref helm-projectile helm-make helm-company google-translate evil-matchit evil-magit editorconfig doom-modeline cider sesman clojure-mode bundler ace-link smartparens package-lint request window-purpose helm helm-core magit transient git-commit with-editor flycheck yasnippet pythonic treemacs ace-window avy lv projectile which-key use-package org-plus-contrib evil yapfify ws-butler writeroom-mode winum web-beautify volatile-highlights uuidgen treemacs-projectile treemacs-evil toc-org tagedit symon symbol-overlay string-inflection spaceline-all-the-icons smeargle slim-mode shrink-path seeing-is-believing scss-mode sass-mode rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rjsx-mode restart-emacs rbenv rake rainbow-mode rainbow-delimiters queue pytest pyenv-mode py-isort pug-mode prettier-js powershell popwin pippel pipenv pip-requirements pfuture persp-mode password-generator parseedn ox-pandoc overseer org-projectile org-present org-pomodoro org-download org-cliplink org-bullets open-junk-file nodejs-repl nameless mvn multiple-cursors move-text mmm-mode minitest meghanada maven-test-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode kotlin-mode json-navigator json-mode js-doc inflections indent-guide importmagic impatient-mode imenu-list hydra hungry-delete highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-purpose helm-org-rifle helm-mode-manager helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-c-yasnippet helm-ag groovy-mode groovy-imports gradle-mode goto-chg golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy font-lock+ flycheck-package flx-ido fill-column-indicator feature-mode fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-commentary evil-cleverparens evil-args evil-anzu ensime emmet-mode elm-test-runner elm-mode elisp-slime-nav dumb-jump dotenv-mode diminish devdocs deft define-word deadgrep cython-mode csv-mode company-web company-tern company-statistics company-emacs-eclim company-anaconda column-enforce-mode clojure-snippets clean-aindent-mode cider-eval-sexp-fu chruby centered-cursor-mode blacken bind-key auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent ace-jump-helm-line ac-ispell))))
+    (vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode htmlize helm-css-scss haml-mode counsel-css counsel swiper ivy company-web web-completion-data rjsx-mode import-js grizzl emmet-mode yaml-mode yasnippet-snippets ws-butler writeroom-mode winum which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs rainbow-mode rainbow-delimiters prettier-js popwin persp-mode pcre2el password-generator paradox overseer org-plus-contrib org-bullets open-junk-file nodejs-repl nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode link-hint json-navigator json-mode js2-refactor js-doc indent-guide hungry-delete hl-todo highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy font-lock+ flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word csv-mode company-tern company-statistics column-enforce-mode clojure-snippets clean-aindent-mode cider-eval-sexp-fu cider centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+ '(safe-local-variable-values
+   (quote
+    ((cider-ns-refresh-after-fn . "apij.dev.server/start-over")
+     (javascript-backend . tern)
+     (javascript-backend . lsp)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
