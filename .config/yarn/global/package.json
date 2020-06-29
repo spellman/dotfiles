@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "create-next-app": "^9.3.6",
+    "firebase-tools": "^8.2.0",
+    "neovim": "^4.8.0",
+    "now": "^19.0.1",
+    "shadow-cljs": "^2.8.52",
+    "vercel": "^19.0.1"
+  }
+}
