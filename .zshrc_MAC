@@ -71,7 +71,7 @@ plugins=(
   python
   tmux
   tmuxinator
-  zsh-nvm
+  nvm
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -117,3 +117,6 @@ source $(brew --prefix)/opt/chruby/share/chruby/auto.sh
 # Python
 eval "$(pyenv init -)"
 export PATH="$PATH:/Users/cort/.local/bin"
+
+# coreutils
+PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"

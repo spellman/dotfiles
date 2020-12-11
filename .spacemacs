@@ -33,10 +33,7 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(php
-     vimscript
-     html
-     ;; ----------------------------------------------------------------
+   '(;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
@@ -53,6 +50,7 @@ This function should only modify configuration layer settings."
           git-enable-github-support t
           git-gutter-use-fringe t)
      helm
+     html
      (javascript :variables
                  node-add-modules-path t
                  javascript-backend 'tern)
@@ -60,6 +58,8 @@ This function should only modify configuration layer settings."
      markdown
      multiple-cursors
      ;; org
+     php
+     python
      rust
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -70,6 +70,7 @@ This function should only modify configuration layer settings."
      treemacs
      vinegar
      ;; version-control
+     vimscript
      yaml
      )
 
@@ -80,9 +81,10 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(paredit-everywhere
+   dotspacemacs-additional-packages '(idle-highlight-mode
+                                      paredit-everywhere
                                       rainbow-mode
-                                      idle-highlight-mode)
+                                      )
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -516,6 +518,9 @@ before packages are loaded."
     ;; Git
     (setq vc-follow-symlinks t)
 
+    ;; Tramp
+    (setq tramp-default-method "ssh")
+
     ;; Editing
     (defun cws-prog-mode-hook ()
       "Default coding hook, useful with any programming language."
@@ -687,13 +692,11 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode dap-mode lsp-treemacs bui lsp-mode dash-functional company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode htmlize helm-css-scss haml-mode counsel-css counsel swiper ivy company-web web-completion-data rjsx-mode import-js grizzl emmet-mode yaml-mode yasnippet-snippets ws-butler writeroom-mode winum which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs rainbow-mode rainbow-delimiters prettier-js popwin persp-mode pcre2el password-generator paradox overseer org-plus-contrib org-bullets open-junk-file nodejs-repl nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode link-hint json-navigator json-mode js2-refactor js-doc indent-guide hungry-delete hl-todo highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy font-lock+ flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word csv-mode company-tern company-statistics column-enforce-mode clojure-snippets clean-aindent-mode cider-eval-sexp-fu cider centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+   '(yapfify stickyfunc-enhance sphinx-doc pytest pyenv-mode py-isort pippel pipenv pyvenv pip-requirements lsp-python-ms lsp-pyright live-py-mode importmagic epc ctable concurrent deferred helm-pydoc helm-cscope posframe cython-mode company-anaconda blacken anaconda-mode pythonic phpunit phpcbf php-extras php-auto-yasnippets geben drupal-mode dap-mode lsp-treemacs bui lsp-mode dash-functional company-phpactor phpactor composer php-runtime company-php ac-php-core xcscope php-mode vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags web-mode tagedit slim-mode scss-mode sass-mode pug-mode impatient-mode htmlize helm-css-scss haml-mode counsel-css counsel swiper ivy company-web web-completion-data rjsx-mode import-js grizzl emmet-mode yaml-mode yasnippet-snippets ws-butler writeroom-mode winum which-key web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-evil toc-org symon symbol-overlay string-inflection spaceline-all-the-icons smeargle restart-emacs rainbow-mode rainbow-delimiters prettier-js popwin persp-mode pcre2el password-generator paradox overseer org-plus-contrib org-bullets open-junk-file nodejs-repl nameless move-text mmm-mode markdown-toc magit-svn magit-gitflow macrostep lorem-ipsum livid-mode link-hint json-navigator json-mode js2-refactor js-doc indent-guide hungry-delete hl-todo highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-mode-manager helm-make helm-gitignore helm-git-grep helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy font-lock+ flycheck-package flx-ido fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-modeline diminish devdocs define-word csv-mode company-tern company-statistics column-enforce-mode clojure-snippets clean-aindent-mode cider-eval-sexp-fu cider centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell))
  '(safe-local-variable-values
-   (quote
-    ((cider-ns-refresh-after-fn . "apij.dev.server/start-over")
+   '((cider-ns-refresh-after-fn . "apij.dev.server/start-over")
      (javascript-backend . tern)
-     (javascript-backend . lsp)))))
+     (javascript-backend . lsp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
