@@ -29,3 +29,4 @@ export EDITOR='vim'
 if [ -f ~/.profile ]; then
 	  . ~/.profile
 fi
+source "$HOME/.cargo/env"

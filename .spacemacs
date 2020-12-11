@@ -56,9 +56,11 @@ This function should only modify configuration layer settings."
      (javascript :variables
                  node-add-modules-path t
                  javascript-backend 'tern)
+     lsp
      markdown
      multiple-cursors
      ;; org
+     rust
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
