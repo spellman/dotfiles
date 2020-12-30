@@ -23,3 +23,5 @@ pom.xml.asc
 
 # Yarn
 .config/yarn/global/node_modules
+
+.config/karabiner/automatic_backups
