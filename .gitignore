@@ -20,3 +20,6 @@ pom.xml.asc
 # IntelliJ IDEA
 .idea/
 *.iml
+
+# Yarn
+.config/yarn/global/node_modules
