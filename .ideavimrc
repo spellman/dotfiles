@@ -3,30 +3,37 @@
 map <Space> <Leader>
 set showcmd
 
+
 " / searches case-sensitive only if searching for capital letter
 " * searches consistently case-sensitive.
 set ignorecase
 set smartcase
 
+
 " Highlight search terms...
 set hlsearch
 set incsearch " ...dynamically as they are typed.
 
+
 " Keep 3 lines below cursor instead of it being at bottom (default)
 set scrolloff=1
 
+
 " Increase command history from 20 (default) to 1000
 set history=1000
+
 
 " Disable bell
 set visualbell
 set noerrorbells
 
+
 " Easy navigation of wrapped lines
 "nnoremap j gj
 "nnoremap k gk
-nnoremap <expr> k v:count == 0 ? 'gk' : 'k'
-nnoremap <expr> j v:count == 0 ? 'gj' : 'j'
+"nnoremap <expr> k v:count == 0 ? 'gk' : 'k'
+"nnoremap <expr> j v:count == 0 ? 'gj' : 'j'
+
 
 " Easy window navigation
 nnoremap <C-h> <C-w>h
@@ -34,12 +41,18 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+
 " Clear highlighted searches
+" Vim mapping
 nnoremap <silent> <Leader>/ :nohlsearch<CR>
+" Spacemacs mapping
+nnoremap <silent> <Leader>sc :nohlsearch<CR>
+
 
 " Preserve IntelliJ search
 nnoremap g/ :action Find<cr>
 vnoremap g/ :action Find<cr>
+
 
 " Consider various characters to be part of words
 " See https://clojure.org/reference/reader#_symbols
@@ -54,6 +67,7 @@ set iskeyword+=<
 set iskeyword+=>
 set iskeyword+==
 
+
 " actions
 nnoremap <Leader>q :action CloseContent<CR>
 nnoremap <Leader>Q :action ReopenClosedTab<CR>
@@ -64,6 +78,8 @@ nnoremap <Leader>c :action GotoClass<CR>
 nnoremap <Leader>t :action GotoSymbol<CR>
 nnoremap <Leader>a :action GotoAction<CR>
 nnoremap <Leader>B :action ToggleLineBreakpoint<CR>
+
+
 " Cursive
 nnoremap <Leader>w( :action :cursive.actions.paredit/wrap-paren<CR>
 vnoremap <Leader>w( :action :cursive.actions.paredit/wrap-paren<CR>
@@ -73,6 +89,7 @@ nnoremap <Leader>w{ :action :cursive.actions.paredit/wrap-curly<CR>
 vnoremap <Leader>w{ :action :cursive.actions.paredit/wrap-curly<CR>
 nnoremap <Leader>w" :action :cursive.actions.paredit/wrap-quotes<CR>
 vnoremap <Leader>w" :action :cursive.actions.paredit/wrap-quotes<CR>
+
 
 " code navigation
 nnoremap <Leader>] :action GotoImplementation<CR>
@@ -85,17 +102,39 @@ nnoremap \r :action RunClass<CR>
 nnoremap \R :action Run<CR>
 nnoremap \d :action DebugClass<CR>
 nnoremap \D :action Debug<CR>
+nnoremap g; :action JumpToLastChange<Enter>
+nnoremap g, :action JumpToNextChange<Enter>
+
 
 " Join via IDE -- I don't know what this is but the plugin showed a popup asking me to do it.
 set ideajoin
 
+
 " yank to system clipboard and make unnamed register (default for pasting) pull from system clipboard
 set clipboard+=unnamedplus
 
-" Emulated plugins
+
+" Wrapping text at maximum line length.
+nnoremap gqq :action com.andrewbrookins.idea.wrap.WrapAction<CR>
+vnoremap gq :action com.andrewbrookins.idea.wrap.WrapAction<CR>
+
+
+" <Emulated plugins>
+" ==================
+" Emulate vim-surround
 set surround
-" Emulates vim-surround
 " Commands: ys, cs, ds, S
+
+" Emulate commentary.vim
 set commentary
-" Emulates commentary.vim
 " Commands: gcc, gc + motion, v_gc
+" </ Emulated plugins>
+
+
+" Multiple cursors
+nnoremap <C-n> :action SelectNextOccurrence<CR>
+vnoremap <C-n> :action SelectNextOccurrence<CR>
+nnoremap <C-p> :action UnselectPreviousOccurrence<CR>
+vnoremap <C-p> :action UnselectPreviousOccurrence<CR>
+nnoremap <C-S-n> :action SelectAllOccurrences<CR>
+vnoremap <C-S-n> :action SelectAllOccurrences<CR>
