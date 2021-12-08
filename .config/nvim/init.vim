@@ -46,6 +46,7 @@ Plug 'ncm2/float-preview.nvim'
 Plug 'w0rp/ale'
 Plug 'Olical/conjure', { 'tag': 'v2.0.0', 'do': 'bin/compile', 'for': 'clojure' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'duane9/nvim-rg'
 
 " Initialize plugin system
 call plug#end()
@@ -80,7 +81,7 @@ let g:float_preview#max_width = 80
 let g:float_preview#max_height = 40
 
 let g:ale_linters = {
-      \ 'clojure': ['clj-kondo', 'joker']
+      \ 'clojure': ['clj-kondo']
       \}
 
 let g:conjure_log_auto_close = v:false
