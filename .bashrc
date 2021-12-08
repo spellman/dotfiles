@@ -45,3 +45,20 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 source "$HOME/.cargo/env"
+source $HOME/.phylum/phylum.bash
+export PATH="$HOME/.phylum:$PATH"
+alias ph='phylum'
+
+export PATH="$HOME/.emacs.d/bin:$PATH"
+
+export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
+
+# For installing Python versions using pyenv (which builds Python from source):
+export LDFLAGS="-L/usr/local/opt/zlib/lib"
+export CPPFLAGS="-I/usr/local/opt/zlib/include"
+export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
+eval "$(pyenv init -)"
+
+eval "$(starship init bash)"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
