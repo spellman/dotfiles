@@ -54,7 +54,7 @@ This function should only modify configuration layer settings."
      (javascript :variables
                  node-add-modules-path t
                  javascript-backend 'tern)
-     lsp
+     ;; lsp
      markdown
      multiple-cursors
      ;; org
@@ -85,6 +85,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(idle-highlight-mode
                                       paredit-everywhere
                                       rainbow-mode
+                                      svelte-mode
                                       )
 
    ;; A list of packages that cannot be updated.
