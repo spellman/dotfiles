@@ -13,14 +13,10 @@
 [mergetool "diffmerge"]
 	cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
 	trustExitCode = true
-[cola]
-	savewindowsettings = true
 [gui]
 	editor = vim
 	fontui = -family \"DejaVu Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 	fontdiff = -family Monaco -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-	recentrepo = /home/cort/Projects/dm_app/engine
-	recentrepo = /home/cort/Projects/quantity
 [push]
 	default = simple
 [gpg]
@@ -35,3 +31,16 @@
 	includeIssuesSection = false
 [core]
 	excludesfile = /Users/cort/.gitignore
+[pager]
+  diff = delta
+  log = delta
+  reflog = delta
+  show = delta
+[delta]
+  syntax-theme = Dracula
+  plus-style = "syntax #012800"
+  minus-style = "syntax #340001"
+  navigate = true
+  line-numbers = true
+  side-by-side = true
+  decorations = true
