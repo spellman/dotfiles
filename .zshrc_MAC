@@ -68,6 +68,7 @@ plugins=(
   colored-man-pages
   docker
   git
+  kube-ps1
   lein
   pip
   poetry
@@ -131,8 +132,6 @@ export LOCAL_TEST_DATA_ROOT=~/Projects/ferret/test/resources/dev-scout-regressio
 
 alias gpg2="gpg"
 
-alias cdas="cd /Users/cort/Library/Mobile\ Documents/com\~apple\~CloudDocs/Dropbox\ Documents/platform-api-spec"
-
 listening() {
     if [ $# -eq 0 ]; then
         sudo lsof -iTCP -sTCP:LISTEN -n -P
@@ -152,6 +151,10 @@ listening() {
 autoload zmv
 alias zcp='zmv -C' zln='zmv -L'
 
+# SSH
+alias start_ssh_agent='eval "$(ssh-agent -s)"'
+
+# Kubernetes
 alias k="kubectl"
 
 kpf() {
@@ -165,12 +168,16 @@ kapi() {
     kpf $1 8020 8080
 }
 
+kl () {
+        selected=$(kubectl get pods | awk '{print $1}' | grep -v NAME | gtac | fzf --ansi)
+        kubectl logs $selected
+}
+
 klf () {
         selected=$(kubectl get pods | awk '{print $1}' | grep -v NAME | gtac | fzf --ansi)
         kubectl logs -f $selected
 }
 
-alias gita="python3 -m gita"
 
 # 2021-07-15: Older fpath stuff for zsh completions:
 #   fpath=(/usr/local/share/zsh-completions $fpath)
@@ -206,7 +213,12 @@ export PATH="$HOME/.pyenv/bin:$PATH"
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 
 # Java
-export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
+# "/usr/libexec/java_home -v1.8" points to a non-openjdk java installation.
+# That may be what I want sometimes but I need the openjdk java for running a
+# heuristic locally so I'm commenting that out and hard-coding the openjdk
+# location for now.
+# export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
+export JAVA_8_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
 export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
 
 alias java8='export JAVA_HOME=$JAVA_8_HOME'
@@ -218,6 +230,9 @@ java11
 # Rust
 source "$HOME/.cargo/env"
 export RUST_SRC_PATH=$(rustc --print sysroot)/lib/rustlib/src/rust/library
+
+# Scala
+export PATH="$PATH:/Users/cort/Library/Application Support/Coursier/bin"
 
 # Postgres
 alias start_local_pg="pg_ctl -D /usr/local/var/postgres start"
@@ -233,6 +248,8 @@ source $HOME/.phylum/phylum.bash
 export PATH="$HOME/.phylum:$PATH"
 alias ph='phylum'
 alias phylum_digital_ocean='ssh root@147.182.169.90'
+alias phl='phylum -c ~/.phylum/settings.local.yaml'
+alias phs='phylum -c ~/.phylum/settings.staging.yaml'
 
 # Django
 # `shell_plus` requires django-extensions
@@ -279,3 +296,5 @@ fi
 #   export PKG_CONFIG_PATH="/usr/local/opt/libpq/lib/pkgconfig"
 
 # echo "zshrc end\n"
+fpath+=("/Users/cort/.phylum/completions")
+autoload -U compinit && compinit

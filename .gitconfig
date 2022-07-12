@@ -1,36 +1,42 @@
 [user]
-	name = Cort Spellman
-	email = spellman.cort@gmail.com
-	signingkey = 6E6CB388C3001DEDCD86801833587A2B87E07510
+  name = Cort Spellman
+  email = spellman.cort@gmail.com
+	signingkey = A76A57CB996FE4B26DCBDB5043449F1F78BFE897
 [credential]
-	helper = cache --timeout=7200
+  helper = cache --timeout=7200
 [diff]
-	tool = diffmerge
+  colorMoved = default
+  # tool = diffmerge
 [difftool "diffmerge"]
-	cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
+  # cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
 [merge]
-	tool = diffmerge
-[mergetool "diffmerge"]
-	cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
-	trustExitCode = true
+  conflictstyle = diff3
+  # tool = diffmerge
+# [mergetool "diffmerge"]
+  # cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
+  # trustExitCode = true
 [gui]
-	editor = vim
-	fontui = -family \"DejaVu Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-	fontdiff = -family Monaco -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+  editor = vim
+  fontui = -family \"DejaVu Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+  fontdiff = -family Monaco -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 [push]
-	default = simple
+  default = simple
 [gpg]
-	program = gpg
+  program = gpg
 [github]
-	user = spellman
+  user = spellman
+[interactive]
+  diffFilter = delta --color-only
 [magithub]
-	online = false
+  online = false
 [magithub "status"]
-	includeStatusHeader = false
-	includePullRequestsSection = false
-	includeIssuesSection = false
+  includeStatusHeader = false
+  includePullRequestsSection = false
+  includeIssuesSection = false
 [core]
-	excludesfile = /Users/cort/.gitignore
+	autocrlf = input
+  excludesfile = /Users/cort/.gitignore
+  pager = delta
 [pager]
   diff = delta
   log = delta
@@ -44,3 +50,20 @@
   line-numbers = true
   side-by-side = true
   decorations = true
+[alias]
+  magic = autofixup @{u}
+[checkout]
+  defaultremote = origin
+[fetch]
+  prune = true
+  prunetags = true
+[pull]
+	rebase = true
+[rebase]
+  autostash = true
+[remote]
+  pushdefault = origin
+[submodule]
+  recurse=true
+[tag]
+  forcesignannotated = true

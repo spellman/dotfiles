@@ -23,3 +23,7 @@ export EDITOR=vim
 export PATH="/usr/local/heroku/bin:$PATH"
 
 source "$HOME/.cargo/env"
+
+# >>> coursier install directory >>>
+export PATH="$PATH:/Users/cort/Library/Application Support/Coursier/bin"
+# <<< coursier install directory <<<

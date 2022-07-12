@@ -9,6 +9,34 @@ set nocompatible
 " No swap files
 set noswapfile
 
+
+" " Install vim-plug if not found
+" if empty(glob('~/.vim/autoload/plug.vim'))
+"   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+"     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" endif
+" 
+" " Run PlugInstall if there are missing plugins
+" autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+"   \| PlugInstall --sync | source $MYVIMRC
+" \| endif
+" 
+" call plug#begin('~/.vim/plugged')
+" Plug 'duane9/nvim-rg'
+" Plug 'haya14busa/incsearch.vim'
+" Plug 'kien/ctrlp.vim'
+" Plug 'kien/rainbow_parentheses.vim'
+" Plug 'Olical/conjure'
+" Plug 'tpope/vim-endwise'
+" Plug 'tpope/vim-repeat'
+" Plug 'tpope/vim-dispatch'
+" Plug 'tpope/vim-vinegar'
+" Plug 'clojure-vim/vim-jack-in'
+" " Only in Neovim:
+" Plug 'radenling/vim-dispatch-neovim'
+" call plug#end()
+
+
 " Enable Vundle.
 filetype off
 " Set the runtime path to include Vundle and initialize.
@@ -19,10 +47,9 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-scripts/CSApprox'
-Plugin 'sheerun/vim-polyglot'
+" Plugin 'sheerun/vim-polyglot'
 Plugin 'tpope/vim-vinegar'
-Plugin 'tpope/vim-fugitive'
-Plugin 'easymotion/vim-easymotion'
+" Plugin 'easymotion/vim-easymotion'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'othree/yajs.vim'
@@ -34,9 +61,9 @@ Plugin 'tpope/vim-endwise'
 Plugin 'rking/ag.vim'
 Plugin 'jgdavey/tslime.vim'
 Plugin 'kien/ctrlp.vim'
-Plugin 'guns/vim-clojure-static'
-Plugin 'tpope/vim-fireplace'
-Plugin 'tpope/vim-classpath'
+"Plugin 'guns/vim-clojure-static'
+"Plugin 'tpope/vim-fireplace'
+"Plugin 'tpope/vim-classpath'
 "Plugin 'vim-scripts/paredit.vim'
 "Plugin 'guns/vim-sexp'
 Plugin 'tpope/vim-repeat'
@@ -50,6 +77,7 @@ Plugin 'rickhowe/diffchar.vim'
 " All of your Plugins must be added before the following line:
 call vundle#end()
 filetype plugin indent on
+syntax enable
 
 
 " Edit vimrc.
@@ -60,9 +88,6 @@ nnoremap <Leader>sv :source $MYVIMRC<cr>
 
 " Always show status line, even when only one window is open.
 set laststatus=2
-
-" Show git status in status line, via vim-fugitive.
-set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
 
 " Increase command history from 20 (default) to 1000
 set history=1000
@@ -127,9 +152,9 @@ set shiftwidth=2
 " Autoindent on
 set autoindent
 
+set textwidth=79
 " c: Auto-wrap comments to textwidth
 " j: Remove comment leader when joining lines 'where it makes sense'.
-set textwidth=79
 set formatoptions=cj
 
 " Strip trailing whitespace in the current file.
