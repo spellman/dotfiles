@@ -82,6 +82,10 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
+eval "$(starship init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
@@ -108,6 +112,11 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+if [ -d "$(brew --prefix)/opt/grep/libexec/gnubin" ]; then
+    PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
+fi
+
 alias flush-dns="sudo killall -HUP mDNSResponder; sleep 2;"
 
 alias mux="tmuxinator"
@@ -203,6 +212,11 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+# NPM
+npmdl() {
+  wget $(npm view $1 dist.tarball)
+}
+
 # Ruby
 # 2021-07-15: Older means of auto-switching:
 # source $(brew --prefix)/opt/chruby/share/chruby/chruby.sh
@@ -213,12 +227,15 @@ source /usr/local/share/chruby/auto.sh
 
 
 # Python
-# export PATH="/usr/local/bin:$PATH"
+# export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
+# export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
+# eval "$(pyenv init -)"
 # eval "$(pyenv virtualenv-init -)"
-export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
-export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
+# export PYENV_ROOT="$HOME/.pyenv"
+# export PATH="$PYENV_ROOT/bin:$PATH"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-export PATH="$HOME/.pyenv/bin:$PATH"
 
 # coreutils
 PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
@@ -230,10 +247,13 @@ PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 # location for now.
 # export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
 export JAVA_8_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
-export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
+export JAVA_11_HOME=$(/usr/libexec/java_home -v 11)
+export JAVA_17_HOME=$(/usr/libexec/java_home -v 17)
+
 
 alias java8='export JAVA_HOME=$JAVA_8_HOME'
 alias java11='export JAVA_HOME=$JAVA_11_HOME'
+alias java17='export JAVA_HOME=$JAVA_17_HOME'
 
 # default to Java 11
 java11
@@ -261,13 +281,10 @@ alias phs='phylum -c ~/.config/phylum/staging.settings.yaml'
 # Django
 # `shell_plus` requires django-extensions
 # `--notebook` uses a Jupyter Notebook, which requires jupyterlab
-alias shell_notebook="DJANGO_ALLOW_ASYNC_UNSAFE=true ./manage.py shell_plus --notebook"
 
 export PATH="$HOME/.emacs.d/bin:$PATH"
 
-eval "$(starship init zsh)"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# alias shell_notebook="DJANGO_ALLOW_ASYNC_UNSAFE=true ./manage.py shell_plus --notebook"
 
 if [ "$(command -v exa)" ]; then
     unalias -m 'll'
@@ -303,3 +320,15 @@ fi
 # echo "zshrc end\n"
 
 source /Users/cort/.local/share/phylum/zshrc
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
+
+# Golang
+export GOPATH="$HOME/go"
+export PATH="$GOPATH/bin:$PATH"
+
+inspect_parquet () {
+  pqrs cat $1 --json | jq . | less
+}
+
+# alias sbt="/Users/cort/Library/\"Application Support\"/Coursier/bin/sbt"
