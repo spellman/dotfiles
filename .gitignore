@@ -25,3 +25,6 @@ pom.xml.asc
 .config/yarn/global/node_modules
 
 .config/karabiner/automatic_backups
+
+.clojure/.clj-kondo/
+.clojure/.lsp/
