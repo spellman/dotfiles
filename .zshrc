@@ -328,3 +328,8 @@ inspect_parquet() {
   pqrs cat $1 --json | jq . | less
 }
 
+if [ -f ~/java-version.sh ] && type -p sbt &>/dev/null; then
+  sbtw() {
+    sh ~/java-version.sh && sbt "$@"
+  }
+fi
