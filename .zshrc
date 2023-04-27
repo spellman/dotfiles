@@ -328,4 +328,3 @@ inspect_parquet() {
   pqrs cat $1 --json | jq . | less
 }
 
-# alias sbt="/Users/cort/Library/\"Application Support\"/Coursier/bin/sbt"
