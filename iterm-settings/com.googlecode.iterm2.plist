@@ -4,6 +4,8 @@
 <dict>
 	<key>AllowClipboardAccess</key>
 	<false/>
+	<key>AlternateMouseScroll</key>
+	<true/>
 	<key>Custom Color Presets</key>
 	<dict>
 		<key>Snazzy</key>
@@ -562,6 +564,8 @@
 	<string>DA331D37-6CE4-43B3-A785-2015E91EED4F</string>
 	<key>EnableAPIServer</key>
 	<true/>
+	<key>ExtraSpaceBeforeCompactTopTabBar</key>
+	<real>10</real>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HideScrollbar</key>
@@ -1422,6 +1426,8 @@
 	<true/>
 	<key>QuitWhenAllWindowsClosed</key>
 	<false/>
+	<key>ScrollWheelAcceleration</key>
+	<real>1</real>
 	<key>ShowFullScreenTabBar</key>
 	<true/>
 	<key>SoundForEsc</key>
