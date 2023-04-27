@@ -114,7 +114,7 @@ eval "$(starship init zsh)"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 if [ -d "$(brew --prefix)/opt/grep/libexec/gnubin" ]; then
-    PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
+  PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
 fi
 
 alias flush-dns="sudo killall -HUP mDNSResponder; sleep 2;"
@@ -142,13 +142,13 @@ export LOCAL_TEST_DATA_ROOT=~/Projects/ferret/test/resources/dev-scout-regressio
 alias gpg2="gpg"
 
 listening() {
-    if [ $# -eq 0 ]; then
-        sudo lsof -iTCP -sTCP:LISTEN -n -P
-    elif [ $# -eq 1 ]; then
-        sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color $1
-    else
-        echo "Usage: listening [pattern]"
-    fi
+  if [ $# -eq 0 ]; then
+    sudo lsof -iTCP -sTCP:LISTEN -n -P
+  elif [ $# -eq 1 ]; then
+    sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -i --color $1
+  else
+    echo "Usage: listening [pattern]"
+  fi
 }
 
 alias szrc="source ~/.zshrc"
@@ -178,35 +178,34 @@ alias kpg="kpf postgres-postgresql-0 5432 5432"
 alias kr="kpf service/redis-master 6379 6379"
 
 kapi() {
-    kpf $1 8020 8080
+  kpf $1 8020 8080
 }
 
-kl () {
+kl() {
   selected=$(kubectl get pods | awk '{print $1}' | grep -v NAME | gtac | fzf --ansi)
   kubectl logs $selected
 }
 
-klf () {
+klf() {
   selected=$(kubectl get pods | awk '{print $1}' | grep -v NAME | gtac | fzf --ansi)
   kubectl logs -f $selected
 }
 
 alias port_forward_localdev_hbase="ssh -i ~/.ssh/stg.pem -L 9090:thrift.localdev.phylum.dev:9090 hadoop@thrift.localdev.phylum.dev"
 
-kexec () {
+kexec() {
   selected=$(kubectl get pods | awk '{print $1}' | grep -v NAME | gtac | fzf --ansi)
   kubectl exec $selected -i -t -- /bin/bash
 }
-
 
 # 2021-07-15: Older fpath stuff for zsh completions:
 #   fpath=(/usr/local/share/zsh-completions $fpath)
 # Homebrew update output now says to use the following.
 if type brew &>/dev/null; then
-	FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
-	autoload -Uz compinit
-	compinit
+  autoload -Uz compinit
+  compinit
 fi
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
@@ -224,7 +223,6 @@ npmdl() {
 # Now, https://github.com/postmodern/chruby#auto-switching recommends this:
 source /usr/local/share/chruby/chruby.sh
 source /usr/local/share/chruby/auto.sh
-
 
 # Python
 # export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
@@ -249,7 +247,6 @@ PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
 export JAVA_8_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
 export JAVA_11_HOME=$(/usr/libexec/java_home -v 11)
 export JAVA_17_HOME=$(/usr/libexec/java_home -v 17)
-
 
 alias java8='export JAVA_HOME=$JAVA_8_HOME'
 alias java11='export JAVA_HOME=$JAVA_11_HOME'
@@ -287,16 +284,16 @@ export PATH="$HOME/.emacs.d/bin:$PATH"
 # alias shell_notebook="DJANGO_ALLOW_ASYNC_UNSAFE=true ./manage.py shell_plus --notebook"
 
 if [ "$(command -v exa)" ]; then
-    unalias -m 'll'
-    unalias -m 'l'
-    unalias -m 'la'
-    unalias -m 'ls'
-    alias ls='exa -G  --color auto --icons -a -s type'
-    alias l='exa -l --color always --icons -a -s type'
+  unalias -m 'll'
+  unalias -m 'l'
+  unalias -m 'la'
+  unalias -m 'ls'
+  alias ls='exa -G  --color auto --icons -a -s type'
+  alias l='exa -l --color always --icons -a -s type'
 fi
 
 if [ -f /usr/local/bin/less ]; then
-    alias less="/usr/local/bin/less"
+  alias less="/usr/local/bin/less"
 fi
 
 if [ "$(command -v bat)" ]; then
@@ -313,7 +310,7 @@ fi
 # For compilers to find libpq you may need to set:
 #   export LDFLAGS="-L/usr/local/opt/libpq/lib"
 #   export CPPFLAGS="-I/usr/local/opt/libpq/include"
-# 
+#
 # For pkg-config to find libpq you may need to set:
 #   export PKG_CONFIG_PATH="/usr/local/opt/libpq/lib/pkgconfig"
 
@@ -327,7 +324,7 @@ export PATH="/usr/local/sbin:$PATH"
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 
-inspect_parquet () {
+inspect_parquet() {
   pqrs cat $1 --json | jq . | less
 }
 
