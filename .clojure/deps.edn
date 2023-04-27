@@ -42,13 +42,18 @@
   ;;   "clojars" {:url "https://repo.clojars.org/"}
   ;; }
 
- :aliases {:nrepl {:main-opts ["-m" "nrepl.cmdline"]
-                   :extra-deps {nrepl/nrepl {:mvn/version "0.8.3"}
-                                refactor-nrepl/refactor-nrepl {:mvn/version "3.1.0"}
-                                cider/cider-nrepl {:mvn/version "0.25.9"}}}
-           :outdated {:replace-deps {olical/depot {:mvn/version "2.3.0"}}
-                      :main-opts ["-m" "depot.outdated.main"]}
-           :ion-dev {:deps {com.datomic/ion-dev {:mvn/version "0.9.247"}}
-                     :main-opts ["-m" "datomic.ion.dev"]}}
+  :aliases {:nrepl {:main-opts ["-m" "nrepl.cmdline"]
+                    :extra-deps {nrepl/nrepl {:mvn/version "0.8.3"}
+                                 refactor-nrepl/refactor-nrepl {:mvn/version "3.1.0"}
+                                 cider/cider-nrepl {:mvn/version "0.25.9"}}}
+            :outdated {:replace-deps {olical/depot {:mvn/version "2.3.0"}}
+                       :main-opts ["-m" "depot.outdated.main"]}
+            :ion-dev {:deps {com.datomic/ion-dev {:mvn/version "0.9.247"}}
+                      :main-opts ["-m" "datomic.ion.dev"]}
+            :socket-repl {:exec-fn clojure.core.server/start-server
+                          :exec-args {:name "server"
+                                      :port 5555
+                                      :accept clojure.core.server/repl
+                                      :server-daemon false}}}
 }
 
