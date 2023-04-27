@@ -5,38 +5,58 @@
 
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets.
+;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Cort Spellman"
       user-mail-address "spellman.cort@gmail.com")
 
-;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
-;; are the three important ones:
+;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
-;; + `doom-font'
-;; + `doom-variable-pitch-font'
-;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
+;; - `doom-font' -- the primary font to use
+;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
+;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
 ;;   presentations or streaming.
+;; - `doom-unicode-font' -- for unicode glyphs
+;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
 ;;
-;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
-;; font string. You generally only need these two:
-;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
-;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+;; See 'C-h v doom-font' for documentation and more examples of what they
+;; accept. For example:
+;;
+;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+(setq doom-font (font-spec :family "Monaco" :size 12 :weight 'normal))
+;;
+;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
+;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
+;; refresh your font settings. If Emacs still can't find your font, it likely
+;; wasn't installed correctly. Font issues are rarely Doom issues!
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-one-light)
 
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
-
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/org/")
 
-;; Here are some additional functions/macros that could help you configure Doom:
+;; Whenever you reconfigure a package, make sure to wrap your config in an
+;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
+;;
+;;   (after! PACKAGE
+;;     (setq x y))
+;;
+;; The exceptions to this rule:
+;;
+;;   - Setting file/directory variables (like `org-directory')
+;;   - Setting variables which explicitly tell you to set them before their
+;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
+;;   - Setting doom variables (which start with 'doom-' or '+').
+;;
+;; Here are some additional functions/macros that will help you configure Doom.
 ;;
 ;; - `load!' for loading external *.el files relative to this one
 ;; - `use-package!' for configuring packages
@@ -49,23 +69,52 @@
 ;; To get information about any of these functions/macros, move the cursor over
 ;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
 ;; This will open documentation for it, including demos of how they are used.
+;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
+;; etc).
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(after! 'dired
-  (dired-omit-mode -1)
-  )
+(setq projectile-project-search-path '("~/Projects/"))
 
-;; (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+(remove-hook 'doom-first-input-hook #'evil-snipe-mode)
+(remove-hook 'doom-first-input-hook #'evil-snipe-override-mode)
 
-(setq doom-font (font-spec :family "Monaco" :size 13 :weight 'normal))
+(after! dired-x
+  (remove-hook 'dired-mode-hook #'dired-omit-mode))
 
-(modify-syntax-entry ?_ "w")
+(after! evil
+  (setq evil-move-cursor-back nil))
 
-(setq evil-move-cursor-back nil)
+;; May need to wrap these in (eval-after-load "evil-maps") :/
+(evil-define-key 'normal view-mode-map "0" nil)
+(evil-define-key 'normal view-mode-map "-" nil)
+(evil-define-key 'normal view-mode-map "+" nil)
 
-;; (setq scroll-margin 3)
+(map! :desc "dired-jump to current-file directory" :n "-" #'dired-jump)
+(eval-after-load "evil-maps"
+  '(progn
+     (evil-define-key 'normal view-mode-map "0" nil)
+     (evil-define-key 'normal view-mode-map "-" nil)
+     (evil-define-key 'normal view-mode-map "+" nil)))
+
+
+(map! :after evil :desc "Move to window left" :gnv "C-h" #'evil-window-left)
+(map! :after evil :desc "Move to window left" :gnv "C-j" #'evil-window-down)
+(map! :after evil :desc "Move to window left" :gnv "C-k" #'evil-window-up)
+(map! :after evil :desc "Move to window left" :gnv "C-l" #'evil-window-right)
+
+;; Bind shift + <arrow key> to move between buffers, including the minibuffer.
+(windmove-default-keybindings)
+
+(map! :after better-jumper :desc "Jump backward" :gnvi "s-[" #'better-jumper-jump-backward)
+(map! :after better-jumper :desc "Jump backward" :gnvi "s-]" #'better-jumper-jump-forward)
+
+(after! smartparens
+  (require 'smartparens-config))
+
+(+global-word-wrap-mode +1)
+
 
 ;; Git
 (setq vc-follow-symlinks t)
@@ -73,25 +122,31 @@
 ;; Tramp
 (setq tramp-default-method "ssh")
 
-;; Soft-wrap lines
-(global-visual-line-mode t)
+(defun consider-underscore-word-character ()
+  (modify-syntax-entry ?_ "w"))
 
+(defun consider-hyphen-word-character ()
+  (modify-syntax-entry ?- "w"))
 
-;; Window Movements
-;; Free up C-h in normal mode. SPC-h still brings up the help command map.
-(global-set-key (kbd "C-h") nil)
-(map! :n "-"   #'dired-jump
+(add-hook 'text-mode-hook #'consider-underscore-word-character)
+(add-hook 'prog-mode-hook #'consider-underscore-word-character)
+(add-hook 'lisp-mode-hook #'consider-underscore-word-character)
 
-      ;; Set preferred Vim-style window movements.
-      :n "C-h" #'evil-window-left
-      :n "C-j" #'evil-window-down
-      :n "C-k" #'evil-window-up
-      :n "C-l" #'evil-window-right
+(setq-hook! 'python-mode-hook +format-with-lsp nil)
 
-      ;; Make evil-mode up/down operate in screen lines instead of logical lines
-      :mv "j"  #'evil-next-visual-line
-      :mv "k"  #'evil-previous-visual-line
-      )
+(use-package! python-black
+  :demand t
+  :after python)
+(add-hook! 'python-mode-hook #'python-black-on-save-mode)
+;; Feel free to throw your own personal keybindings here
+(map! :leader :desc "Blacken Buffer" "m b b" #'python-black-buffer)
+(map! :leader :desc "Blacken Buffer" "c f" #'python-black-buffer)
+(map! :leader :desc "Blacken Region" "m b r" #'python-black-region)
+(map! :leader :desc "Blacken Statement" "m b s" #'python-black-statement)
 
-;; (map! :leader
-;;       :desc "Magit status" "g s" #'magit-status-here)
+(map! :after multiple-cursors :desc "Add next word" :gnvi "s-d" #'mc/mark-next-like-this-word)
+(map! :after multiple-cursors :desc "Add next similar" :gnvi "s-D" #'mc/mark-next-like-this)
+(map! :after multiple-cursors :desc "Add previous word" :gnvi "s-u" #'mc/mark-previous-like-this-word)
+(map! :after multiple-cursors :desc "Add previous similar" :gnvi "s-U" #'mc/mark-previous-like-this)
+(map! :after multiple-cursors :desc "Un-add next similar" :gnvi "s-C-d" #'mc/unmark-next-like-this)
+(map! :after multiple-cursors :desc "Un-add previous similar" :gnvi "s-C-u" #'mc/unmark-previous-like-this)
