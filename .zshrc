@@ -328,6 +328,8 @@ inspect_parquet() {
   pqrs cat $1 --json | jq . | less
 }
 
+alias nvim="CC=/usr/local/bin/gcc-12 nvim"
+
 if [ -f ~/java-version.sh ] && type -p sbt &>/dev/null; then
   sbtw() {
     sh ~/java-version.sh && sbt "$@"
