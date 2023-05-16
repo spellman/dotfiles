@@ -35,8 +35,8 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<leader>/", vim.cmd.nohlsearch, { desc = "clear search highlight" })
 
 -- Center cursor vertically in split when going to next or previous search term.
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+vim.keymap.set("n", "n", "nzz")
+vim.keymap.set("n", "N", "Nzz")
 
 -- Paste without overwriting default register contents. So you can paste the
 -- same thing again.
