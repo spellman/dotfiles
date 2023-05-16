@@ -76,8 +76,25 @@ vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Find in marks" })
 vim.keymap.set("n", "<leader>fq", builtin.quickfix, { desc = "Find in quickfix" })
 vim.keymap.set("n", "<leader>fQ", builtin.quickfixhistory, { desc = "Find in quickfix history" })
 vim.keymap.set("n", "<leader>fr", builtin.registers, { desc = "Find registers" })
-vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "Find search term in project" })
-vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "Find word under cursor in project" })
+vim.keymap.set("n", "<leader>fs", function()
+  builtin.live_grep({
+    prompt_title = "Search in Project",
+    find_command = {
+      "rg",
+      "--hidden", "--no-ignore-vcs",
+      "--glob", "!.git"
+    },
+  })
+end, { desc = "Find search term in project" })
+vim.keymap.set("n", "<leader>fw", function()
+  builtin.grep_string({
+    find_command = {
+      "rg",
+      "--hidden", "--no-ignore-vcs",
+      "--glob", "!.git"
+    },
+  })
+end, { desc = "Find word under cursor in project" })
 
 local projects = require("telescope").extensions.projects
 vim.keymap.set("n", "<leader>p", function()
