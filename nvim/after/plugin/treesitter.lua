@@ -13,9 +13,8 @@ require("nvim-treesitter.configs").setup({
     "scala",
     "tsx",
     "typescript",
-    "help",
     "vim",
-    "help"
+    "vimdoc",
   },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
