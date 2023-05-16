@@ -1,21 +1,21 @@
 -- See `:help vim.o`
 
--- Set highlight on search
+-- Set highlight on search.
 vim.opt.hlsearch = true
 
 -- Highlight matches-so-far while typing search text.
 vim.opt.incsearch = true
 
--- Make line numbers default
+-- Make line numbers default.
 vim.opt.number = true
 
 -- Highlight the line on which the cursor is located.
 vim.opt.cursorline = true
 
--- Highlight 1 column after the text width to show the preferred line length.
-vim.opt.colorcolumn = "+1"
+-- Column to highlight.
+vim.opt.colorcolumn = "80"
 
--- Enable mouse mode
+-- Enable mouse mode.
 vim.opt.mouse = "a"
 
 -- Sync clipboard between OS and Neovim.
@@ -23,7 +23,7 @@ vim.opt.mouse = "a"
 --  See `:help 'clipboard'`
 vim.opt.clipboard = "unnamedplus"
 
--- Enable break indent
+-- Enable break indent.
 vim.opt.breakindent = true
 
 -- Tabs
@@ -32,7 +32,7 @@ vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
--- Disable swap files
+-- Disable swap files.
 vim.opt.swapfile = false
 
 -- Disable creating backup files when overwriting a file.
@@ -46,7 +46,7 @@ vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
--- Keep signcolumn on by default
+-- Keep signcolumn on by default.
 vim.opt.signcolumn = "yes"
 
 -- Decrease update time

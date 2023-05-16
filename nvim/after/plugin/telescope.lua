@@ -10,38 +10,76 @@ require("telescope").setup({
   },
 })
 
--- Enable telescope fzf native
+local builtin = require("telescope.builtin")
+
+-- telescope fzf native
 require("telescope").load_extension("fzf")
 
--- project.nvim Telescope integration
+-- telescope-file-browser plugin
+-- telescope-file-browser used to be part of telescope but was moved to an
+-- extension. As per https://github.com/ahmedkhalf/project.nvim/pull/59, we
+-- seem to be in a transitional period where other extensions are adapting to
+-- that.
+-- As a workout THAT SHOULD BE TEMPORARY, we monkey patch
+-- telescope-file-browser to be part of telescope.
+local file_browser = require('telescope').load_extension('file_browser')
+builtin.file_browser = file_browser.file_browser
+
+-- project.nvim
 require("telescope").load_extension("projects")
 
--- See `:help telescope.builtin`
-local builtin = require("telescope.builtin")
-vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "[?] Find recently opened files" })
-vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "[ ] Find existing buffers" })
-vim.keymap.set("n", "<leader>sb", function()
+local which_key = require("which-key")
+which_key.register(
+  {
+    f = { name = " 󰍉 Find" }
+  },
+  { prefix = "<leader>" }
+)
+vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "Find recently opened files" })
+vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "Find existing buffers" })
+vim.keymap.set("n", "<leader>f<Cr>", builtin.resume, { desc = "Resume previous search" })
+vim.keymap.set("n", "<leader>fa", function()
+  local cwd = vim.fn.stdpath("config")
+  builtin.find_files({
+    prompt_title = "Nvim Config Files",
+    find_command = {
+      "rg",
+      "--files", "--hidden", "--no-ignore-vcs",
+      "--glob", "!.git"
+    },
+    cwd = cwd,
+  })
+end, { desc = "Find nvim config files" })
+vim.keymap.set("n", "<leader>fb", function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   builtin.current_buffer_fuzzy_find(require("telescope.themes").get_ivy({
     winblend = 10,
   }))
-end, { desc = "[s]each [b]uffer" })
+end, { desc = "Find in buffer" })
+vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "Find command" })
+vim.keymap.set("n", "<leader>fC", builtin.command_history, { desc = "Find command in history" })
+vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Find in diagnostics" })
+vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "Find files in Git" })
+vim.keymap.set("n", "<leader>ff", function()
+  builtin.find_files({
+    find_command = {
+      "rg",
+      "--files", "--hidden", "--no-ignore-vcs",
+      "--glob", "!.git"
+    }
+  })
+end, { desc = "Find files in project" })
+vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find in help" })
+vim.keymap.set("n", "<leader>fH", builtin.search_history, { desc = "Find history" })
+vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Find in keymaps" })
+vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Find in marks" })
+vim.keymap.set("n", "<leader>fq", builtin.quickfix, { desc = "Find in quickfix" })
+vim.keymap.set("n", "<leader>fQ", builtin.quickfixhistory, { desc = "Find in quickfix history" })
+vim.keymap.set("n", "<leader>fr", builtin.registers, { desc = "Find registers" })
+vim.keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "Find search term in project" })
+vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "Find word under cursor in project" })
 
-vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Fuzzy find Git files" })
-vim.keymap.set("n", "<leader>sf", builtin.find_files, { desc = "[s]earch [f]iles" })
-vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[s]earch [h]elp" })
-vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[s]earch current [w]ord" })
-vim.keymap.set("n", "<leader>ss", function ()
-  builtin.grep_string({ search = vim.fn.input("Grep term: ") });
-end, { desc = "[s]earch current [w]ord" })
-vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[s]earch by [g]rep" })
-vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[s]earch [d]iagnostics" })
-vim.keymap.set("n", "<leader>sc", builtin.commands, { desc = "[s]earch [c]ommands" })
-vim.keymap.set("n", "<leader>sC", builtin.command_history, { desc = "[s]earch [C]ommand_history" })
-vim.keymap.set("n", "<leader>sS", builtin.search_history, { desc = "[s]earch [S]earch_history" })
-vim.keymap.set("n", "<leader>sm", builtin.marks, { desc = "[s]earch [s]earch_marks" })
-vim.keymap.set("n", "<leader>sq", builtin.quickfix, { desc = "[s]earch [q]uickfix" })
-vim.keymap.set("n", "<leader>sQ", builtin.quickfixhistory, { desc = "[s]earch [Q]uickfix_history" })
-vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[s]earch [r]esume" })
-vim.keymap.set("n", "<leader>sR", builtin.registers, { desc = "[s]earch [R]egisters" })
-
+local projects = require("telescope").extensions.projects
+vim.keymap.set("n", "<leader>p", function()
+  projects.projects({})
+end, { desc = "Switch project" })

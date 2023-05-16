@@ -1,4 +1,3 @@
-
 -- NOTE: Here is where you install your plugins.
 --  You can configure plugins using the `config` key.
 --
@@ -153,7 +152,14 @@ return {
   "PaterJason/cmp-conjure",
   "clojure-vim/clojure.vim",
   "clojure-vim/vim-jack-in",
-  "radenling/vim-dispatch-neovim",
+  {
+    "radenling/vim-dispatch-neovim",
+    dependencies = {
+      "tpope/vim-dispatch"
+    }
+  },
+  { url = "https://gitlab.com/invertisment/conjure-clj-additions-cider-nrepl-mw.git" },
+  { url = "https://gitlab.com/invertisment/conjure-clj-additions-vanilla.git" },
   -- {
   --   "w0rp/ale",
   --   config = function()
@@ -171,7 +177,6 @@ return {
   },
 
   -- project.nvim for setting the current directory and telescope integration
-  -- If it doesn't work well, try https://github.com/nvim-telescope/telescope-project.nvim
   {
     "ahmedkhalf/project.nvim",
     config = function()
@@ -183,15 +188,19 @@ return {
 
         -- Show hidden files in telescope
         show_hidden = true,
+
+        -- What scope to change the directory, valid options are
+        -- * global (default)
+        -- * tab
+        -- * win
+        scope_chdir = "tab",
       })
     end
   },
 
   {
-    "ThePrimeagen/harpoon",
-    dependencies = {
-      "nvim-lua/plenary.nvim"
-    }
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
   },
 
   "mbbill/undotree",
@@ -227,6 +236,25 @@ return {
     event = "InsertEnter",
   },
 
+  -- Highlight occurrences of the word under cursor.
   "RRethy/vim-illuminate",
+
+  "nvim-tree/nvim-web-devicons",
+
+  {
+    "folke/todo-comments.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function()
+      require("todo-comments").setup({
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+      })
+    end
+  },
+
 }
 

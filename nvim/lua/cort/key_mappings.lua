@@ -4,6 +4,15 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- local sections = {
+--   l = { desc = " LSP" },
+--   b = { desc = "󰓩 Buffers" },
+--   d = { desc = " Debugger" },
+--   g = { desc = "󰊢 Git" },
+--   S = { desc = "󱂬 Session" },
+--   t = { desc = " Terminal" },
+-- }
+
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
@@ -40,11 +49,26 @@ vim.keymap.set("n", "N", "Nzz")
 
 -- Paste without overwriting default register contents. So you can paste the
 -- same thing again.
-vim.keymap.set("x", "<leader>p", "\"_dP")
+vim.keymap.set("x", "<S-M-p>", "\"_dP")
 
 -- Q goes to ex mode, which isn't supposed to be useful interactively.
 -- We disable it.
 vim.keymap.set("n", "Q", "<nop>")
+
+-- Location list naviation
+local toggle_location_list = function()
+  local winid = vim.fn.getloclist(0, { winid = 0 }).winid
+
+  -- If winid == 0, then the window has no open location list.
+  if winid == 0 then
+    vim.cmd("lopen")
+  else
+    vim.cmd("lclose")
+  end
+end
+vim.keymap.set({"n", "i"}, "<D-l>", toggle_location_list)
+vim.keymap.set({"n", "i"}, "<D-j>", "<cmd>lnext<CR>zz")
+vim.keymap.set({"n", "i"}, "<D-k>", "<cmd>lprev<CR>zz")
 
 -- Quickfix list navigation
 local toggle_quickfix_list = function()
@@ -64,24 +88,5 @@ vim.keymap.set({"n", "i"}, "<S-D-l>", toggle_quickfix_list)
 vim.keymap.set({"n", "i"}, "<S-D-j>", "<cmd>cnext<CR>zz")
 vim.keymap.set({"n", "i"}, "<S-D-k>", "<cmd>cprev<CR>zz")
 
--- Location list naviation
-local toggle_location_list = function()
-  local winid = vim.fn.getloclist(0, { winid = 0 }).winid
-
-  -- If winid == 0, then the window has no open location list.
-  if winid == 0 then
-    vim.cmd.lopen()
-  else
-    vim.cmd.lclose()
-  end
-end
-vim.keymap.set({"n", "i"}, "<D-l>", toggle_location_list)
-vim.keymap.set({"n", "i"}, "<D-j>", "<cmd>lnext<CR>zz")
-vim.keymap.set({"n", "i"}, "<D-k>", "<cmd>lprev<CR>zz")
-
-
 -- Replace occurrences of word under cursor in buffer.
 vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-
--- Open init.lua
-vim.keymap.set("n", "<leader>ei", "<cmd>e ~/.config/nvim/lua/cort/init.lua<CR>")

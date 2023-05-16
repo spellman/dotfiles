@@ -37,7 +37,7 @@ cmp.setup({
     end, { "i", "s" }),
   }),
   sources = {
-    -- { name = "conjure" },
+    { name = "conjure" },
     { name = "nvim_lsp" },
     { name = "luasnip" },
     { name = "buffer" },

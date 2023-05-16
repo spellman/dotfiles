@@ -20,6 +20,14 @@ require("nvim-treesitter.configs").setup({
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = true,
 
+  autopairs = {
+    enable = true,
+  },
+
+  endwise = {
+    enable = true,
+  },
+
   -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
   -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
   -- Using this option may slow down your editor, and you may see some duplicate highlights.
@@ -28,10 +36,7 @@ require("nvim-treesitter.configs").setup({
     enable = true,
     additional_vim_regex_highlighting = false
   },
-  indent = {
-    enable = true,
-    -- disable = { "python" }
-  },
+
   incremental_selection = {
     enable = true,
     keymaps = {
@@ -41,6 +46,12 @@ require("nvim-treesitter.configs").setup({
       node_decremental = "<M-space>",
     },
   },
+
+  indent = {
+    enable = true,
+    -- disable = { "python" }
+  },
+
   textobjects = {
     select = {
       enable = true,
@@ -84,9 +95,6 @@ require("nvim-treesitter.configs").setup({
         ["{p"] = "@parameter.inner",
       },
     },
-  },
-  endwise = {
-    enable = true,
   },
 })
 
