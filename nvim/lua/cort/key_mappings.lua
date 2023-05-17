@@ -81,7 +81,7 @@ local toggle_quickfix_list = function()
   if does_quickfix_list_exist == true then
     vim.cmd("cclose")
   else
-    vim.cmd("botright copen")
+    vim.cmd("copen")
   end
 end
 vim.keymap.set({"n", "i"}, "<S-D-l>", toggle_quickfix_list)

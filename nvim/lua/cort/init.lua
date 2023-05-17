@@ -36,3 +36,26 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = highlight_group,
   pattern = "*",
 })
+
+-- We set the quickfix list to appear as a full-width window, across the bottom
+-- of the current tab.
+-- Note that we only apply this to the quickfix list and not to location lists,
+-- which also use the `qf` FileType.
+-- The following lua is a translation of this vimscript:
+-- ```vimscript
+-- autocmd FileType qf if (getwininfo(win_getid())[0].loclist != 1) | wincmd J | endif
+-- ```
+-- Which is to say,
+--     When the FileType event is fired because the FileType is set,
+--     then if the buffer file type is "qf",
+--     then make the buffer window full-width across the bottom of the tab.
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function()
+    local current_window_id = vim.fn.win_getid()
+    local current_window_info = vim.fn.getwininfo(current_window_id)[1]
+    if current_window_info["quickfix"] == 1 then
+      vim.cmd("wincmd J")
+    end
+  end,
+  pattern = "qf",
+})
