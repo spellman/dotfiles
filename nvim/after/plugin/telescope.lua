@@ -38,18 +38,6 @@ which_key.register(
 vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "Find recently opened files" })
 vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "Find existing buffers" })
 vim.keymap.set("n", "<leader>f<Cr>", builtin.resume, { desc = "Resume previous search" })
-vim.keymap.set("n", "<leader>fa", function()
-  local cwd = vim.fn.stdpath("config")
-  builtin.find_files({
-    prompt_title = "Nvim Config Files",
-    find_command = {
-      "rg",
-      "--files", "--hidden", "--no-ignore-vcs",
-      "--glob", "!.git"
-    },
-    cwd = cwd,
-  })
-end, { desc = "Find nvim config files" })
 vim.keymap.set("n", "<leader>fb", function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   builtin.current_buffer_fuzzy_find(require("telescope.themes").get_ivy({
@@ -73,6 +61,18 @@ vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find in help" })
 vim.keymap.set("n", "<leader>fH", builtin.search_history, { desc = "Find history" })
 vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Find in keymaps" })
 vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Find in marks" })
+vim.keymap.set("n", "<leader>fn", function()
+  local cwd = vim.fn.stdpath("config")
+  builtin.find_files({
+    prompt_title = "Nvim Config Files",
+    find_command = {
+      "rg",
+      "--files", "--hidden", "--no-ignore-vcs",
+      "--glob", "!.git"
+    },
+    cwd = cwd,
+  })
+end, { desc = "Find nvim config files" })
 vim.keymap.set("n", "<leader>fq", builtin.quickfix, { desc = "Find in quickfix" })
 vim.keymap.set("n", "<leader>fQ", builtin.quickfixhistory, { desc = "Find in quickfix history" })
 vim.keymap.set("n", "<leader>fr", builtin.registers, { desc = "Find registers" })
