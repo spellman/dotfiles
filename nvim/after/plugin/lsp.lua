@@ -33,7 +33,7 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
     vim.lsp.buf.format()
   end, { desc = "Format current buffer with LSP" })
-  vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, opts("[f]ormat buffer"))
+  vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts("[f]ormat buffer"))
 
   -- Diagnostic keymaps
   vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts("Go to previous diagnostic message"))
