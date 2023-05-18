@@ -1,5 +1,5 @@
 -- We listed telescope as a dependency for "neovim/nvim-lspconfig" (and before mason, in case that matters) so that it will be available here.
-local builtin = require("telescope.builtin")
+local telescope_builtin = require("telescope.builtin")
 
 local on_attach = function(_, bufnr)
   local opts = function (description)
@@ -9,15 +9,15 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("[g]oto [d]efinition"))
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts("[g]oto [D]eclaration"))
   vim.keymap.set("n", "gR", vim.lsp.buf.references, opts("[g]oto [R]eferences"))
-  vim.keymap.set("n", "gr", builtin.lsp_references, opts("Telescope LSP [g]oto [R]eferences"))
+  vim.keymap.set("n", "gr", telescope_builtin.lsp_references, opts("Telescope LSP [g]oto [R]eferences"))
   vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts("[g]oto [i]mplementation"))
 
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
   vim.keymap.set({"n", "i"}, "<M-k>", vim.lsp.buf.signature_help, opts("Signature Documentation"))
 
   vim.keymap.set("n", "gtd", vim.lsp.buf.type_definition, opts("[g]oto [t]ype [D]efinition"))
-  vim.keymap.set("n", "<leader>ds", builtin.lsp_document_symbols, opts("[d]ocument [s]ymbols"))
-  vim.keymap.set("n", "<leader>ws", builtin.lsp_dynamic_workspace_symbols, opts("Telescope LSP [w]orkspace [S]ymbols"))
+  vim.keymap.set("n", "<leader>ds", telescope_builtin.lsp_document_symbols, opts("[d]ocument [s]ymbols"))
+  vim.keymap.set("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, opts("Telescope LSP [w]orkspace [S]ymbols"))
 
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts("[c]ode [a]ction"))
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts("[r]e[n]ame"))
