@@ -1,7 +1,7 @@
 -- We listed telescope as a dependency for "neovim/nvim-lspconfig" (and before mason, in case that matters) so that it will be available here.
 local telescope_builtin = require("telescope.builtin")
 
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   local opts = function (description)
     return { buffer = bufnr, remap = false, desc = description }
   end
@@ -42,6 +42,17 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts("Open diagnostics in location list"))
 end
 
+local server_dependent_on_attach = function(server_name)
+  return function(client, bufnr)
+    if server_name == "ruff-lsp" then
+      -- Disable hover in favor of Pyright
+      client.server_capabilities.hoverProvider = false
+    end
+
+    on_attach(client, bufnr)
+  end
+end
+
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --  Add any additional override configuration in the following tables. They will be passed to
@@ -50,16 +61,17 @@ local servers = {
   -- clangd = {},
   clojure_lsp = {},
   gopls = {},
-  pyright = {},
-  rust_analyzer = {},
-  -- tsserver = {},
-
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
   },
+  pyright = {},
+  -- I could also use lsp-zero, which sets up linting as well as diagnostics.
+  ruff_lsp = {},
+  rust_analyzer = {},
+  -- tsserver = {},
 }
 
 -- Setup neovim lua configuration
@@ -83,7 +95,7 @@ mason_lspconfig.setup_handlers({
   function(server_name)
     require("lspconfig")[server_name].setup({
       capabilities = capabilities,
-      on_attach = on_attach,
+      on_attach = server_dependent_on_attach(server_name),
       settings = servers[server_name],
     })
   end,
