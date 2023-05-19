@@ -62,3 +62,9 @@ vim.opt.termguicolors = true
 
 -- Session
 vim.opt.sessionoptions = "blank,curdir,folds,help,tabpages,winsize"
+
+-- Open horizontal splits below.
+vim.opt.splitbelow = true
+
+-- Open vertical splits to the right.
+vim.opt.splitright = true
