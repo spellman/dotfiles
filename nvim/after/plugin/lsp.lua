@@ -6,34 +6,34 @@ local on_attach = function(client, bufnr)
     return { buffer = bufnr, remap = false, desc = description }
   end
 
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("[g]oto [d]efinition"))
-  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts("[g]oto [D]eclaration"))
-  vim.keymap.set("n", "gR", vim.lsp.buf.references, opts("[g]oto [R]eferences"))
-  vim.keymap.set("n", "gr", telescope_builtin.lsp_references, opts("Telescope LSP [g]oto [R]eferences"))
-  vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts("[g]oto [i]mplementation"))
+  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto definition"))
+  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts("Goto declaration"))
+  vim.keymap.set("n", "gR", vim.lsp.buf.references, opts("Goto references"))
+  vim.keymap.set("n", "gr", telescope_builtin.lsp_references, opts("Goto references with Telescope"))
+  vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts("Goto implementation"))
 
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover Documentation"))
-  vim.keymap.set({"n", "i"}, "<M-k>", vim.lsp.buf.signature_help, opts("Signature Documentation"))
+  vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover documentation"))
+  vim.keymap.set({"n", "i"}, "<M-k>", vim.lsp.buf.signature_help, opts("Signature documentation"))
 
-  vim.keymap.set("n", "gtd", vim.lsp.buf.type_definition, opts("[g]oto [t]ype [D]efinition"))
-  vim.keymap.set("n", "<leader>ds", telescope_builtin.lsp_document_symbols, opts("[d]ocument [s]ymbols"))
-  vim.keymap.set("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, opts("Telescope LSP [w]orkspace [S]ymbols"))
+  vim.keymap.set("n", "gtd", vim.lsp.buf.type_definition, opts("Goto type definition"))
+  vim.keymap.set("n", "<leader>ds", telescope_builtin.lsp_document_symbols, opts("Document symbols"))
+  vim.keymap.set("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, opts("Workspace symbols with Telescope"))
 
-  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts("[c]ode [a]ction"))
-  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts("[r]e[n]ame"))
+  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts("Code action"))
+  vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts("Rename symbol"))
 
   -- Lesser used LSP functionality
-  vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts("[w]orkspace [a]dd Folder"))
-  vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts("[w]orkspace [r]emove Folder"))
+  vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts("Workspace add folder"))
+  vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts("Workspace remove folder"))
   vim.keymap.set("n", "<leader>wl", function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, opts("[w]orkspace [l]ist Folders"))
+  end, opts("Workspace list folders"))
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
     vim.lsp.buf.format()
   end, { desc = "Format current buffer with LSP" })
-  vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts("[f]ormat buffer"))
+  vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts("Format buffer"))
 
   -- Diagnostic keymaps
   vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts("Go to previous diagnostic message"))
