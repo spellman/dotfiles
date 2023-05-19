@@ -2,8 +2,15 @@
 local telescope_builtin = require("telescope.builtin")
 
 local on_attach = function(client, bufnr)
-  local opts = function (description)
+  local opts = function(description)
     return { buffer = bufnr, remap = false, desc = description }
+  end
+
+  local in_split = function(fn)
+    return function()
+      vim.cmd("vsplit")
+      fn()
+    end
   end
 
   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto definition"))
@@ -12,10 +19,18 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "gr", telescope_builtin.lsp_references, opts("Goto references with Telescope"))
   vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts("Goto implementation"))
 
+  vim.keymap.set("n", "gsd", in_split(vim.lsp.buf.definition), opts("Goto definition in split"))
+  vim.keymap.set("n", "gsD", in_split(vim.lsp.buf.declaration), opts("Goto declaration in split"))
+  vim.keymap.set("n", "gsR", in_split(vim.lsp.buf.references), opts("Goto references in split"))
+  vim.keymap.set("n", "gsr", in_split(telescope_builtin.lsp_references), opts("Goto references with Telescope in split"))
+  vim.keymap.set("n", "gsI", in_split(vim.lsp.buf.implementation), opts("Goto implementation in split"))
+
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover documentation"))
   vim.keymap.set({"n", "i"}, "<M-k>", vim.lsp.buf.signature_help, opts("Signature documentation"))
 
   vim.keymap.set("n", "gtd", vim.lsp.buf.type_definition, opts("Goto type definition"))
+  vim.keymap.set("n", "gstd", in_split(vim.lsp.buf.type_definition), opts("Goto type definition"))
+
   vim.keymap.set("n", "<leader>ds", telescope_builtin.lsp_document_symbols, opts("Document symbols"))
   vim.keymap.set("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, opts("Workspace symbols with Telescope"))
 
