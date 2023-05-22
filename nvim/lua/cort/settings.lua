@@ -38,23 +38,23 @@ vim.opt.swapfile = false
 -- Disable creating backup files when overwriting a file.
 vim.opt.backup = false
 
--- Save undo history
+-- Save undo history.
 vim.opt.undodir = os.getenv("HOME") .. "/.local/share/nvim/cort_undodir"
 vim.opt.undofile = true
 
--- Case insensitive searching UNLESS /C or capital in search
+-- Case insensitive searching UNLESS /C or capital in search.
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default.
 vim.opt.signcolumn = "yes"
 
--- Decrease update time
+-- Decrease update time.
 vim.opt.updatetime = 50
 vim.opt.timeout = true
 vim.opt.timeoutlen = 300
 
--- Set completeopt to have a better completion experience
+-- Set completeopt to have a better completion experience.
 vim.opt.completeopt = "menuone,noselect"
 
 -- NOTE: You should make sure your terminal supports this
