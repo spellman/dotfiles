@@ -60,6 +60,9 @@ vim.opt.completeopt = "menuone,noselect"
 -- NOTE: You should make sure your terminal supports this
 vim.opt.termguicolors = true
 
+-- Lightbackground for doom-one theme.
+vim.opt.background = "light"
+
 -- Session
 vim.opt.sessionoptions = "blank,curdir,folds,help,tabpages,winsize"
 
