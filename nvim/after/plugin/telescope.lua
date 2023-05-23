@@ -90,7 +90,7 @@ end, { desc = "Find files in project" })
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Find in help" })
 vim.keymap.set("n", "<leader>fH", builtin.search_history, { desc = "Find history" })
 vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Find in keymaps" })
-vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Find in marks" })
+vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Find marks" })
 vim.keymap.set("n", "<leader>fn", function()
   local nvim_config_dir = vim.fn.stdpath("config")
   builtin.find_files({
