@@ -11,6 +11,7 @@ vim.g.maplocalleader = " "
 --   g = { desc = "󰊢 Git" },
 --   S = { desc = "󱂬 Session" },
 --   t = { desc = " Terminal" },
+--   u = { desc = " UI" },
 -- }
 
 -- Keymaps for better default experience
