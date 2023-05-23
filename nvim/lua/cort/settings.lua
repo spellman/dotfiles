@@ -13,7 +13,7 @@ vim.opt.number = true
 vim.opt.cursorline = true
 
 -- Column to highlight.
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "81"
 
 -- Enable mouse mode.
 vim.opt.mouse = "a"
