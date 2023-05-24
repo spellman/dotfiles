@@ -19,8 +19,8 @@ vim.g.maplocalleader = " "
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 -- Remap for dealing with word wrap
-vim.keymap.set({"n", "v"}, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set({"n", "v"}, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Window movement
 vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Switch to split to left", noremap = true })
@@ -67,9 +67,9 @@ local toggle_location_list = function()
     vim.cmd("lclose")
   end
 end
-vim.keymap.set({"n", "i"}, "<D-l>", toggle_location_list)
-vim.keymap.set({"n", "i"}, "<D-j>", "<cmd>lnext<CR>zz")
-vim.keymap.set({"n", "i"}, "<D-k>", "<cmd>lprev<CR>zz")
+vim.keymap.set({ "n", "i" }, "<D-l>", toggle_location_list)
+vim.keymap.set({ "n", "i" }, "<D-j>", "<cmd>lnext<CR>zz")
+vim.keymap.set({ "n", "i" }, "<D-k>", "<cmd>lprev<CR>zz")
 
 -- Quickfix list navigation
 local toggle_quickfix_list = function()
@@ -85,9 +85,9 @@ local toggle_quickfix_list = function()
     vim.cmd("copen")
   end
 end
-vim.keymap.set({"n", "i"}, "<S-D-l>", toggle_quickfix_list)
-vim.keymap.set({"n", "i"}, "<S-D-j>", "<cmd>cnext<CR>zz")
-vim.keymap.set({"n", "i"}, "<S-D-k>", "<cmd>cprev<CR>zz")
+vim.keymap.set({ "n", "i" }, "<S-D-l>", toggle_quickfix_list)
+vim.keymap.set({ "n", "i" }, "<S-D-j>", "<cmd>cnext<CR>zz")
+vim.keymap.set({ "n", "i" }, "<S-D-k>", "<cmd>cprev<CR>zz")
 
 -- Replace occurrences of word under cursor in buffer.
 vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
