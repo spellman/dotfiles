@@ -132,20 +132,19 @@ return {
     },
   },
 
-  { -- Add indentation guides even on blank lines
-    "lukas-reineke/indent-blankline.nvim",
-    -- Enable `lukas-reineke/indent-blankline.nvim`
-    -- See `:help indent_blankline.txt`
-    opts = {
-      char = "┊",
-      show_trailing_blankline_indent = false,
-    },
-  },
-
   -- "gc" to comment visual regions/lines
   {
     "numToStr/Comment.nvim",
     opts = {}
+  },
+
+  {
+    -- Keep an eye on https://github.com/PaterJason/nvim-treesitter-sexp as a
+    -- replacement.
+    "guns/vim-sexp",
+    dependencies = {
+      "tpope/vim-repeat"
+    }
   },
 
   -- Fuzzy Finder (files, lsp, etc)
@@ -177,6 +176,11 @@ return {
 
       -- We will configure treesitter to use nvim-treesitter-endwise so we list it as a dependency.
       "RRethy/nvim-treesitter-endwise",
+      {
+        -- Source: https://code.mehalter.com/AstroNvim_user/~files/master/plugins/treesitter.lua
+        "andymass/vim-matchup",
+        init = function() vim.g.matchup_matchparen_deferred = 1 end,
+      },
     },
     config = function()
       pcall(require("nvim-treesitter.install").update({ with_sync = true }))
@@ -295,6 +299,10 @@ return {
   {
     "kevinhwang91/nvim-bqf",
     ft = "qf"
+  },
+
+  {
+    "HiPhish/nvim-ts-rainbow2"
   },
 }
 

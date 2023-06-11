@@ -13,13 +13,20 @@ local on_attach = function(client, bufnr)
     end
   end
 
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto definition"))
+  local center_cursor_line_vertically = function(fn)
+    return function()
+      fn()
+      vim.cmd("norm! zz")
+    end
+  end
+
+  vim.keymap.set("n", "gd", center_cursor_line_vertically(vim.lsp.buf.definition), opts("Goto definition"))
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts("Goto declaration"))
   vim.keymap.set("n", "gR", vim.lsp.buf.references, opts("Goto references"))
   vim.keymap.set("n", "gr", telescope_builtin.lsp_references, opts("Goto references with Telescope"))
   vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts("Goto implementation"))
 
-  vim.keymap.set("n", "gsd", in_split(vim.lsp.buf.definition), opts("Goto definition in split"))
+  vim.keymap.set("n", "gsd", center_cursor_line_vertically(in_split(vim.lsp.buf.definition)), opts("Goto definition in split"))
   vim.keymap.set("n", "gsD", in_split(vim.lsp.buf.declaration), opts("Goto declaration in split"))
   vim.keymap.set("n", "gsR", in_split(vim.lsp.buf.references), opts("Goto references in split"))
   vim.keymap.set("n", "gsr", in_split(telescope_builtin.lsp_references), opts("Goto references with Telescope in split"))

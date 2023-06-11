@@ -1,9 +1,3 @@
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 -- local sections = {
 --   l = { desc = " LSP" },
 --   b = { desc = "󰓩 Buffers" },
@@ -90,4 +84,14 @@ vim.keymap.set({ "n", "i" }, "<S-D-j>", "<cmd>cnext<CR>zz")
 vim.keymap.set({ "n", "i" }, "<S-D-k>", "<cmd>cprev<CR>zz")
 
 -- Replace occurrences of word under cursor in buffer.
-vim.keymap.set("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+require("which-key").register(
+  {
+    r = {
+      w = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "Rename word under cursor in buffer" }
+    }
+  },
+  {
+    mode = "n",
+    prefix = "<leader>",
+  }
+)

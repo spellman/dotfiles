@@ -1,5 +1,10 @@
+-- Set <space> as the leader key
+-- See `:help mapleader`
+--  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 require("cort.settings")
-require("cort.key_mappings")
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
@@ -19,6 +24,8 @@ vim.opt.rtp:prepend(lazypath)
 
 -- We provide a string with the name of the Lua module containinging the plugin spec. This tells lazy.nvim which packages to install.
 require("lazy").setup("cort.plugins", {})
+
+require("cort.key_mappings")
 
 -- Packages are set up when the Lua code in ~/.config/nvim/after runs, which is, by default, the last entry in the nvim runtime path, which means it will run at the end of startup.
 -- See

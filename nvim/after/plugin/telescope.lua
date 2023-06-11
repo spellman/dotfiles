@@ -50,8 +50,7 @@ which_key.register(
   },
   { prefix = "<leader>" }
 )
-vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "Find recently opened files" })
-vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "Find existing buffers" })
+vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "Find buffer" })
 vim.keymap.set("n", "<leader>f<Cr>", builtin.resume, { desc = "Resume previous search" })
 vim.keymap.set("n", "<leader>fb", function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
@@ -81,6 +80,7 @@ vim.keymap.set("n", "<leader>ff", function()
     prompt_title = "Find Files ("..project_root..")",
     find_command = {
       "fd",
+      "--color", "never",
       "--no-ignore-vcs",
       "--exclude", ".git",
     },
@@ -97,6 +97,7 @@ vim.keymap.set("n", "<leader>fn", function()
     prompt_title = "Nvim Config Files ("..nvim_config_dir..")",
     find_command = {
       "fd",
+      "--color", "never",
       "--no-ignore-vcs",
       "--exclude", ".git",
     },
@@ -105,7 +106,8 @@ vim.keymap.set("n", "<leader>fn", function()
 end, { desc = "Find nvim config files" })
 vim.keymap.set("n", "<leader>fq", builtin.quickfix, { desc = "Find in quickfix" })
 vim.keymap.set("n", "<leader>fQ", builtin.quickfixhistory, { desc = "Find in quickfix history" })
-vim.keymap.set("n", "<leader>fr", builtin.registers, { desc = "Find registers" })
+vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Find recently opened files" })
+vim.keymap.set("n", "<leader>fR", builtin.registers, { desc = "Find registers" })
 vim.keymap.set("n", "<leader>fs", function()
   -- See (*) for why we use project_nvim_project.find_pattern_root.
   local project_root, _ = project_nvim_project.find_pattern_root()
@@ -113,6 +115,7 @@ vim.keymap.set("n", "<leader>fs", function()
     prompt_title = "Search in Project",
     find_command = {
       "rg",
+      "--color", "never",
       "--hidden", "--no-ignore-vcs",
       "--glob", "!.git"
     },
@@ -125,6 +128,7 @@ vim.keymap.set("n", "<leader>fw", function()
   builtin.grep_string({
     find_command = {
       "rg",
+      "--color", "never",
       "--hidden", "--no-ignore-vcs",
       "--glob", "!.git"
     },

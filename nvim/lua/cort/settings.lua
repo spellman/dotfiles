@@ -71,3 +71,7 @@ vim.opt.splitbelow = true
 
 -- Open vertical splits to the right.
 vim.opt.splitright = true
+
+-- listchars determines the printing of whitespace characters
+-- vim.opt.list = true
+
