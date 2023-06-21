@@ -64,7 +64,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts("Open diagnostics in location list"))
 end
 
-local server_dependent_on_attach = function(server_name)
+local function server_dependent_on_attach(server_name)
   return function(client, bufnr)
     if server_name == "ruff-lsp" then
       -- Disable hover in favor of Pyright

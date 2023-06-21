@@ -301,8 +301,6 @@ return {
     ft = "qf"
   },
 
-  {
-    "HiPhish/nvim-ts-rainbow2"
-  },
+  "HiPhish/nvim-ts-rainbow2",
 }
 
