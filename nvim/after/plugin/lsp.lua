@@ -1,33 +1,118 @@
 -- We listed telescope as a dependency for "neovim/nvim-lspconfig" (and before mason, in case that matters) so that it will be available here.
+local validate = vim.validate
+local util = require("vim.lsp.util")
 local telescope_builtin = require("telescope.builtin")
 
-local on_attach = function(client, bufnr)
-  local opts = function(description)
+-- I want to be able to compose LSP operations with editor operations (and,
+-- really, with anything else).
+-- The low-level LSP interactions are requests and responses that are either
+-- * Asynchronous and accept callback functions, or
+-- * Synchronous and return results
+-- However, the functionality above that, up to the user-facing functions, are
+-- fire-and-forget, which doesn't compose.
+-- As such, I re-implement the relevant functionality on top of the low-level
+-- LSP interactions:
+
+---@private
+--- Sends an async request to all active clients attached to the current
+--- buffer.
+---
+---@param method (string) LSP method name
+---@param params (table|nil) Parameters to send to the server
+---@param handler (function|nil) See |lsp-handler|. Follows |lsp-handler-resolution|
+--
+---@returns 2-tuple:
+---  - Map of client-id:request-id pairs for all successful requests.
+---  - Function which can be used to cancel all the requests. You could instead
+---    iterate all clients and call their `cancel_request()` methods.
+---
+---@see |vim.lsp.buf_request()|
+local function request(method, params, handler)
+  validate({
+    method = { method, 's' },
+    handler = { handler, 'f', true },
+  })
+  return vim.lsp.buf_request(0, method, params, handler)
+end
+
+local function request_with_options(name, params, options)
+  local req_handler
+
+  if options then
+    local callback = options["callback"]
+    options["callback"] = nil
+
+    req_handler = function(err, result, ctx, config)
+      local client = vim.lsp.get_client_by_id(ctx.client_id)
+      local handler = client.handlers[name] or vim.lsp.handlers[name]
+      handler(err, result, ctx, vim.tbl_extend('force', config or {}, options))
+      if callback then
+        callback()
+      end
+    end
+  end
+
+  request(name, params, req_handler)
+end
+
+--- Version of built-in function that takes an optional callback.
+--- Jumps to the definition of the symbol under the cursor.
+---
+---@param options table|nil additional options
+---     - reuse_win: (boolean) Jump to existing window if buffer is already open.
+---     - on_list: (function) handler for list results. See |lsp-on-list-handler|
+---     - callback: (function) function of _?_ arguments to execute after the LSP response.
+local function definition(options)
+  local params = util.make_position_params()
+  request_with_options("textDocument/definition", params, options)
+end
+
+--- Version of built-in function that takes an optional callback.
+--- Jumps to the declaration of the symbol under the cursor.
+---@note Many servers do not implement this method. Generally, see |vim.lsp.buf.definition()| instead.
+---
+---@param options table|nil additional options
+---     - reuse_win: (boolean) Jump to existing window if buffer is already open.
+---     - on_list: (function) handler for list results. See |lsp-on-list-handler|
+---     - callback: (function) function of _?_ arguments to execute after the LSP response.
+local function declaration(options)
+  local params = util.make_position_params()
+  request_with_options("textDocument/declaration", params, options)
+end
+
+local function in_split(fn)
+  return function()
+    vim.cmd("vsplit")
+    fn()
+  end
+end
+
+local function position_cursor_at_top()
+  vim.cmd("norm! zt")
+end
+
+local function on_attach(client, bufnr)
+  local function opts(description)
     return { buffer = bufnr, remap = false, desc = description }
   end
 
-  local in_split = function(fn)
-    return function()
-      vim.cmd("vsplit")
-      fn()
-    end
-  end
-
-  local center_cursor_line_vertically = function(fn)
-    return function()
-      fn()
-      vim.cmd("norm! zz")
-    end
-  end
-
-  vim.keymap.set("n", "gd", center_cursor_line_vertically(vim.lsp.buf.definition), opts("Goto definition"))
-  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts("Goto declaration"))
+  -- vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto definition"))
+  vim.keymap.set("n", "gd", function()
+    definition({ callback = position_cursor_at_top })
+  end, opts("Goto definition"))
+  vim.keymap.set("n", "gD", function()
+    declaration({ callback = position_cursor_at_top })
+  end, opts("Goto declaration"))
   vim.keymap.set("n", "gR", vim.lsp.buf.references, opts("Goto references"))
   vim.keymap.set("n", "gr", telescope_builtin.lsp_references, opts("Goto references with Telescope"))
   vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts("Goto implementation"))
 
-  vim.keymap.set("n", "gsd", center_cursor_line_vertically(in_split(vim.lsp.buf.definition)), opts("Goto definition in split"))
-  vim.keymap.set("n", "gsD", in_split(vim.lsp.buf.declaration), opts("Goto declaration in split"))
+  vim.keymap.set("n", "gsd", in_split(function()
+    definition({ callback = position_cursor_at_top })
+  end), opts("Goto definition in split"))
+  vim.keymap.set("n", "gsD", in_split(function()
+    declaration({ callback = position_cursor_at_top })
+  end), opts("Goto declaration in split"))
   vim.keymap.set("n", "gsR", in_split(vim.lsp.buf.references), opts("Goto references in split"))
   vim.keymap.set("n", "gsr", in_split(telescope_builtin.lsp_references), opts("Goto references with Telescope in split"))
   vim.keymap.set("n", "gsI", in_split(vim.lsp.buf.implementation), opts("Goto implementation in split"))
