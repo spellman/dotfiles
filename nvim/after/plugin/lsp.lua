@@ -102,7 +102,6 @@ local function on_attach(client, bufnr)
     return { buffer = bufnr, remap = false, desc = description }
   end
 
-  -- vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts("Goto definition"))
   vim.keymap.set("n", "gd", function()
     definition({ callback = position_cursor_at_top })
   end, opts("Goto definition"))
@@ -146,10 +145,6 @@ local function on_attach(client, bufnr)
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, opts("Workspace list folders"))
 
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-    vim.lsp.buf.format()
-  end, { desc = "Format current buffer with LSP" })
   vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts("Format buffer"))
 
   -- Diagnostic keymaps
