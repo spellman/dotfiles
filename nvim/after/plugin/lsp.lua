@@ -39,15 +39,19 @@ local function request_with_options(name, params, options)
   local req_handler
 
   if options then
-    local callback = options["callback"]
-    options["callback"] = nil
+    local callback
+
+    if options["callback"] then
+      callback = options["callback"]
+      options["callback"] = nil
+    end
 
     req_handler = function(err, result, ctx, config)
       local client = vim.lsp.get_client_by_id(ctx.client_id)
       local handler = client.handlers[name] or vim.lsp.handlers[name]
       handler(err, result, ctx, vim.tbl_extend('force', config or {}, options))
       if callback then
-        callback()
+        callback(err, result, ctx, config)
       end
     end
   end
@@ -61,7 +65,8 @@ end
 ---@param options table|nil additional options
 ---     - reuse_win: (boolean) Jump to existing window if buffer is already open.
 ---     - on_list: (function) handler for list results. See |lsp-on-list-handler|
----     - callback: (function) function of _?_ arguments to execute after the LSP response.
+---     - callback: (function) function of err, result, ctx, config arguments to
+--                  execute after the LSP response.
 local function definition(options)
   local params = util.make_position_params()
   request_with_options("textDocument/definition", params, options)
@@ -74,7 +79,8 @@ end
 ---@param options table|nil additional options
 ---     - reuse_win: (boolean) Jump to existing window if buffer is already open.
 ---     - on_list: (function) handler for list results. See |lsp-on-list-handler|
----     - callback: (function) function of _?_ arguments to execute after the LSP response.
+---     - callback: (function) function of err, result, ctx, config arguments to
+--                  execute after the LSP response.
 local function declaration(options)
   local params = util.make_position_params()
   request_with_options("textDocument/declaration", params, options)
