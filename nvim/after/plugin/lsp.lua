@@ -123,7 +123,7 @@ local function on_attach(client, bufnr)
   vim.keymap.set("n", "gsI", in_split(vim.lsp.buf.implementation), opts("Goto implementation in split"))
 
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover documentation"))
-  vim.keymap.set({"n", "i"}, "<M-k>", vim.lsp.buf.signature_help, opts("Signature documentation"))
+  vim.keymap.set({ "n", "i" }, "<M-k>", vim.lsp.buf.signature_help, opts("Signature documentation"))
 
   vim.keymap.set("n", "gtd", function()
     type_definition({ callback = position_cursor_at_top })
@@ -133,7 +133,8 @@ local function on_attach(client, bufnr)
   end), opts("Goto type definition in split"))
 
   vim.keymap.set("n", "<leader>ds", telescope_builtin.lsp_document_symbols, opts("Document symbols"))
-  vim.keymap.set("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols, opts("Workspace symbols with Telescope"))
+  vim.keymap.set("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols,
+    opts("Workspace symbols with Telescope"))
 
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts("Code action"))
   vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts("Rename symbol"))
