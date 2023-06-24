@@ -308,5 +308,13 @@ return {
   },
 
   "HiPhish/nvim-ts-rainbow2",
-}
 
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = {
+      "kevinhwang91/promise-async",
+      "luukvbaal/statuscol.nvim",
+    },
+    event = "VeryLazy"
+  }
+}

@@ -1,9 +1,12 @@
+-- As per
+-- https://github.com/kevinhwang91/nvim-ufo/blob/43e39ec74cd57c45ca9d8229a796750f6083b850/README.md#minimal-configuration
+local ufo = require("ufo")
+vim.keymap.set('n', 'zR', ufo.openAllFolds)
+vim.keymap.set('n', 'zM', ufo.closeAllFolds)
+
 local api = vim.api
 local validate = vim.validate
 local util = require("vim.lsp.util")
--- We listed telescope as a dependency for "neovim/nvim-lspconfig" (and before
--- mason, in case that matters) so that it will be available here.
-local telescope_builtin = require("telescope.builtin")
 
 -- I want to be able to compose LSP operations with editor operations (and,
 -- really, with anything else).
@@ -260,6 +263,10 @@ local function write_changed_buffers()
   vim.cmd("silent! wa")
 end
 
+-- We listed telescope as a dependency for "neovim/nvim-lspconfig" (and before
+-- mason, in case that matters) so that it will be available here.
+local telescope_builtin = require("telescope.builtin")
+
 local function on_attach(client, bufnr)
   local function opts(description)
     return { buffer = bufnr, remap = false, desc = description }
@@ -358,6 +365,12 @@ require("neodev").setup()
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+-- Add folding capability as per
+-- https://github.com/kevinhwang91/nvim-ufo/blob/43e39ec74cd57c45ca9d8229a796750f6083b850/README.md#minimal-configuration
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true
+}
 
 -- Setup mason so it can manage external tooling
 require("mason").setup()
@@ -378,3 +391,7 @@ mason_lspconfig.setup_handlers({
     })
   end,
 })
+
+-- As per
+-- https://github.com/kevinhwang91/nvim-ufo/blob/43e39ec74cd57c45ca9d8229a796750f6083b850/README.md#minimal-configuration
+ufo.setup()
