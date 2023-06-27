@@ -1,5 +1,7 @@
+local telescope = require("telescope")
+
 -- See `:help telescope` and `:help telescope.setup()`
-require("telescope").setup({
+telescope.setup({
   defaults = {
     mappings = {
       i = {
@@ -24,10 +26,14 @@ require("telescope").setup({
   },
 })
 
-local builtin = require("telescope.builtin")
-
 -- telescope fzf native
-require("telescope").load_extension("fzf")
+telescope.load_extension("fzf")
+
+telescope.load_extension("aerial")
+local aerial = telescope.extensions.aerial
+-- TODO: Set keymapping to use aerial.
+
+local builtin = require("telescope.builtin")
 
 -- telescope-file-browser plugin
 -- telescope-file-browser used to be part of telescope but was moved to an
@@ -36,11 +42,11 @@ require("telescope").load_extension("fzf")
 -- that.
 -- As a workout THAT SHOULD BE TEMPORARY, we monkey patch
 -- telescope-file-browser to be part of telescope.
-local file_browser = require('telescope').load_extension('file_browser')
+local file_browser = telescope.load_extension("file_browser")
 builtin.file_browser = file_browser.file_browser
 
 -- project.nvim
-require("telescope").load_extension("projects")
+telescope.load_extension("projects")
 local project_nvim_project = require("project_nvim.project")
 
 local which_key = require("which-key")
@@ -136,7 +142,7 @@ vim.keymap.set("n", "<leader>fw", function()
   })
 end, { desc = "Find word under cursor in project" })
 
-local projects = require("telescope").extensions.projects
+local projects = telescope.extensions.projects
 vim.keymap.set("n", "<leader>p", function()
   projects.projects({})
 end, { desc = "Switch project" })

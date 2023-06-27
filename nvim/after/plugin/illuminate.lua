@@ -1,8 +1,9 @@
 require("illuminate").configure({
   delay = 50,
   filetypes_denylist = {
+    "aerial",
     "qf", -- quickfix and location list buffers
-    "TelescopePrompt"
+    "TelescopePrompt",
   },
   under_cursor = false,
 })

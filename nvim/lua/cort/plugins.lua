@@ -315,6 +315,21 @@ return {
       "kevinhwang91/promise-async",
       "luukvbaal/statuscol.nvim",
     },
-    event = "VeryLazy"
-  }
+    event = "VeryLazy",
+  },
+
+  {
+    "stevearc/aerial.nvim",
+    opts = {},
+    -- Optional dependencies
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons"
+    },
+  },
+
+  {
+    "stevearc/stickybuf.nvim",
+    opts = {},
+  },
 }
