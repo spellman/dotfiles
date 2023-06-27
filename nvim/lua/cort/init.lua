@@ -1,8 +1,34 @@
 -- Set <space> as the leader key
 -- See `:help mapleader`
---  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+--  NOTE: Setting leaders must happen before plugins are required (otherwise
+-- the wrong leaders will be used).
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
+
+if vim.g.neovide then
+  vim.g.neovide_hide_mouse_when_typing = true
+  vim.g.neovide_remember_window_size = true
+  vim.g.neovide_input_macos_alt_is_meta = true
+  vim.g.neovide_cursor_animation_length = 0
+  vim.g.neovide_cursor_trail_size = 0
+  vim.g.neovide_cursor_animate_in_insert_mode = false
+  vim.g.neovide_cursor_animate_command_line = false
+
+  -- As per https://neovide.dev/faq.html#how-can-i-use-cmd-ccmd-v-to-copy-and-paste
+  -- Enable cmd-c for copy and cmd-v for paste:
+  vim.g.neovide_input_use_logo = true
+  vim.keymap.set('n', '<D-s>', ':w<CR>') -- Save
+  vim.keymap.set('v', '<D-c>', '"+y') -- Copy
+  vim.keymap.set('n', '<D-v>', '"+P') -- Paste normal mode
+  vim.keymap.set('v', '<D-v>', '"+P') -- Paste visual mode
+  vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
+  vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
+  vim.api.nvim_set_keymap('', '<D-v>', '+p<CR>', { noremap = true, silent = true})
+  vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true})
+  vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true})
+  vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true})
+end
 
 require("cort.settings")
 
