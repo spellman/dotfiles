@@ -6,6 +6,11 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 
+-- Neovide is a nice idea but my keymapping of <M-u> was being recognized by
+-- nvim as an umlaut, which is what MacOS generates for <M-u>.
+-- Neovide has a MacOS-specific setting to make alt/option behave as meta so
+-- that meta+u would be sent but the setting had no effect set to true or false
+-- or being omitted.
 if vim.g.neovide then
   vim.g.neovide_hide_mouse_when_typing = true
   vim.g.neovide_remember_window_size = true
