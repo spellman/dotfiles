@@ -99,9 +99,6 @@ require("aerial").setup({
     -- different buffer in the way of the preferred direction
     -- Enum: prefer_right, prefer_left, right, left, float
     default_direction = "left",
-
-    -- Preserve window size equality with (:help CTRL-W_=)
-    preserve_equality = true,
   },
 
   -- Use symbol tree for folding. Set to true or false to enable/disable
