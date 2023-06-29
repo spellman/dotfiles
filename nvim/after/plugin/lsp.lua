@@ -329,7 +329,7 @@ end
 
 local function server_dependent_on_attach(server_name)
   return function(client, bufnr)
-    if server_name == "ruff-lsp" then
+    if server_name == "ruff_lsp" then
       -- Disable hover in favor of Pyright
       client.server_capabilities.hoverProvider = false
     end
