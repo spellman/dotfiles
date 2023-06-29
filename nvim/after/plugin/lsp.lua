@@ -344,7 +344,9 @@ end
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
   -- clangd = {},
-  clojure_lsp = {},
+  clojure_lsp = {
+    ["keep-parens-when-threading?"] = true
+  },
   gopls = {},
   lua_ls = {
     Lua = {
