@@ -338,6 +338,32 @@ local function server_dependent_on_attach(server_name)
   end
 end
 
+local function is_conjure_buffer(bufname)
+  -- `%` escapes dash and dot characters, as per
+  -- https://www.lua.org/pil/20.2.html
+  return string.match(bufname, "^conjure%-log%-[0-9]+%.cljc$")
+end
+
+-- I don't want diagnostics for conjure log buffers. They are for displaying
+-- results and docs, not code, so every line results in a diagnostic.
+-- Source: https://www.reddit.com/r/neovim/comments/xqogsu/comment/jbyqyoc/
+local lsp_handlers = {
+  ["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics,
+    {
+      virtual_text = function(namespace, bufnr)
+        return not is_conjure_buffer(vim.fn.bufname(bufnr))
+      end,
+      underline = function(namespace, bufnr)
+        return not is_conjure_buffer(vim.fn.bufname(bufnr))
+      end,
+      signs = function(namespace, bufnr)
+        return not is_conjure_buffer(vim.fn.bufname(bufnr))
+      end,
+    }
+  ),
+}
+
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
 --  Add any additional override configuration in the following tables. They will be passed to
@@ -388,6 +414,7 @@ mason_lspconfig.setup_handlers({
   function(server_name)
     require("lspconfig")[server_name].setup({
       capabilities = capabilities,
+      handlers = lsp_handlers,
       on_attach = server_dependent_on_attach(server_name),
       settings = servers[server_name],
     })
