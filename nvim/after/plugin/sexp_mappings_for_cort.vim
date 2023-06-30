@@ -49,15 +49,17 @@ function! s:sexp_mappings() abort
     exe s:map('o', 'E', '<Plug>(sexp_move_to_next_element_tail)')
   endif
 
-  exe s:map('n', '<I', '<Plug>(sexp_insert_at_list_head)')
+  " Bind < with <lt>
+  " Source https://www.reddit.com/r/vim/comments/8liqaz/comment/dzftwxr/
+  exe s:map('n', '<lt>I', '<Plug>(sexp_insert_at_list_head)')
   exe s:map('n', '>I', '<Plug>(sexp_insert_at_list_tail)')
-  exe s:map('n', '<f', '<Plug>(sexp_swap_list_backward)')
+  exe s:map('n', '<lt>f', '<Plug>(sexp_swap_list_backward)')
   exe s:map('n', '>f', '<Plug>(sexp_swap_list_forward)')
-  exe s:map('n', '<e', '<Plug>(sexp_swap_element_backward)')
+  exe s:map('n', '<lt>e', '<Plug>(sexp_swap_element_backward)')
   exe s:map('n', '>e', '<Plug>(sexp_swap_element_forward)')
   exe s:map('n', '>(', '<Plug>(sexp_emit_head_element)')
-  exe s:map('n', '<)', '<Plug>(sexp_emit_tail_element)')
-  exe s:map('n', '<(', '<Plug>(sexp_capture_prev_element)')
+  exe s:map('n', '<lt>)', '<Plug>(sexp_emit_tail_element)')
+  exe s:map('n', '<lt>(', '<Plug>(sexp_capture_prev_element)')
   exe s:map('n', '>)', '<Plug>(sexp_capture_next_element)')
 
   exe s:map('n', '<M-h>', '<Plug>(sexp_move_to_prev_element_head)')
@@ -71,7 +73,10 @@ function! s:sexp_mappings() abort
   exe s:map('n', '<M-m>', '<Plug>(sexp_capture_prev_element)')
   exe s:map('n', '<M-,>', '<Plug>(sexp_capture_next_element)')
   exe s:map('n', '<M-M>', '<Plug>(sexp_emit_head_element)')
-  exe s:map('n', '<M-<>', '<Plug>(sexp_emit_tail_element)')
+  " Bind < with <lt> or, with meta, <M-lt>
+  " Bind > with meta as <M-char-62>
+  " Source https://www.reddit.com/r/vim/comments/8liqaz/comment/dzgi1ma/
+  exe s:map('n', '<M-lt>', '<Plug>(sexp_emit_tail_element)')
   exe s:map('n', '<M-r>', '<Plug>(sexp_raise_element)')
   exe s:map('n', '<M-s>', '<Plug>(sexp_splice_list)')
   exe s:map('n', '<M-c>', '<Plug>(sexp_convolute)')
