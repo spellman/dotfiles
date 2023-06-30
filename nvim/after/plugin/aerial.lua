@@ -115,7 +115,13 @@ require("aerial").setup({
 
   -- Automatically open aerial when entering supported buffers.
   -- This can be a function (see :help aerial-open-automatic)
-  open_automatic = true,
+  -- TODO: This doesn't seem to actually be "open automatically on entering".
+  -- Rather, it seems to actually be "open automatically on entering and when
+  -- various events occur so that manual toggling off is defeated within a
+  -- short amount of time."
+  -- Can I change the events that trigger automatic opening or otherwise make it
+  -- do what it claims to do?
+  open_automatic = false,
 
   -- Run this command after jumping to a symbol (false will disable)
   post_jump_cmd = "normal! zt",
