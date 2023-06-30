@@ -72,7 +72,7 @@ end
 ---     - on_list: (function) handler for list results. See |lsp-on-list-handler|
 ---     - callback: (function) function of err, result, ctx, config arguments to
 --                  execute after the LSP response.
-local function definition(options)
+local function go_to_definition(options)
   local params = util.make_position_params()
   request_with_options("textDocument/definition", params, options)
 end
@@ -86,7 +86,7 @@ end
 ---     - on_list: (function) handler for list results. See |lsp-on-list-handler|
 ---     - callback: (function) function of err, result, ctx, config arguments to
 --                  execute after the LSP response.
-local function declaration(options)
+local function go_to_declaration(options)
   local params = util.make_position_params()
   request_with_options("textDocument/declaration", params, options)
 end
@@ -98,7 +98,7 @@ end
 ---     - on_list: (function) handler for list results. See |lsp-on-list-handler|
 ---     - callback: (function) function of err, result, ctx, config arguments to
 --                  execute after the LSP response.
-local function type_definition(options)
+local function go_to_type_definition(options)
   local params = util.make_position_params()
   request_with_options('textDocument/typeDefinition', params, options)
 end
@@ -273,33 +273,87 @@ local function on_attach(client, bufnr)
   end
 
   vim.keymap.set("n", "gd", function()
-    definition({ callback = position_cursor_at_top })
+    go_to_definition({
+      callback = function(err, result, ctx, config)
+        if err ~= nil then
+          print(err)
+        else
+          position_cursor_at_top()
+        end
+      end
+    })
   end, opts("Goto definition"))
-  vim.keymap.set("n", "gD", function()
-    declaration({ callback = position_cursor_at_top })
-  end, opts("Goto declaration"))
-  vim.keymap.set("n", "gR", vim.lsp.buf.references, opts("Goto references"))
-  vim.keymap.set("n", "gr", telescope_builtin.lsp_references, opts("Goto references with Telescope"))
-  vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts("Goto implementation"))
 
   vim.keymap.set("n", "gsd", in_split(function()
-    definition({ callback = position_cursor_at_top })
+    go_to_definition({
+      callback = function(err, result, ctx, config)
+        if err ~= nil then
+          print(err)
+        else
+          position_cursor_at_top()
+        end
+      end
+    })
   end), opts("Goto definition in split"))
+
+  vim.keymap.set("n", "gD", function()
+    go_to_declaration({
+      callback = function(err, result, ctx, config)
+        if err ~= nil then
+          print(err)
+        else
+          position_cursor_at_top()
+        end
+      end
+    })
+  end, opts("Goto declaration"))
+
   vim.keymap.set("n", "gsD", in_split(function()
-    declaration({ callback = position_cursor_at_top })
+    go_to_declaration({
+      callback = function(err, result, ctx, config)
+        if err ~= nil then
+          print(err)
+        else
+          position_cursor_at_top()
+        end
+      end
+    })
   end), opts("Goto declaration in split"))
+
+  vim.keymap.set("n", "gR", vim.lsp.buf.references, opts("Goto references"))
   vim.keymap.set("n", "gsR", in_split(vim.lsp.buf.references), opts("Goto references in split"))
+
+  vim.keymap.set("n", "gr", telescope_builtin.lsp_references, opts("Goto references with Telescope"))
   vim.keymap.set("n", "gsr", in_split(telescope_builtin.lsp_references), opts("Goto references with Telescope in split"))
+
+  vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts("Goto implementation"))
   vim.keymap.set("n", "gsI", in_split(vim.lsp.buf.implementation), opts("Goto implementation in split"))
 
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover documentation"))
   vim.keymap.set({ "n", "i" }, "<M-k>", vim.lsp.buf.signature_help, opts("Signature documentation"))
 
   vim.keymap.set("n", "gtd", function()
-    type_definition({ callback = position_cursor_at_top })
+    go_to_type_definition({
+      callback = function(err, result, ctx, config)
+        if err ~= nil then
+          print(err)
+        else
+          position_cursor_at_top()
+        end
+      end
+    })
   end, opts("Goto type definition"))
+
   vim.keymap.set("n", "gstd", in_split(function()
-    type_definition({ callback = position_cursor_at_top })
+    go_to_type_definition({
+      callback = function(err, result, ctx, config)
+        if err ~= nil then
+          print(err)
+        else
+          position_cursor_at_top()
+        end
+      end
+    })
   end), opts("Goto type definition in split"))
 
   vim.keymap.set("n", "<leader>ds", telescope_builtin.lsp_document_symbols, opts("Document symbols"))
@@ -307,6 +361,7 @@ local function on_attach(client, bufnr)
     opts("Workspace symbols with Telescope"))
 
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts("Code action"))
+
   vim.keymap.set("n", "<leader>rn", function()
     rename(nil, { callback = write_changed_buffers })
   end, opts("Rename symbol"))
