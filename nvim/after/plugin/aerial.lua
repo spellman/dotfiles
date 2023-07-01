@@ -1,3 +1,4 @@
+local util = require("cort.util")
 local debug = false
 
 local function debug_print(x)
@@ -74,7 +75,8 @@ local function post_parse_symbol(bufnr, item, ctx)
   end
 end
 
-require("aerial").setup({
+local aerial = require("aerial")
+aerial.setup({
   -- Priority list of preferred backends for aerial.
   -- This can be a filetype map (see :help aerial-filetype-map)
   backends = { "lsp", "treesitter", "markdown", "man" },
@@ -91,6 +93,10 @@ require("aerial").setup({
   -- To see all available values, see :help SymbolKind
   filter_kind = false,
 
+  keymaps = {
+    ["<C-v>"] = "actions.jump_vsplit",
+    ["<C-x>"] = "actions.jump_split",
+  },
   layout = {
     min_width = 20,
 
@@ -115,13 +121,28 @@ require("aerial").setup({
 
   -- Automatically open aerial when entering supported buffers.
   -- This can be a function (see :help aerial-open-automatic)
-  -- TODO: This doesn't seem to actually be "open automatically on entering".
-  -- Rather, it seems to actually be "open automatically on entering and when
-  -- various events occur so that manual toggling off is defeated within a
-  -- short amount of time."
-  -- Can I change the events that trigger automatic opening or otherwise make it
-  -- do what it claims to do?
-  open_automatic = false,
+  open_automatic = function(bufnr)
+    -- bufnr 0 (which should mean the alternate buffer of the current buffer) is
+    -- often seen here but I think that's because the correct bufnr isn't being
+    -- obtained and 0 is instead being used to signify "current buffer".
+    local bufnr = vim.api.nvim_get_current_buf()
+
+    print([[
+
+    ]])
+    print("after/plugin/aerial.lua > open_automatic function called")
+    print("bufnr: " .. bufnr)
+    local was_closed_value = aerial.was_closed(bufnr, nil)
+    print(util.serialize_table(was_closed_value))
+    print("is_ignored_buf: " .. tostring(require("aerial.util").is_ignored_buf(bufnr)))
+    print("was_closed_value: " .. tostring(was_closed_value))
+    print("will return: " .. tostring(not require("aerial.util").is_ignored_buf(bufnr)
+      and not was_closed_value))
+
+    return not require("aerial.util").is_ignored_buf(bufnr)
+      and not was_closed_value
+  end,
+  -- open_automatic = false,
 
   -- Run this command after jumping to a symbol (false will disable)
   post_jump_cmd = "normal! zt",
@@ -133,4 +154,7 @@ require("aerial").setup({
 })
 
 -- You probably also want to set a keymap to toggle aerial
-vim.keymap.set("n", "<leader>a", "<cmd>AerialToggle!<CR>")
+-- TODO: Let's just call the function instead of doing an ex command.
+vim.keymap.set("n", "<leader>a", function()
+  aerial.toggle(vim.api.nvim_get_current_buf())
+end, { desc = "Toggle symbol outline" })

@@ -319,7 +319,8 @@ return {
   },
 
   {
-    "stevearc/aerial.nvim",
+    "spellman/aerial.nvim",
+    dir = "/Users/cort/Projects/aerial.nvim",
     opts = {},
     -- Optional dependencies
     dependencies = {
