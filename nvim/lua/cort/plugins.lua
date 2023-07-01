@@ -21,8 +21,7 @@ return {
       "williamboman/mason-lspconfig.nvim",
 
       -- Useful status updates for LSP
-      -- NOTE: `opts = {}` is the same as calling `require("fidget").setup({})`
-      { "j-hui/fidget.nvim", opts = {} },
+      "j-hui/fidget.nvim",
 
       -- Additional lua configuration, makes nvim stuff amazing!
       "folke/neodev.nvim",
@@ -49,7 +48,16 @@ return {
 
   -- Useful status updates for LSP
   -- NOTE: `opts = {}` is the same as calling `require("fidget").setup({})`
-  { "j-hui/fidget.nvim", opts = {} },
+  {
+    "j-hui/fidget.nvim",
+    -- As per note in
+    -- https://github.com/j-hui/fidget.nvim/blob/f1c375ba68839eaa4a65efdf2aa078c0da0548fe/README.md
+    -- > NOTE: fidget.nvim will soon be completely rewritten. In the meantime,
+    -- > please pin your plugin config to the legacy tag to avoid breaking
+    -- > changes.
+    tag = "legacy",
+    opts = {}
+  },
 
   -- Additional lua configuration, makes nvim stuff amazing!
   "folke/neodev.nvim",
