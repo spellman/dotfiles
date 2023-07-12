@@ -27,7 +27,6 @@ function! s:sexp_mappings() abort
   if !exists('g:sexp_loaded')
     return
   endif
-  exe s:map_sexp_wrap('e', '<C-w>"', '"', '"', 0)
   exe s:map_sexp_wrap('e', '<C-w>(', '(', ')', 0)
   exe s:map_sexp_wrap('e', '<C-w>[', '[', ']', 0)
   exe s:map_sexp_wrap('e', '<C-w>{', '{', '}', 0)
@@ -94,4 +93,3 @@ if has('vim_starting') && !exists('g:sexp_loaded')
 else
   call s:setup()
 endif
-

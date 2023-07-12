@@ -95,3 +95,5 @@ require("which-key").register(
     prefix = "<leader>",
   }
 )
+
+vim.keymap.set("n", '<C-w>"', 'ciw""<ESC>P', { desc = 'Wrap word under cursor in "' })
