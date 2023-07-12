@@ -52,7 +52,7 @@
 ;;; TODO: Pin package versions.
 (package! evil-snipe :disable t)
 (package! format-all :disable t)
-(package! smartparens :disable t)
+;; (package! smartparens :disable t)
 (package! git-link)
 (package! paredit)
 (package! python-black)
