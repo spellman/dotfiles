@@ -174,6 +174,7 @@
   (modify-syntax-entry ?_ "w"))
 
 (defun cws/prog-mode-hook ()
+  (rainbow-delimiters-mode-enable)
   (modify-syntax-entry ?_ "w"))
 
 (defun cws/lisp-mode-hook ()
@@ -188,7 +189,8 @@
   (modify-syntax-entry ?* "w"))
 
 (add-hook 'text-mode-hook #'cws/text-mode-hook)
-(add-hook 'prog-mode-hook #'cws/prog-mode-hook)
+(after! rainbow-delimiters
+  (add-hook 'prog-mode-hook #'cws/prog-mode-hook))
 (after! paredit
   (add-hook 'lisp-mode-hook #'cws/lisp-mode-hook)
   (add-hook 'emacs-lisp-mode-hook #'cws/lisp-mode-hook))
