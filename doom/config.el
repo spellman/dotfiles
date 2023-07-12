@@ -76,6 +76,22 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; From https://www.gnu.org/software/emacs/manual/html_node/emacs/Tab-Bars.html:
+;; The variable tab-bar-show controls whether the Tab Bar mode is turned on
+;; automatically. If the value is t, then tab-bar-mode is enabled when using the
+;; commands that create new tabs. The value 1 hides the tab bar when it has only
+;; one tab, and shows it again when more tabs are created. More generally, a
+;; value that is a non-negative integer causes the Tab Bar to be displayed only
+;; if the number of tabs is greater than that integer. The value nil always
+;; keeps the Tab Bar hidden; in this case it’s still possible to switch between
+;; named window configurations without displaying the Tab Bar by using M-x
+;; tab-next, M-x tab-switcher, and other commands that provide completion on tab
+;; names. Also it’s possible to create and close tabs without the Tab Bar by
+;; using commands M-x tab-new, M-x tab-close, etc.
+(setq tab-bar-show 1)
+;; Enable tab-bar-mode.
+(tab-bar-mode)
+
 (setq projectile-project-search-path '("~/Projects/"))
 
 ;; Clean-up
@@ -205,6 +221,16 @@
 (map! :after evil :map evil-inner-text-objects-map :gnv "w" #'evil-inner-symbol)
 (map! :after evil :map evil-outer-text-objects-map :gnv "w" #'evil-a-word)
 (map! :after evil :map evil-inner-text-objects-map :gnv "w" #'evil-inner-word)
+
+(map! :after evil :map evil-motion-state-map :n "<tab>" nil)
+
+(map! :after evil
+      :prefix ("<tab>" . "+tabs")
+      :desc "New tab" :n "n" #'tab-bar-new-tab
+      :desc "Switch to tab" :n "<tab>" #'tab-bar-switch-to-tab
+      :desc "Prev tab" :n "h" #'tab-bar-switch-to-prev-tab
+      :desc "Next tab" :n "l" #'tab-bar-switch-to-next-tab
+      :desc "Close tab" :n "d" #'tab-bar-close-tab)
 
 ;; This will not change the motion keys, however. One way to make word motions
 ;; operate as symbol motions is to alias the evil-word thing to the evil-symbol
