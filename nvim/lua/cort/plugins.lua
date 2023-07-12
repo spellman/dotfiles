@@ -263,11 +263,7 @@ return {
   -- https://alpha2phi.medium.com/neovim-for-beginner-auto-pairs-c09e87a4d511
   {
     "windwp/nvim-autopairs",
-    config = function()
-      local autopairs = require("nvim-autopairs")
-      autopairs.setup({ check_ts = true })
-      autopairs.add_rules(require("nvim-autopairs.rules.endwise-lua"))
-    end
+    event = "InsertEnter",
   },
 
   -- Source
