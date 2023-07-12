@@ -323,8 +323,16 @@ local function on_attach(client, bufnr)
   vim.keymap.set("n", "gR", vim.lsp.buf.references, opts("Goto references"))
   vim.keymap.set("n", "gsR", in_split(vim.lsp.buf.references), opts("Goto references in split"))
 
-  vim.keymap.set("n", "gr", telescope_builtin.lsp_references, opts("Goto references with Telescope"))
-  vim.keymap.set("n", "gsr", in_split(telescope_builtin.lsp_references), opts("Goto references with Telescope in split"))
+  vim.keymap.set("n", "gr", function()
+    telescope_builtin.lsp_references({
+      prompt_title = "References (" .. vim.fn.expand('<cword>') .. ")",
+    })
+  end, opts("Goto references with Telescope"))
+  vim.keymap.set("n", "gsr", in_split(function()
+    telescope_builtin.lsp_references({
+      prompt_title = "References (" .. vim.fn.expand('<cword>') .. ")",
+    })
+  end), opts("Goto references with Telescope in split"))
 
   vim.keymap.set("n", "gI", vim.lsp.buf.implementation, opts("Goto implementation"))
   vim.keymap.set("n", "gsI", in_split(vim.lsp.buf.implementation), opts("Goto implementation in split"))
@@ -356,7 +364,11 @@ local function on_attach(client, bufnr)
     })
   end), opts("Goto type definition in split"))
 
-  vim.keymap.set("n", "<leader>ds", telescope_builtin.lsp_document_symbols, opts("Document symbols"))
+  vim.keymap.set("n", "<leader>ds", function()
+    telescope_builtin.lsp_document_symbols({
+      prompt_title = "LSP Document Symbols - " .. vim.fn.expand("%")
+    })
+  end, opts("Document symbols"))
   vim.keymap.set("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols,
     opts("Workspace symbols with Telescope"))
 
