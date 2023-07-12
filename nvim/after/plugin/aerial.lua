@@ -154,8 +154,14 @@ aerial.setup({
   show_guides = true,
 })
 
--- You probably also want to set a keymap to toggle aerial
--- TODO: Let's just call the function instead of doing an ex command.
-vim.keymap.set("n", "<leader>a", function()
+vim.keymap.set("n", "<leader>oo", function()
   aerial.toggle(vim.api.nvim_get_current_buf())
 end, { desc = "Toggle symbol outline" })
+
+vim.keymap.set("n", "go", function()
+  aerial.open(vim.api.nvim_get_current_buf(), { focus = true })
+end, { desc = "Go to symbol outline" })
+
+vim.keymap.set("n", "<leader>oc", function()
+  aerial.close(vim.api.nvim_get_current_buf())
+end, { desc = "Close symbol outline" })
