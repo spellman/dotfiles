@@ -408,7 +408,7 @@ end
 local function is_conjure_buffer(bufname)
   -- `%` escapes dash and dot characters, as per
   -- https://www.lua.org/pil/20.2.html
-  return string.match(bufname, "^conjure%-log%-[0-9]+%.cljc$")
+  return string.match(bufname, "^conjure%-log%-[0-9]+%.")
 end
 
 -- I don't want diagnostics for conjure log buffers. They are for displaying
