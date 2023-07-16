@@ -76,6 +76,10 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; Enable auto-saving visited buffers to their underlying files.
+;; The default save interval is every 5 seconds.
+(auto-save-visited-mode)
+
 ;; From https://www.gnu.org/software/emacs/manual/html_node/emacs/Tab-Bars.html:
 ;; The variable tab-bar-show controls whether the Tab Bar mode is turned on
 ;; automatically. If the value is t, then tab-bar-mode is enabled when using the
