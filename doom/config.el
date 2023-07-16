@@ -112,6 +112,15 @@
 (after! dired-x
   (remove-hook 'dired-mode-hook #'dired-omit-mode))
 
+;; Doom's +default/project-search dispatches by module loaded and should call
+;; +vertico/project-search. However, when called through Doom's fn, the vertico
+;; fn does not show a preview of the search term in context while the preview is
+;; shown when I call the vertico fn directly. There is probably a configuration
+;; option to make the Doom default do what I want. For now, though, I'm just
+;; going to rebind the keys to call the vertico fn directly in order to enable
+;; previews.
+(map! :after vertico :leader :desc "Search project" :n "/" #'+vertico/project-search)
+
 (map! :desc "dired-jump to current-file directory" :n "-" #'dired-jump)
 
 ;; As per https://github.com/doomemacs/doomemacs/blob/07fca786154551f90f36535bfb21f8ca4abd5027/docs/faq.org#my-new-keybinds-dont-work
