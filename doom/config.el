@@ -132,7 +132,7 @@
 (use-package! paredit
   :after evil
   :config
-  (map! :after paredit :map paredit-mode-map
+  (map! :map paredit-mode-map
         ;; Movement
         :gni "M-u" #'paredit-backward-up
         :gni "M-o" #'paredit-forward-up
@@ -143,13 +143,9 @@
 
         ;; Insertion
         :gi "(" #'paredit-open-round
-        :gi ")" #'paredit-close-round
         :gi "[" #'paredit-open-square
-        :gi "]" #'paredit-close-square
         :gi "{" #'paredit-open-curly
-        :gi "}" #'paredit-close-curly
         :gi "<" #'paredit-open-angled
-        :gi ">" #'paredit-close-angled
         :gnvi "M-(" #'paredit-wrap-round
         :gnvi "M-[" #'paredit-wrap-square
         :gnvi "M-{" #'paredit-wrap-curly
