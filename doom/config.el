@@ -205,7 +205,8 @@
   (add-hook 'prog-mode-hook #'cws/prog-mode-hook))
 (after! paredit
   (add-hook 'lisp-mode-hook #'cws/lisp-mode-hook)
-  (add-hook 'emacs-lisp-mode-hook #'cws/lisp-mode-hook))
+  (add-hook 'emacs-lisp-mode-hook #'cws/lisp-mode-hook)
+  (add-hook 'clojure-mode-hook #'cws/lisp-mode-hook))
 
 ;; Similarly to Emacs’ definition of a word, the definition of a “symbol” is
 ;; also dependent on the syntax-class of the buffer, which often includes the
