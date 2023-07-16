@@ -168,6 +168,27 @@
 ;; Enable wrapping of long lines.
 (+global-word-wrap-mode +1)
 
+;; (after! lsp-mode
+;;   :config
+;;   (dolist (dir '("[/\\\\]\\.my-folder\\'"))
+;;     (add-to-list 'lsp-file-watch-ignored-directories dir)))
+
+
+;; Samuel's approach to eliminate LSP warning:
+;; "Watching all the files in <project> would require adding watches to <num>
+;; directories, so watching the repo may slow Emacs down. Do you want to watch
+;; all files in <project>?",
+;; from
+;; https://emacs-lsp.github.io/lsp-mode/page/faq/#how-do-i-force-lsp-mode-to-forget-the-workspace-folders-for-multi-root-servers-so-the-workspace-folders-are-added-on-demand
+;; He said the folders are then added on demand, when you visit them.
+;; I could try this to see how it works :/
+;; (advice-add 'lsp :before
+;;             (lambda (&rest _args)
+;;               (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht)))))
+
+(advice-add 'lsp :before #'hack-local-variables)
+
+
 ;; Git
 (setq vc-follow-symlinks t)
 
