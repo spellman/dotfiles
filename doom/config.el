@@ -186,7 +186,6 @@
 ;;   (dolist (dir '("[/\\\\]\\.my-folder\\'"))
 ;;     (add-to-list 'lsp-file-watch-ignored-directories dir)))
 
-
 ;; Samuel's approach to eliminate LSP warning:
 ;; "Watching all the files in <project> would require adding watches to <num>
 ;; directories, so watching the repo may slow Emacs down. Do you want to watch
@@ -199,6 +198,8 @@
 ;;             (lambda (&rest _args)
 ;;               (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht)))))
 
+(add-to-list 'safe-local-variable-values 'lsp-file-watch-ignored-directories)
+(add-to-list 'safe-local-variable-values 'lsp-file-watch-ignored-files)
 (advice-add 'lsp :before #'hack-local-variables)
 
 
