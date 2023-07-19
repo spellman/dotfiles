@@ -214,6 +214,10 @@
 ;; https://emacs-lsp.github.io/lsp-mode/page/performance/#increase-the-amount-of-data-which-emacs-reads-from-the-process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
+(use-package! lsp
+  :config
+  (setf lsp-response-timeout 5))
+
 ;; Make Emacs and evil treat various characters as word characters in various
 ;; modes. As per
 ;; https://evil.readthedocs.io/en/latest/faq.html#underscore-is-not-a-word-character
