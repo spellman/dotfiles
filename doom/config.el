@@ -291,7 +291,7 @@
   :after python
   :hook (python-mode . python-black-on-save-mode-enable-dwim))
 
-(map! :after python-mode
+(map! :after (:and python python-black)
       :localleader
       :map python-mode-map
       :desc "Blacken Buffer" :n "b b" #'python-black-buffer
