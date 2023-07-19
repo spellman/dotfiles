@@ -39,6 +39,13 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
+;; By default, Doom sets the left option key to be interpreted as meta but
+;; leaves the right option key alone so that it can be used to enter special
+;; characters. I want both option keys to be meta.
+;; https://github.com/doomemacs/doomemacs/issues/4178#issuecomment-718394618
+(setf mac-right-option-modifier 'meta
+      ns-right-option-modifier  'meta)
+
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
