@@ -265,15 +265,12 @@
 (map! :after evil :map evil-outer-text-objects-map :gnv "w" #'evil-a-word)
 (map! :after evil :map evil-inner-text-objects-map :gnv "w" #'evil-inner-word)
 
-(map! :after evil :map evil-motion-state-map :n "<tab>" nil)
-
 (map! :after evil
-      :prefix ("<tab>" . "+tabs")
-      :desc "New tab" :n "n" #'tab-bar-new-tab
-      :desc "Switch to tab" :n "<tab>" #'tab-bar-switch-to-tab
-      :desc "Prev tab" :n "h" #'tab-bar-switch-to-prev-tab
-      :desc "Next tab" :n "l" #'tab-bar-switch-to-next-tab
-      :desc "Close tab" :n "d" #'tab-bar-close-tab)
+      :desc "New tab" :n "M-s-n" #'tab-bar-new-tab
+      :desc "Switch to tab" :n "M-s-<tab>" #'tab-bar-switch-to-tab
+      :desc "Prev tab" :n "M-s-h" #'tab-bar-switch-to-prev-tab
+      :desc "Next tab" :n "M-s-l" #'tab-bar-switch-to-next-tab
+      :desc "Close tab" :n "M-s-d" #'tab-bar-close-tab)
 
 ;; This will not change the motion keys, however. One way to make word motions
 ;; operate as symbol motions is to alias the evil-word thing to the evil-symbol
