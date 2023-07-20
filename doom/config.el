@@ -236,7 +236,10 @@
   ;; Tune the global completion style settings to your liking!
   ;; This affects the minibuffer and non-lsp completion at point.
   (setq completion-styles '(orderless partial-completion basic)
-        orderless-matching-styles '(orderless-flex)))
+        orderless-matching-styles '(orderless-flex))
+
+  :config
+  (corfu-popupinfo-mode))
 
 ;; LSP
 ;; As per
