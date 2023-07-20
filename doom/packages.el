@@ -50,9 +50,15 @@
 ;(unpin! t)
 
 ;;; TODO: Pin package versions.
+(package! cape)
+(package! corfu
+          :recipe (:host github
+                   :repo "minad/corfu"
+                   :files ("*.el" "extensions/*.el")))
 (package! evil-snipe :disable t)
 (package! format-all :disable t)
 ;; (package! smartparens :disable t)
 (package! git-link)
+(package! orderless)
 (package! paredit)
 (package! python-black)

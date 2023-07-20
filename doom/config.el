@@ -216,14 +216,56 @@
 ;; Tramp
 (setq tramp-default-method "ssh")
 
+;; Completion
+;;
+;; Optional cape package.
+;; See the Cape README for more tweaks!
+(use-package! cape)
+
+(use-package corfu
+  :custom
+  (corfu-auto t)
+  (corfu-cycle t)
+
+  :hook
+  ((prog-mode . corfu-mode)))
+
+(use-package! orderless
+  :after vertico
+  :init
+  ;; Tune the global completion style settings to your liking!
+  ;; This affects the minibuffer and non-lsp completion at point.
+  (setq completion-styles '(orderless partial-completion basic)
+        orderless-matching-styles '(orderless-flex)))
+
 ;; LSP
 ;; As per
 ;; https://emacs-lsp.github.io/lsp-mode/page/performance/#increase-the-amount-of-data-which-emacs-reads-from-the-process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 (use-package! lsp
+  :custom
+  (lsp-completion-provider :none) ;; we use Corfu!
+
+  :init
+  ;; (defun cws/orderless-dispatch-flex-first (_pattern index _total)
+  ;;   (and (eq index 0) 'orderless-flex))
+
+  (defun cws/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless)))
+
+  ;; Optionally configure the first word as flex filtered.
+  ;; (add-hook 'orderless-style-dispatchers #'cws/orderless-dispatch-flex-first nil 'local)
+
+  ;; Optionally configure the cape-capf-buster.
+  (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point)))
+
   :config
-  (setf lsp-response-timeout 5))
+  (setf lsp-response-timeout 5)
+
+  :hook
+  (lsp-completion-mode . cws/lsp-mode-setup-completion))
 
 ;; Make Emacs and evil treat various characters as word characters in various
 ;; modes. As per
