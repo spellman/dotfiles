@@ -165,7 +165,6 @@
         :gi "(" #'paredit-open-round
         :gi "[" #'paredit-open-square
         :gi "{" #'paredit-open-curly
-        :gi "<" #'paredit-open-angled
         :gnvi "M-(" #'paredit-wrap-round
         :gnvi "M-[" #'paredit-wrap-square
         :gnvi "M-{" #'paredit-wrap-curly
