@@ -62,4 +62,3 @@
 (package! orderless)
 (package! paredit)
 (package! python-black)
-(package! vundo)

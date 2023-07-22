@@ -83,14 +83,6 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(use-package! vundo
-  :config
-  (setq vundo-glyph-alist vundo-unicode-symbols
-        vundo-compact-display t)
-  ;; The following is copied from Doom's undo module.
-  ;; I imagine it makes vundo quitable with q.
-  (define-key vundo-mode-map [remap doom/escape] #'vundo-quit))
-
 ;; Enable auto-saving visited buffers to their underlying files.
 ;; The default save interval is every 5 seconds.
 (auto-save-visited-mode)
