@@ -153,6 +153,11 @@ listening() {
 
 alias sz="source ~/.zshrc"
 
+c() {
+  selected=$(find ~/Projects/phylum/localdev ~/Projects/phylum ~/Projects/ ~/ ~/Documents -mindepth 1 -maxdepth 1 -type d | fzf --ansi)
+  cd $selected
+}
+
 # Mass-rename file names
 # Ex:
 #     zmv '(*).jpeg' '$1.jpg'
