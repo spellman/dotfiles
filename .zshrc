@@ -151,7 +151,7 @@ listening() {
   fi
 }
 
-alias szrc="source ~/.zshrc"
+alias sz="source ~/.zshrc"
 
 # Mass-rename file names
 # Ex:
