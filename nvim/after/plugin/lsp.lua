@@ -451,7 +451,7 @@ local servers = {
   -- I could also use lsp-zero, which sets up linting as well as diagnostics.
   ruff_lsp = {},
   rust_analyzer = {},
-  -- tsserver = {},
+  tsserver = {},
 }
 
 -- Setup neovim lua configuration
