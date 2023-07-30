@@ -44,10 +44,10 @@ function! s:sexp_mappings() abort
 
   " Insertion
   exe s:map('n', '<M-i>', '<Plug>(sexp_insert_at_list_head)')
-  exe s:map('n', '<M-I>', '<Plug>(sexp_insert_at_list_tail)')
-  exe s:map_sexp_wrap('e', '<M-(>', '(', ')', 0)
+  exe s:map('n', '<M-S-i>', '<Plug>(sexp_insert_at_list_tail)')
+  exe s:map_sexp_wrap('e', '<M-S-9>', '(', ')', 0)
   exe s:map_sexp_wrap('e', '<M-[>', '[', ']', 0)
-  exe s:map_sexp_wrap('e', '<M-{>', '{', '}', 0)
+  exe s:map_sexp_wrap('e', '<M-S-[>', '{', '}', 0)
   " TODO: Is wrap-with-angle-brackets available?
   " NOTE: Wrap with double quotes is more general than s-expressions (plus the
   " version that used that functionality from the vim-sexp plugin wasn't
@@ -61,13 +61,13 @@ function! s:sexp_mappings() abort
   " TODO: <M-a> splice-killing-backward
   " TODO: <M-d> splice-killing-forward
   exe s:map('n', '<M-z>', '<Plug>(sexp_emit_head_element)')
-  exe s:map('n', '<M-c>)', '<Plug>(sexp_emit_tail_element)')
+  exe s:map('n', '<M-c>', '<Plug>(sexp_emit_tail_element)')
   exe s:map('n', '<M-j>', '<Plug>(sexp_swap_element_backward)')
   exe s:map('n', '<M-k>', '<Plug>(sexp_swap_element_forward)')
   " TODO: <M-w> join
   " TODO: <M-x> split
   exe s:map('n', '<M-r>', '<Plug>(sexp_raise_element)')
-  exe s:map('n', '<M-?>', '<Plug>(sexp_convolute)')
+  exe s:map('n', '<M-S-/>', '<Plug>(sexp_convolute)')
 endfunction
 
 function! s:setup() abort
