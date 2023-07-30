@@ -154,7 +154,7 @@ listening() {
 alias sz="source ~/.zshrc"
 
 c() {
-  selected=$(find ~/Projects/phylum/localdev ~/Projects/phylum ~/Projects/ ~/ ~/Documents -mindepth 1 -maxdepth 1 -type d | fzf --ansi)
+  selected=$(find ~/Projects/phylum/localdev ~/Projects/phylum/localdev/research ~/Projects/phylum ~/Projects ~/ ~/Documents ~/Projects/powerlifting-america -mindepth 1 -maxdepth 1 -type d | fzf --ansi)
   cd $selected
 }
 
