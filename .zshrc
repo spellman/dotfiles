@@ -340,3 +340,5 @@ if [ -f ~/java-version.sh ] && type -p sbt &>/dev/null; then
     sh ~/java-version.sh && sbt "$@"
   }
 fi
+
+alias update_kitty="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin"
