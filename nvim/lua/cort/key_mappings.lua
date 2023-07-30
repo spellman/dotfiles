@@ -72,8 +72,76 @@ end, { desc = "Move cursor to window to right" })
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '>-2<CR>gv=gv")
 
+local function current_character_and_neighbors(line_number, column_number)
+  local line = vim.fn.getline(line_number)
+
+  return {
+    previous=line:sub(column_number - 1, column_number - 1),
+    current=line:sub(column_number, column_number),
+    next=line:sub(column_number + 1, column_number + 1)
+  }
+end
+
+local opening_delimiters = {
+  ["("] = true,
+  ["["] = true,
+  ["{"] = true,
+}
+local closing_delimiters = {
+  [")"] = true,
+  ["]"] = true,
+  ["}"] = true,
+}
+
+--- The intent is to tidy up line joins to compensate for the default nvim
+--- behavior leaving stray spaces.
+---
+--- Snug up text to opening delimiters:
+--- [
+---  :a]
+---        ----> [:a]
+---
+--- Snug up opening delimiters to opening delimiters:
+--- [
+---  [:a]]
+---        ----> [[:a]]
+---
+--- Snug up closing delimiters to closing delimiters:
+--- [[:a]
+---  ]
+---        ----> [[:a]]
+---
+--- Otherwise, do nothing.
+local function snug_up_text_and_delimiters_to_delimiters()
+  -- position:[bufnum, lnum, col, off]
+  local position = vim.fn.getpos(".")
+  local line_number = position[2]
+  local column_number = position[3]
+  local characters = current_character_and_neighbors(line_number, column_number)
+
+  if characters.current ~= " " then
+    return
+  end
+
+  if opening_delimiters[characters.previous] or closing_delimiters[characters.next] then
+    vim.cmd("normal! x")
+  end
+end
+
 -- Keep cursor fixed when appending next line to current line.
 vim.keymap.set("n", "J", "mzJ`z")
+vim.keymap.set("n", "J", function()
+  -- Add mark at current cursor position and join next line to current.line.
+  -- This puts the cursor at the end of the current line, possibly with a space
+  -- appended. (Default nvim behavior.)
+  vim.cmd("normal! mzJ")
+
+  snug_up_text_and_delimiters_to_delimiters()
+
+  -- Move cursor to mark, which was the cursor position at the start of this
+  -- operation.
+  vim.cmd("normal! `z")
+end)
 
 -- Center cursor vertically in split when jumping forward or backward by half a
 -- page.
