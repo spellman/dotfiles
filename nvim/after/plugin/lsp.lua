@@ -441,6 +441,7 @@ local servers = {
     ["keep-parens-when-threading?"] = true
   },
   gopls = {},
+  jsonls = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
