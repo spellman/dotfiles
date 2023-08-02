@@ -62,10 +62,10 @@ function! s:sexp_mappings() abort
   " TODO: <M-d> splice-killing-forward
   exe s:map('n', '<M-z>', '<Plug>(sexp_emit_head_element)')
   exe s:map('n', '<M-c>', '<Plug>(sexp_emit_tail_element)')
-  exe s:map('n', '<M-j>', '<Plug>(sexp_swap_element_backward)')
-  exe s:map('n', '<M-k>', '<Plug>(sexp_swap_element_forward)')
-  " TODO: <M-w> join
-  " TODO: <M-x> split
+  exe s:map('n', '<M-S-j>', '<Plug>(sexp_swap_element_backward)')
+  exe s:map('n', '<M-S-k>', '<Plug>(sexp_swap_element_forward)')
+  " TODO: <M-j> join
+  " TODO: <M-w> split
   exe s:map('n', '<M-r>', '<Plug>(sexp_raise_element)')
   exe s:map('n', '<M-S-/>', '<Plug>(sexp_convolute)')
 endfunction
