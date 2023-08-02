@@ -3,7 +3,9 @@ require("illuminate").configure({
   filetypes_denylist = {
     "aerial",
     "qf", -- quickfix and location list buffers
+    "markdown",
     "TelescopePrompt",
+    "text",
   },
   under_cursor = false,
 })
