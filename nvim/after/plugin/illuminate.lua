@@ -4,6 +4,8 @@ require("illuminate").configure({
     "aerial",
     "qf", -- quickfix and location list buffers
     "markdown",
+    "NeogitCommitView",
+    "NeogitStatus",
     "TelescopePrompt",
     "text",
   },
