@@ -396,11 +396,6 @@ end
 
 local function server_dependent_on_attach(server_name)
   return function(client, bufnr)
-    if server_name == "ruff_lsp" then
-      -- Disable hover in favor of Pyright
-      client.server_capabilities.hoverProvider = false
-    end
-
     on_attach(client, bufnr)
   end
 end
@@ -450,7 +445,6 @@ local servers = {
   },
   pyright = {},
   -- I could also use lsp-zero, which sets up linting as well as diagnostics.
-  ruff_lsp = {},
   rust_analyzer = {},
   tsserver = {},
 }
