@@ -94,6 +94,16 @@ aerial.setup({
   -- To see all available values, see :help SymbolKind
   filter_kind = false,
 
+  ignore = {
+    filetypes = {
+      "qf", -- quickfix and location list buffers
+      "NeogitCommitView",
+      "NeogitStatus",
+      "TelescopePrompt",
+      "text",
+    },
+  },
+
   keymaps = {
     ["<C-v>"] = "actions.jump_vsplit",
     ["<C-x>"] = "actions.jump_split",
