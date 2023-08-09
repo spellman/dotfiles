@@ -182,7 +182,15 @@ vim.keymap.set({ "n", "i" }, "<D-k>", "<cmd>lprev<CR>zz")
 local toggle_quickfix_list = function()
   local does_quickfix_list_exist = false
   for _, win in pairs(vim.fn.getwininfo()) do
-    if win["quickfix"] == 1 then
+    -- Window info for the quickfix list includes {
+    --   quickfix = 1,
+    --   loclist = 0,
+    -- }
+    -- Window info for the location list includes {
+    --   quickfix = 1,
+    --   loclist = 1,
+    -- }
+    if win["quickfix"] == 1 and win["loclist"] == 0 then
       does_quickfix_list_exist = true
     end
   end
@@ -210,3 +218,13 @@ require("which-key").register(
 )
 
 vim.keymap.set("n", '<C-w>"', 'ciw""<ESC>P', { desc = 'Wrap word under cursor in "' })
+
+
+local function window_info()
+  local current_window_id = vim.fn.win_getid()
+  print("current_window_id: " .. current_window_id)
+  local current_window_info = vim.fn.getwininfo(current_window_id)[1]
+  print(require("cort.util").serialize_table(current_window_info))
+end
+
+vim.keymap.set("n", "<leader>wi", window_info, { desc = "Window info" })

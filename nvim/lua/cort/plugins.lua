@@ -319,6 +319,11 @@ return {
     ft = "qf"
   },
 
+  {
+    "yorickpeterse/nvim-pqf",
+    opts = {},
+  },
+
   "HiPhish/nvim-ts-rainbow2",
 
   {

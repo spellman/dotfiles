@@ -91,7 +91,15 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local current_window_id = vim.fn.win_getid()
     local current_window_info = vim.fn.getwininfo(current_window_id)[1]
-    if current_window_info["quickfix"] == 1 then
+    -- Window info for the quickfix list includes {
+    --   quickfix = 1,
+    --   loclist = 0,
+    -- }
+    -- Window info for the location list includes {
+    --   quickfix = 1,
+    --   loclist = 1,
+    -- }
+    if current_window_info["loclist"] ~= 1 then
       vim.cmd("wincmd J")
     end
   end,
