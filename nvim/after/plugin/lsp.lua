@@ -443,6 +443,7 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+  marksman = {},
   pyright = {},
   -- I could also use lsp-zero, which sets up linting as well as diagnostics.
   rust_analyzer = {},
