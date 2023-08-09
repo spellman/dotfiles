@@ -300,10 +300,6 @@ if [ -f /usr/local/bin/less ]; then
   alias less="/usr/local/bin/less"
 fi
 
-if [ "$(command -v bat)" ]; then
-  alias b='bat -pp --theme="Dracula"'
-fi
-
 # lipq stuff, from `brew upgrade` output
 # libpq is keg-only, which means it was not symlinked into /usr/local,
 # because conflicts with postgres formula.
