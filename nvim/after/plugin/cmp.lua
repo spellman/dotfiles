@@ -37,6 +37,7 @@ cmp.setup({
     end, { "i", "s" }),
   }),
   sources = {
+    { name = 'nvim_lsp_signature_help' },
     { name = "conjure" },
     { name = "nvim_lsp" },
     { name = "luasnip" },
