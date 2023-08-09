@@ -324,7 +324,7 @@ return {
     opts = {},
   },
 
-  "HiPhish/nvim-ts-rainbow2",
+  "HiPhish/rainbow-delimiters.nvim",
 
   {
     "kevinhwang91/nvim-ufo",

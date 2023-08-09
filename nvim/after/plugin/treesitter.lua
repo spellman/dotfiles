@@ -1,5 +1,3 @@
-local rainbow = require("ts-rainbow")
-
 -- See `:help nvim-treesitter`
 require("nvim-treesitter.configs").setup({
   -- Add languages to be installed here that you want installed for treesitter
@@ -52,28 +50,6 @@ require("nvim-treesitter.configs").setup({
     enable = true,
   },
   matchup = { enable = true },
-  rainbow = {
-    enable = true,
-    query = {
-      "rainbow-parens",
-      html = "rainbow-tags",
-      jsx = "rainbow-tags-react",
-      tsx = "rainbow-tags-react",
-    },
-    strategy = {
-      rainbow.strategy.global,
-      html = rainbow.strategy["local"],
-    },
-    hlgroups = {
-      "TSRainbowBlue",
-      "TSRainbowOrange",
-      "TSRainbowGreen",
-      "TSRainbowViolet",
-      "TSRainbowCyan",
-      "TSRainbowRed",
-      "TSRainbowYellow",
-    },
-  },
   textobjects = {
     lsp_interop = {
       enable = true,
