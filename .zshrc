@@ -283,10 +283,9 @@ alias phs='phylum -c ~/.config/phylum/staging.settings.yaml'
 # Django
 # `shell_plus` requires django-extensions
 # `--notebook` uses a Jupyter Notebook, which requires jupyterlab
-
-export PATH="$HOME/.emacs.d/bin:$PATH"
-
 # alias shell_notebook="DJANGO_ALLOW_ASYNC_UNSAFE=true ./manage.py shell_plus --notebook"
+
+export PATH="$HOME/.config/emacs/bin:$PATH"
 
 if [ "$(command -v exa)" ]; then
   unalias -m 'll'
