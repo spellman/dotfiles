@@ -276,7 +276,7 @@ local function on_attach(client, bufnr)
     go_to_definition({
       callback = function(err, result, ctx, config)
         if err ~= nil then
-          print(err)
+          vim.print(err)
         else
           position_cursor_at_top()
         end
@@ -288,7 +288,7 @@ local function on_attach(client, bufnr)
     go_to_definition({
       callback = function(err, result, ctx, config)
         if err ~= nil then
-          print(err)
+          vim.print(err)
         else
           position_cursor_at_top()
         end
@@ -300,7 +300,7 @@ local function on_attach(client, bufnr)
     go_to_declaration({
       callback = function(err, result, ctx, config)
         if err ~= nil then
-          print(err)
+          vim.print(err)
         else
           position_cursor_at_top()
         end
@@ -312,7 +312,7 @@ local function on_attach(client, bufnr)
     go_to_declaration({
       callback = function(err, result, ctx, config)
         if err ~= nil then
-          print(err)
+          vim.print(err)
         else
           position_cursor_at_top()
         end
@@ -344,7 +344,7 @@ local function on_attach(client, bufnr)
     go_to_type_definition({
       callback = function(err, result, ctx, config)
         if err ~= nil then
-          print(err)
+          vim.print(err)
         else
           position_cursor_at_top()
         end
@@ -356,7 +356,7 @@ local function on_attach(client, bufnr)
     go_to_type_definition({
       callback = function(err, result, ctx, config)
         if err ~= nil then
-          print(err)
+          vim.print(err)
         else
           position_cursor_at_top()
         end
@@ -382,7 +382,7 @@ local function on_attach(client, bufnr)
   vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, opts("Workspace add folder"))
   vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, opts("Workspace remove folder"))
   vim.keymap.set("n", "<leader>wl", function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    vim.print(vim.lsp.buf.list_workspace_folders())
   end, opts("Workspace list folders"))
   vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<CR>", opts("LSP info"))
 

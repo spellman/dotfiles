@@ -223,9 +223,8 @@ vim.keymap.set("n", '<M-">', "<M-S-'>", { desc = 'Wrap word under cursor in "', 
 
 local function window_info()
   local current_window_id = vim.fn.win_getid()
-  print("current_window_id: " .. current_window_id)
   local current_window_info = vim.fn.getwininfo(current_window_id)[1]
-  print(require("cort.util").serialize_table(current_window_info))
+  vim.print(current_window_info)
 end
 
 vim.keymap.set("n", "<leader>wi", window_info, { desc = "Window info" })

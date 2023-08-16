@@ -1,10 +1,8 @@
-local util = require("cort.util")
-
 local debug = false
 
 local function debug_print(x)
   if debug then
-    print(x)
+    vim.print(x)
   end
 end
 
@@ -148,7 +146,7 @@ aerial.setup({
     debug_print("after/plugin/aerial.lua > open_automatic function called")
     debug_print("bufnr: " .. bufnr)
     local was_closed_value = aerial.was_closed(bufnr, nil)
-    debug_print(util.serialize_table(was_closed_value))
+    debug_print(was_closed_value)
     debug_print("is_ignored_buf: " .. tostring(require("aerial.util").is_ignored_buf(bufnr)))
     debug_print("was_closed_value: " .. tostring(was_closed_value))
     debug_print("will return: " .. tostring(not require("aerial.util").is_ignored_buf(bufnr)
