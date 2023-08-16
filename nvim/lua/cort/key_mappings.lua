@@ -129,7 +129,6 @@ local function snug_up_text_and_delimiters_to_delimiters()
 end
 
 -- Keep cursor fixed when appending next line to current line.
-vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "J", function()
   -- Add mark at current cursor position and join next line to current.line.
   -- This puts the cursor at the end of the current line, possibly with a space
@@ -217,7 +216,8 @@ require("which-key").register(
   }
 )
 
-vim.keymap.set("n", '<C-w>"', 'ciw""<ESC>P', { desc = 'Wrap word under cursor in "' })
+vim.keymap.set("n", "<M-S-'>", 'ciw""<ESC>P', { desc = 'Wrap word under cursor in "' })
+vim.keymap.set("n", '<M-">', "<M-S-'>", { desc = 'Wrap word under cursor in "', remap = true })
 
 
 local function window_info()
