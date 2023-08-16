@@ -8,6 +8,7 @@ require("illuminate").configure({
     "NeogitStatus",
     "TelescopePrompt",
     "text",
+    "undotree",
   },
   under_cursor = false,
 })
