@@ -13,13 +13,13 @@ vim.g.rainbow_delimiters = {
     lua = "rainbow-blocks",
     tsx = "rainbow-delimiters-react",
   },
-  highlight = {
-    "RainbowDelimiterBlue",
-    "RainbowDelimiterOrange",
-    "RainbowDelimiterGreen",
-    "RainbowDelimiterViolet",
-    "RainbowDelimiterCyan",
-    "RainbowDelimiterRed",
-    "RainbowDelimiterYellow",
-  },
+  -- highlight = {
+  --   "RainbowDelimiterBlue",
+  --   "RainbowDelimiterOrange",
+  --   "RainbowDelimiterGreen",
+  --   "RainbowDelimiterViolet",
+  --   "RainbowDelimiterCyan",
+  --   "RainbowDelimiterRed",
+  --   "RainbowDelimiterYellow",
+  -- },
 }

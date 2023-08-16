@@ -10,13 +10,13 @@ require("onedark").setup({
   },
 })
 
-require("which-key").register(
-  {
-    u = {
-      t = { "Toggle theme style" }
-    }
-  },
-  { prefix = "<leader>" }
-)
+-- require("which-key").register(
+--   {
+--     u = {
+--       t = { "Toggle theme style" }
+--     }
+--   },
+--   { prefix = "<leader>" }
+-- )
 
-vim.cmd.colorscheme("onedark")
+-- vim.cmd.colorscheme("onedark")

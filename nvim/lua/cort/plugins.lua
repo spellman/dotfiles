@@ -106,6 +106,16 @@ return {
     },
   },
 
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    dependencies = {
+      -- We register the key to toggle theme styles with which-key.
+      "folke/which-key.nvim"
+    },
+  },
+
   -- {
   --   'NTBBloodbath/doom-one.nvim',
   --   setup = function()
