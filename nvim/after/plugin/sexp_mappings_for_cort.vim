@@ -9,6 +9,14 @@
 " * https://www.reddit.com/r/vim/comments/8liqaz/comment/dzftwxr/
 " * https://www.reddit.com/r/vim/comments/8liqaz/comment/dzgi1ma/
 
+" NOTE: Different terminals interpret keys modified with option/meta/alt
+" differently. With Option + Shift + 9, for example,
+" * Kitty sees Option + Shift + 9
+" * iterm2, Alacritty, and Wezterm see Option + (
+" And these interpretations are different :O
+" Therefore, we map the former represetation to the cmd and then map the
+" latter to the former.
+
 if exists("g:loaded_sexp_mappings_for_regular_people") || &cp
   finish
 endif
@@ -45,9 +53,12 @@ function! s:sexp_mappings() abort
   " Insertion
   exe s:map('n', '<M-i>', '<Plug>(sexp_insert_at_list_head)')
   exe s:map('n', '<M-S-i>', '<Plug>(sexp_insert_at_list_tail)')
+  nmap <buffer> <M-I> <M-S-i>
   exe s:map_sexp_wrap('e', '<M-S-9>', '(', ')', 0)
+  nmap <buffer> <M-(> <M-S-9>
   exe s:map_sexp_wrap('e', '<M-[>', '[', ']', 0)
   exe s:map_sexp_wrap('e', '<M-S-[>', '{', '}', 0)
+  nmap <buffer> <M-{> <M-S-[>
   " TODO: Is wrap-with-angle-brackets available?
   " NOTE: Wrap with double quotes is more general than s-expressions (plus the
   " version that used that functionality from the vim-sexp plugin wasn't
@@ -63,11 +74,14 @@ function! s:sexp_mappings() abort
   exe s:map('n', '<M-z>', '<Plug>(sexp_emit_head_element)')
   exe s:map('n', '<M-c>', '<Plug>(sexp_emit_tail_element)')
   exe s:map('n', '<M-S-j>', '<Plug>(sexp_swap_element_backward)')
+  nmap <buffer> <M-J> <M-S-j>
   exe s:map('n', '<M-S-k>', '<Plug>(sexp_swap_element_forward)')
+  nmap <buffer> <M-K> <M-S-k>
   " TODO: <M-j> join
   " TODO: <M-w> split
   exe s:map('n', '<M-r>', '<Plug>(sexp_raise_element)')
   exe s:map('n', '<M-S-/>', '<Plug>(sexp_convolute)')
+  nmap <buffer> <M-?> <M-S-/>
 endfunction
 
 function! s:setup() abort

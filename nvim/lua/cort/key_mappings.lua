@@ -156,7 +156,8 @@ vim.keymap.set("n", "N", "Nzz")
 
 -- Paste without overwriting default register contents. So you can paste the
 -- same thing again.
-vim.keymap.set("x", "<S-M-p>", "\"_dP")
+vim.keymap.set("x", "<M-S-p>", "\"_dP")
+vim.keymap.set("x", "<M-P>", "<S-M-p>", { remap = true })
 
 -- Q goes to ex mode, which isn't supposed to be useful interactively.
 -- We disable it.
