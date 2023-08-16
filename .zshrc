@@ -321,7 +321,7 @@ export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 
 inspect_parquet() {
-  pqrs cat $1 --json | jq . | less
+  pqrs cat $1 --json | jq . | /usr/local/bin/bat
 }
 
 alias nvim="CC=/usr/local/bin/gcc-13 nvim"
