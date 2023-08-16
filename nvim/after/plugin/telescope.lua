@@ -56,13 +56,12 @@ which_key.register(
   },
   { prefix = "<leader>" }
 )
+local telescope_themes = require("telescope.themes")
 vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "Find buffer" })
 vim.keymap.set("n", "<leader>f<Cr>", builtin.resume, { desc = "Resume previous search" })
 vim.keymap.set("n", "<leader>fb", function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
-  builtin.current_buffer_fuzzy_find(require("telescope.themes").get_ivy({
-    winblend = 10,
-  }))
+  builtin.current_buffer_fuzzy_find(telescope_themes.get_ivy({ winblend = 10 }))
 end, { desc = "Find in buffer" })
 vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "Find command" })
 vim.keymap.set("n", "<leader>fC", builtin.command_history, { desc = "Find command in history" })

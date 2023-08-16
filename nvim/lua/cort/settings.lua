@@ -79,7 +79,7 @@ vim.opt.splitright = true
 -- https://github.com/kevinhwang91/nvim-ufo/issues/4#issuecomment-1512772530
 vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 -- https://github.com/kevinhwang91/nvim-ufo/blob/43e39ec74cd57c45ca9d8229a796750f6083b850/README.md
-vim.o.foldcolumn = "1" -- "0" is not bad
+vim.o.foldcolumn = "1" -- "0" is also an alright setting.
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
