@@ -73,8 +73,6 @@ plugins=(
   pip
   poetry
   python
-  tmux
-  tmuxinator
   nvm
 )
 
@@ -118,8 +116,6 @@ if [ -d "$(brew --prefix)/opt/grep/libexec/gnubin" ]; then
 fi
 
 alias flush-dns="sudo killall -HUP mDNSResponder; sleep 2;"
-
-alias mux="tmuxinator"
 
 alias ipaddress="ifconfig | grep inet"
 
