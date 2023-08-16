@@ -1,16 +1,10 @@
 local telescope = require("telescope")
+local previewers_utils = require("telescope.previewers.utils")
 
 -- See `:help telescope` and `:help telescope.setup()`
 telescope.setup({
   defaults = {
-    mappings = {
-      i = {
-        ["<C-u>"] = false,
-        ["<C-d>"] = false,
-      },
-    },
-    path_display = { "truncate" },
-    sorting_strategy = "ascending",
+    dynamic_preview_title = true,
     layout_config = {
       horizontal = {
         prompt_position = "top",
@@ -23,6 +17,30 @@ telescope.setup({
       height = 0.80,
       preview_cutoff = 120,
     },
+    mappings = {
+      i = {
+        ["<C-u>"] = false,
+        ["<C-d>"] = false,
+      },
+    },
+    path_display = { "truncate" },
+    preview = {
+      check_mime_type = "file",
+      filesize_limit = 0.01, -- size in MB = 10 kB
+      filesize_hook = function(filepath, bufnr, opts)
+        -- Restrict preview to first 10 kB of file.
+        -- Source: https://github.com/nvim-telescope/telescope.nvim/issues/623#issuecomment-921978316
+        -- NOTE: This hook only runs when filesize_limit is exceeded:
+        -- https://github.com/nvim-telescope/telescope.nvim/blob/2d92125620417fbea82ec30303823e3cd69e90e8/lua/telescope/previewers/buffer_previewer.lua#L187
+        -- I noted that the documentation does not specify this: https://github.com/nvim-telescope/telescope.nvim/issues/623#issuecomment-1679538083
+        local max_bytes = 10000
+        local cmd = {"head", "-c", max_bytes, filepath}
+        vim.print("cmd", cmd)
+        previewers_utils.job_maker(cmd, bufnr, opts)
+      end,
+      timeout = 250,
+    },
+    sorting_strategy = "ascending",
   },
 })
 
