@@ -19,6 +19,9 @@ if vim.g.neovide then
   vim.g.neovide_cursor_trail_size = 0
   vim.g.neovide_cursor_animate_in_insert_mode = false
   vim.g.neovide_cursor_animate_command_line = false
+  vim.opt.guifont = "Monaco,JetBrainsMono:h13"
+  vim.opt.linespace = 1.0
+  vim.g.neovide_input_ime = false
 
   -- As per https://neovide.dev/faq.html#how-can-i-use-cmd-ccmd-v-to-copy-and-paste
   -- Enable cmd-c for copy and cmd-v for paste:
