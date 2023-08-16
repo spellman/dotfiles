@@ -155,19 +155,7 @@ return {
   --   end,
   -- },
 
-  {
-    -- Set lualine as statusline
-    "nvim-lualine/lualine.nvim",
-    -- See `:help lualine.txt`
-    opts = {
-      options = {
-        icons_enabled = true,
-        theme = "onelight",
-        component_separators = "|",
-        section_separators = "",
-      },
-    },
-  },
+  "nvim-lualine/lualine.nvim",
 
   -- "gc" to comment visual regions/lines
   {
@@ -377,8 +365,6 @@ return {
       "SmiteshP/nvim-navic",
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
-    opts = {
-      -- configurations go here
-    },
+    opts = {},
   }
 }
