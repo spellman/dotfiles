@@ -44,14 +44,18 @@ local parent_kinds_on_which_to_recurse = {
 ---   end_col: number
 --- }
 local function post_parse_symbol(bufnr, item, ctx)
-  debug_print("item kind:" .. item["kind"])
-  debug_print("item name:" .. item["name"])
-  debug_print("item level:" .. item["level"])
+  debug_print("item kind: " .. item["kind"])
+  debug_print("item name: " .. item["name"])
+  debug_print("item level: " .. item["level"])
+  debug_print("lang: " .. ctx["lang"])
   if item["parent"] then
     debug_print("item parent kind:" .. item["parent"]["kind"])
   end
 
-  if item["name"] == "if" and item["kind"] == "Package" then
+  if ctx["lang"] == "markdown" or ctx["lang"] == "marksman" then
+    debug_print("markdown language - true")
+    return true
+  elseif item["name"] == "if" and item["kind"] == "Package" then
     -- This may be lua-specific. That's ok if it is.
     debug_print("if - false")
     debug_print([[
