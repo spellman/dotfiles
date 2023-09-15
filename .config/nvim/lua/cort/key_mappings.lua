@@ -16,56 +16,11 @@ vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 vim.keymap.set({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-local recovery_direction = {
-  --
-  h = "l",
-  j = "l",
-  k = "l",
-  l = "h",
-}
-
----@param direction string Direction in which to try to move: "h", "j", "k", or "l"
-local function move_to_window_while_skipping_aerial_windows(direction)
-  -- TODO: This works but it's really dumb. Also, my at-the-edge heuristic may
-  -- not always hold. In fact, it is at least dependent on the aerial window
-  -- being displayed to the left of the associated window.
-  -- Can we instead get the window layout, determine the window to which to
-  -- move, and then actually move the cursor?
-
-  -- Move the cursor in the given direction to the adjacent window.
-  vim.cmd("wincmd " .. direction)
-
-  if vim.bo.filetype == "aerial" then
-    -- If the new current window is an aerial window, then move the cursor again
-    -- in the given direction to the adjacent window.
-    vim.cmd("wincmd " .. direction)
-
-    -- If we're still on an aerial window, infer that we must be at the edge of the tab.
-    -- In that case, we should have never moved at all. Therefore, move the cursor
-    -- one window in the recovery direction, restoring the cursor to the original window.
-    if vim.bo.filetype == "aerial" then
-      vim.cmd("wincmd " .. recovery_direction[direction])
-    end
-  end
-end
-
 -- Window movement
--- Skip over aerial windows when moving left.
-vim.keymap.set("n", "<C-h>", function()
-  move_to_window_while_skipping_aerial_windows("h")
-end, { desc = "Move cursor to window to left" })
-
-vim.keymap.set("n", "<C-j>", function()
-  move_to_window_while_skipping_aerial_windows("j")
-end , { desc = "Move cursor to window below" })
-
-vim.keymap.set("n", "<C-k>", function()
-  move_to_window_while_skipping_aerial_windows("k")
-end, { desc = "Move cursor to window above" })
-
-vim.keymap.set("n", "<C-l>", function()
-  move_to_window_while_skipping_aerial_windows("l")
-end, { desc = "Move cursor to window to right" })
+vim.keymap.set("n", "<C-h>", function() vim.cmd("wincmd h") end, { desc = "Move cursor to window to left" })
+vim.keymap.set("n", "<C-j>", function() vim.cmd("wincmd j") end, { desc = "Move cursor to window below" })
+vim.keymap.set("n", "<C-k>", function() vim.cmd("wincmd k") end, { desc = "Move cursor to window above" })
+vim.keymap.set("n", "<C-l>", function() vim.cmd("wincmd l") end, { desc = "Move cursor to window to right" })
 
 -- Move visually selected lines up and down.
 -- TODO: Why is this flaky?

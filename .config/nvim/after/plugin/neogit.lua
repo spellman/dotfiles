@@ -1,11 +1,12 @@
 local neogit = require("neogit")
 
 neogit.setup({
-  commit_popup = {
-    kind = "split_above",
-  },
   disable_hint = true,
   disable_insert_on_commit = false,
+
+  integrations = {
+    diffview = true
+  },
 
   -- Setting any section to `false` will make the section not render at all
   sections = {
@@ -21,16 +22,10 @@ neogit.setup({
     stashes = {
       folded = false
     },
-    unmerged = {
-      folded = false
-    },
     unmerged_pushRemote = {
       folded = false
     },
     unmerged_upstream = {
-      folded = false
-    },
-    unpulled = {
       folded = false
     },
     unpulled_pushRemote = {

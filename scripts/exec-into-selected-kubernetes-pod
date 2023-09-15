@@ -1,0 +1,12 @@
+#! /bin/zsh
+
+# Exec into selected Kubernetes pod.
+
+selected=$( \
+    kubectl get pods \
+    | awk '{print $1}' \
+    | grep -v NAME \
+    | gtac \
+    | fzf --ansi \
+)
+kubectl exec $selected -i -t -- /bin/bash

@@ -34,7 +34,7 @@
   includePullRequestsSection = false
   includeIssuesSection = false
 [core]
-	autocrlf = input
+  autocrlf = input
   excludesfile = /Users/cort/.gitignore
   pager = delta
 [pager]
@@ -43,9 +43,10 @@
   reflog = delta
   show = delta
 [delta]
-  syntax-theme = Dracula
-  plus-style = "syntax #012800"
-  minus-style = "syntax #340001"
+  ; syntax-theme = Dracula
+  ; plus-style = "syntax #012800"
+  ; minus-style = "syntax #340001"
+  light = true
   navigate = true
   line-numbers = true
   side-by-side = true
@@ -67,3 +68,4 @@
   recurse=true
 [tag]
   forcesignannotated = true
+

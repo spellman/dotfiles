@@ -47,10 +47,6 @@ telescope.setup({
 -- telescope fzf native
 telescope.load_extension("fzf")
 
-telescope.load_extension("aerial")
-local aerial = telescope.extensions.aerial
--- TODO: Set keymapping to use aerial.
-
 local builtin = require("telescope.builtin")
 
 -- telescope-file-browser plugin

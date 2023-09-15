@@ -72,36 +72,9 @@ set iskeyword+==
 nnoremap <Leader>q :action CloseContent<CR>
 nnoremap <Leader>Q :action ReopenClosedTab<CR>
 nnoremap <C-6> :action VimFilePrevious<CR>
-nnoremap <Leader>e :action SearchEverywhere<CR>
-nnoremap <Leader>f :action GotoFile<CR>
-nnoremap <Leader>c :action GotoClass<CR>
-nnoremap <Leader>t :action GotoSymbol<CR>
-nnoremap <Leader>a :action GotoAction<CR>
-nnoremap <Leader>B :action ToggleLineBreakpoint<CR>
-
-
-" Cursive
-nnoremap <Leader>w( :action :cursive.actions.paredit/wrap-paren<CR>
-vnoremap <Leader>w( :action :cursive.actions.paredit/wrap-paren<CR>
-nnoremap <Leader>w[ :action :cursive.actions.paredit/wrap-square<CR>
-vnoremap <Leader>w[ :action :cursive.actions.paredit/wrap-square<CR>
-nnoremap <Leader>w{ :action :cursive.actions.paredit/wrap-curly<CR>
-vnoremap <Leader>w{ :action :cursive.actions.paredit/wrap-curly<CR>
-nnoremap <Leader>w" :action :cursive.actions.paredit/wrap-quotes<CR>
-vnoremap <Leader>w" :action :cursive.actions.paredit/wrap-quotes<CR>
 
 
 " code navigation
-nnoremap <Leader>] :action GotoImplementation<CR>
-nnoremap <Leader>[ :action GotoSuperMethod<CR>
-nnoremap <Leader>b :action GotoDeclaration<CR>
-nnoremap <Leader>u :action FindUsages<CR>
-nnoremap <Leader>gt :action GotoTest<CR>
-nnoremap <Leader>k :action HighlightUsagesInFile<CR>
-nnoremap \r :action RunClass<CR>
-nnoremap \R :action Run<CR>
-nnoremap \d :action DebugClass<CR>
-nnoremap \D :action Debug<CR>
 nnoremap g; :action JumpToLastChange<Enter>
 nnoremap g, :action JumpToNextChange<Enter>
 

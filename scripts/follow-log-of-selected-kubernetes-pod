@@ -1,0 +1,13 @@
+#! /bin/zsh
+
+# Follow kubernetes logs for selected pod.
+# (Use the sibling script kl to get the logs without following.)
+
+selected=$( \
+    kubectl get pods \
+    | awk '{print $1}' \
+    | grep -v NAME \
+    | gtac \
+    | fzf --ansi \
+)
+kubectl logs -f $selected

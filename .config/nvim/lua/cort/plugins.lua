@@ -92,9 +92,11 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope.nvim",
+      "sindrets/diffview.nvim",
     },
-    config = true
   },
+
+  "sindrets/diffview.nvim",
 
   {
     -- Theme inspired by Atom
@@ -340,22 +342,6 @@ return {
       "luukvbaal/statuscol.nvim",
     },
     event = "VeryLazy",
-  },
-
-  {
-    "spellman/aerial.nvim",
-    dir = "/Users/cort/Projects/aerial.nvim",
-    opts = {},
-    -- Optional dependencies
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons"
-    },
-  },
-
-  {
-    "stevearc/stickybuf.nvim",
-    opts = {},
   },
 
   {

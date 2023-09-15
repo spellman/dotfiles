@@ -1,11 +1,11 @@
 require("illuminate").configure({
   delay = 50,
   filetypes_denylist = {
-    "aerial",
-    "qf", -- quickfix and location list buffers
+    "", -- some files have empty filetype. E.g., .log files
     "markdown",
     "NeogitCommitView",
     "NeogitStatus",
+    "qf", -- quickfix and location list buffers
     "TelescopePrompt",
     "text",
     "undotree",

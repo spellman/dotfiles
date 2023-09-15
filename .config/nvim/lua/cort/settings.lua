@@ -86,6 +86,22 @@ vim.o.foldenable = true
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
 
+-- From nvim-metals documentation:
+-- Remove `F` from `shortmess`. `set shortmess-=F`
+-- (for lua `vim.opt_global.shortmess:remove("F")`)
+-- Without doing this, autocommands that deal with filetypes prohibit messages
+-- from being shown, so some of the messages we show to help users get started
+-- may not be shown. If you're confident you don't need help setting up, then
+-- just remove this, and `nvim-metals` will work fine, but any log messages
+-- won't actually be shown to you if something goes wrong with `nvim-metals`.
+vim.opt_global.shortmess:remove("F")
+vim.opt_global.shortmess:remove("S")
+
 vim.opt.textwidth = 80
 vim.opt.autoindent = true
 vim.opt.formatoptions = "cjnoqr1/"
+vim.opt.wrap = true
+
+-- Allow navigating away from unsaved file.
+-- https://vimtricks.com/p/what-is-set-hidden/
+vim.opt.hidden = true

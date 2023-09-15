@@ -2,7 +2,6 @@ require("lualine").setup({
   options = {
     disabled_filetypes = {
       statusline = {
-        "aerial",
         "qf", -- quickfix and location list buffers
         "NeogitCommitView",
         "NeogitStatus",
@@ -10,7 +9,6 @@ require("lualine").setup({
         "undotree",
       },
       winbar = {
-        "aerial",
         "qf", -- quickfix and location list buffers
         "NeogitCommitView",
         "NeogitStatus",
