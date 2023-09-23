@@ -23,6 +23,8 @@ config.font = wezterm.font_with_fallback({
 config.freetype_load_flags = "NO_HINTING"
 config.font_size = 12.5
 
+config.hide_tab_bar_if_only_one_tab = true
+
 config.window_frame = {
   -- The font used in the tab bar.
   -- Roboto Bold is the default; this font is bundled
