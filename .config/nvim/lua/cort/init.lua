@@ -6,6 +6,13 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 
+-- Conjure maps keys based on the values of various global variables.
+-- Since those global variables have `#` characters and `#` is the length
+-- operator in Lua, we use the table style with a string key to set the value.
+-- Source: https://github.com/nanotee/nvim-lua-guide/discussions/66#discussioncomment-855208
+-- Commented: https://github.com/Olical/conjure/issues/186#issuecomment-1728700445
+vim.g["conjure#mapping#def_word"] = false
+
 -- Neovide is a nice idea but my keymapping of <M-u> was being recognized by
 -- nvim as an umlaut, which is what MacOS generates for <M-u>.
 -- Neovide has a MacOS-specific setting to make alt/option behave as meta so
