@@ -245,26 +245,7 @@ return {
   },
 
   -- project.nvim for setting the current directory and telescope integration
-  {
-    "ahmedkhalf/project.nvim",
-    config = function()
-      require("project_nvim").setup({
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-        exclude_dirs = {"~"},
-
-        -- Show hidden files in telescope
-        show_hidden = true,
-
-        -- What scope to change the directory, valid options are
-        -- * global (default)
-        -- * tab
-        -- * win
-        scope_chdir = "tab",
-      })
-    end
-  },
+  "ahmedkhalf/project.nvim",
 
   {
     "nvim-telescope/telescope-file-browser.nvim",
