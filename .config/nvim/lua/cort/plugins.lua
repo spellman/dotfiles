@@ -333,5 +333,10 @@ return {
       "nvim-tree/nvim-web-devicons", -- optional dependency
     },
     opts = {},
-  }
+  },
+
+  {
+    "gennaro-tedesco/nvim-jqx",
+    ft = { "json", "yaml" },
+  },
 }
