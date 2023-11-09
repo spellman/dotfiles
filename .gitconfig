@@ -1,7 +1,7 @@
 [user]
   name = Cort Spellman
   email = spellman.cort@gmail.com
-	signingkey = A76A57CB996FE4B26DCBDB5043449F1F78BFE897
+	signingkey = E4D2B71B25634FA0
 [credential]
   helper = cache --timeout=7200
 [diff]
@@ -69,3 +69,5 @@
 [tag]
   forcesignannotated = true
 
+[commit]
+	gpgsign = true

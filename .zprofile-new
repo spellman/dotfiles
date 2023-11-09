@@ -1,0 +1,11 @@
+# Where `/usr/local` is assumed to be equivalen to `$(brew --prefix)`.
+# Use GNU coreutils.
+if [ -d "/usr/local/opt/coreutils/libexec/gnubin" ]; then
+  PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+fi
+
+# Use GNU grep, which is not part of coreutils.
+if [ -d "/usr/local/opt/grep/libexec/gnubin" ]; then
+  PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
+fi
+

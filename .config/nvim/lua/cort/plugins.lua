@@ -339,4 +339,8 @@ return {
     "gennaro-tedesco/nvim-jqx",
     ft = { "json", "yaml" },
   },
+
+  {
+    "dhruvasagar/vim-table-mode"
+  },
 }
