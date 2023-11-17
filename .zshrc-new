@@ -21,7 +21,7 @@ fi
 p() {
   # TODO: I think I have a Rust-based tool that's supposed to be an improved
   # find. fd, maybe.
-  selected=$(find ~/Projects/phylum/localdev ~/Projects/phylum/localdev/research ~/Projects/phylum ~/Projects ~/ ~/Documents ~/Projects/powerlifting-america -mindepth 1 -maxdepth 1 -type d | fzf --ansi)
+  selected=$(find ~/Projects/powerlifting-america ~/Projects ~/ ~/Documents -mindepth 1 -maxdepth 1 -type d | fzf --ansi)
   cd $selected
 }
 
@@ -42,13 +42,13 @@ alias ad="awsume default"
 
 # Kubernetes
 # See ~/.local/bin for scripts referenced. E.g.,`kpf`
-alias k="kubectl"
-alias kexec="exec-into-selected-kubernetes-pod"
-alias kl="view-log-of-selected-kubernetes-pod"
-alias klf="follow-log-of-selected-kubernetes-pod"
-alias kpf="kubernetes-port-forward"
-alias kpg="kubernetes-port-forward postgres-postgresql-0 5432 5432"
-alias kr="kubernetes-port-forward service/redis-master 6379 6379"
+# alias k="kubectl"
+# alias kexec="exec-into-selected-kubernetes-pod"
+# alias kl="view-log-of-selected-kubernetes-pod"
+# alias klf="follow-log-of-selected-kubernetes-pod"
+# alias kpf="kubernetes-port-forward"
+# alias kpg="kubernetes-port-forward postgres-postgresql-0 5432 5432"
+# alias kr="kubernetes-port-forward service/redis-master 6379 6379"
 
 # Postgres
 alias start_local_pg="pg_ctl -D /usr/local/var/postgres start"
@@ -58,10 +58,6 @@ alias local_psql="psql postgresql://cort:@localhost:5432/postgres"
 # Redis
 alias start_local_redis="brew services start redis"
 alias stop_local_redis="brew services stop redis"
-
-# Phyum
-alias phl='phylum -c ~/.config/phylum/local.settings.yaml'
-alias phs='phylum -c ~/.config/phylum/staging.settings.yaml'
 
 # Java
 # `JAVA_*_HOME` environment variables are set and exported in ~/.zshenv
@@ -80,8 +76,6 @@ za() {
   zellij attach $selected
 }
 
-alias stg_package_hunter='ssh ubuntu@package-hunter.stg-aws.phylum.dev -i ~/.ssh/stg.pem'
-alias prod_package_hunter='ssh ubuntu@package-hunter.prod-aws.phylum.dev -i ~/.ssh/stg.pem'
 
 # rtx general-purpose tool-version installer and manager
 # https://github.com/jdxcode/rtx

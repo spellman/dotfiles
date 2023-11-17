@@ -4,17 +4,12 @@ export EDITOR='vim'
 export PATH="/Users/cort/.local/bin:$PATH"
 
 # Java
-# "/usr/libexec/java_home -v1.8" points to a non-openjdk java installation.
-# That may be what I want sometimes but I need the openjdk java for running a
-# heuristic locally so I'm commenting that out and hard-coding the openjdk
-# location for now.
-# export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
-export JAVA_8_HOME="/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
+export JAVA_8_HOME=$(/usr/libexec/java_home -v 8)
 export JAVA_11_HOME=$(/usr/libexec/java_home -v 11)
 export JAVA_17_HOME=$(/usr/libexec/java_home -v 17)
 
 # Scala
-export PATH="/Users/cort/Library/Application Support/Coursier/bin:$PATH"
+#export PATH="/Users/cort/Library/Application Support/Coursier/bin:$PATH"
 
 # AWS
 # AWSume alias to source the AWSume script
