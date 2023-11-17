@@ -1,7 +1,7 @@
 [user]
   name = Cort Spellman
   email = spellman.cort@gmail.com
-	signingkey = E4D2B71B25634FA0
+  signingKey = CEBDB6F290B671CD7F3A86C71AA1CB7E13067F36
 [credential]
   helper = cache --timeout=7200
 [diff]
@@ -59,7 +59,7 @@
   prune = true
   prunetags = true
 [pull]
-	rebase = true
+  rebase = true
 [rebase]
   autostash = true
 [remote]
@@ -68,6 +68,5 @@
   recurse=true
 [tag]
   forcesignannotated = true
-
 [commit]
-	gpgsign = true
+  gpgsign = true
