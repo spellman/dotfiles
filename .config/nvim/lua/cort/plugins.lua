@@ -99,16 +99,6 @@ return {
   "sindrets/diffview.nvim",
 
   {
-    -- Theme inspired by Atom
-    "navarasu/onedark.nvim",
-    priority = 1000,
-    dependencies = {
-      -- We register the key to toggle theme styles with which-key.
-      "folke/which-key.nvim"
-    },
-  },
-
-  {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,

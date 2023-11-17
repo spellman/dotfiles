@@ -16,7 +16,7 @@ require("catppuccin").setup({
   no_bold = false, -- Force no bold
   no_underline = false, -- Force no underline
   styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
-    comments = { "italic" }, -- Change the style of comments
+    comments = {}, -- Change the style of comments
     conditionals = {},
     loops = {},
     functions = {},
@@ -31,9 +31,9 @@ require("catppuccin").setup({
   },
   color_overrides = {
     latte = {
-      base = "#fafafa",
+      base = "#ffffff",
       mantle = "#f0f0f0",
-      crust = "#eaeaea",
+      crust = "#e4e4e4",
     }
   },
   custom_highlights = {},
@@ -44,7 +44,7 @@ require("catppuccin").setup({
       dim_dirname = true, -- directory name is dimmed by default
       bold_basename = true,
       dim_context = false,
-      alt_background = true,
+      alt_background = false,
     },
     cmp = true,
     fidget = true,
