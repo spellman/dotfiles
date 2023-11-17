@@ -64,9 +64,10 @@ alias stop_local_redis="brew services stop redis"
 alias java8='export JAVA_HOME=$JAVA_8_HOME'
 alias java11='export JAVA_HOME=$JAVA_11_HOME'
 alias java17='export JAVA_HOME=$JAVA_17_HOME'
+alias java21='export JAVA_HOME=$JAVA_21_HOME'
 
-# default to Java 11
-java11
+# default to Java 21
+java21
 
 # rtx general-purpose tool-version installer and manager
 # https://github.com/jdxcode/rtx

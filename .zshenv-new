@@ -7,6 +7,7 @@ export PATH="/Users/cort/.local/bin:$PATH"
 export JAVA_8_HOME=$(/usr/libexec/java_home -v 8)
 export JAVA_11_HOME=$(/usr/libexec/java_home -v 11)
 export JAVA_17_HOME=$(/usr/libexec/java_home -v 17)
+export JAVA_21_HOME=$(/usr/libexec/java_home -v 21)
 
 # Scala
 #export PATH="/Users/cort/Library/Application Support/Coursier/bin:$PATH"
@@ -16,5 +17,4 @@ export JAVA_17_HOME=$(/usr/libexec/java_home -v 17)
 alias awsume="source awsume"
 # Auto-Complete function for AWSume
 fpath=(~/.awsume/zsh-autocomplete/ $fpath)
-
 
