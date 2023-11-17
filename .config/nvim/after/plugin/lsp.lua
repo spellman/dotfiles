@@ -340,7 +340,7 @@ local function on_attach(client, bufnr)
   vim.keymap.set("n", "K", vim.lsp.buf.hover, opts("Hover documentation"))
   vim.keymap.set({ "n", "i" }, "<M-k>", vim.lsp.buf.signature_help, opts("Signature documentation"))
 
-  vim.keymap.set("n", "gtd", function()
+  vim.keymap.set("n", "gp", function()
     go_to_type_definition({
       callback = function(err, result, ctx, config)
         if err ~= nil then
@@ -352,7 +352,7 @@ local function on_attach(client, bufnr)
     })
   end, opts("Goto type definition"))
 
-  vim.keymap.set("n", "gstd", in_split(function()
+  vim.keymap.set("n", "gsp", in_split(function()
     go_to_type_definition({
       callback = function(err, result, ctx, config)
         if err ~= nil then
