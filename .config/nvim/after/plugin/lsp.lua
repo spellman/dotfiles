@@ -436,7 +436,6 @@ local servers = {
   clojure_lsp = {
     ["keep-parens-when-threading?"] = true
   },
-  gopls = {},
   jsonls = {},
   lua_ls = {
     Lua = {
@@ -447,8 +446,6 @@ local servers = {
   marksman = {},
   pyright = {},
   -- I could also use lsp-zero, which sets up linting as well as diagnostics.
-  rust_analyzer = {},
-  tsserver = {},
 }
 
 -- Setup neovim lua configuration
