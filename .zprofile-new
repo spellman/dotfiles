@@ -9,3 +9,22 @@ if [ -d "/usr/local/opt/grep/libexec/gnubin" ]; then
   PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
 fi
 
+# Use GNU sed, which is not part of coreutils.
+if [ -d "/usr/local/opt/gnu-sed/libexec/gnubin" ]; then
+  PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+fi
+
+# Use GNU awk, which is not part of coreutils.
+if [ -d "/usr/local/opt/gawk/libexec/gnubin" ]; then
+  PATH="/usr/local/opt/gawk/libexec/gnubin:$PATH"
+fi
+
+# Use GNU gnu-indent, which is not part of coreutils.
+if [ -d "/usr/local/opt/gnu-indent/libexec/gnubin" ]; then
+  PATH="/usr/local/opt/gnu-indent/libexec/gnubin:$PATH"
+fi
+
+# Use GNU findutils, which is not part of coreutils.
+if [ -d "/usr/local/opt/findutils/libexec/gnubin" ]; then
+  PATH="/usr/local/opt/findutils/libexec/gnubin:$PATH"
+fi
