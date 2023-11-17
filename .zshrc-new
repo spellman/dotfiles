@@ -68,15 +68,6 @@ alias java17='export JAVA_HOME=$JAVA_17_HOME'
 # default to Java 11
 java11
 
-alias z='zellij'
-
-# Attach to Zellij session
-za() {
-  selected=$(zellij list-sessions | fzf --ansi)
-  zellij attach $selected
-}
-
-
 # rtx general-purpose tool-version installer and manager
 # https://github.com/jdxcode/rtx
 # > rtx activate should only be used in rc files.
