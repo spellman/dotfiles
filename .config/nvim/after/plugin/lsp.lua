@@ -436,6 +436,7 @@ local servers = {
   clojure_lsp = {
     ["keep-parens-when-threading?"] = true
   },
+  cssls = {},
   jsonls = {},
   lua_ls = {
     Lua = {
