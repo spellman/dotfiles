@@ -81,3 +81,6 @@ source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 # zsh syntax highlighting
 source ~/.local/share/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 
+# iTerm2 shell integration:
+# https://iterm2.com/documentation-shell-integration.html
+source ~/.iterm2_shell_integration.zsh
