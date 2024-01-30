@@ -226,13 +226,13 @@ return {
   -- },
 
   -- Metals
-  {
-    "scalameta/nvim-metals",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "mfussenegger/nvim-dap"
-    }
-  },
+  -- {
+  --   "scalameta/nvim-metals",
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     "mfussenegger/nvim-dap"
+  --   }
+  -- },
 
   -- project.nvim for setting the current directory and telescope integration
   "ahmedkhalf/project.nvim",
