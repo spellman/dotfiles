@@ -69,11 +69,9 @@ alias java21='export JAVA_HOME=$JAVA_21_HOME'
 # default to Java 21
 java21
 
-# rtx general-purpose tool-version installer and manager
-# https://github.com/jdxcode/rtx
-# > rtx activate should only be used in rc files.
-# https://github.com/jdxcode/rtx#rtx-activate-doesnt-work-in-profile-bash_profile-zprofile
-eval "$(/usr/local/bin/rtx activate zsh)"
+# mise general-purpose tool-version installer and manager (formerly called rtx)
+# https://github.com/jdx/mise
+eval "$(~/.local/bin/mise activate zsh)"
 
 # zsh auto-suggestions
 source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
