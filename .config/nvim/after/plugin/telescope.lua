@@ -101,6 +101,7 @@ vim.keymap.set("n", "<leader>ff", function()
       "fd",
       "--color", "never",
       "--no-ignore-vcs",
+      "--hidden",
       "--exclude", ".git",
     },
     cwd = project_root,
@@ -118,6 +119,7 @@ vim.keymap.set("n", "<leader>fn", function()
       "fd",
       "--color", "never",
       "--no-ignore-vcs",
+      "--hidden",
       "--exclude", ".git",
     },
     cwd = nvim_config_dir,
@@ -135,7 +137,8 @@ vim.keymap.set("n", "<leader>fs", function()
     find_command = {
       "rg",
       "--color", "never",
-      "--hidden", "--no-ignore-vcs",
+      "--no-ignore-vcs",
+      "--hidden",
       "--glob", "!.git"
     },
     cwd = project_root,
@@ -148,7 +151,8 @@ vim.keymap.set("n", "<leader>fw", function()
     find_command = {
       "rg",
       "--color", "never",
-      "--hidden", "--no-ignore-vcs",
+      "--no-ignore-vcs",
+      "--hidden",
       "--glob", "!.git"
     },
     cwd = project_root,
