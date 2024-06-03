@@ -12,8 +12,9 @@ if [ "$(command -v exa)" ]; then
   unalias -m 'll'
   unalias -m 'l'
   unalias -m 'la'
-  unalias -m 'ls'
-  alias ls='exa -G  --color auto --icons -a -s type'
+  # Don't remove this. Scripts use it with options supported by ls but not exa.
+  # unalias -m 'ls'
+  # alias ls='exa -G  --color auto --icons -a -s type'
   alias l='exa -l --color always --icons -a -s type'
 fi
 
@@ -69,9 +70,10 @@ alias java21='export JAVA_HOME=$JAVA_21_HOME'
 # default to Java 21
 java21
 
-# mise general-purpose tool-version installer and manager (formerly called rtx)
-# https://github.com/jdx/mise
-eval "$(~/.local/bin/mise activate zsh)"
+# Enable chruby
+source /usr/local/share/chruby/chruby.sh
+source /usr/local/share/chruby/auto.sh
+chruby ruby-3.3.1
 
 # zsh auto-suggestions
 source ~/.local/share/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
