@@ -434,7 +434,7 @@ local lsp_handlers = {
 local servers = {
   -- clangd = {},
   clojure_lsp = {
-    ["keep-parens-when-threading?"] = true
+    [":keep-parens-when-threading?"] = true
   },
   cssls = {},
   jsonls = {},
