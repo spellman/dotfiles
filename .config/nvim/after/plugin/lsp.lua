@@ -395,8 +395,41 @@ local function on_attach(client, bufnr)
   vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, opts("Open diagnostics in location list"))
 end
 
+-- Source https://github.com/Shopify/ruby-lsp/blob/b6f5f4f0d81a69b626933e2d24983f7b6b61b139/EDITORS.md#Neovim-LSP
+local function add_ruby_deps_command(client, bufnr)
+  vim.api.nvim_buf_create_user_command(bufnr, "ShowRubyDeps", function(opts)
+    local params = vim.lsp.util.make_text_document_params()
+    local showAll = opts.args == "all"
+
+    client.request("rubyLsp/workspace/dependencies", params, function(error, result)
+      if error then
+        print("Error showing deps: " .. error)
+        return
+      end
+
+      local qf_list = {}
+      for _, item in ipairs(result) do
+        if showAll or item.dependency then
+          table.insert(qf_list, {
+            text = string.format("%s (%s) - %s", item.name, item.version, item.dependency),
+            filename = item.path
+          })
+        end
+      end
+
+      vim.fn.setqflist(qf_list)
+      vim.cmd('copen')
+    end, bufnr)
+  end,
+  {nargs = "?", complete = function() return {"all"} end})
+end
+
 local function server_dependent_on_attach(server_name)
   return function(client, bufnr)
+    if server_name == "ruby_lsp" then
+      add_ruby_deps_command(client, bufnr)
+    end
+
     on_attach(client, bufnr)
   end
 end
@@ -446,6 +479,7 @@ local servers = {
   },
   marksman = {},
   pyright = {},
+  ruby_lsp = {},
   -- I could also use lsp-zero, which sets up linting as well as diagnostics.
 }
 
@@ -476,6 +510,7 @@ mason_lspconfig.setup_handlers({
   function(server_name)
     require("lspconfig")[server_name].setup({
       capabilities = capabilities,
+      filetypes = (servers[server_name] or {}).filetypes,
       handlers = lsp_handlers,
       on_attach = server_dependent_on_attach(server_name),
       settings = servers[server_name],
