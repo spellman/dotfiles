@@ -18,3 +18,5 @@ alias awsume="source awsume"
 # Auto-Complete function for AWSume
 fpath=(~/.awsume/zsh-autocomplete/ $fpath)
 
+# For Rye Python management tool:
+fpath=(~/.zfunc "${fpath[@]}")
