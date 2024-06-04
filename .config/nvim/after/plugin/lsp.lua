@@ -518,6 +518,16 @@ mason_lspconfig.setup_handlers({
   end,
 })
 
+-- Install gleam LSP manually because it isn't in the Mason registry.
+-- (https://github.com/mason-org/mason-registry/pull/3872)
+require("lspconfig").gleam.setup({
+  capabilities = capabilities,
+  handlers = lsp_handlers,
+  on_attach = function(client, bufnr)
+    on_attach(client, bufnr)
+  end
+})
+
 -- As per
 -- https://github.com/kevinhwang91/nvim-ufo/blob/43e39ec74cd57c45ca9d8229a796750f6083b850/README.md#minimal-configuration
 ufo.setup()
