@@ -22,7 +22,7 @@ fi
 p() {
   # TODO: I think I have a Rust-based tool that's supposed to be an improved
   # find. fd, maybe.
-  selected=$(find ~/Projects/powerlifting-america ~/Projects ~/ ~/Documents -mindepth 1 -maxdepth 1 -type d | fzf --ansi)
+  selected=$(find ~/Projects/powerlifting-america ~/Projects ~ ~/Documents -mindepth 1 -maxdepth 1 -type d | fzf --ansi)
   cd $selected
 }
 
