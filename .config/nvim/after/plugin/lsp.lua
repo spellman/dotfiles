@@ -470,8 +470,10 @@ local servers = {
     [":keep-parens-when-threading?"] = true
   },
   cssls = {},
+  css_variables = {},
   elixirls = {},
   erlangls = {},
+  gopls = {},
   jsonls = {},
   lua_ls = {
     Lua = {
@@ -482,7 +484,13 @@ local servers = {
   marksman = {},
   pyright = {},
   ruby_lsp = {},
+  svelte = {},
   -- I could also use lsp-zero, which sets up linting as well as diagnostics.
+  tsserver = {
+    implicitProjectConfiguration = {
+      checkJs = true
+    },
+  },
 }
 
 -- Setup neovim lua configuration
