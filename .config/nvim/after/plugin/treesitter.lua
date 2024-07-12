@@ -5,7 +5,11 @@ require("nvim-treesitter.configs").setup({
     "clojure",
     "css",
     "dockerfile",
+    "elixir", -- elixir
+    "eex", -- elixir
+    "erlang",
     "gleam",
+    "heex", -- elixir
     "html",
     "java",
     "javascript",

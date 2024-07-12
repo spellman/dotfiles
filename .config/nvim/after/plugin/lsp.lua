@@ -470,6 +470,8 @@ local servers = {
     [":keep-parens-when-threading?"] = true
   },
   cssls = {},
+  elixirls = {},
+  erlangls = {},
   jsonls = {},
   lua_ls = {
     Lua = {
