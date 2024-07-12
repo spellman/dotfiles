@@ -28,3 +28,6 @@ pom.xml.asc
 
 .clojure/.clj-kondo/
 .clojure/.lsp/
+.clj-kondo/.cache
+
+.lsp/.cache
