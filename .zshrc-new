@@ -8,14 +8,14 @@ SAVEHIST=10000
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # 3S `ls` command
-if [ "$(command -v exa)" ]; then
+if [ "$(command -v eza)" ]; then
   unalias -m 'll'
   unalias -m 'l'
   unalias -m 'la'
-  # Don't remove this. Scripts use it with options supported by ls but not exa.
+  # Don't remove this. Scripts use it with options supported by ls but not eza.
   # unalias -m 'ls'
-  # alias ls='exa -G  --color auto --icons -a -s type'
-  alias l='exa -l --color always --icons -a -s type'
+  # alias ls='eza -G  --color auto --icons -a -s type'
+  alias l='eza -l --color always --icons -a -s type'
 fi
 
 # Navigate between projects
