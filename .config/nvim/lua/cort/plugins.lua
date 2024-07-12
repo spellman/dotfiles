@@ -70,7 +70,10 @@ return {
   "folke/neodev.nvim",
 
   -- Useful plugin to show you pending keybinds.
-  { "folke/which-key.nvim", opts = {} },
+  {
+    "folke/which-key.nvim",
+    opts = {}
+  },
 
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
@@ -326,4 +329,10 @@ return {
   {
     "dhruvasagar/vim-table-mode"
   },
+
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" }
+  }
 }
