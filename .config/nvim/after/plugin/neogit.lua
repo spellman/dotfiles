@@ -51,6 +51,10 @@ neogit.setup({
       folded = false
     },
   },
+  -- Disables a second set of signs, to the right of those configured below.
+  -- Why do they exist?
+  disable_signs = true,
+  -- Configures signs that still appear even when disable_signs is set to true.
   signs = {
     -- { CLOSED, OPENED }
     section = { ">", "v" },
