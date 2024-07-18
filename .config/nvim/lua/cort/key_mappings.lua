@@ -31,9 +31,9 @@ local function current_character_and_neighbors(line_number, column_number)
   local line = vim.fn.getline(line_number)
 
   return {
-    previous=line:sub(column_number - 1, column_number - 1),
-    current=line:sub(column_number, column_number),
-    next=line:sub(column_number + 1, column_number + 1)
+    previous = line:sub(column_number - 1, column_number - 1),
+    current = line:sub(column_number, column_number),
+    next = line:sub(column_number + 1, column_number + 1)
   }
 end
 

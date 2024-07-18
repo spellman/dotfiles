@@ -34,7 +34,7 @@ telescope.setup({
         -- https://github.com/nvim-telescope/telescope.nvim/blob/2d92125620417fbea82ec30303823e3cd69e90e8/lua/telescope/previewers/buffer_previewer.lua#L187
         -- I noted that the documentation does not specify this: https://github.com/nvim-telescope/telescope.nvim/issues/623#issuecomment-1679538083
         local max_bytes = 10000
-        local cmd = {"head", "-c", max_bytes, filepath}
+        local cmd = { "head", "-c", max_bytes, filepath }
         vim.print("cmd", cmd)
         previewers_utils.job_maker(cmd, bufnr, opts)
       end,
@@ -96,7 +96,7 @@ vim.keymap.set("n", "<leader>ff", function()
   -- that.
   local project_root, _ = project_nvim_project.find_pattern_root()
   builtin.find_files({
-    prompt_title = "Find Files ("..project_root..")",
+    prompt_title = "Find Files (" .. project_root .. ")",
     find_command = {
       "fd",
       "--color", "never",
@@ -114,7 +114,7 @@ vim.keymap.set("n", "<leader>fm", builtin.marks, { desc = "Find marks" })
 vim.keymap.set("n", "<leader>fn", function()
   local nvim_config_dir = vim.fn.stdpath("config")
   builtin.find_files({
-    prompt_title = "Nvim Config Files ("..nvim_config_dir..")",
+    prompt_title = "Nvim Config Files (" .. nvim_config_dir .. ")",
     find_command = {
       "fd",
       "--color", "never",
