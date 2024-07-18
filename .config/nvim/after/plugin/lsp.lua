@@ -486,11 +486,7 @@ local servers = {
   ruby_lsp = {},
   svelte = {},
   -- I could also use lsp-zero, which sets up linting as well as diagnostics.
-  tsserver = {
-    implicitProjectConfiguration = {
-      checkJs = true
-    },
-  },
+  tsserver = {},
 }
 
 -- Setup neovim lua configuration
