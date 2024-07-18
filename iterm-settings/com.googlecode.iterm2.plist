@@ -2573,9 +2573,7 @@
 	<integer>5</integer>
 	<key>ToolbeltTools</key>
 	<array>
-		<string>Profiles</string>
 		<string>Captured Output</string>
-		<string>Command History</string>
 	</array>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
@@ -2586,6 +2584,6 @@
 	<key>disableMetalWhenUnplugged</key>
 	<true/>
 	<key>findMode_iTerm</key>
-	<integer>3</integer>
+	<integer>0</integer>
 </dict>
 </plist>
