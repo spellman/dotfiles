@@ -327,13 +327,6 @@ require("catppuccin").setup({
   },
 })
 
-require("which-key").register(
-  {
-    u = {
-      t = { "Toggle theme style" }
-    }
-  },
-  { prefix = "<leader>" }
-)
+require("which-key").add({ "<leader>ut", desc = "Toggle theme style" })
 
 vim.cmd.colorscheme("catppuccin")

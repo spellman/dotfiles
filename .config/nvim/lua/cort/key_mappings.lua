@@ -160,15 +160,11 @@ vim.keymap.set({ "n", "i" }, "<S-D-j>", "<cmd>cnext<CR>zz")
 vim.keymap.set({ "n", "i" }, "<S-D-k>", "<cmd>cprev<CR>zz")
 
 -- Replace occurrences of word under cursor in buffer.
-require("which-key").register(
+require("which-key").add(
   {
-    r = {
-      w = { [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], "Rename word under cursor in buffer" }
-    }
-  },
-  {
-    mode = "n",
-    prefix = "<leader>",
+    "<leader>rw",
+    ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>",
+    desc = "Rename word under cursor in buffer"
   }
 )
 

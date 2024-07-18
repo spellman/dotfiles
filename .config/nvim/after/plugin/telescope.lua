@@ -64,12 +64,7 @@ telescope.load_extension("projects")
 local project_nvim_project = require("project_nvim.project")
 
 local which_key = require("which-key")
-which_key.register(
-  {
-    f = { name = " 󰍉 Find" }
-  },
-  { prefix = "<leader>" }
-)
+which_key.add({ "<leader>f", group = " 󰍉 Find" })
 local telescope_themes = require("telescope.themes")
 vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "Find buffer" })
 vim.keymap.set("n", "<leader>f<Cr>", builtin.resume, { desc = "Resume previous search" })

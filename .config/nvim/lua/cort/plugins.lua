@@ -32,6 +32,13 @@ return {
   },
 
   {
+    "L3MON4D3/LuaSnip",
+    -- follow latest release.
+    version = "v2.*",                -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+    build = "make install_jsregexp", -- install jsregexp (optional!)
+  },
+
+  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
@@ -51,6 +58,13 @@ return {
     dependencies = {
       "hrsh7th/nvim-cmp",
     },
+  },
+
+  {
+    "danymat/neogen",
+    config = true,
+    -- Uncomment next line if you want to follow only stable versions
+    version = "*"
   },
 
   -- Useful status updates for LSP
@@ -290,15 +304,15 @@ return {
     },
   },
 
-  {
-    "kevinhwang91/nvim-bqf",
-    ft = "qf"
-  },
+  -- {
+  --   "kevinhwang91/nvim-bqf",
+  --   ft = "qf"
+  -- },
 
-  {
-    "yorickpeterse/nvim-pqf",
-    opts = {},
-  },
+  -- {
+  --   "yorickpeterse/nvim-pqf",
+  --   opts = {},
+  -- },
 
   "HiPhish/rainbow-delimiters.nvim",
 
@@ -327,12 +341,12 @@ return {
   },
 
   {
-    "dhruvasagar/vim-table-mode"
+    "dhruvasagar/vim-table-mode",
   },
 
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
-    dependencies = { "nvim-lua/plenary.nvim" }
-  }
+    dependencies = { "nvim-lua/plenary.nvim" },
+  },
 }

@@ -64,10 +64,5 @@ neogit.setup({
 })
 
 local which_key = require("which-key")
-which_key.register(
-  {
-    g = { name = " 󰊢 Git" }
-  },
-  { prefix = "<leader>" }
-)
+which_key.add({ "<leader>g", group = " 󰊢 Git" })
 vim.keymap.set("n", "<leader>gg", neogit.open, { desc = "Neogit status" })
