@@ -1,0 +1,27 @@
+<!--
+Make a symlink to this file at `~/Library/LaunchAgents/emacs.plist`
+Then run
+```shell
+launchctl unload ~/Library/LaunchAgents/emacs.plist
+launchctl load -w ~/Library/LaunchAgents/emacs.plist
+```
+--> 
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>emacs</string>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/opt/homebrew/opt/emacs-plus/bin/emacs</string>
+      <string>--daemon</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>    
+    <key>StandardOutPath</key>
+    <string>/tmp/emacs.stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/emacs.stderr.log</string>
+  </dict>
+</plist>
