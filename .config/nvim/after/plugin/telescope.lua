@@ -129,13 +129,11 @@ vim.keymap.set("n", "<leader>fs", function()
   local project_root, _ = project_nvim_project.find_pattern_root()
   builtin.live_grep({
     prompt_title = "Search in Project",
-    find_command = {
-      "rg",
-      "--color", "never",
+    additional_args = {
       "--no-ignore-vcs",
       "--hidden",
-      "--glob", "!.git"
     },
+    glob_pattern = "!.git",
     cwd = project_root,
   })
 end, { desc = "Find search term in project" })
@@ -143,13 +141,11 @@ vim.keymap.set("n", "<leader>fw", function()
   -- See (*) for why we use project_nvim_project.find_pattern_root.
   local project_root, _ = project_nvim_project.find_pattern_root()
   builtin.grep_string({
-    find_command = {
-      "rg",
-      "--color", "never",
+    additional_args = {
       "--no-ignore-vcs",
       "--hidden",
-      "--glob", "!.git"
     },
+    glob_pattern = "!.git",
     cwd = project_root,
   })
 end, { desc = "Find word under cursor in project" })
