@@ -1,3 +1,4 @@
+-- UFO provides LSP-based code folds.
 -- As per
 -- https://github.com/kevinhwang91/nvim-ufo/blob/43e39ec74cd57c45ca9d8229a796750f6083b850/README.md#minimal-configuration
 local ufo = require("ufo")
@@ -534,6 +535,7 @@ require("lspconfig").gleam.setup({
   end
 })
 
+-- See UFO explanation at top.
 -- As per
 -- https://github.com/kevinhwang91/nvim-ufo/blob/43e39ec74cd57c45ca9d8229a796750f6083b850/README.md#minimal-configuration
 ufo.setup()
