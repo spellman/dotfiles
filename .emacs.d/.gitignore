@@ -4,6 +4,8 @@ config.el
 elpa
 elpaca
 projectile-bookmarks.eld
+projects
 recentf
 transient
+tree-sitter
 undo-fu-session
