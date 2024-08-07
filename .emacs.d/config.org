@@ -9,7 +9,6 @@
 - [[#things-that-arent-working][THINGS THAT AREN'T WORKING]]
   - [[#evil-want-c-i-jump-seems-to-have-no-effect][evil-want-C-i-jump seems to have no effect]]
 - [[#todo][TODO]]
-  - [[#treesitter][Treesitter]]
   - [[#lsp][LSP]]
   - [[#highlight-occurrences-of-term-under-cursor][Highlight Occurrences Of Term Under Cursor]]
   - [[#auto-save][Auto-Save]]
@@ -64,6 +63,8 @@
   - [[#preserve-undo-history-across-emacs-sessions][Preserve Undo History Across Emacs Sessions]]
   - [[#undo-tree-vundo][Undo Tree (vundo)]]
 - [[#which-key][WHICH KEY]]
+- [[#languages][LANGUAGES]]
+  - [[#treesitter][Treesitter]]
 
 * THINGS THAT AREN'T WORKING
 ** evil-want-C-i-jump seems to have no effect
@@ -80,7 +81,6 @@ Workaround:
 
 
 * TODO
-** Treesitter
 ** LSP
 ** Highlight Occurrences Of Term Under Cursor
 ** Auto-Save
@@ -920,4 +920,18 @@ This gets its own section because it's very important and I've struggled with bu
           ; which-key-max-description-length 25
           ; which-key-allow-imprecise-window-fit t
           which-key-separator " → "))
+#+end_src
+
+
+
+* LANGUAGES
+** Treesitter
+
+#+begin_src emacs-lisp
+  (use-package treesit-auto
+    :custom
+    (treesit-auto-install t)
+    :config
+    (treesit-auto-add-to-auto-mode-alist 'all)
+    (global-treesit-auto-mode))
 #+end_src
