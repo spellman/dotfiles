@@ -16,14 +16,16 @@
   - [[#auto-save][Auto-Save]]
   - [[#tabs][Tabs]]
   - [[#org-agenda][Org Agenda]]
-- [[#important-things-to-load-first][IMPORTANT THINGS TO LOAD FIRST]]
-  - [[#elpaca-package-manager][Elpaca Package Manager]]
-  - [[#evil-mode][Evil Mode]]
-  - [[#general-keybindings][General Keybindings]]
+- [[#elpaca-package-manager][Elpaca Package Manager]]
+  - [[#install-and-enable-elpaca][Install And Enable Elpaca]]
+  - [[#install-use-package-support][Install use-package Support]]
+  - [[#have-use-package-always-install-packages][Have use-package Always Install Packages]]
   - [[#set-up-dired-to-use-gls-on-mac][Set Up dired To Use gls On Mac]]
 - [[#backup-files][BACKUP FILES]]
+- [[#evil-mode][Evil Mode]]
 - [[#font][FONT]]
   - [[#set-the-font-face][Set The Font Face]]
+- [[#general-keybindings][General Keybindings]]
 - [[#git][GIT]]
   - [[#magit][Magit]]
   - [[#git-time-machine][Git Time Machine]]
@@ -90,9 +92,8 @@ Workaround:
 
 
 
-* IMPORTANT THINGS TO LOAD FIRST
-** Elpaca Package Manager
-*** Install Elpaca
+* Elpaca Package Manager
+** Install And Enable Elpaca
 
 #+begin_src emacs-lisp
   (defvar elpaca-installer-version 0.7)
@@ -135,7 +136,7 @@ Workaround:
   (elpaca `(,@elpaca-order))
 #+end_src
 
-*** Install use-package Support
+** Install use-package Support
 The `:init` keyword executes code before a package is loaded. It accepts one or more forms, up to the next keyword.
 
 The `:config` keyword executes code after a package is loaded. In cases where loading is done lazily, this execution is deferred until after the autoload occurs.
@@ -179,12 +180,49 @@ The `:config` keyword executes code after a package is loaded. In cases where lo
     (read-extended-command-predicate #'command-completion-default-include-p))
 #+end_src
 
-*** Have use-package Always Install Packages
+** Have use-package Always Install Packages
 #+begin_src emacs-lisp
   (setq use-package-always-ensure t)
 #+end_src
 
-** Evil Mode
+
+** Set Up dired To Use gls On Mac
+The Mac built-in `ls` doesn't support the `--dired` option so we use `gls` from GNU coreutils.
+
+#+begin_src emacs-lisp
+  (when (string= system-type "darwin")
+    (setq dired-use-ls-dired t
+          insert-directory-program "/opt/homebrew/bin/gls"
+          dired-listing-switches "-aBhl"))
+#+end_src
+
+
+
+* BACKUP FILES
+Source: https://emacs.stackexchange.com/a/36
+
+#+begin_src emacs-lisp
+(let ((backup-dir "~/tmp/emacs/backups")
+      (auto-saves-dir "~/tmp/emacs/auto-saves/"))
+  (dolist (dir (list backup-dir auto-saves-dir))
+    (when (not (file-directory-p dir))
+      (make-directory dir t)))
+  (setq backup-directory-alist `(("." . ,backup-dir))
+        auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
+        auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
+        tramp-backup-directory-alist `((".*" . ,backup-dir))
+        tramp-auto-save-directory auto-saves-dir))
+
+(setq backup-by-copying t    ; Don't delink hardlinks
+      delete-old-versions t  ; Clean up the backups
+      version-control t      ; Use version numbers on backups,
+      kept-new-versions 5    ; keep some new versions
+      kept-old-versions 2)   ; and some old ones, too
+#+end_src
+
+
+
+* Evil Mode
 
 #+begin_src emacs-lisp
   (use-package evil
@@ -217,7 +255,37 @@ The `:config` keyword executes code after a package is loaded. In cases where lo
   (use-package evil-tutor)
 #+end_src
 
-** General Keybindings
+
+
+* FONT
+** Set The Font Face
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil
+		      :font "Monaco"
+		      :height 140
+		      :weight 'medium)
+  (set-face-attribute 'variable-pitch nil
+		      :font "JetBrainsMono Nerd Font"
+		      :height 140
+		      :weight 'medium)
+  (set-face-attribute 'fixed-pitch nil
+		      :font "Monaco"
+		      :height 140
+		      :weight 'medium)
+
+  ;; This sets the default font on all graphical frames created after restarting Emacs.
+  ;; Does the same thing as 'set-face-attribute default' above, but emacsclient fonts
+  ;; are not right unless I also add this method of setting the default font.
+  (add-to-list 'default-frame-alist '(font . "Monaco-14"))
+
+  ;; Uncomment the following line if line spacing needs adjusting.
+  (setq-default line-spacing 0.12)
+#+end_src
+
+
+
+* General Keybindings
 general.el is the keybinding-setting program
 
 #+begin_src emacs-lisp
@@ -305,67 +373,6 @@ general.el is the keybinding-setting program
      "C-k" 'evil-window-up
      "C-l" 'evil-window-right)
     )
-#+end_src
-
-** Set Up dired To Use gls On Mac
-The Mac built-in `ls` doesn't support the `--dired` option so we use `gls` from GNU coreutils.
-
-#+begin_src emacs-lisp
-  (when (string= system-type "darwin")
-    (setq dired-use-ls-dired t
-          insert-directory-program "/opt/homebrew/bin/gls"
-          dired-listing-switches "-aBhl"))
-#+end_src
-
-
-* BACKUP FILES
-Source: https://emacs.stackexchange.com/a/36
-
-#+begin_src emacs-lisp
-(let ((backup-dir "~/tmp/emacs/backups")
-      (auto-saves-dir "~/tmp/emacs/auto-saves/"))
-  (dolist (dir (list backup-dir auto-saves-dir))
-    (when (not (file-directory-p dir))
-      (make-directory dir t)))
-  (setq backup-directory-alist `(("." . ,backup-dir))
-        auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
-        auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
-        tramp-backup-directory-alist `((".*" . ,backup-dir))
-        tramp-auto-save-directory auto-saves-dir))
-
-(setq backup-by-copying t    ; Don't delink hardlinks
-      delete-old-versions t  ; Clean up the backups
-      version-control t      ; Use version numbers on backups,
-      kept-new-versions 5    ; keep some new versions
-      kept-old-versions 2)   ; and some old ones, too
-#+end_src
-
-
-
-* FONT
-** Set The Font Face
-
-#+begin_src emacs-lisp
-  (set-face-attribute 'default nil
-		      :font "Monaco"
-		      :height 140
-		      :weight 'medium)
-  (set-face-attribute 'variable-pitch nil
-		      :font "JetBrainsMono Nerd Font"
-		      :height 140
-		      :weight 'medium)
-  (set-face-attribute 'fixed-pitch nil
-		      :font "Monaco"
-		      :height 140
-		      :weight 'medium)
-
-  ;; This sets the default font on all graphical frames created after restarting Emacs.
-  ;; Does the same thing as 'set-face-attribute default' above, but emacsclient fonts
-  ;; are not right unless I also add this method of setting the default font.
-  (add-to-list 'default-frame-alist '(font . "Monaco-14"))
-
-  ;; Uncomment the following line if line spacing needs adjusting.
-  (setq-default line-spacing 0.12)
 #+end_src
 
 
