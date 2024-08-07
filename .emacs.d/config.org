@@ -741,7 +741,7 @@ Note that we set `read-file-name-function` to `#'consult-find-file-with-preview`
 
     ;; Show file previews when searching for files
     ;; See https://github.com/minad/consult/wiki#previewing-files-in-find-file
-    (defun consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
+    (defun cs/consult-find-file-with-preview (prompt &optional dir default mustmatch initial pred)
       (interactive)
       (let ((default-directory (or dir default-directory))
             (minibuffer-completing-file-name t))
@@ -752,7 +752,7 @@ Note that we set `read-file-name-function` to `#'consult-find-file-with-preview`
                        :require-match mustmatch
                        :predicate pred)))
 
-    (setq read-file-name-function #'consult-find-file-with-preview)
+    (setq read-file-name-function #'cs/consult-find-file-with-preview)
 
     ;; Optionally configure the narrowing key.
     ;; Both < and C-+ work reasonably well.
