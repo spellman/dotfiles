@@ -3,6 +3,8 @@ auto-save-list
 config.el
 elpa
 elpaca
+.cache
+.lsp-session-v1
 projectile-bookmarks.eld
 projects
 recentf
