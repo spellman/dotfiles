@@ -1,7 +1,6 @@
 [user]
   name = Cort Spellman
   email = spellman.cort@gmail.com
-  signingKey = CEBDB6F290B671CD7F3A86C71AA1CB7E13067F36
 [credential]
   helper = cache --timeout=7200
 [diff]
@@ -21,8 +20,6 @@
   fontdiff = -family Monaco -size 10 -weight normal -slant roman -underline 0 -overstrike 0
 [push]
   default = simple
-[gpg]
-  program = gpg
 [github]
   user = spellman
 [interactive]
@@ -68,5 +65,3 @@
   recurse=true
 [tag]
   forcesignannotated = true
-[commit]
-  gpgsign = true
