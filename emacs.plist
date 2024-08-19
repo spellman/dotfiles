@@ -18,7 +18,10 @@ launchctl load -w ~/Library/LaunchAgents/emacs.plist
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>
-    <true/>    
+    <dict>
+      <key>SuccessfulExit</key>
+      <false/>
+    </dict>
     <key>StandardOutPath</key>
     <string>/tmp/emacs.stdout.log</string>
     <key>StandardErrorPath</key>
