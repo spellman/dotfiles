@@ -64,10 +64,14 @@
   - [[#undo-tree-vundo][Undo Tree (vundo)]]
 - [[#which-key][WHICH KEY]]
 - [[#languages][LANGUAGES]]
+  - [[#lsp][LSP]]
   - [[#treesitter][Treesitter]]
   - [[#elixir][Elixir]]
   - [[#gleam][Gleam]]
+  - [[#go][Go]]
+  - [[#lua][Lua]]
   - [[#markdown][Markdown]]
+  - [[#svelte][Svelte]]
 
 * THINGS THAT AREN'T WORKING
 ** evil-want-C-i-jump seems to have no effect
@@ -928,6 +932,55 @@ This gets its own section because it's very important and I've struggled with bu
 
 
 * LANGUAGES
+** LSP
+
+#+begin_src emacs-lisp
+    (use-package lsp-mode
+      :after general
+      :hook
+      ((elixir-ts-mode .lsp)
+       (gleam-ts-mode . lsp)
+       (go-ts-mode . lsp)
+       (heex-ts-mode . lsp)
+       (js-ts-mode . lsp)
+       (lua-mode . lsp)
+       (svelte-mode . lsp))
+
+      :commands
+      lsp
+
+      :config
+      (cs/leader-keys
+        "l" '(:ignore t :wk "LSP")
+        "l a" '(lsp-execute-code-action :wk "Code action")
+        "l f" '(lsp-format-buffer :wk "Format buffer")
+        "l =" '(lsp-format-region :wk "Format region")
+        "l i" '(lsp-organize-imports :wk "Organize imports")
+        "l I" '(lsp-describe-session :wk "LSP info"))
+
+      (cs/leader-keys
+        "r" '(:ignore t :wk "Rename")
+        "r n" '(lsp-rename :wk "Rename symbol") ; TODO: Write changed buffers
+                                            ;"r w" ' TODO: Rename word under cursor.
+        )
+
+      (general-define-key
+       :states '(normal)
+       :keymaps 'lsp-mode-map
+       "g D" 'lsp-find-declaration
+       "g r" 'lsp-find-references
+       "g I" 'lsp-goto-implementation
+       "g p" 'lsp-goto-type-definition
+       "K" 'lsp-ui-doc-glance
+       "M-k" 'lsp-describe-thing-at-point))
+
+    (use-package lsp-ui
+      :commands lsp-ui-mode)
+
+    (use-package consult-lsp
+      :after (:all consult lsp-mode))
+#+end_src
+
 ** Treesitter
 
 #+begin_src emacs-lisp
@@ -955,6 +1008,26 @@ This gets its own section because it's very important and I've struggled with bu
     (gleam-ts-install-grammar))
 #+end_src
 
+** Go
+
+#+begin_src emacs-lisp
+  ;; Set up before-save hooks to format buffer and add/delete imports.
+  ;; Make sure you don't have other gofmt/goimports hooks enabled.
+  (defun cs/lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+  (with-eval-after-load 'lsp-mode
+    (add-hook 'go-ts-mode-hook #'cs/lsp-go-install-save-hooks))
+
+#+end_src
+
+** Lua
+
+#+begin_src emacs-lisp
+  (use-package lua-mode)
+#+end_src
+
 ** Markdown
 Use gfm-mode (GitHub Flavored Markdown) for README.md files.
 
@@ -963,4 +1036,10 @@ Use gfm-mode (GitHub Flavored Markdown) for README.md files.
     :mode ("README\\.md\\'" . gfm-mode)
     :init
     (setq markdown-command "multimarkdown"))
+#+end_src
+
+** Svelte
+
+#+begin_src emacs-lisp
+  (use-package svelte-mode)
 #+end_src
