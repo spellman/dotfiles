@@ -51,6 +51,7 @@
   - [[#disable-toolbar][Disable Toolbar]]
   - [[#display-line-numbers-in-certain-modes][Display Line Numbers In Certain Modes]]
   - [[#dont-truncate-lines][Don't Truncate Lines]]
+  - [[#scroll-with-cursor-one-line-at-a-time][Scroll With Cursor One Line At A Time]]
   - [[#close-minibuffer-with-single-press-of-escape][Close Minibuffer With Single Press Of escape]]
   - [[#set-up-icons][Set Up Icons]]
   - [[#add-icons-to-dired][Add Icons To dired]]
@@ -620,6 +621,15 @@ Tools to navigate projects and files within them.
 
 #+begin_src emacs-lisp
   (global-visual-line-mode t)
+#+end_src
+
+** Scroll With Cursor One Line At A Time
+Instead of the default of half a screen at a time.
+Note that 0 is the default, which makes Emacs scroll half a screen when point goes off-screen.
+
+#+begin_src emacs-lisp
+  (setq scroll-step 1
+        scroll-conservatively 10000)
 #+end_src
 
 ** Close Minibuffer With Single Press Of escape
