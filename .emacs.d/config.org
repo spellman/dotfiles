@@ -6,11 +6,11 @@
 #+PROPERTY: header-args:emacs-lisp :lexical t
 
 * TABLE OF CONTENTS :toc:
-- [[#things-that-arent-working][THINGS THAT AREN'T WORKING]]
+- [[#things-that-arent-working][Things That Aren't Working]]
   - [[#evil-want-c-i-jump-seems-to-have-no-effect][evil-want-C-i-jump seems to have no effect]]
-- [[#todo][TODO]]
   - [[#lsp][LSP]]
   - [[#highlight-occurrences-of-term-under-cursor][Highlight Occurrences Of Term Under Cursor]]
+- [[#todo][Todo]]
   - [[#auto-save][Auto-Save]]
   - [[#tabs][Tabs]]
   - [[#org-agenda][Org Agenda]]
@@ -19,32 +19,33 @@
   - [[#install-use-package-support][Install use-package Support]]
   - [[#have-use-package-always-install-packages][Have use-package Always Install Packages]]
   - [[#set-up-dired-to-use-gls-on-mac][Set Up dired To Use gls On Mac]]
-- [[#set-path-as-in-terminals][SET PATH AS IN TERMINALS]]
-- [[#backup-files][BACKUP FILES]]
+- [[#set-path-as-in-terminals][Set Path As In Terminals]]
+- [[#backup-files][Backup Files]]
+- [[#lock-files][Lock Files]]
 - [[#evil-mode][Evil Mode]]
-- [[#font][FONT]]
+- [[#font][Font]]
   - [[#set-the-font-face][Set The Font Face]]
 - [[#general-keybindings][General Keybindings]]
-- [[#git][GIT]]
+- [[#git][Git]]
   - [[#magit][Magit]]
   - [[#git-time-machine][Git Time Machine]]
-- [[#modeline][MODELINE]]
+- [[#modeline][Modeline]]
   - [[#turn-on-column-numbers][Turn On Column Numbers]]
   - [[#use-doom-modeline][Use doom-modeline]]
-- [[#org-mode][ORG MODE]]
+- [[#org-mode][Org Mode]]
   - [[#indentation][Indentation]]
   - [[#table-of-contents][Table Of Contents]]
   - [[#enable-org-bullets][Enable Org Bullets]]
   - [[#create-blocks-in-org-files][Create Blocks In Org Files]]
-- [[#projects][PROJECTS]]
-- [[#text][TEXT]]
+- [[#projects][Projects]]
+- [[#text][Text]]
   - [[#replace-selection-by-typing-in-insertish-mode-instead-of-appending][Replace Selection By Typing In Insertish Mode Instead Of Appending]]
   - [[#modify-word-characters][Modify Word Characters]]
   - [[#rainbow-parentheses][Rainbow Parentheses]]
   - [[#highlight-todo-and-friends][Highlight TODO And Friends]]
   - [[#set-background-color-of-color-code-to-color-code][Set Background Color Of Color-Code to Color-Code]]
   - [[#insert-delimiters-as-pairs][Insert Delimiters As Pairs]]
-- [[#theme][THEME]]
+- [[#theme][Theme]]
 - [[#ui][UI]]
   - [[#stop-cursor-from-blinking][Stop Cursor From Blinking]]
   - [[#turn-off-startup-message][Turn Off Startup Message]]
@@ -59,13 +60,13 @@
   - [[#add-icons-to-ibuffer][Add Icons To ibuffer]]
   - [[#search][Search]]
   - [[#completion][Completion]]
-- [[#undo][UNDO]]
+- [[#undo][Undo]]
   - [[#undo-limits][Undo Limits]]
   - [[#undo-fu-for-linear-normal-and-logical-undo--redo][undo-fu For Linear (normal and logical) undo / redo]]
   - [[#preserve-undo-history-across-emacs-sessions][Preserve Undo History Across Emacs Sessions]]
   - [[#undo-tree-vundo][Undo Tree (vundo)]]
-- [[#which-key][WHICH KEY]]
-- [[#languages][LANGUAGES]]
+- [[#which-key][Which Key]]
+- [[#languages][Languages]]
   - [[#lsp][LSP]]
   - [[#treesitter][Treesitter]]
   - [[#elixir][Elixir]]
@@ -75,7 +76,7 @@
   - [[#markdown][Markdown]]
   - [[#svelte][Svelte]]
 
-* THINGS THAT AREN'T WORKING
+* Things That Aren't Working
 ** evil-want-C-i-jump seems to have no effect
 Workaround:
 
@@ -89,9 +90,9 @@ Workaround:
 
 
 
-* TODO
 ** LSP
 ** Highlight Occurrences Of Term Under Cursor
+* Todo
 ** Auto-Save
 ** Tabs
 ** Org Agenda
@@ -204,7 +205,7 @@ The Mac built-in `ls` doesn't support the `--dired` option so we use `gls` from 
 
 
 
-* SET PATH AS IN TERMINALS
+* Set Path As In Terminals
 
 #+begin_src emacs-lisp
   (use-package exec-path-from-shell
@@ -222,7 +223,7 @@ The Mac built-in `ls` doesn't support the `--dired` option so we use `gls` from 
 
 
 
-* BACKUP FILES
+* Backup Files
 Source: https://emacs.stackexchange.com/a/36
 
 #+begin_src emacs-lisp
@@ -281,7 +282,7 @@ Source: https://emacs.stackexchange.com/a/36
 
 
 
-* FONT
+* Font
 ** Set The Font Face
 
 #+begin_src emacs-lisp
@@ -397,7 +398,7 @@ general.el is the keybinding-setting program
 
 
 
-* GIT
+* Git
 ** Magit
 
 #+begin_src emacs-lisp
@@ -420,7 +421,7 @@ general.el is the keybinding-setting program
 
 
 
-* MODELINE
+* Modeline
 ** Turn On Column Numbers
 
 #+begin_src emacs-lisp
@@ -441,7 +442,7 @@ general.el is the keybinding-setting program
 
 
 
-* ORG MODE
+* Org Mode
 ** Indentation
 Disable electric indent in org-mode.
 
@@ -504,7 +505,7 @@ Otherwise, org-tempo is broken when you try to type the above shortcuts.
 
 
 
-* PROJECTS
+* Projects
 Tools to navigate projects and files within them.
 
 #+begin_src emacs-lisp
@@ -522,7 +523,7 @@ Tools to navigate projects and files within them.
 
 
 
-* TEXT
+* Text
 ** Replace Selection By Typing In Insertish Mode Instead Of Appending
 
 #+begin_src emacs-lisp
@@ -589,7 +590,7 @@ Tools to navigate projects and files within them.
 
 
 
-* THEME
+* Theme
 
 #+begin_src emacs-lisp
   (use-package doom-themes
@@ -897,7 +898,7 @@ In Neovim the telesope package for finding, previewing, and selecting, with the 
     )
 #+end_src
 
-* UNDO
+* Undo
 This gets its own section because it's very important and I've struggled with buggy undo setups in the past.
 
 ** Undo Limits
@@ -935,7 +936,7 @@ This gets its own section because it's very important and I've struggled with bu
 #+end_src
 
 
-* WHICH KEY
+* Which Key
 
 #+begin_src emacs-lisp
   (use-package which-key
@@ -960,7 +961,7 @@ This gets its own section because it's very important and I've struggled with bu
 
 
 
-* LANGUAGES
+* Languages
 ** LSP
 
 #+begin_src emacs-lisp
