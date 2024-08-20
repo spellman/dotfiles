@@ -1,0 +1,7 @@
+{
+    "workspace.maxPreload": 2000,
+    "workspace.ignoreDir": [
+        ".vscode",
+        ".cache"
+    ]
+}
