@@ -385,7 +385,7 @@ local function on_attach(client, bufnr)
   vim.keymap.set("n", "<leader>wl", function()
     vim.print(vim.lsp.buf.list_workspace_folders())
   end, opts("Workspace list folders"))
-  vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<CR>", opts("LSP info"))
+  vim.keymap.set("n", "<leader>lI", "<cmd>LspInfo<CR>", opts("LSP info"))
 
   vim.keymap.set("n", "<leader>lf", vim.lsp.buf.format, opts("Format buffer"))
 
