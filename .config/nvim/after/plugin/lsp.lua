@@ -264,6 +264,45 @@ local function write_changed_buffers()
   vim.cmd("silent! wa")
 end
 
+-- Setup neovim lua configuration
+require("neodev").setup()
+
+local function default_capabilities()
+  -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+  -- Add folding capability as per
+  -- https://github.com/kevinhwang91/nvim-ufo/blob/43e39ec74cd57c45ca9d8229a796750f6083b850/README.md#minimal-configuration
+  capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true
+  }
+  return capabilities
+end
+
+local utils = require("cort.utils")
+local function server_dependent_capabilities(server_name)
+  local capabilities = default_capabilities()
+
+  -- Source:
+  -- * https://www.reddit.com/r/neovim/comments/179vv49/comment/kbfp7rz/
+  -- * https://www.reddit.com/r/neovim/comments/179vv49/comment/kowhsfc/
+  if server_name == "gopls" then
+    local additional_capabilities = {
+      workspace = {
+        workspaceFolders = true,
+        didChangeWatchedFiles = {
+          dynamicRegistration = true,
+        }
+      }
+    }
+
+    return utils.deep_merge_tables(capabilities, additional_capabilities)
+  end
+
+  return capabilities
+end
+
 -- We listed telescope as a dependency for "neovim/nvim-lspconfig" (and before
 -- mason, in case that matters) so that it will be available here.
 local telescope_builtin = require("telescope.builtin")
@@ -475,6 +514,9 @@ local servers = {
   elixirls = {},
   elp = {},
   gopls = {},
+  golangci_lint_ls = {
+    filetypes = { "go", "gomod" }
+  },
   jsonls = {},
   lua_ls = {
     Lua = {
@@ -490,19 +532,6 @@ local servers = {
   tsserver = {},
 }
 
--- Setup neovim lua configuration
-require("neodev").setup()
-
--- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
--- Add folding capability as per
--- https://github.com/kevinhwang91/nvim-ufo/blob/43e39ec74cd57c45ca9d8229a796750f6083b850/README.md#minimal-configuration
-capabilities.textDocument.foldingRange = {
-  dynamicRegistration = false,
-  lineFoldingOnly = true
-}
-
 -- Setup mason so it can manage external tooling
 require("mason").setup()
 
@@ -516,7 +545,7 @@ mason_lspconfig.setup({
 mason_lspconfig.setup_handlers({
   function(server_name)
     require("lspconfig")[server_name].setup({
-      capabilities = capabilities,
+      capabilities = server_dependent_capabilities(server_name),
       filetypes = (servers[server_name] or {}).filetypes,
       handlers = lsp_handlers,
       on_attach = server_dependent_on_attach(server_name),
@@ -528,7 +557,7 @@ mason_lspconfig.setup_handlers({
 -- Install gleam LSP manually because it isn't in the Mason registry.
 -- (https://github.com/mason-org/mason-registry/pull/3872)
 require("lspconfig").gleam.setup({
-  capabilities = capabilities,
+  capabilities = default_capabilities(),
   handlers = lsp_handlers,
   on_attach = function(client, bufnr)
     on_attach(client, bufnr)
