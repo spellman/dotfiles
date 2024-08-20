@@ -5,7 +5,7 @@ HISTSIZE=50000
 SAVEHIST=10000
 
 # fzf fuzzy finder
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source <(fzf --zsh)
 
 # 3S `ls` command
 if [ "$(command -v eza)" ]; then
