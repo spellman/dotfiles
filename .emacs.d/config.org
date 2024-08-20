@@ -19,6 +19,7 @@
   - [[#install-use-package-support][Install use-package Support]]
   - [[#have-use-package-always-install-packages][Have use-package Always Install Packages]]
   - [[#set-up-dired-to-use-gls-on-mac][Set Up dired To Use gls On Mac]]
+- [[#set-path-as-in-terminals][SET PATH AS IN TERMINALS]]
 - [[#backup-files][BACKUP FILES]]
 - [[#evil-mode][Evil Mode]]
 - [[#font][FONT]]
@@ -199,6 +200,24 @@ The Mac built-in `ls` doesn't support the `--dired` option so we use `gls` from 
     (setq dired-use-ls-dired t
           insert-directory-program "/opt/homebrew/bin/gls"
           dired-listing-switches "-aBhl"))
+#+end_src
+
+
+
+* SET PATH AS IN TERMINALS
+
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :demand t
+    :after elpaca
+    :config
+    (when (memq window-system '(mac ns x))
+      (message "Mac OS system; will call exec-path-from-shell-initialize")
+      (exec-path-from-shell-initialize)
+      (message "Did call exec-path-from-shell-initialize"))
+    ;; (when (daemonp)
+    ;;   (exec-path-from-shell-initialize))
+    )
 #+end_src
 
 
