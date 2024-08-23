@@ -60,7 +60,6 @@ vim.opt.completeopt = "menuone,noselect"
 -- NOTE: You should make sure your terminal supports this
 vim.opt.termguicolors = true
 
--- Lightbackground for doom-one theme.
 vim.opt.background = "light"
 
 -- Session
@@ -85,17 +84,6 @@ vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 vim.o.foldmethod = "expr"
 vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-
--- From nvim-metals documentation:
--- Remove `F` from `shortmess`. `set shortmess-=F`
--- (for lua `vim.opt_global.shortmess:remove("F")`)
--- Without doing this, autocommands that deal with filetypes prohibit messages
--- from being shown, so some of the messages we show to help users get started
--- may not be shown. If you're confident you don't need help setting up, then
--- just remove this, and `nvim-metals` will work fine, but any log messages
--- won't actually be shown to you if something goes wrong with `nvim-metals`.
-vim.opt_global.shortmess:remove("F")
-vim.opt_global.shortmess:remove("S")
 
 vim.opt.textwidth = 80
 vim.opt.autoindent = true

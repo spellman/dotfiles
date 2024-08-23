@@ -65,7 +65,6 @@ local project_nvim_project = require("project_nvim.project")
 
 local which_key = require("which-key")
 which_key.add({ "<leader>f", group = " 󰍉 Find" })
-local telescope_themes = require("telescope.themes")
 vim.keymap.set("n", "<leader><space>", builtin.buffers, { desc = "Find buffer" })
 vim.keymap.set("n", "<leader>f<Cr>", builtin.resume, { desc = "Resume previous search" })
 vim.keymap.set("n", "<leader>fb", function()
@@ -85,9 +84,6 @@ vim.keymap.set("n", "<leader>ff", function()
   -- a project whenever an LSP server detects a project. For example, it detects
   -- each heuristics plugin as a project. That's great for LSP operations but
   -- it's not what I want for finding files.
-
-  -- If I want to narrow searches, I think telescope provides a facility for
-  -- that.
   local project_root, _ = project_nvim_project.find_pattern_root()
   builtin.find_files({
     prompt_title = "Find Files (" .. project_root .. ")",

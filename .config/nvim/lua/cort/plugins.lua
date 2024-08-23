@@ -1,8 +1,4 @@
--- NOTE: Here is where you install your plugins.
--- You can configure plugins using the `config` key.
---
---  You can also configure plugins after the setup call,
---    as they will be available in your neovim runtime.
+-- NOTE: `opts = {}` is the same as calling `require(<package>).setup({})`
 return {
   "nvim-tree/nvim-web-devicons",
 
@@ -68,7 +64,6 @@ return {
   },
 
   -- Useful status updates for LSP
-  -- NOTE: `opts = {}` is the same as calling `require("fidget").setup({})`
   {
     "j-hui/fidget.nvim",
     tag = "v1.4.5",
@@ -113,50 +108,7 @@ return {
     "catppuccin/nvim",
     name = "catppuccin",
     priority = 1000,
-    dependencies = {
-      -- We register the key to toggle theme styles with which-key.
-      "folke/which-key.nvim"
-    },
   },
-
-  -- {
-  --   'NTBBloodbath/doom-one.nvim',
-  --   setup = function()
-  --     -- Add color to cursor
-  --     vim.g.doom_one_cursor_coloring = true
-  --     -- Set :terminal colors
-  --     vim.g.doom_one_terminal_colors = true
-  --     -- Enable italic comments
-  --     vim.g.doom_one_italic_comments = false
-  --     -- Enable TS support
-  --     vim.g.doom_one_enable_treesitter = true
-  --     -- Color whole diagnostic text or only underline
-  --     vim.g.doom_one_diagnostics_text_color = true
-  --     -- Enable transparent background
-  --     vim.g.doom_one_transparent_background = false
-  --
-  --     -- Pumblend transparency
-  --     vim.g.doom_one_pumblend_enable = false
-  --     -- vim.g.doom_one_pumblend_transparency = 20
-  --
-  --     -- Plugins integration
-  --     vim.g.doom_one_plugin_neorg = true
-  --     vim.g.doom_one_plugin_barbar = false
-  --     vim.g.doom_one_plugin_telescope = true
-  --     vim.g.doom_one_plugin_neogit = true
-  --     vim.g.doom_one_plugin_nvim_tree = true
-  --     vim.g.doom_one_plugin_dashboard = true
-  --     vim.g.doom_one_plugin_startify = true
-  --     vim.g.doom_one_plugin_whichkey = true
-  --     vim.g.doom_one_plugin_indent_blankline = true
-  --     vim.g.doom_one_plugin_vim_illuminate = true
-  --     vim.g.doom_one_plugin_lspsaga = false
-  --   end,
-  --   priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme("doom-one")
-  --   end,
-  -- },
 
   "nvim-lualine/lualine.nvim",
 
@@ -198,6 +150,14 @@ return {
   },
 
   {
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/plenary.nvim"
+    }
+  },
+
+  {
     -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
     dependencies = {
@@ -229,32 +189,9 @@ return {
   },
   { url = "https://gitlab.com/invertisment/conjure-clj-additions-cider-nrepl-mw.git" },
   { url = "https://gitlab.com/invertisment/conjure-clj-additions-vanilla.git" },
-  -- {
-  --   "w0rp/ale",
-  --   config = function()
-  --     vim.g.ale_linters = { "clj-kondo" }
-  --   end
-  -- },
-
-  -- Metals
-  -- {
-  --   "scalameta/nvim-metals",
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     "mfussenegger/nvim-dap"
-  --   }
-  -- },
 
   -- project.nvim for setting the current directory and telescope integration
   "ahmedkhalf/project.nvim",
-
-  {
-    "nvim-telescope/telescope-file-browser.nvim",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-      "nvim-lua/plenary.nvim"
-    }
-  },
 
   "mbbill/undotree",
 
@@ -344,6 +281,7 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
   },
 
+  -- Indent guides
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
