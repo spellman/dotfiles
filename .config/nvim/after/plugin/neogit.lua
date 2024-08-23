@@ -51,18 +51,17 @@ neogit.setup({
       folded = false
     },
   },
-  -- Disables a second set of signs, to the right of those configured below.
-  -- Why do they exist?
-  disable_signs = true,
-  -- Configures signs that still appear even when disable_signs is set to true.
-  signs = {
-    -- { CLOSED, OPENED }
-    section = { ">", "v" },
-    item = { ">", "v" },
-    hunk = { ">", "v" },
-  },
 })
 
 local which_key = require("which-key")
 which_key.add({ "<leader>g", group = " 󰊢 Git" })
 vim.keymap.set("n", "<leader>gg", neogit.open, { desc = "Neogit status" })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "Neogit*" },
+  callback = function()
+    require("ufo").detach()
+    vim.opt_local.foldenable = false
+    vim.opt_local.foldcolumn = "0"
+  end,
+})
