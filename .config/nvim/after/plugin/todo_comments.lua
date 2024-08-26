@@ -3,4 +3,3 @@ require("todo-comments").setup({
     NOTE = { icon = " ", color = "test", alt = { "INFO" } },
   },
 })
-
