@@ -1,3 +1,8 @@
+-- TODO:
+-- * Neogit is good enough to use but it displays incorrect information much too
+--   frequently. Try out other git workflows.
+--   E.g., https://www.youtube.com/watch?v=IyBAuDPzdFY
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Setting leaders must happen before plugins are required (otherwise
