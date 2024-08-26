@@ -13,38 +13,6 @@ vim.g.maplocalleader = " "
 -- Commented: https://github.com/Olical/conjure/issues/186#issuecomment-1728700445
 vim.g["conjure#mapping#def_word"] = false
 
--- Neovide is a nice idea but my keymapping of <M-u> was being recognized by
--- nvim as an umlaut, which is what MacOS generates for <M-u>.
--- Neovide has a MacOS-specific setting to make alt/option behave as meta so
--- that meta+u would be sent but the setting had no effect set to true or false
--- or being omitted.
-if vim.g.neovide then
-  vim.g.neovide_hide_mouse_when_typing = true
-  vim.g.neovide_remember_window_size = true
-  vim.g.neovide_input_macos_alt_is_meta = true
-  vim.g.neovide_cursor_animation_length = 0
-  vim.g.neovide_cursor_trail_size = 0
-  vim.g.neovide_cursor_animate_in_insert_mode = false
-  vim.g.neovide_cursor_animate_command_line = false
-  vim.opt.guifont = "Monaco,JetBrainsMono:h13"
-  vim.opt.linespace = 1.0
-  vim.g.neovide_input_ime = false
-
-  -- As per https://neovide.dev/faq.html#how-can-i-use-cmd-ccmd-v-to-copy-and-paste
-  -- Enable cmd-c for copy and cmd-v for paste:
-  vim.g.neovide_input_use_logo = true
-  vim.keymap.set('n', '<D-s>', ':w<CR>') -- Save
-  vim.keymap.set('v', '<D-c>', '"+y') -- Copy
-  vim.keymap.set('n', '<D-v>', '"+P') -- Paste normal mode
-  vim.keymap.set('v', '<D-v>', '"+P') -- Paste visual mode
-  vim.keymap.set('c', '<D-v>', '<C-R>+') -- Paste command mode
-  vim.keymap.set('i', '<D-v>', '<ESC>l"+Pli') -- Paste insert mode
-  vim.api.nvim_set_keymap('', '<D-v>', '+p<CR>', { noremap = true, silent = true})
-  vim.api.nvim_set_keymap('!', '<D-v>', '<C-R>+', { noremap = true, silent = true})
-  vim.api.nvim_set_keymap('t', '<D-v>', '<C-R>+', { noremap = true, silent = true})
-  vim.api.nvim_set_keymap('v', '<D-v>', '<C-R>+', { noremap = true, silent = true})
-end
-
 require("cort.settings")
 
 -- Install package manager
