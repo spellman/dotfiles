@@ -51,6 +51,12 @@ neogit.setup({
       folded = false
     },
   },
+  signs = {
+    -- { CLOSED, OPENED }
+    section = { ">", "v" },
+    item = { ">", "v" },
+    hunk = { ">", "v" },
+  },
 })
 
 local which_key = require("which-key")
