@@ -247,11 +247,13 @@ return {
 
   "HiPhish/rainbow-delimiters.nvim",
 
+  "luukvbaal/statuscol.nvim",
+
   {
     "kevinhwang91/nvim-ufo",
     dependencies = {
       "kevinhwang91/promise-async",
-      -- "luukvbaal/statuscol.nvim",
+      "luukvbaal/statuscol.nvim",
     },
     event = "VeryLazy",
   },
