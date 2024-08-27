@@ -7,8 +7,6 @@ local ufo = require("ufo")
 vim.keymap.set('n', 'zR', ufo.openAllFolds)
 vim.keymap.set('n', 'zM', ufo.closeAllFolds)
 
-local api = vim.api
-local validate = vim.validate
 local util = require("vim.lsp.util")
 
 -- I want to be able to compose LSP operations with editor operations (and,
@@ -36,7 +34,7 @@ local util = require("vim.lsp.util")
 ---
 ---@see |vim.lsp.buf_request()|
 local function request(method, params, handler)
-  validate({
+  vim.validate({
     method = { method, 's' },
     handler = { handler, 'f', true },
   })
@@ -128,7 +126,7 @@ local rename = function(new_name, options)
     options["callback"] = nil
   end
 
-  local bufnr = options.bufnr or api.nvim_get_current_buf()
+  local bufnr = options.bufnr or vim.api.nvim_get_current_buf()
   local clients = vim.lsp.get_active_clients({
     bufnr = bufnr,
     name = options.name,
@@ -146,14 +144,14 @@ local rename = function(new_name, options)
     vim.notify('[LSP] Rename, no matching language servers with rename capability.')
   end
 
-  local win = api.nvim_get_current_win()
+  local win = vim.api.nvim_get_current_win()
 
   -- Compute early to account for cursor movements after going async
   local cword = vim.fn.expand('<cword>')
 
   ---@private
   local function get_text_at_range(range, offset_encoding)
-    return api.nvim_buf_get_text(
+    return vim.api.nvim_buf_get_text(
       bufnr,
       range.start.line,
       util._get_line_byte_from_position(bufnr, range.start, offset_encoding),
