@@ -1,7 +1,11 @@
 -- TODO:
+-- * Fix project root detection. It sees each go module as a project root in
+--   comstax-go. That can also be useful but I don't want that to be my general-
+--   purpose find command.
 -- * Neogit is good enough to use but it displays incorrect information much too
 --   frequently. Try out other git workflows.
 --   E.g., https://www.youtube.com/watch?v=IyBAuDPzdFY
+-- * Fix luarocks failing healthcheck.
 
 -- Set <space> as the leader key
 -- See `:help mapleader`
