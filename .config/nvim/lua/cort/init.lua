@@ -88,3 +88,9 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
   pattern = "qf",
 })
+
+vim.filetype.add({
+  extension = {
+    ash = "sh",
+  },
+})
