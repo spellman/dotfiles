@@ -1,3 +1,5 @@
+local which_key = require("which-key")
+
 -- UFO provides LSP-based code folds.
 -- As per
 -- https://github.com/kevinhwang91/nvim-ufo/blob/43e39ec74cd57c45ca9d8229a796750f6083b850/README.md#minimal-configuration
@@ -308,6 +310,13 @@ end
 local telescope_builtin = require("telescope.builtin")
 
 local function on_attach(client, bufnr)
+  which_key.add({ "<leader>c", group = "Code" })
+  which_key.add({ "<leader>d", group = "Document" })
+  which_key.add({ "<leader>e", group = "Eval" })
+  which_key.add({ "<leader>ec", group = "Eval to comment" })
+  which_key.add({ "gs", group = "Goto in vertical split" })
+  which_key.add({ "<leader>l", group = "LSP/Log" })
+
   local function opts(description)
     return { buffer = bufnr, remap = false, desc = description }
   end

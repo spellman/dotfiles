@@ -1,2 +1,4 @@
-vim.keymap.set("n", "<leader>uu", vim.cmd.UndotreeToggle, { desc = "Toggle Undotree"})
-
+require("which-key").add({
+  { "<leader>u",  group = "Undo tree" },
+  { "<leader>uu", vim.cmd.UndotreeToggle, desc = "Toggle Undotree" }
+})

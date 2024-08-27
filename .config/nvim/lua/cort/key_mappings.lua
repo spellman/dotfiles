@@ -103,7 +103,7 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- Clear search highlight.
-vim.keymap.set("n", "<leader>/", vim.cmd.nohlsearch, { desc = "clear search highlight" })
+vim.keymap.set("n", "<leader>/", vim.cmd.nohlsearch, { desc = "Clear search highlight" })
 
 -- Center cursor vertically in split when going to next or previous search term.
 vim.keymap.set("n", "n", "nzz")
@@ -160,13 +160,14 @@ vim.keymap.set({ "n", "i" }, "<S-D-j>", "<cmd>cnext<CR>zz")
 vim.keymap.set({ "n", "i" }, "<S-D-k>", "<cmd>cprev<CR>zz")
 
 -- Replace occurrences of word under cursor in buffer.
-require("which-key").add(
+require("which-key").add({
+  { "<leader>r", group = "Rename/Reset" },
   {
     "<leader>rw",
     ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>",
     desc = "Rename word under cursor in buffer"
   }
-)
+})
 
 vim.keymap.set("n", "<M-S-'>", 'ciw""<ESC>P', { desc = 'Wrap word under cursor in "' })
 vim.keymap.set("n", '<M-">', "<M-S-'>", { desc = 'Wrap word under cursor in "', remap = true })
@@ -178,4 +179,11 @@ local function window_info()
   vim.print(current_window_info)
 end
 
-vim.keymap.set("n", "<leader>wi", window_info, { desc = "Window info" })
+require("which-key").add({
+  { "<leader>w", group = "Workspace/Window" },
+  {
+    "<leader>wi",
+    window_info,
+    desc = "Window info"
+  },
+})
