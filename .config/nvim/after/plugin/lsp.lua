@@ -470,6 +470,10 @@ local function server_dependent_on_attach(server_name)
       add_ruby_deps_command(client, bufnr)
     end
 
+    if server_name == "yamlls" then
+      client.server_capabilities.documentFormattingProvider = true
+    end
+
     on_attach(client, bufnr)
   end
 end
@@ -530,6 +534,18 @@ local servers = {
   svelte = {},
   -- I could also use lsp-zero, which sets up linting as well as diagnostics.
   tsserver = {},
+  yamlls = {
+    settings = {
+      yaml = {
+        format = {
+          enable = true
+        },
+        schemaStore = {
+          enable = true
+        }
+      }
+    }
+  },
 }
 
 -- Setup mason so it can manage external tooling
