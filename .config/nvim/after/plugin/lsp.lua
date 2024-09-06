@@ -54,6 +54,10 @@ local function request_with_options(name, params, options)
 
     req_handler = function(err, result, ctx, config)
       local client = vim.lsp.get_client_by_id(ctx.client_id)
+      if client == nil then
+        print("No LSP client; cannot complete operation.")
+        return
+      end
       local handler = client.handlers[name] or vim.lsp.handlers[name]
       handler(err, result, ctx, vim.tbl_extend('force', config or {}, options))
       if callback then
