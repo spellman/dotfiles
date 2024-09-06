@@ -60,8 +60,9 @@ local file_browser = telescope.load_extension("file_browser")
 builtin.file_browser = file_browser.file_browser
 
 -- project.nvim
-telescope.load_extension("projects")
+require("plugin/project") -- Configure project.nvim
 local project_nvim_project = require("project_nvim.project")
+telescope.load_extension("projects")
 
 local which_key = require("which-key")
 which_key.add({ "<leader>f", group = " 󰍉 Find" })
