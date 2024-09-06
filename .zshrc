@@ -85,3 +85,5 @@ source ~/.local/share/zsh/fast-syntax-highlighting/fast-syntax-highlighting.plug
 source ~/.iterm2_shell_integration.zsh
 
 alias emacs="emacsclient --create-frame --alternate-editor=emacs"
+
+alias python="python3"
