@@ -527,12 +527,13 @@ local servers = {
   },
   cssls = {},
   css_variables = {},
+  dockerls = {},
   elixirls = {},
   elp = {},
-  gopls = {},
   golangci_lint_ls = {
     filetypes = { "go", "gomod" }
   },
+  gopls = {},
   jsonls = {},
   lua_ls = {
     Lua = {
