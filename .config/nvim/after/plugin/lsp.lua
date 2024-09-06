@@ -280,7 +280,6 @@ local function default_capabilities()
   return capabilities
 end
 
-local utils = require("cort.utils")
 local function server_dependent_capabilities(server_name)
   local capabilities = default_capabilities()
 
@@ -297,7 +296,9 @@ local function server_dependent_capabilities(server_name)
       }
     }
 
-    return utils.deep_merge_tables(capabilities, additional_capabilities)
+    -- "force" behavior uses the value from the leftmost table.
+    -- See https://neovim.io/doc/user/lua.html#vim.tbl_deep_extend()
+    return vim.tbl_deep_extend("force", capabilities, additional_capabilities)
   end
 
   return capabilities
