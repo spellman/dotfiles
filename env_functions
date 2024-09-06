@@ -1,3 +1,10 @@
+# These are functions for manipulating PATH in shell config files such that the
+# config file being loaded multiple times doesn't result in duplicate PATH
+# entries.
+# This allows using the Emacs package
+# https://github.com/purcell/exec-path-from-shell to set environment variables
+# for Emacs.
+
 # Source: https://heptapod.host/flowblok/shell-startup/-/blob/65940865dc584083a16b23e458ed4945920af694/.shell/env_functions
 indirect_expand () {
     env |sed -n "s/^$1=//p"
