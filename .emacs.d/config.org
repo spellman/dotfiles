@@ -8,12 +8,12 @@
 * TABLE OF CONTENTS :toc:
 - [[#things-that-arent-working][Things That Aren't Working]]
   - [[#evil-want-c-i-jump-seems-to-have-no-effect][evil-want-C-i-jump seems to have no effect]]
-  - [[#lsp][LSP]]
-  - [[#highlight-occurrences-of-term-under-cursor][Highlight Occurrences Of Term Under Cursor]]
 - [[#todo][Todo]]
   - [[#auto-save][Auto-Save]]
   - [[#tabs][Tabs]]
   - [[#org-agenda][Org Agenda]]
+  - [[#show-lsp-and-other-errors][Show LSP And Other Errors]]
+  - [[#highlight-occurrences-of-term-under-cursor][Highlight Occurrences Of Term Under Cursor]]
 - [[#elpaca-package-manager][Elpaca Package Manager]]
   - [[#install-and-enable-elpaca][Install And Enable Elpaca]]
   - [[#install-use-package-support][Install use-package Support]]
@@ -90,12 +90,18 @@ Workaround:
 
 
 
-** LSP
-** Highlight Occurrences Of Term Under Cursor
 * Todo
 ** Auto-Save
 ** Tabs
 ** Org Agenda
+** Show signature and documentation along with code completion candidates.
+*** If I know what I need, then I don't need much of a list of candidates. If I don't know what I need, then I need more than just names.
+** Show LSP And Other Errors
+*** I want the errors shown in the buffer.
+*** I don't want to _have to_ mouse hover.
+*** I don't want to _have to_ bring up a separate buffer to see errors.
+** Highlight Occurrences Of Term Under Cursor
+*** lsp-mode provides this but the functionality should be provided by treesitter when LSP isn't running. Also, I should be able to use * to search for the term under the cursor to see all such terms and the highlighting should persist until I clear it. (This provides a textual fallback.)
 
 
 
@@ -965,50 +971,51 @@ This gets its own section because it's very important and I've struggled with bu
 ** LSP
 
 #+begin_src emacs-lisp
-    (use-package lsp-mode
-      :after general
-      :hook
-      ((elixir-ts-mode .lsp)
-       (gleam-ts-mode . lsp)
-       (go-ts-mode . lsp)
-       (heex-ts-mode . lsp)
-       (js-ts-mode . lsp)
-       (lua-mode . lsp)
-       (svelte-mode . lsp))
+  (use-package lsp-mode
+    :after general
+    :hook
+    ((dockerfile-mode . lsp)
+     (elixir-ts-mode . lsp)
+     (gleam-ts-mode . lsp)
+     (go-ts-mode . lsp)
+     (heex-ts-mode . lsp)
+     (js-ts-mode . lsp)
+     (lua-mode . lsp)
+     (svelte-mode . lsp))
 
-      :commands
-      lsp
+    :commands
+    lsp
 
-      :config
-      (cs/leader-keys
-        "l" '(:ignore t :wk "LSP")
-        "l a" '(lsp-execute-code-action :wk "Code action")
-        "l f" '(lsp-format-buffer :wk "Format buffer")
-        "l =" '(lsp-format-region :wk "Format region")
-        "l i" '(lsp-organize-imports :wk "Organize imports")
-        "l I" '(lsp-describe-session :wk "LSP info"))
+    :config
+    (cs/leader-keys
+      "l" '(:ignore t :wk "LSP")
+      "l a" '(lsp-execute-code-action :wk "Code action")
+      "l f" '(lsp-format-buffer :wk "Format buffer")
+      "l =" '(lsp-format-region :wk "Format region")
+      "l i" '(lsp-organize-imports :wk "Organize imports")
+      "l I" '(lsp-describe-session :wk "LSP info"))
 
-      (cs/leader-keys
-        "r" '(:ignore t :wk "Rename")
-        "r n" '(lsp-rename :wk "Rename symbol") ; TODO: Write changed buffers
-                                            ;"r w" ' TODO: Rename word under cursor.
-        )
+    (cs/leader-keys
+      "r" '(:ignore t :wk "Rename")
+      "r n" '(lsp-rename :wk "Rename symbol") ; TODO: Write changed buffers
+                                          ;"r w" ' TODO: Rename word under cursor.
+      )
 
-      (general-define-key
-       :states '(normal)
-       :keymaps 'lsp-mode-map
-       "g D" 'lsp-find-declaration
-       "g r" 'lsp-find-references
-       "g I" 'lsp-goto-implementation
-       "g p" 'lsp-goto-type-definition
-       "K" 'lsp-ui-doc-glance
-       "M-k" 'lsp-describe-thing-at-point))
+    (general-define-key
+     :states '(normal)
+     :keymaps 'lsp-mode-map
+     "g D" '(lsp-find-declaration :wk "Goto declaration")
+     "g r" '(lsp-find-references :wk "Goto references")
+     "g I" '(lsp-goto-implementation :wk "Goto implementation")
+     "g p" '(lsp-goto-type-definition :wk "Goto type definition")
+     "K" 'lsp-ui-doc-glance
+     "M-k" 'lsp-describe-thing-at-point))
 
-    (use-package lsp-ui
-      :commands lsp-ui-mode)
+  (use-package lsp-ui
+    :commands lsp-ui-mode)
 
-    (use-package consult-lsp
-      :after (:all consult lsp-mode))
+;  (use-package consult-lsp
+;    :after (:all consult lsp-mode))
 #+end_src
 
 ** Treesitter
