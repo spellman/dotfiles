@@ -187,3 +187,18 @@ require("which-key").add({
     desc = "Window info"
   },
 })
+
+vim.api.nvim_create_user_command(
+  "CopyFileName",
+  function()
+    vim.fn.setreg("+", vim.fn.expand("%:t"))
+  end,
+  { nargs = 0 }
+)
+vim.api.nvim_create_user_command(
+  "CopyFilePath",
+  function()
+    vim.fn.setreg("+", vim.fn.expand("%:p"))
+  end,
+  { nargs = 0 }
+)
