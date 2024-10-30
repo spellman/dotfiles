@@ -824,6 +824,7 @@ In Neovim the telesope package for finding, previewing, and selecting, with the 
 
 #+begin_src emacs-lisp
   (use-package fussy
+    :demand t
     :config
     (push 'fussy completion-styles)
     (setq
@@ -834,6 +835,7 @@ In Neovim the telesope package for finding, previewing, and selecting, with the 
      completion-category-overrides nil))
 
   (use-package fzf-native
+    :after fussy
     :ensure
     (fzf-native
      :repo "dangduc/fzf-native"
