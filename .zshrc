@@ -1,6 +1,7 @@
 eval "$(starship init zsh)"
 
-setopt APPEND_HISTORY
+setopt INC_APPEND_HISTORY
+
 HISTSIZE=50000
 SAVEHIST=10000
 
