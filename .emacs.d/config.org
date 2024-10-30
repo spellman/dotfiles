@@ -335,7 +335,7 @@ general.el is the keybinding-setting program
 
     (cs/leader-keys
       "c" '(:ignore t :wk "Emacs config")
-      "c f" '((lambda () (interactive) (find-file "~/.emacs.d/config.org")) :wk "Open Emacs config")
+      "c c" '((lambda () (interactive) (find-file "~/.emacs.d/config.org")) :wk "Open Emacs config")
       "c r" '((lambda ()
                 (interactive)
                 (load-file "~/.emacs.d/init.el")
