@@ -12,6 +12,7 @@
   - [[#auto-save][Auto-Save]]
   - [[#tabs][Tabs]]
   - [[#org-agenda][Org Agenda]]
+  - [[#proper-fuzzy-matching-for-completion][Proper Fuzzy Matching For Completion]]
   - [[#show-lsp-and-other-errors][Show LSP And Other Errors]]
   - [[#highlight-occurrences-of-term-under-cursor][Highlight Occurrences Of Term Under Cursor]]
 - [[#elpaca-package-manager][Elpaca Package Manager]]
@@ -94,6 +95,8 @@ Workaround:
 ** Auto-Save
 ** Tabs
 ** Org Agenda
+** Proper Fuzzy Matching For Completion
+*** Corfu completion is generally useless.
 ** Show signature and documentation along with code completion candidates.
 *** If I know what I need, then I don't need much of a list of candidates. If I don't know what I need, then I need more than just names.
 ** Show LSP And Other Errors
@@ -832,7 +835,14 @@ In Neovim the telesope package for finding, previewing, and selecting, with the 
      ;; substring completion by default. Set to nil to make sure it's using
      ;; flx.
      completion-category-defaults nil
-     completion-category-overrides nil))
+     completion-category-overrides nil)
+
+    ;:hook
+    ;(corfu-mode . (lambda ()
+    ;                (setq-local fussy-max-candidate-limit 5000
+    ;                            fussy-default-regex-fn 'fussy-pattern-first-letter
+    ;                            fussy-prefer-prefix nil)))
+)
 
   (use-package fzf-native
     :after fussy
@@ -885,34 +895,34 @@ In Neovim the telesope package for finding, previewing, and selecting, with the 
 *** In-Buffer Completion
 
 #+begin_src emacs-lisp
-  (use-package corfu
-    :custom
-    (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-    (corfu-auto t)                 ;; Enable auto completion
-    ;; (corfu-separator ?\s)          ;; Orderless field separator
-    ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-    ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-    ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-    ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-    ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-    ;; (corfu-scroll-margin 5)        ;; Use scroll margin
-
-    ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
-    ;; be used globally (M-/).  See also the customization variable
-    ;; `global-corfu-modes' to exclude certain modes.
-    :init
-    (global-corfu-mode))
-
-  (use-package cape
-    :init
-    ;; Add to the global default value of `completion-at-point-functions' which is
-    ;; used by `completion-at-point'.  The order of the functions matters, the
-    ;; first function returning a result wins.  Note that the list of buffer-local
-    ;; completion functions takes precedence over the global list.
-    (add-hook 'completion-at-point-functions #'cape-file)
-    (add-hook 'completion-at-point-functions #'cape-elisp-block)
-    ;; (add-hook 'completion-at-point-functions #'cape-history)
-    )
+;  (use-package corfu
+;    :custom
+;    (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+;    (corfu-auto t)                 ;; Enable auto completion
+;    ;; (corfu-separator ?\s)          ;; Orderless field separator
+;    ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+;    ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+;    ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+;    ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+;    ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+;    ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+;
+;    ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+;    ;; be used globally (M-/).  See also the customization variable
+;    ;; `global-corfu-modes' to exclude certain modes.
+;    :init
+;    (global-corfu-mode))
+;
+;  (use-package cape
+;    :init
+;    ;; Add to the global default value of `completion-at-point-functions' which is
+;    ;; used by `completion-at-point'.  The order of the functions matters, the
+;    ;; first function returning a result wins.  Note that the list of buffer-local
+;    ;; completion functions takes precedence over the global list.
+;    (add-hook 'completion-at-point-functions #'cape-file)
+;    (add-hook 'completion-at-point-functions #'cape-elisp-block)
+;    ;; (add-hook 'completion-at-point-functions #'cape-history)
+;    )
 #+end_src
 
 * Undo
