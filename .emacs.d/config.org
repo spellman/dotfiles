@@ -409,14 +409,23 @@ general.el is the keybinding-setting program
 
 #+begin_src emacs-lisp
   (use-package magit
-    :after general
+    :after (:all general evil-collection)
     :custom
-    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+    (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+    (magit-bury-buffer-function #'magit-restore-window-configuration)
+    (magit-no-confirm '(trash))
+    (magit-section-initial-visibility-alist '((untracked . show)))
 
     :config
     (cs/leader-keys
       "g" '(:ignore t :wk "Git")
-      "g g" '(magit-status :wk "Magit Status")))
+      "g g" '(magit-status :wk "Magit Status"))
+
+    (general-define-key
+     :states '(normal visual)
+     :keymaps '(magit-mode-map magit-status-mode-map)
+     "n" 'magit-section-forward
+     "p" 'magit-section-backward))
 #+end_src
 
 ** Git Time Machine
