@@ -9,11 +9,10 @@
 - [[#things-that-arent-working][Things That Aren't Working]]
   - [[#evil-want-c-i-jump-seems-to-have-no-effect][evil-want-C-i-jump seems to have no effect]]
 - [[#todo][Todo]]
-  - [[#auto-save][Auto-Save]]
-  - [[#tabs][Tabs]]
-  - [[#org-agenda][Org Agenda]]
   - [[#proper-fuzzy-matching-for-completion][Proper Fuzzy Matching For Completion]]
+  - [[#show-signature-and-documentation-along-with-code-completion-candidates][Show signature and documentation along with code completion candidates.]]
   - [[#show-lsp-and-other-errors][Show LSP And Other Errors]]
+  - [[#keybinding-equivalents-of-mine-in-neovim][Keybinding Equivalents Of Mine In Neovim]]
   - [[#highlight-occurrences-of-term-under-cursor][Highlight Occurrences Of Term Under Cursor]]
 - [[#elpaca-package-manager][Elpaca Package Manager]]
   - [[#install-and-enable-elpaca][Install And Enable Elpaca]]
@@ -92,9 +91,6 @@ Workaround:
 
 
 * Todo
-** Auto-Save
-** Tabs
-** Org Agenda
 ** Proper Fuzzy Matching For Completion
 *** Corfu completion is generally useless.
 ** Show signature and documentation along with code completion candidates.
@@ -103,6 +99,7 @@ Workaround:
 *** I want the errors shown in the buffer.
 *** I don't want to _have to_ mouse hover.
 *** I don't want to _have to_ bring up a separate buffer to see errors.
+** Keybinding Equivalents Of Mine In Neovim
 ** Highlight Occurrences Of Term Under Cursor
 *** lsp-mode provides this but the functionality should be provided by treesitter when LSP isn't running. Also, I should be able to use * to search for the term under the cursor to see all such terms and the highlighting should persist until I clear it. (This provides a textual fallback.)
 
