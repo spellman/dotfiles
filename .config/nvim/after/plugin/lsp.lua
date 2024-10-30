@@ -533,6 +533,7 @@ local servers = {
   golangci_lint_ls = {
     filetypes = { "go", "gomod" }
   },
+  eslint = { useFlatConfig = true },
   gopls = {},
   jsonls = {},
   lua_ls = {
