@@ -705,8 +705,8 @@ By default, Emacs requires pressing "ESC" three times to escape-quit the minibuf
   (recentf-mode 1)
 #+end_src
 
-*** Consult ~ Telescope.nvim
-Note that we set `read-file-name-function` to `#'consult-find-file-with-preview` to show file previews when searching for files, as per https://github.com/minad/consult/wiki#previewing-files-in-find-file.
+*** Consult (~ Telescope.nvim)
+Note that we set `read-file-name-function` to `#'consult-find-file-with-preview` to show file previews when searching for files with the built-in consult-fd and consult-find, as per https://github.com/minad/consult/wiki#previewing-files-in-find-file.
 #+begin_src emacs-lisp
   ;; Example configuration for Consult
   (use-package consult
@@ -721,7 +721,7 @@ Note that we set `read-file-name-function` to `#'consult-find-file-with-preview`
     ;; Optionally configure the register formatting. This improves the register
     ;; preview for `consult-register', `consult-register-load',
     ;; `consult-register-store' and the Emacs built-ins.
-    (setq register-preview-delay 0.5
+    (setq register-preview-delay 0.25
           register-preview-function #'consult-register-format)
 
     ;; Optionally tweak the register preview window.
@@ -735,6 +735,33 @@ Note that we set `read-file-name-function` to `#'consult-find-file-with-preview`
     :config
     (setq consult-ripgrep-args "rg --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --search-zip --hidden --no-ignore-vcs --glob !.git --no-pcre2")
     (setq consult-fd-args "fd --color=never --no-ignore-vcs --hidden --exclude .git")
+
+        ;;;###autoload
+    (defun cs/consult-fd (&optional dir)
+      "Search for files with `fd' in DIR by using fd to
+      (synchronously) list all files in the directory and then filter
+      the results using completing read (which I have using fzf).
+
+      This is like telescope.nvim (though this is synchronous) and
+      unlike the built-in `consult-fd` behavior, which uses `fd` for
+      primary filtering and `completing-read` for secondary filtering.
+      The latter approach is more powerful but this approach is what I
+      want most of the time."
+      (interactive)
+      (pcase-let* ((`(,prompt ,paths ,dir) (consult--directory-prompt "Find file: " dir))
+                   (default-directory dir)
+                   (fd-command (append (consult--build-args consult-fd-args)
+                                       `("--search-path" ,dir))))
+        (find-file
+         (consult--read
+          (apply #'process-lines fd-command)
+          :state (consult--file-preview)
+          :prompt prompt
+          :sort nil
+          :require-match t
+          :add-history (consult--async-split-thingatpt 'filename)
+          :category 'file
+          :history '(:input consult--find-history)))))
 
     ;; Show file previews when searching for files
     ;; See https://github.com/minad/consult/wiki#previewing-files-in-find-file
@@ -761,7 +788,7 @@ Note that we set `read-file-name-function` to `#'consult-find-file-with-preview`
 
     (cs/leader-keys
       "f" '(:ignore t :wk "Find")
-      "f f" '(consult-fd :wk "Find file")
+      "f f" '(cs/consult-fd :wk "Find file")
       "f g" '(consult-git-grep :wk "Find file in Git")
       "f r" '(consult-recent-file :wk "Find recent file")
       "f s" '(consult-ripgrep :wk "Find search term in project"))
@@ -789,34 +816,7 @@ Note that we set `read-file-name-function` to `#'consult-find-file-with-preview`
     )
   #+end_src
 
-*** Enable Previewing Files In File Search
-To enable file previews when running `consult-fd` and `consult-find`, we redefine `consult--find` from consult package > consult.el to add the option `:state (consult--file-preview)` in the options provided to `consult--read`.
 
-#+begin_src emacs-lisp
-  (with-eval-after-load 'consult
-    (defun consult--find (prompt builder initial)
-      "Run find command in current directory.
-
-  The function returns the selected file.
-  The filename at point is added to the future history.
-
-  BUILDER is the command line builder function.
-  PROMPT is the prompt.
-  INITIAL is initial input."
-      (consult--read
-       (consult--async-command builder
-         (consult--async-map (lambda (x) (string-remove-prefix "./" x)))
-         (consult--async-highlight builder)
-         :file-handler t) ;; allow tramp
-       :state (consult--file-preview) ;; NOTE: ADDITION, PROVIDES FILE PREVIEW DURING SEARCH
-       :prompt prompt
-       :sort nil
-       :require-match t
-       :initial (consult--async-split-initial initial)
-       :add-history (consult--async-split-thingatpt 'filename)
-       :category 'file
-       :history '(:input consult--find-history))))
-#+end_src
 
 ** Completion
 *** Fussy Ordering Engine With fzf Scoring
