@@ -995,8 +995,8 @@ This gets its own section because it's very important and I've struggled with bu
   (use-package lsp-ui
     :commands lsp-ui-mode)
 
-;  (use-package consult-lsp
-;    :after (:all consult lsp-mode))
+  (use-package consult-lsp
+    :after (:all consult lsp-mode))
 #+end_src
 
 ** Treesitter
