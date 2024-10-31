@@ -558,6 +558,7 @@ Tools to navigate projects and files within them.
   (add-hook 'text-mode-hook #'consider-underscore-word-character)
   (add-hook 'prog-mode-hook #'consider-underscore-word-character)
   (add-hook 'lisp-mode-hook #'consider-underscore-word-character)
+  (add-hook 'lisp-mode-hook #'consider-hyphen-word-character)
 #+end_src
 
 ** Rainbow Parentheses
