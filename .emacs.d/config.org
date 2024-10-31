@@ -269,10 +269,13 @@ Source: https://emacs.stackexchange.com/a/36
     :config
     (setq evil-collection-mode-list '(dashboard
                                       dired
+                                      eldoc
+                                      elisp-mode
                                       elpaca
                                       git-timemachine
                                       ibuffer
                                       magit
+                                      org
                                       vc-annotate
                                       which-key))
     (evil-collection-init))
