@@ -41,7 +41,7 @@
   - [[#modify-word-characters][Modify Word Characters]]
   - [[#rainbow-parentheses][Rainbow Parentheses]]
   - [[#highlight-todo-and-friends][Highlight TODO And Friends]]
-  - [[#set-background-color-of-color-code-to-color-code][Set Background Color Of Color-Code to Color-Code]]
+  - [[#set-background-color-of-color-code-to-that-color-code][Set Background Color Of Color-Code to That Color-Code]]
   - [[#insert-delimiters-as-pairs][Insert Delimiters As Pairs]]
 - [[#theme][Theme]]
 - [[#ui][UI]]
@@ -585,7 +585,7 @@ Tools to navigate projects and files within them.
 
 #+end_src
 
-** Set Background Color Of Color-Code to Color-Code
+** Set Background Color Of Color-Code to That Color-Code
 
 #+begin_src emacs-lisp
   (use-package rainbow-mode
