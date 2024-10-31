@@ -43,6 +43,7 @@
   - [[#highlight-todo-and-friends][Highlight TODO And Friends]]
   - [[#set-background-color-of-color-code-to-that-color-code][Set Background Color Of Color-Code to That Color-Code]]
   - [[#insert-delimiters-as-pairs][Insert Delimiters As Pairs]]
+  - [[#comment--uncomment-code][Comment / Uncomment Code]]
 - [[#theme][Theme]]
 - [[#ui][UI]]
   - [[#stop-cursor-from-blinking][Stop Cursor From Blinking]]
@@ -605,6 +606,14 @@ Tools to navigate projects and files within them.
   (electric-pair-mode 1)
 #+end_src
 
+** Comment / Uncomment Code
+
+#+begin_src emacs-lisp
+  (use-package evil-commentary
+    :demand t
+    :hook
+    (prog-mode . evil-commentary-mode))
+#+end_src
 
 
 * Theme
