@@ -153,9 +153,9 @@ The `:config` keyword executes code after a package is loaded. In cases where lo
     ;; Enable use-package :ensure support for Elpaca.
     (elpaca-use-package-mode))
 
-  ;;Turns off elpaca-use-package-mode current declaration
-  ;;Note this will cause evaluate the declaration immediately. It is not deferred.
-  ;;Useful for configuring built-in emacs features.
+  ;; Turns off elpaca-use-package-mode current declaration
+  ;; Note this will cause evaluate the declaration immediately. It is not deferred.
+  ;; Useful for configuring built-in emacs features.
   (use-package emacs
     :ensure nil
     :init
@@ -182,7 +182,7 @@ The `:config` keyword executes code after a package is loaded. In cases where lo
     ;; Support opening new minibuffers from inside existing minibuffers.
     (enable-recursive-minibuffers t)
     ;; Emacs 28 and newer: Hide commands in M-x which do not work in the current
-    ;; mode.  Vertico commands are hidden in normal buffers. This setting is
+    ;; mode. Vertico commands are hidden in normal buffers. This setting is
     ;; useful beyond Vertico.
     (read-extended-command-predicate #'command-completion-default-include-p))
 #+end_src
@@ -813,7 +813,7 @@ Note that we set `read-file-name-function` to `#'consult-find-file-with-preview`
 
 ** Completion
 *** Fussy Ordering Engine With fzf Scoring
-In Neovim the telesope package for finding, previewing, and selecting, with the telescope-fzf-native plugin for search result ranking, has been very good. The following allows us to use fzf for Emacs search result ranking.
+In Neovim the telesope package for finding, previewing, and selecting, with the telescope-fzf-native plugin for search result ranking, has been very good. The following allows us to rank Emacs search results with fzf.
 
 #+begin_src emacs-lisp
   (use-package fussy
