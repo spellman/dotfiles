@@ -406,8 +406,11 @@ general.el is the keybinding-setting program
 ** Magit
 
 #+begin_src emacs-lisp
+  (use-package transient
+    :demand t)
+
   (use-package magit
-    :after (:all evil evil-collection general)
+    :after (:all transient evil evil-collection general)
     :custom
     (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
     (magit-bury-buffer-function #'magit-restore-window-configuration)
