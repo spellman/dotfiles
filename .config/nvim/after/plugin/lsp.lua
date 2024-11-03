@@ -542,7 +542,6 @@ local servers = {
       telemetry = { enable = false },
     },
   },
-  marksman = {},
   pyright = {},
   ruby_lsp = {},
   svelte = {},
