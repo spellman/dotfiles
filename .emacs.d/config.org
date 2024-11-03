@@ -692,6 +692,9 @@ By default, Emacs requires pressing "ESC" three times to escape-quit the minibuf
 #+begin_src emacs-lisp
   (use-package nerd-icons
     :demand t)
+  
+  ;; As per https://github.com/rainstormstudio/nerd-icons.el?tab=readme-ov-file#installing-fonts,
+  ;; `M-x nerd-icons-install-fonts` to install Symbols Nerd Fonts Mono.
 #+end_src
 
 ** Add Icons To dired
