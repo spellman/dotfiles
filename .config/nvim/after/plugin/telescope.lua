@@ -94,6 +94,7 @@ vim.keymap.set("n", "<leader>ff", function()
       "--no-ignore-vcs",
       "--hidden",
       "--exclude", ".git",
+      "--type", "file",
     },
     cwd = project_root,
   })
@@ -112,6 +113,7 @@ vim.keymap.set("n", "<leader>fn", function()
       "--no-ignore-vcs",
       "--hidden",
       "--exclude", ".git",
+      "--type", "file",
     },
     cwd = nvim_config_dir,
   })
