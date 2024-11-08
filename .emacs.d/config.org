@@ -200,7 +200,7 @@ The Mac built-in `ls` doesn't support the `--dired` option so we use `gls` from 
 #+begin_src emacs-lisp
   (when (string= system-type "darwin")
     (setq dired-use-ls-dired t
-          insert-directory-program "/opt/homebrew/bin/gls"
+          insert-directory-program "gls"
           dired-listing-switches "-aBhl"))
 #+end_src
 
