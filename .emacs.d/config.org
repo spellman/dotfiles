@@ -1015,7 +1015,7 @@ This gets its own section because it's very important and I've struggled with bu
     (cs/leader-keys
       "r" '(:ignore t :wk "Rename")
       "r n" '(lsp-rename :wk "Rename symbol") ; TODO: Write changed buffers
-                                          ;"r w" ' TODO: Rename word under cursor.
+      ;"r w" ' TODO: Rename word under cursor.
       )
 
     (general-define-key
@@ -1051,7 +1051,6 @@ This gets its own section because it's very important and I've struggled with bu
     (treesit-auto-add-to-auto-mode-alist 'all)
     (global-treesit-auto-mode))
 #+end_src
-
 
 ** Clojure
 
@@ -1106,7 +1105,6 @@ This gets its own section because it's very important and I've struggled with bu
 
   (with-eval-after-load 'lsp-mode
     (add-hook 'go-ts-mode-hook #'cs/lsp-go-install-save-hooks))
-
 #+end_src
 
 ** Lua
