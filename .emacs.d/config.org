@@ -40,6 +40,7 @@
   - [[#replace-selection-by-typing-in-insertish-mode-instead-of-appending][Replace Selection By Typing In Insertish Mode Instead Of Appending]]
   - [[#modify-word-characters][Modify Word Characters]]
   - [[#rainbow-parentheses][Rainbow Parentheses]]
+  - [[#folding][Folding]]
   - [[#highlight-todo-and-friends][Highlight TODO And Friends]]
   - [[#set-background-color-of-color-code-to-that-color-code][Set Background Color Of Color-Code to That Color-Code]]
   - [[#insert-delimiters-as-pairs][Insert Delimiters As Pairs]]
@@ -571,6 +572,12 @@ Tools to navigate projects and files within them.
   (use-package rainbow-delimiters
     :hook
     (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+** Folding
+
+#+begin_src emacs-lisp
+  (add-hook 'prog-mode-hook #'hs-minor-mode)
 #+end_src
 
 ** Highlight TODO And Friends
