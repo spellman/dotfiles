@@ -78,6 +78,7 @@
   - [[#markdown][Markdown]]
   - [[#rust][Rust]]
   - [[#svelte][Svelte]]
+  - [[#yaml][YAML]]
 
 * Things That Aren't Working
 ** evil-want-C-i-jump seems to have no effect
@@ -1127,4 +1128,16 @@ Use gfm-mode (GitHub Flavored Markdown) for README.md files.
 
 #+begin_src emacs-lisp
   (use-package svelte-mode)
+#+end_src
+
+** YAML
+
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    :mode "\\.ya?ml\\'")
+
+  (use-package yaml-pro
+    :after yaml-mode
+    :hook
+    (yaml-mode . (lambda () (yaml-pro-ts-mode 100))))
 #+end_src
