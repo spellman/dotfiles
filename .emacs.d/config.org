@@ -74,6 +74,7 @@
   - [[#go][Go]]
   - [[#lua][Lua]]
   - [[#markdown][Markdown]]
+  - [[#rust][Rust]]
   - [[#svelte][Svelte]]
 
 * Things That Aren't Working
@@ -1081,6 +1082,14 @@ Use gfm-mode (GitHub Flavored Markdown) for README.md files.
     :mode ("README\\.md\\'" . gfm-mode)
     :init
     (setq markdown-command "multimarkdown"))
+#+end_src
+
+** Rust
+
+#+begin_src emacs-lisp
+  (use-package rust-mode
+    :init
+    (setq rust-mode-treesitter-derive t))
 #+end_src
 
 ** Svelte
