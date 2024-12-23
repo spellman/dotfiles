@@ -984,14 +984,19 @@ This gets its own section because it's very important and I've struggled with bu
   (use-package lsp-mode
     :after general
     :hook
-    ((dockerfile-mode . lsp)
+    ((clojure-mode . lsp)
+     (clojurescript-mode . lsp)
+     (clojurec-mode . lsp)
+     (dockerfile-mode . lsp)
      (elixir-ts-mode . lsp)
      (gleam-ts-mode . lsp)
      (go-ts-mode . lsp)
      (heex-ts-mode . lsp)
      (js-ts-mode . lsp)
      (lua-mode . lsp)
-     (svelte-mode . lsp))
+     (rust-ts-mode . lsp)
+     (svelte-mode . lsp)
+     (yaml-ts-mode . lsp))
 
     :commands
     lsp
