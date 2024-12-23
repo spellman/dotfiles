@@ -1079,7 +1079,10 @@ This gets its own section because it's very important and I've struggled with bu
 ** Elixir
 
 #+begin_src emacs-lisp
-  (use-package elixir-ts-mode)
+  (use-package elixir-ts-mode
+    :mode (("\\.ex\\'" . elixir-ts-mode)
+           ("\\.exs\\'" . elixir-ts-mode)
+           ("\\mix.lock\\'" . elixir-ts-mode)))
 #+end_src
 
 ** Gleam
