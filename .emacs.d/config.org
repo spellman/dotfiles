@@ -69,6 +69,7 @@
 - [[#languages][Languages]]
   - [[#lsp][LSP]]
   - [[#treesitter][Treesitter]]
+  - [[#clojure][Clojure]]
   - [[#elixir][Elixir]]
   - [[#gleam][Gleam]]
   - [[#go][Go]]
@@ -1036,6 +1037,22 @@ This gets its own section because it's very important and I've struggled with bu
     :config
     (treesit-auto-add-to-auto-mode-alist 'all)
     (global-treesit-auto-mode))
+#+end_src
+
+
+** Clojure
+
+#+begin_src emacs-lisp
+  (use-package clojure-mode
+    :config
+    ;; https://github.com/clojure-emacs/clojure-mode/blob/v5.19.0/README.md#indentation-options
+    ;; https://tonsky.me/blog/clojurefmt/
+    (setq clojure-indent-style 'always-indent
+          clojure-indent-keyword-style 'always-indent
+          clojure-enable-indent-specs nil)
+    (setq clojure-toplevel-inside-comment-form t))
+
+  (use-package cider)
 #+end_src
 
 ** Elixir
