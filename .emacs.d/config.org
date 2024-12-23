@@ -669,8 +669,12 @@ Tools to navigate projects and files within them.
 ** Display Line Numbers In Certain Modes
 
 #+begin_src emacs-lisp
-  (dolist (mode '(org-mode-hook
-                  prog-mode-hook))
+  (dolist (mode '(bash-mode-hook
+                  bash-ts-mode-hook
+                  org-mode-hook
+                  prog-mode-hook
+                  sh-mode-hook
+                  yaml-ts-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 1))))
 #+end_src
 
