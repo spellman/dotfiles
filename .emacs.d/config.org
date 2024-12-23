@@ -586,13 +586,14 @@ Tools to navigate projects and files within them.
   (use-package hl-todo
     :demand t
     :config
-    (setq hl-todo-keyword-faces
-          `(("TODO"       warning bold)
-            ("FIXME"      error bold)
-            ("HACK"       font-lock-constant-face bold)
-            ("REVIEW"     font-lock-keyword-face bold)
-            ("NOTE"       success bold)
-            ("DEPRECATED" font-lock-doc-face bold)))
+    (setq hl-todo--regexp "\\(\\<\\(TODO\\|FIXME\\|HACK\\|REVIEW\\|NOTE\\|DEPRECATED\\|QUESTION\\)\\>\\)"
+          hl-todo-keyword-faces `(("TODO"       warning bold)
+                                  ("FIXME"      error bold)
+                                  ("HACK"       font-lock-constant-face bold)
+                                  ("REVIEW"     font-lock-keyword-face bold)
+                                  ("NOTE"       success bold)
+                                  ("DEPRECATED" font-lock-doc-face bold)
+                                  ("QUESTION" font-lock-constant-face bold)))
 
     :hook
     (org-mode . hl-todo-mode)
