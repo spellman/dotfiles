@@ -70,6 +70,7 @@
   - [[#lsp][LSP]]
   - [[#treesitter][Treesitter]]
   - [[#clojure][Clojure]]
+  - [[#docker][Docker]]
   - [[#elixir][Elixir]]
   - [[#gleam][Gleam]]
   - [[#go][Go]]
@@ -1058,6 +1059,14 @@ This gets its own section because it's very important and I've struggled with bu
     (setq clojure-toplevel-inside-comment-form t))
 
   (use-package cider)
+#+end_src
+
+** Docker
+
+#+begin_src emacs-lisp
+  (use-package dockerfile-mode
+    :mode (("\\Dockerfile\\'" . dockerfile-mode)
+           ("\\.dockerignore\\'" . dockerfile-mode)))
 #+end_src
 
 ** Elixir
