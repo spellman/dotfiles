@@ -1,6 +1,7 @@
 .DS_Store
 auto-save-list
 config.el
+eln-cache/
 elpa
 elpaca
 .cache
@@ -8,6 +9,7 @@ elpaca
 projectile-bookmarks.eld
 projects
 recentf
+tramp
 transient
 tree-sitter
 undo-fu-session
