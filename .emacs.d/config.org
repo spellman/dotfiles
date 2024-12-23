@@ -1026,7 +1026,11 @@ This gets its own section because it's very important and I've struggled with bu
      "g I" '(lsp-goto-implementation :wk "Goto implementation")
      "g p" '(lsp-goto-type-definition :wk "Goto type definition")
      "K" 'lsp-ui-doc-glance
-     "M-k" 'lsp-describe-thing-at-point))
+     "M-k" 'lsp-describe-thing-at-point)
+
+    ;; Makes LSP shutdown the language server when all buffers in the project are closed.
+    ;; https://emacs-lsp.github.io/lsp-mode/page/settings/mode/#lsp-keep-workspace-alive
+    (setq lsp-keep-workspace-alive nil))
 
   (use-package lsp-ui
     :commands lsp-ui-mode)
