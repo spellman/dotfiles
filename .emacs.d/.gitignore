@@ -5,6 +5,7 @@ eln-cache/
 elpa
 elpaca
 .cache
+.dap-breakpoints
 .lsp-session-v1
 projectile-bookmarks.eld
 projects
