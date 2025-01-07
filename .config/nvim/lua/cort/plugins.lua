@@ -1,5 +1,11 @@
 -- NOTE: `opts = {}` is the same as calling `require(<package>).setup({})`
 return {
+  {
+    "vhyrro/luarocks.nvim",
+    priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+    config = true,
+  },
+
   "nvim-tree/nvim-web-devicons",
 
   -- Detect tabstop and shiftwidth automatically
@@ -8,6 +14,16 @@ return {
   "tpope/vim-surround",
 
   "tpope/vim-vinegar",
+
+  "williamboman/mason.nvim",
+
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = {
+      -- Automatically install LSPs to stdpath for neovim
+      "williamboman/mason.nvim",
+    },
+  },
 
   {
     "neovim/nvim-lspconfig",
