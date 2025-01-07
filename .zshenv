@@ -20,3 +20,5 @@ fpath=(~/.awsume/zsh-autocomplete/ $fpath)
 
 # For Rye Python management tool:
 fpath=(~/.zfunc "${fpath[@]}")
+
+. "$HOME/.cargo/env"
