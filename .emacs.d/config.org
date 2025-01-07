@@ -1059,6 +1059,9 @@ This gets its own section because it's very important and I've struggled with bu
     (global-treesit-auto-mode))
 #+end_src
 
+*** Installing Grammars Manually
+Many grammars can be built by cloning and running https://github.com/casouri/tree-sitter-module locally and then copying the generated grammars into `.emacs.d/tree-sitter`.
+
 ** Clojure
 
 #+begin_src emacs-lisp
