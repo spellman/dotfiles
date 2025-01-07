@@ -253,6 +253,13 @@ Source: https://emacs.stackexchange.com/a/36
 
 
 
+* Lock Files
+
+#+begin_src emacs-lisp
+  (setq lock-file-name-transforms `((".*" "~/tmp/emacs-lockfiles/" t)))
+#+end_src
+
+
 * Evil Mode
 
 #+begin_src emacs-lisp
