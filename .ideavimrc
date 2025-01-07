@@ -15,7 +15,7 @@ set hlsearch
 set incsearch " ...dynamically as they are typed.
 
 
-" Keep 3 lines below cursor instead of it being at bottom (default)
+" Keep 1 lines below cursor instead of it being at bottom (default)
 set scrolloff=1
 
 
