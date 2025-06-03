@@ -1,0 +1,16 @@
+.DS_Store
+auto-save-list
+config.el
+eln-cache/
+.cache
+.dap-breakpoints
+.lsp-session-v1
+projectile-bookmarks.eld
+history
+places
+projects
+recentf
+tramp
+transient
+tree-sitter
+undo-fu-session
