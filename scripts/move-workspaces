@@ -1,0 +1,273 @@
+#!/bin/bash
+
+# Depends on:
+#  list
+#  of
+#  programs
+#  expected
+#  in
+#  environment
+#
+# Bash Boilerplate: https://github.com/xwmx/bash-boilerplate
+#
+# Copyright (c) 2015 William Melody • hi@williammelody.com
+
+# Notes #######################################################################
+
+# Extensive descriptions are included for easy reference.
+#
+# Explicitness and clarity are generally preferable, especially since bash can
+# be difficult to read. This leads to noisier, longer code, but should be
+# easier to maintain. As a result, some general design preferences:
+#
+# - Use leading underscores on internal variable and function names in order
+#   to avoid name collisions. For unintentionally global variables defined
+#   without `local`, such as those defined outside of a function or
+#   automatically through a `for` loop, prefix with double underscores.
+# - Always use braces when referencing variables, preferring `${NAME}` instead
+#   of `$NAME`. Braces are only required for variable references in some cases,
+#   but the cognitive overhead involved in keeping track of which cases require
+#   braces can be reduced by simply always using them.
+# - Prefer `printf` over `echo`. For more information, see:
+#   http://unix.stackexchange.com/a/65819
+# - Prefer `$_explicit_variable_name` over names like `$var`.
+# - Use the `#!/usr/bin/env bash` shebang in order to run the preferred
+#   Bash version rather than hard-coding a `bash` executable path.
+#   -> NO -- this is a security risk. Does it really matter? I don't know but I
+#   -> picked up `/bin/bash` from Louis and Pete and the Seed Innovation guys
+#   -> seemed to concur.
+# - Prefer splitting statements across multiple lines rather than writing
+#   one-liners.
+# - Group related code into sections with large, easily scannable headers.
+# - Describe behavior in comments as much as possible, assuming the reader is
+#   a programmer familiar with the shell, but not necessarily experienced
+#   writing shell scripts.
+
+###############################################################################
+# Strict Mode
+###############################################################################
+
+# Treat unset variables and parameters other than the special parameters ‘@’ or
+# ‘*’ as an error when performing parameter expansion. An 'unbound variable'
+# error message will be written to the standard error, and a non-interactive
+# shell will exit.
+#
+# This requires using parameter expansion to test for unset variables.
+#
+# http://www.gnu.org/software/bash/manual/bashref.html#Shell-Parameter-Expansion
+#
+# The two approaches that are probably the most appropriate are:
+#
+# ${parameter:-word}
+#   If parameter is unset or null, the expansion of word is substituted.
+#   Otherwise, the value of parameter is substituted. In other words, "word"
+#   acts as a default value when the value of "$parameter" is blank. If "word"
+#   is not present, then the default is blank (essentially an empty string).
+#
+# ${parameter:?word}
+#   If parameter is null or unset, the expansion of word (or a message to that
+#   effect if word is not present) is written to the standard error and the
+#   shell, if it is not interactive, exits. Otherwise, the value of parameter
+#   is substituted.
+#
+# Examples
+# ========
+#
+# Arrays:
+#
+#   ${some_array[@]:-}              # blank default value
+#   ${some_array[*]:-}              # blank default value
+#   ${some_array[0]:-}              # blank default value
+#   ${some_array[0]:-default_value} # default value: the string 'default_value'
+#
+# Positional variables:
+#
+#   ${1:-alternative} # default value: the string 'alternative'
+#   ${2:-}            # blank default value
+#
+# With an error message:
+#
+#   ${1:?'error message'}  # exit with 'error message' if variable is unbound
+#
+# Short form: set -u
+set -o nounset
+
+# Exit immediately if a pipeline returns non-zero.
+#
+# NOTE: This can cause unexpected behavior. When using `read -rd ''` with a
+# heredoc, the exit status is non-zero, even though there isn't an error, and
+# this setting then causes the script to exit. `read -rd ''` is synonymous with
+# `read -d $'\0'`, which means `read` until it finds a `NUL` byte, but it
+# reaches the end of the heredoc without finding one and exits with status `1`.
+#
+# Two ways to `read` with heredocs and `set -e`:
+#
+# 1. set +e / set -e again:
+#
+#     set +e
+#     read -rd '' variable <<HEREDOC
+#     HEREDOC
+#     set -e
+#
+# 2. Use `<<HEREDOC || true:`
+#
+#     read -rd '' variable <<HEREDOC || true
+#     HEREDOC
+#
+# More information:
+#
+# https://www.mail-archive.com/bug-bash@gnu.org/msg12170.html
+#
+# Short form: set -e
+set -o errexit
+
+# Print a helpful message if a pipeline with non-zero exit code causes the
+# script to exit as described above.
+trap 'echo "Aborting due to errexit on line $LINENO. Exit code: $?" >&2' ERR
+
+# Allow the above trap be inherited by all functions in the script.
+#
+# Short form: set -E
+set -o errtrace
+
+# Return value of a pipeline is the value of the last (rightmost) command to
+# exit with a non-zero status, or zero if all commands in the pipeline exit
+# successfully.
+set -o pipefail
+
+
+
+###############################################################################
+# Environment
+###############################################################################
+
+# $_THIS_PROGRAM
+#
+# This program's basename.
+_THIS_PROGRAM="$(basename "${0}")"
+
+###############################################################################
+# Help
+###############################################################################
+
+# _print_help()
+#
+# Usage:
+#   _print_help
+#
+# Print the program help information.
+
+_print_help() {
+  cat <<HEREDOC
+
+Usage:
+  * \`${_THIS_PROGRAM} me\` to move workspaces to windows as I want them for myself only.
+
+  * \`${_THIS_PROGRAM} call\` to move workspaces to windows as I want them when I need to devote the main monitor to a call (such as Zoom).
+
+  * ${_THIS_PROGRAM} [-h | --help] to show this help
+
+Options:
+  -h --help  Show this screen.
+HEREDOC
+}
+
+
+
+###############################################################################
+# Move workspaces to monitors
+###############################################################################
+
+# _move_workspaces_to_monitors()
+#
+# Usage:
+#   _main me | call
+#
+# Description:
+#   Move Aerospace workspaces to the connected monitors according to the number
+#   of connected monitors and whether I specified for me or for a call (such as
+#   Zoom).
+
+_move_workspaces_to_2_monitors_for_me() {
+    aerospace move-workspace-to-monitor --workspace 1 main
+    aerospace move-workspace-to-monitor --workspace 2 secondary
+    aerospace move-workspace-to-monitor --workspace 3 main
+    aerospace move-workspace-to-monitor --workspace 4 main
+    aerospace move-workspace-to-monitor --workspace 5 main
+    aerospace move-workspace-to-monitor --workspace 6 main
+    aerospace move-workspace-to-monitor --workspace C secondary
+    aerospace move-workspace-to-monitor --workspace M main
+    aerospace move-workspace-to-monitor --workspace P secondary
+}
+
+_move_workspaces_to_2_monitors_for_call() {
+    aerospace move-workspace-to-monitor --workspace 1 secondary
+    aerospace move-workspace-to-monitor --workspace 2 secondary
+    aerospace move-workspace-to-monitor --workspace 3 main
+    aerospace move-workspace-to-monitor --workspace 4 secondary
+    aerospace move-workspace-to-monitor --workspace 5 secondary
+    aerospace move-workspace-to-monitor --workspace 6 secondary
+    aerospace move-workspace-to-monitor --workspace C secondary
+    aerospace move-workspace-to-monitor --workspace M secondary
+    aerospace move-workspace-to-monitor --workspace P secondary
+}
+
+_move_workspaces_to_monitors() {
+    if ! command -v aerospace > /dev/null 2>&1; then
+        echo "aerospace command was not found. Is aerospace installed and on the PATH?"
+        exit 1
+    fi
+
+    _number_of_monitors=$(aerospace list-monitors --count)
+    # echo "${_number_of_monitors} monitors up on top"
+
+    if [[ "${_number_of_monitors}" -eq 1 ]]; then
+        echo "1 monitor found. Aerospace necessarily puts all workspaces there, right?"
+    elif [[ "${_number_of_monitors}" -eq 2 ]]; then
+        echo "2 monitors found. Will move workspaces to monitors for $1."
+        if [[ "$1" = "me" ]]; then
+            _move_workspaces_to_2_monitors_for_me
+        elif [[ "$1" = "call" ]]; then
+            _move_workspaces_to_2_monitors_for_call
+        else
+            echo "Unknown workspace configuration: \`$1\`; exiting."
+            exit 1
+        fi
+    else
+        echo "I haven't added support for moving workspaces to $1 monitors. Do it now? It's pretty easy."
+    fi
+}
+
+
+
+###############################################################################
+# Main
+###############################################################################
+
+# _main()
+#
+# Usage:
+#   _main [<options>] [<arguments>]
+#
+# Description:
+#   Entry point for the program, handling basic option parsing and dispatching.
+
+_main() {
+    # Avoid complex option parsing when only one program option is expected.
+    if [[ "$#" -eq 0 || "${1:-}" =~ ^-h|--help$  ]]; then
+        _print_help
+    else
+        if [[ "$#" -ne 1 || ( "$1" != "me" && "$1" != "call" ) ]]; then
+            echo "This script must be called with an argument of either \`me\` or \`call\`."
+            exit 1
+        fi
+
+        _move_workspaces_to_monitors "$@"
+    fi
+}
+
+
+
+# Call `_main` after everything has been defined.
+
+_main "$@"
