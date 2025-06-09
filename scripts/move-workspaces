@@ -200,7 +200,7 @@ _move_workspaces_to_2_monitors_for_me() {
     aerospace move-workspace-to-monitor --workspace P secondary
 }
 
-_move_workspaces_to_2_monitors_for_call() {
+_move_workspaces_to_2_monitors_for_call_primary() {
     aerospace move-workspace-to-monitor --workspace 1 secondary
     aerospace move-workspace-to-monitor --workspace 2 secondary
     aerospace move-workspace-to-monitor --workspace 3 main
@@ -209,6 +209,18 @@ _move_workspaces_to_2_monitors_for_call() {
     aerospace move-workspace-to-monitor --workspace 6 secondary
     aerospace move-workspace-to-monitor --workspace C secondary
     aerospace move-workspace-to-monitor --workspace M secondary
+    aerospace move-workspace-to-monitor --workspace P secondary
+}
+
+_move_workspaces_to_2_monitors_for_call_secondary() {
+    aerospace move-workspace-to-monitor --workspace 1 main
+    aerospace move-workspace-to-monitor --workspace 2 main
+    aerospace move-workspace-to-monitor --workspace 3 secondary
+    aerospace move-workspace-to-monitor --workspace 4 main
+    aerospace move-workspace-to-monitor --workspace 5 main
+    aerospace move-workspace-to-monitor --workspace 6 main
+    aerospace move-workspace-to-monitor --workspace C secondary
+    aerospace move-workspace-to-monitor --workspace M main
     aerospace move-workspace-to-monitor --workspace P secondary
 }
 
@@ -227,8 +239,10 @@ _move_workspaces_to_monitors() {
         echo "2 monitors found. Will move workspaces to monitors for $1."
         if [[ "$1" = "me" ]]; then
             _move_workspaces_to_2_monitors_for_me
-        elif [[ "$1" = "call" ]]; then
-            _move_workspaces_to_2_monitors_for_call
+        elif [[ "$1" = "call-primary" ]]; then
+            _move_workspaces_to_2_monitors_for_call_primary
+        elif [[ "$1" = "call-secondary" ]]; then
+            _move_workspaces_to_2_monitors_for_call_secondary
         else
             echo "Unknown workspace configuration: \`$1\`; exiting."
             exit 1
@@ -257,8 +271,8 @@ _main() {
     if [[ "$#" -eq 0 || "${1:-}" =~ ^-h|--help$  ]]; then
         _print_help
     else
-        if [[ "$#" -ne 1 || ( "$1" != "me" && "$1" != "call" ) ]]; then
-            echo "This script must be called with an argument of either \`me\` or \`call\`."
+        if [[ "$#" -ne 1 || ( "$1" != "me" && "$1" != "call-primary" && "$1" != "call-secondary" ) ]]; then
+            echo "This script must be called with an argument of either \`me\` or \`call-primary\` or \`call-secondary\`."
             exit 1
         fi
 
