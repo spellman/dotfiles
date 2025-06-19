@@ -128,6 +128,19 @@
 (setq global-auto-revert-non-file-buffers t)
 
 
+
+
+
+(after! doom-ui
+  (map! "s-n" 'make-frame)
+  (map! :nvie "s-n" 'make-frame)
+
+  ;; Doom remaps 'delete-frame to 'doom/delete-frame-with-prompt so we undo that setting.
+  (global-set-key [remap delete-frame] nil)
+  ;; And then we enable closing windows using a conventional shortcut: `cmd/super+w`.
+  (map! "s-w" 'delete-frame)
+  (map! :nvie "s-w" 'delete-frame))
+
 (map! :n "-" 'dired-jump)
 
 
