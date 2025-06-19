@@ -85,13 +85,6 @@
 (+global-word-wrap-mode +1)
 
 
-;; Defining these in the (default) global keymap in addition to in
-;; evil states, below, makes them work in ihelp buffers.
-(map! :nive
-      "C-h" 'evil-window-left
-      "C-j" 'evil-window-down
-      "C-k" 'evil-window-up
-      "C-l" 'evil-window-right)
 ;; =============================================================================
 ;; Undo
 ;; =============================================================================
@@ -124,7 +117,6 @@
 ;; Revert Dired and other buffers
 (setq global-auto-revert-non-file-buffers t)
 
-;; Let s key have normal Vim behavior in normal mode; don't use it for evil-snipe package.
 
 (map! :n "-" 'dired-jump)
 
@@ -134,6 +126,19 @@
                 text-mode-hook))
   (add-hook mode (lambda () (electric-pair-local-mode 0))))
 
+;; ;; Defining these in the (default) global keymap in addition to in
+;; ;; evil states, below, makes them work in ihelp buffers.
+;; (map! "C-h" 'evil-window-left
+;;       "C-j" 'evil-window-down
+;;       "C-k" 'evil-window-up
+;;       "C-l" 'evil-window-right)
+;; (map! :nive
+;;       "C-h" 'evil-window-left
+;;       "C-j" 'evil-window-down
+;;       "C-k" 'evil-window-up
+;;       "C-l" 'evil-window-right)
+
+;; Let `s` key have normal Vim behavior in normal mode; don't use it for evil-snipe package.
 (remove-hook 'doom-first-input-hook #'evil-snipe-mode)
 
 (map! :leader
