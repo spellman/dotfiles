@@ -216,12 +216,6 @@
       ;; %M is the minute
       magit-log-margin '(t "%Y-%m-%d %H:%M" magit-log-margin-width t 18))
 
-;; (general-define-key
-;;  :states '(normal visual)
-;;  :keymaps '(magit-mode-map magit-status-mode-map)
-;;  "n" 'magit-section-forward
-;;  "p" 'magit-section-backward)
-
 (add-hook 'git-commit-mode-hook
           (lambda () (when git-commit-mode (evil-insert-state))))
 
