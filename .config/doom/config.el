@@ -128,6 +128,9 @@
 (setq global-auto-revert-non-file-buffers t)
 
 
+(setq doom-localleader-key ",")
+(setq doom-localleader-alt-key "M-,")
+
 
 
 
@@ -166,12 +169,9 @@
 ;; Let `s` key have normal Vim behavior in normal mode; don't use it for evil-snipe package.
 (remove-hook 'doom-first-input-hook #'evil-snipe-mode)
 
-(map! :leader
+(map! :map emacs-lisp-mode-map
+      :localleader
       :prefix ("e" . "eval")
-      :desc "Eval buffer" "b" 'eval-buffer
-      :desc "Eval defun" "f" 'eval-defun
-      :desc "Eval last sexp" "e" 'eval-last-sexp
-      :desc "Eval region" "r" 'eval-region
       :desc "Eval expression" ":" 'eval-expression)
 
 (setq magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1
