@@ -131,6 +131,20 @@
 (setq doom-localleader-key ",")
 (setq doom-localleader-alt-key "M-,")
 
+(use-package! evil-collection
+  :after evil
+  :config
+  (setq evil-collection-mode-list '(dashboard
+                                    dired
+                                    eldoc
+                                    elisp-mode
+                                    git-timemachine
+                                    ibuffer
+                                    magit
+                                    org
+                                    vc-annotate
+                                    which-key))
+  (evil-collection-init))
 
 
 
