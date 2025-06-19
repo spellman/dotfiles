@@ -143,6 +143,8 @@
 
 (map! :n "-" 'dired-jump)
 
+;; Make org-mode links open in new frames.
+(setcdr (assq 'file org-link-frame-setup) 'find-file-other-frame)
 
 ;; Don't insert delimiters and quotes as pairs in certain modes.
 (dolist (mode '(org-mode-hook
