@@ -84,7 +84,6 @@
 ;; Enable word-wrap (almost) everywhere.
 (+global-word-wrap-mode +1)
 
-(map! :n "-" 'dired-jump)
 
 ;; Defining these in the (default) global keymap in addition to in
 ;; evil states, below, makes them work in ihelp buffers.
@@ -93,6 +92,27 @@
       "C-j" 'evil-window-down
       "C-k" 'evil-window-up
       "C-l" 'evil-window-right)
+;; =============================================================================
+;; Undo
+;; =============================================================================
+;; This gets its own section because it's very important and I've struggled with
+;; buggy undo setups in the past.
+
+;; Undo Limits
+(setq undo-limit 67108864) ; 64mb.
+(setq undo-strong-limit 100663296) ; 96mb.
+(setq undo-outer-limit 1006632960) ; 960mb.
+
+;; By default Doom Emacs uses undo-fu For Linear (normal and logical) undo / redo
+;; We add undo tree with vundo
+(use-package! vundo
+  :after undo-fu)
+
+
+;; Close Minibuffer With Single Press Of escape
+;; By default, Emacs requires pressing "ESC" three times to escape-quit the minibuffer. Change this to one:
+;; (global-set-key [escape] 'keyboard-escape-quit)
+(map! [escape] 'keyboard-escape-quit)
 
 
 ;; Scroll With Cursor One Line At A Time
@@ -105,6 +125,15 @@
 (setq global-auto-revert-non-file-buffers t)
 
 ;; Let s key have normal Vim behavior in normal mode; don't use it for evil-snipe package.
+
+(map! :n "-" 'dired-jump)
+
+
+;; Don't insert delimiters and quotes as pairs in certain modes.
+(dolist (mode '(org-mode-hook
+                text-mode-hook))
+  (add-hook mode (lambda () (electric-pair-local-mode 0))))
+
 (remove-hook 'doom-first-input-hook #'evil-snipe-mode)
 
 (map! :leader
