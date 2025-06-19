@@ -195,7 +195,11 @@ _move_workspaces_to_2_monitors_for_me() {
     aerospace move-workspace-to-monitor --workspace 4 main
     aerospace move-workspace-to-monitor --workspace 5 main
     aerospace move-workspace-to-monitor --workspace 6 main
-    aerospace move-workspace-to-monitor --workspace C secondary
+    aerospace move-workspace-to-monitor --workspace 7 main
+    aerospace move-workspace-to-monitor --workspace 8 main
+    aerospace move-workspace-to-monitor --workspace 9 main
+    aerospace move-workspace-to-monitor --workspace 10 main
+    aerospace move-workspace-to-monitor --workspace A secondary
     aerospace move-workspace-to-monitor --workspace M main
     aerospace move-workspace-to-monitor --workspace P secondary
 }
@@ -207,7 +211,11 @@ _move_workspaces_to_2_monitors_for_call_primary() {
     aerospace move-workspace-to-monitor --workspace 4 secondary
     aerospace move-workspace-to-monitor --workspace 5 secondary
     aerospace move-workspace-to-monitor --workspace 6 secondary
-    aerospace move-workspace-to-monitor --workspace C secondary
+    aerospace move-workspace-to-monitor --workspace 7 secondary
+    aerospace move-workspace-to-monitor --workspace 8 secondary
+    aerospace move-workspace-to-monitor --workspace 9 secondary
+    aerospace move-workspace-to-monitor --workspace 10 secondary
+    aerospace move-workspace-to-monitor --workspace A secondary
     aerospace move-workspace-to-monitor --workspace M secondary
     aerospace move-workspace-to-monitor --workspace P secondary
 }
@@ -219,7 +227,11 @@ _move_workspaces_to_2_monitors_for_call_secondary() {
     aerospace move-workspace-to-monitor --workspace 4 main
     aerospace move-workspace-to-monitor --workspace 5 main
     aerospace move-workspace-to-monitor --workspace 6 main
-    aerospace move-workspace-to-monitor --workspace C secondary
+    aerospace move-workspace-to-monitor --workspace 7 main
+    aerospace move-workspace-to-monitor --workspace 8 main
+    aerospace move-workspace-to-monitor --workspace 9 main
+    aerospace move-workspace-to-monitor --workspace 10 main
+    aerospace move-workspace-to-monitor --workspace A secondary
     aerospace move-workspace-to-monitor --workspace M main
     aerospace move-workspace-to-monitor --workspace P secondary
 }
@@ -231,7 +243,6 @@ _move_workspaces_to_monitors() {
     fi
 
     _number_of_monitors=$(aerospace list-monitors --count)
-    # echo "${_number_of_monitors} monitors up on top"
 
     if [[ "${_number_of_monitors}" -eq 1 ]]; then
         echo "1 monitor found. Aerospace necessarily puts all workspaces there, right?"
@@ -248,8 +259,21 @@ _move_workspaces_to_monitors() {
             exit 1
         fi
     else
-        echo "I haven't added support for moving workspaces to $1 monitors. Do it now? It's pretty easy."
+        echo "I haven't added support for moving workspaces to ${_number_of_monitors} monitors. Do it now? It's pretty easy."
     fi
+
+    # After a big set of moves the focus stays on the application and workspace
+    # that originally had focus but the wrong workspace tends to be displayed on
+    # the screen.
+    # As such, merely focusing on the workspace that is supposed to have focus
+    # has no effect because that workspace still does has focus.
+    #
+    # Therefore, we "jiggle" the focus by focusing on the previously-focused
+    # workspace and then on the workspace that is supposed to have focus:
+    # * Back to previously-focused workspace.
+    aerospace workspace-back-and-forth
+    # * Back to workspace that should have focus.
+    aerospace workspace-back-and-forth
 }
 
 
