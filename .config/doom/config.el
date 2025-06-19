@@ -229,3 +229,16 @@
   :mode (("\\.coffee\\'" . coffee-mode)))
 
 
+(defun cs/consider-underscore-word-character ()
+  (modify-syntax-entry ?_ "w"))
+
+(defun cs/consider-hyphen-word-character ()
+  (modify-syntax-entry ?- "w"))
+
+(add-hook 'text-mode-hook #'cs/consider-underscore-word-character)
+(add-hook 'prog-mode-hook #'cs/consider-underscore-word-character)
+(add-hook 'emacs-lisp-mode-hook #'cs/consider-underscore-word-character)
+(add-hook 'emacs-lisp-mode-hook #'cs/consider-hyphen-word-character)
+(add-hook 'lisp-mode-hook #'cs/consider-underscore-word-character)
+(add-hook 'lisp-mode-hook #'cs/consider-hyphen-word-character)
+
