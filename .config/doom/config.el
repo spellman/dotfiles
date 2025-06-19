@@ -209,3 +209,8 @@
 
 (add-hook 'git-commit-mode-hook
           (lambda () (when git-commit-mode (evil-insert-state))))
+
+(use-package! coffee-mode
+  :mode (("\\.coffee\\'" . coffee-mode)))
+
+
