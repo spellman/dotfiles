@@ -168,6 +168,21 @@
                 text-mode-hook))
   (add-hook mode (lambda () (electric-pair-local-mode 0))))
 
+(use-package! hl-todo
+  :config
+  (setq hl-todo--regexp "\\(\\<\\(TODO\\|FIXME\\|HACK\\|REVIEW\\|NOTE\\|DEPRECATED\\|QUESTION\\)\\>\\)"
+        hl-todo-keyword-faces `(("TODO"       warning bold)
+                                ("FIXME"      error bold)
+                                ("HACK"       font-lock-constant-face bold)
+                                ("REVIEW"     font-lock-keyword-face bold)
+                                ("NOTE"       success bold)
+                                ("DEPRECATED" font-lock-doc-face bold)
+                                ("QUESTION" font-lock-constant-face bold)))
+
+  :hook
+  (org-mode . hl-todo-mode)
+  (prog-mode . hl-todo-mode))
+
 ;; ;; Defining these in the (default) global keymap in addition to in
 ;; ;; evil states, below, makes them work in ihelp buffers.
 ;; (map! "C-h" 'evil-window-left
