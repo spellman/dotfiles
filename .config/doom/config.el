@@ -101,6 +101,16 @@
 (use-package! vundo
   :after undo-fu)
 
+;; Enable the undelete-frame function to reopen any of the last 16 closed
+;; frames.
+;; That means that I open something in a new frame, close it, and then change my
+;; mind and want it back, I can simply call (undelete-frame).
+;; Ex:
+;; `C-u 2 M-x undelete-frame` calls `undelete-frame` with `arg` bound to 2 to
+;; undelete the second-to-last deleted frame.
+(undelete-frame-mode 1)
+
+
 
 ;; Close Minibuffer With Single Press Of escape
 ;; By default, Emacs requires pressing "ESC" three times to escape-quit the minibuffer. Change this to one:
