@@ -215,7 +215,7 @@ automatically-unhide-macos-hidden-apps = false
 
 
 [[on-window-detected]]
-    if.app-id = 'com.kagi.kagimacOS'                       # Orion browser         -> 1
+    if.app-id = 'app.zen-browser.zen'                      # Zen browser           -> 1
     run = 'move-node-to-workspace 1'
 
 [[on-window-detected]]
