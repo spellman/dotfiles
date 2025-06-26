@@ -113,6 +113,11 @@ automatically-unhide-macos-hidden-apps = false
     ctrl-shift-k = 'move up'
     ctrl-shift-l = 'move right'
 
+    ctrl-alt-shift-h = 'join-with left'
+    ctrl-alt-shift-j = 'join-with down'
+    ctrl-alt-shift-k = 'join-with up'
+    ctrl-alt-shift-l = 'join-with right'
+
     # See: https://nikitabobko.github.io/AeroSpace/commands#resize
     ctrl-minus = 'resize smart -50'
     ctrl-equal = 'resize smart +50'
