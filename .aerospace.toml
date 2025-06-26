@@ -235,15 +235,15 @@ automatically-unhide-macos-hidden-apps = false
     run = 'move-node-to-workspace 5'
 
 [[on-window-detected]]
-    if.app-id = 'com.apple.iCal'                           # Apple Calendar        -> a
+    if.app-id = 'com.apple.iCal'                           # Apple Calendar        -> A
     run = 'move-node-to-workspace A'
 
 [[on-window-detected]]
-    if.app-id = 'com.electron.realtimeboard'               # Miro                  -> m
+    if.app-id = 'com.electron.realtimeboard'               # Miro                  -> M
     run = 'move-node-to-workspace M'
 
 [[on-window-detected]]
-    if.app-id = 'com.1password.1password'                  # 1Password             -> p
+    if.app-id = 'com.1password.1password'                  # 1Password             -> P
     run = 'move-node-to-workspace P'
 
 [[on-window-detected]]
