@@ -131,7 +131,7 @@ automatically-unhide-macos-hidden-apps = false
     ctrl-alt-cmd-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
     # ctrl-alt-cmd-b = 'workspace B'
     # ctrl-alt-cmd-c = 'workspace C'
-    # ctrl-alt-cmd-d = 'workspace D'
+    ctrl-alt-cmd-d = 'workspace D'
     # ctrl-alt-cmd-e = 'workspace E'
     # ctrl-alt-cmd-f = 'workspace F'
     # ctrl-alt-cmd-g = 'workspace G'
@@ -165,7 +165,7 @@ automatically-unhide-macos-hidden-apps = false
     ctrl-alt-cmd-shift-a = 'move-node-to-workspace A'
     # ctrl-alt-cmd-shift-b = 'move-node-to-workspace B'
     # ctrl-alt-cmd-shift-c = 'move-node-to-workspace C'
-    # ctrl-alt-cmd-shift-d = 'move-node-to-workspace D'
+    ctrl-alt-cmd-shift-d = 'move-node-to-workspace D'
     # ctrl-alt-cmd-shift-e = 'move-node-to-workspace E'
     # ctrl-alt-cmd-shift-f = 'move-node-to-workspace F'
     # ctrl-alt-cmd-shift-g = 'move-node-to-workspace G'
@@ -237,6 +237,10 @@ automatically-unhide-macos-hidden-apps = false
 [[on-window-detected]]
     if.app-id = 'com.apple.iCal'                           # Apple Calendar        -> A
     run = 'move-node-to-workspace A'
+
+[[on-window-detected]]
+    if.app-id = 'com.electron.dockerdesktop'               # Docker Desktop        -> D
+    run = 'move-node-to-workspace D'
 
 [[on-window-detected]]
     if.app-id = 'com.electron.realtimeboard'               # Miro                  -> M
