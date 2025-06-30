@@ -133,9 +133,9 @@ automatically-unhide-macos-hidden-apps = false
     ctrl-8 = 'workspace 8'
     ctrl-9 = 'workspace 9'
     ctrl-0 = 'workspace 10'
-    ctrl-alt-cmd-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
+    # ctrl-alt-cmd-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
     # ctrl-alt-cmd-b = 'workspace B'
-    # ctrl-alt-cmd-c = 'workspace C'
+    ctrl-alt-cmd-c = 'workspace C'
     ctrl-alt-cmd-d = 'workspace D'
     # ctrl-alt-cmd-e = 'workspace E'
     # ctrl-alt-cmd-f = 'workspace F'
@@ -167,9 +167,9 @@ automatically-unhide-macos-hidden-apps = false
     ctrl-shift-8 = 'move-node-to-workspace 8'
     ctrl-shift-9 = 'move-node-to-workspace 9'
     ctrl-shift-0 = 'move-node-to-workspace 10'
-    ctrl-alt-cmd-shift-a = 'move-node-to-workspace A'
+    # ctrl-alt-cmd-shift-a = 'move-node-to-workspace A'
     # ctrl-alt-cmd-shift-b = 'move-node-to-workspace B'
-    # ctrl-alt-cmd-shift-c = 'move-node-to-workspace C'
+    ctrl-alt-cmd-shift-c = 'move-node-to-workspace C'
     ctrl-alt-cmd-shift-d = 'move-node-to-workspace D'
     # ctrl-alt-cmd-shift-e = 'move-node-to-workspace E'
     # ctrl-alt-cmd-shift-f = 'move-node-to-workspace F'
@@ -240,8 +240,8 @@ automatically-unhide-macos-hidden-apps = false
     run = 'move-node-to-workspace 5'
 
 [[on-window-detected]]
-    if.app-id = 'com.apple.iCal'                           # Apple Calendar        -> A
-    run = 'move-node-to-workspace A'
+    if.app-id = 'com.apple.iCal'                           # Apple Calendar        -> C
+    run = 'move-node-to-workspace C'
 
 [[on-window-detected]]
     if.app-id = 'com.electron.dockerdesktop'               # Docker Desktop        -> D
