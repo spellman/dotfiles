@@ -83,6 +83,37 @@ return {
           bg = "#ffe6e6",  -- More distinct light red for write references
           -- No fg override to preserve syntax highlighting
         }
+        
+        -- Make which-key popup lighter to match the theme
+        highlights.WhichKey = {
+          fg = "#24292f",  -- Dark gray/black for keys
+          bg = "#ffffff",  -- Pure white background
+        }
+        highlights.WhichKeyDesc = {
+          fg = "#656d76",  -- Medium gray for descriptions
+          bg = "#ffffff",  -- Pure white background
+        }
+        highlights.WhichKeyGroup = {
+          fg = "#0366d6",  -- Blue for group names
+          bg = "#ffffff",  -- Pure white background
+        }
+        -- WhichKeyBorder uses default border color (keeping original)
+        
+        -- Fix additional which-key background areas
+        highlights.WhichKeySeparator = {
+          fg = "#656d76",  -- Medium gray for separators/arrows
+          bg = "#ffffff",  -- Pure white background
+        }
+        highlights.WhichKeyIcon = {
+          bg = "#ffffff",  -- Pure white background behind icons
+        }
+        highlights.WhichKeyFloat = {
+          bg = "#ffffff",  -- Pure white background for the entire popup
+        }
+        highlights.WhichKeyNormal = {
+          fg = "#24292f",  -- Dark gray/black text
+          bg = "#ffffff",  -- Pure white background
+        }
       end,
     },
   },
