@@ -1,4 +1,2 @@
--- Enable requiring Lua files in ./after directory.
-package.path = os.getenv("HOME") .. "/.config/nvim/after/?.lua;" .. package.path
-
-require("cort")
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")

@@ -1,0 +1,17 @@
+{
+  "name": "prettier-coffee",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "coffeescript": "^2.7.0",
+    "prettier": "github:helixbass/prettier#prettier-v2.1.0-dev.100-gitpkg",
+    "prettier-plugin-coffeescript": "^0.1.5"
+  }
+}
