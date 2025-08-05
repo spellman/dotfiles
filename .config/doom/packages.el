@@ -48,5 +48,20 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
 (package! coffee-mode)
+
 (package! evil-collection)
+
+(package! evil-snipe :disable t)
+
+;; highlight-numbers used to be included with Doom but was removed in late June, 2025:
+;; https://github.com/doomemacs/doomemacs/commit/5cb34fa15155c6525ceb33a715b6c1944410bad3
+(package! highlight-numbers :pin "8b4744c7f46c72b1d3d599d4fb75ef8183dee307")
+
+(package! idle-highlight-mode)
+
+;; rainbow-delimiters used to be included with Doom but was removed in late June, 2025: https://github.com/doomemacs/doomemacs/commit/87b616e5d8dcb9763a8caf7b83e1e8e9016b6d1d
+(package! rainbow-delimiters :pin "f40ece58df8b2f0fb6c8576b527755a552a5e763")
+
+(package! sourcemap)
+
 (package! vundo)

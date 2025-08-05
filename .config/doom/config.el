@@ -81,8 +81,6 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-;; Enable word-wrap (almost) everywhere.
-(+global-word-wrap-mode +1)
 
 
 ;; =============================================================================
@@ -117,6 +115,10 @@
 ;; (global-set-key [escape] 'keyboard-escape-quit)
 (map! [escape] 'keyboard-escape-quit)
 
+;; Enable word-wrap (almost) everywhere. This doesn't seem great.
+;; (+global-word-wrap-mode 1)
+;; This is the setting I used in my non-Doom config and it seemed to work.
+(global-visual-line-mode 1)
 
 ;; Scroll With Cursor One Line At A Time
 ;; Instead of the default of half a screen at a time.
@@ -146,6 +148,11 @@
                                     which-key))
   (evil-collection-init))
 
+;; Switch evil to emacs state for mode so I have normal keybindings.
+(dolist (mode '(cider-inspector-mode
+                xref--xref-buffer-mode))
+  (add-to-list 'evil-emacs-state-modes mode))
+
 
 
 (after! doom-ui
@@ -161,12 +168,25 @@
 (map! :n "-" 'dired-jump)
 
 ;; Make org-mode links open in new frames.
-(setcdr (assq 'file org-link-frame-setup) 'find-file-other-frame)
+(after! org-mode
+  (setcdr (assq 'file org-link-frame-setup) 'find-file-other-frame))
+
+;; Display line numbers in certain modes.
+(add-hook! '(bash-mode-hook
+             bash-ts-mode-hook
+             emacs-lisp-mode
+             org-mode-hook
+             prog-mode-hook
+             sh-mode-hook
+             yaml-ts-mode-hook)
+  (lambda () (display-line-numbers-mode 1)))
 
 ;; Don't insert delimiters and quotes as pairs in certain modes.
-(dolist (mode '(org-mode-hook
-                text-mode-hook))
-  (add-hook mode (lambda () (electric-pair-local-mode 0))))
+(add-hook! '(org-mode-hook
+             text-mode-hook)
+  (lambda ()
+    (electric-pair-local-mode 0)
+    (smartparens-mode -1)))
 
 (use-package! hl-todo
   :config
@@ -182,6 +202,19 @@
   :hook
   (org-mode . hl-todo-mode)
   (prog-mode . hl-todo-mode))
+
+(use-package! idle-highlight-mode
+  :hook ((prog-mode emacs-lisp-mode lisp-mode) . idle-highlight-mode)
+  :config (setq idle-highlight-idle-time 0.15))
+
+;; Doom seems to add 'dired-omit-mode to 'dired-mode-hook. I don't want
+;; dired-omit-mode; it hides various files in dired. I want to see what's there.
+(after! dired-x
+  (remove-hook 'dired-mode-hook 'dired-omit-mode))
+
+
+(after! corfu
+  (setq global-corfu-modes '(prog-mode emacs-lisp-mode lisp-mode)))
 
 ;; ;; Defining these in the (default) global keymap in addition to in
 ;; ;; evil states, below, makes them work in ihelp buffers.
@@ -216,12 +249,7 @@
       ;; %M is the minute
       magit-log-margin '(t "%Y-%m-%d %H:%M" magit-log-margin-width t 18))
 
-(add-hook 'git-commit-mode-hook
-          (lambda () (when git-commit-mode (evil-insert-state))))
-
-(use-package! coffee-mode
-  :mode (("\\.coffee\\'" . coffee-mode)))
-
+(add-hook 'git-commit-mode-hook (lambda () (when git-commit-mode (evil-insert-state))))
 
 (defun cs/consider-underscore-word-character ()
   (modify-syntax-entry ?_ "w"))
@@ -231,8 +259,71 @@
 
 (add-hook 'text-mode-hook #'cs/consider-underscore-word-character)
 (add-hook 'prog-mode-hook #'cs/consider-underscore-word-character)
-(add-hook 'emacs-lisp-mode-hook #'cs/consider-underscore-word-character)
-(add-hook 'emacs-lisp-mode-hook #'cs/consider-hyphen-word-character)
-(add-hook 'lisp-mode-hook #'cs/consider-underscore-word-character)
-(add-hook 'lisp-mode-hook #'cs/consider-hyphen-word-character)
+(add-hook! '(emacs-lisp-mode-hook
+             lisp-mode-hook
+             clojure-mode-hook)
+           #'cs/consider-underscore-word-character
+           #'cs/consider-hyphen-word-character)
 
+(add-hook! '(prog-mode-hook
+             emacs-lisp-mode-hook
+             lisp-mode-hook)
+           #'rainbow-delimiters-mode)
+
+(use-package! highlight-numbers
+  :hook ((prog-mode conf-mode) . highlight-numbers-mode)
+  :config (setq highlight-numbers-generic-regexp "\\_<[[:digit:]]+\\(?:\\.[0-9]*\\)?\\_>"))
+
+(use-package! coffee-mode
+  :after sourcemap
+  :mode (("\\.coffee\\'" . coffee-mode))
+  :config
+  (add-hook 'coffee-mode-hook (lambda () (rainbow-delimiters-mode -1)))
+  (setq coffee-args-compile '("-c" "-m"))
+  (add-hook 'coffee-after-compile-hook
+            (lambda (props)
+              (sourcemap-goto-corresponding-point props)
+              (delete-file (plist-get props :sourcemap)))))
+
+(after! lsp-mode
+  (add-hook 'lsp-mode-hook (lambda () (lsp-headerline-breadcrumb-mode 1)))
+
+  (defun cs/lsp-ignore-semgrep-rulesRefreshed (_workspace notification)
+    "Ignore semgrep/rulesRefreshed notification . It frequently pops up when
+opening a buffer where lsp-mode is enabled. A quick google search says no one
+knows why right now.
+Source: https://emacs.stackexchange.com/a/82271"
+    (when (equal (gethash "method" notification) "semgrep/rulesRefreshed")
+      (lsp--info "Ignored semgrep/rulesRefreshed notification")
+      t))
+
+  (advice-add 'lsp--on-notification :before-until #'cs/lsp-ignore-semgrep-rulesRefreshed))
+
+;; Check this out :)
+;; (use-package! evil-lisp-state
+;;   :init
+;;   (setq evil-lisp-state-global t)
+;;   :config
+;;   (evil-lisp-state-leader "SPC k")
+;;   (map! :map evil-lisp-state-map
+;;         ";" (evil-lisp-state-enter-command wrap-comment))
+;;   :custom
+;;   (evil-lisp-state-enter-lisp-state-on-command nil))
+
+;; set default cider repl so it doesn't prompt for the shell type
+(setq cider-preferred-build-tool 'clojure-cli)
+;; Consider immediate children of `(comment)` form to be top level forms so they
+;; can be evaluated with eval-defun-* fns.
+(setq clojure-toplevel-inside-comment-form t)
+
+;; correct the ripgrep pcre support
+(setq search-engine 'grep)
+
+;; ignore the failing project tests
+(setq cider-test-default-exclude-selectors '("system"))
+
+;; automatically always load the dev and test profiles
+(after! clojure-mode
+  (setq cider-clojure-cli-parameters "-A:dev:test"))
+
+(setq cider-eval-result-duration 'change)
