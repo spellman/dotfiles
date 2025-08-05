@@ -200,6 +200,7 @@ _move_workspaces_to_2_monitors_for_me() {
     aerospace move-workspace-to-monitor --workspace 9 main
     aerospace move-workspace-to-monitor --workspace 10 main
     aerospace move-workspace-to-monitor --workspace C secondary
+    aerospace move-workspace-to-monitor --workspace D main
     aerospace move-workspace-to-monitor --workspace M main
     aerospace move-workspace-to-monitor --workspace P secondary
 }
@@ -216,6 +217,7 @@ _move_workspaces_to_2_monitors_for_call_primary() {
     aerospace move-workspace-to-monitor --workspace 9 secondary
     aerospace move-workspace-to-monitor --workspace 10 secondary
     aerospace move-workspace-to-monitor --workspace C secondary
+    aerospace move-workspace-to-monitor --workspace D secondary
     aerospace move-workspace-to-monitor --workspace M secondary
     aerospace move-workspace-to-monitor --workspace P secondary
 }
@@ -232,6 +234,7 @@ _move_workspaces_to_2_monitors_for_call_secondary() {
     aerospace move-workspace-to-monitor --workspace 9 main
     aerospace move-workspace-to-monitor --workspace 10 main
     aerospace move-workspace-to-monitor --workspace C secondary
+    aerospace move-workspace-to-monitor --workspace D secondary
     aerospace move-workspace-to-monitor --workspace M main
     aerospace move-workspace-to-monitor --workspace P secondary
 }
