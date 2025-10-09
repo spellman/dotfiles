@@ -98,31 +98,48 @@ outer.right = 0
 # '''
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
-ctrl-comma = 'layout accordion horizontal vertical'
-ctrl-slash = 'layout tiles horizontal vertical'
+ctrl-alt-comma = 'layout accordion horizontal vertical'
+ctrl-alt-slash = 'layout tiles horizontal vertical'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-ctrl-h = 'focus left'
-ctrl-j = 'focus down'
-ctrl-k = 'focus up'
-ctrl-l = 'focus right'
+ctrl-alt-h = 'focus left'
+ctrl-alt-j = 'focus down'
+ctrl-alt-k = 'focus up'
+ctrl-alt-l = 'focus right'
+
+ctrl-alt-left = 'focus left'
+ctrl-alt-down = 'focus down'
+ctrl-alt-up = 'focus up'
+ctrl-alt-right = 'focus right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move
-ctrl-shift-h = 'move left'
-ctrl-shift-j = 'move down'
-ctrl-shift-k = 'move up'
-ctrl-shift-l = 'move right'
+ctrl-alt-shift-h = 'move left'
+ctrl-alt-shift-j = 'move down'
+ctrl-alt-shift-k = 'move up'
+ctrl-alt-shift-l = 'move right'
 
-ctrl-alt-shift-h = 'join-with left'
-ctrl-alt-shift-j = 'join-with down'
-ctrl-alt-shift-k = 'join-with up'
-ctrl-alt-shift-l = 'join-with right'
+ctrl-alt-shift-left = 'move left'
+ctrl-alt-shift-down = 'move down'
+ctrl-alt-shift-up = 'move up'
+ctrl-alt-shift-right = 'move right'
+
+ctrl-alt-cmd-shift-h = 'join-with left'
+ctrl-alt-cmd-shift-j = 'join-with down'
+ctrl-alt-cmd-shift-k = 'join-with up'
+ctrl-alt-cmd-shift-l = 'join-with right'
+
+ctrl-alt-cmd-shift-left = 'join-with left'
+ctrl-alt-cmd-shift-down = 'join-with down'
+ctrl-alt-cmd-shift-up = 'join-with up'
+ctrl-alt-cmd-shift-right = 'join-with right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
-ctrl-minus = 'resize smart -50'
-ctrl-equal = 'resize smart +50'
+ctrl-alt-minus = 'resize smart -50'
+ctrl-alt-equal = 'resize smart +50'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
+# In your config, you can drop workspace bindings that you don't need by
+# commenting them out.
 ctrl-1 = 'workspace 1'
 ctrl-2 = 'workspace 2'
 ctrl-3 = 'workspace 3'
@@ -133,7 +150,12 @@ ctrl-7 = 'workspace 7'
 ctrl-8 = 'workspace 8'
 ctrl-9 = 'workspace 9'
 ctrl-0 = 'workspace 10'
-# ctrl-alt-cmd-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
+# --------------------------------------------------------------------------------
+# NOTE: I'm not using these shortcuts because I'm using them in hammerspoon to
+# switch to applications by letter. This allows me to switch to applications,
+# regardless of which workspace they're in.
+# --------------------------------------------------------------------------------
+# ctrl-alt-cmd-a = 'workspace A'
 # ctrl-alt-cmd-b = 'workspace B'
 # ctrl-alt-cmd-c = 'workspace C'
 # ctrl-alt-cmd-d = 'workspace D'
@@ -144,7 +166,7 @@ ctrl-0 = 'workspace 10'
 # ctrl-alt-cmd-m = 'workspace M'
 # ctrl-alt-cmd-n = 'workspace N'
 # ctrl-alt-cmd-o = 'workspace O'
-ctrl-alt-cmd-p = 'workspace P'
+# ctrl-alt-cmd-p = 'workspace P'
 # ctrl-alt-cmd-q = 'workspace Q'
 # ctrl-alt-cmd-r = 'workspace R'
 # ctrl-alt-cmd-s = 'workspace S'
@@ -196,7 +218,7 @@ ctrl-alt-tab = 'workspace-back-and-forth'
 ctrl-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
-ctrl-shift-semicolon = 'mode service'
+ctrl-alt-shift-semicolon = 'mode service'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -212,10 +234,15 @@ backspace = ['close-all-windows-but-current', 'mode main']
 # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
 #s = ['layout sticky tiling', 'mode main']
 
-ctrl-alt-shift-h = ['join-with left', 'mode main']
-ctrl-alt-shift-j = ['join-with down', 'mode main']
-ctrl-alt-shift-k = ['join-with up', 'mode main']
-ctrl-alt-shift-l = ['join-with right', 'mode main']
+ctrl-alt-cmd-shift-h = ['join-with left', 'mode main']
+ctrl-alt-cmd-shift-j = ['join-with down', 'mode main']
+ctrl-alt-cmd-shift-k = ['join-with up', 'mode main']
+ctrl-alt-cmd-shift-l = ['join-with right', 'mode main']
+
+ctrl-alt-cmd-shift-left = ['join-with left', 'mode main']
+ctrl-alt-cmd-shift-down = ['join-with down', 'mode main']
+ctrl-alt-cmd-shift-up = ['join-with up', 'mode main']
+ctrl-alt-cmd-shift-right = ['join-with right', 'mode main']
 
 down = 'volume down'
 up = 'volume up'
@@ -241,16 +268,26 @@ run = 'move-node-to-workspace 3'
 if.app-id = 'com.googlecode.iterm2'
 run = 'move-node-to-workspace 4'
 
-# Ghostty               -> 4
+# Ghostty               -> 5
 # For my notes for now. This is _a_ way to keep them open.
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
-run = 'move-node-to-workspace 4'
+run = 'move-node-to-workspace 5'
 
 # Emacs                 -> 5
 [[on-window-detected]]
 if.app-id = 'org.gnu.Emacs'
 run = 'move-node-to-workspace 5'
+
+# ChatGPT               -> 6
+[[on-window-detected]]
+if.app-id = 'com.openai.chat'
+run = 'move-node-to-workspace 6'
+
+# Cursor                -> 7
+[[on-window-detected]]
+if.app-id = 'com.todesktop.230313mzl4w4u92'
+run = 'move-node-to-workspace 7'
 
 # Apple Calendar        -> C
 [[on-window-detected]]
@@ -275,6 +312,12 @@ run = 'move-node-to-workspace P'
 # Karabiner Elements    -> Float
 [[on-window-detected]]
 if.app-id = 'org.pqrs.Karabiner-Elements.Settings'
+check-further-callbacks = true
+run = 'layout floating'
+
+# Quick Look (space bar on file in Finder) -> Float
+[[on-window-detected]]
+if.window-title-regex-substring = "Quick Look"
 check-further-callbacks = true
 run = 'layout floating'
 
