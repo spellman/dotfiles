@@ -43,15 +43,12 @@
   ;; }
 
   :aliases {:nrepl {:main-opts ["-m" "nrepl.cmdline"]
-                    :extra-deps {cider/cider-nrepl {:mvn/version "0.35.0"}
-                                 nrepl/nrepl {:mvn/version "1.0.0"}
-                                 refactor-nrepl/refactor-nrepl {:mvn/version "3.9.0"}}}
-            :ion-dev {:deps {com.datomic/ion-dev {:mvn/version "0.9.247"}}
-                      :main-opts ["-m" "datomic.ion.dev"]}
+                    :extra-deps {cider/cider-nrepl {:mvn/version "0.56.0"}
+                                 nrepl/nrepl {:mvn/version "1.3.0"}
+                                 refactor-nrepl/refactor-nrepl {:mvn/version "3.11.0"}}}
             :socket-repl {:exec-fn clojure.core.server/start-server
                           :exec-args {:name "server"
                                       :port 5555
                                       :accept clojure.core.server/repl
                                       :server-daemon false}}}
 }
-
