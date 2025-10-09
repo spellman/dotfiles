@@ -1,0 +1,88 @@
+local hyper = { "ctrl", "alt", "cmd" }
+local shift_hyper = { "ctrl", "alt", "cmd", "shift" }
+
+local function appPathToAppBundleID(app)
+	if hs.application.infoForBundlePath(app) then
+		return hs.application.infoForBundlePath(app)["CFBundleIdentifier"]
+	end
+end
+
+local function launchOrFocusOrRotate(appBundleID)
+	local focusedWindow = hs.window.focusedWindow()
+	local focusedWindowApp = focusedWindow:application()
+	local focusedWindowAppBundleID = focusedWindowApp:bundleID()
+
+	if focusedWindow and focusedWindowAppBundleID == appBundleID then
+		-- If already focused.
+		local appWindows = hs.application.get(focusedWindowAppBundleID):allWindows()
+
+		if #appWindows > 0 then
+			-- It seems that this list order changes after one window get focus.
+			-- Let's directly bring the last one to focus every time
+			-- https://www.hammerspoon.org/docs/hs.window.html#focus
+			if appBundleID == "com.apple.finder" then
+				-- For the Finder app the window count is one more than the on-screen
+				-- count so we subtract 1.
+				appWindows[#appWindows - 1]:focus()
+			else
+				appWindows[#appWindows]:focus()
+			end
+		else
+			-- This case should not occur because the app was found to be focused.
+			-- Therefore, the number of app windows should be > 0.
+			hs.application.launchOrFocusByBundleID(appBundleID)
+		end
+	else
+		-- If not focused.
+		hs.application.launchOrFocusByBundleID(appBundleID)
+	end
+end
+
+hs.hotkey.bind(hyper, "b", function()
+	launchOrFocusOrRotate("app.zen-browser.zen")
+end)
+
+hs.hotkey.bind(hyper, "c", function()
+	launchOrFocusOrRotate("com.apple.iCal")
+end)
+
+hs.hotkey.bind(hyper, "d", function()
+	launchOrFocusOrRotate("com.electron.dockerdesktop")
+end)
+
+hs.hotkey.bind(hyper, "e", function()
+	launchOrFocusOrRotate("com.googlecode.iterm2")
+end)
+
+hs.hotkey.bind(hyper, "g", function()
+	launchOrFocusOrRotate("com.openai.chat")
+end)
+
+hs.hotkey.bind(hyper, "m", function()
+	launchOrFocusOrRotate("com.electron.realtimeboard")
+end)
+
+hs.hotkey.bind(hyper, "n", function()
+	launchOrFocusOrRotate("com.mitchellh.ghostty")
+end)
+
+hs.hotkey.bind(hyper, "p", function()
+	launchOrFocusOrRotate("com.1password.1password")
+end)
+
+hs.hotkey.bind(hyper, "s", function()
+	launchOrFocusOrRotate("com.tinyspeck.slackmacgap")
+end)
+
+hs.hotkey.bind(hyper, "t", function()
+	launchOrFocusOrRotate("com.googlecode.iterm2")
+end)
+
+hs.hotkey.bind(hyper, "v", function()
+  -- Cursor
+	launchOrFocusOrRotate("com.todesktop.230313mzl4w4u92")
+end)
+
+hs.hotkey.bind(hyper, "z", function()
+	launchOrFocusOrRotate("us.zoom.xos")
+end)
