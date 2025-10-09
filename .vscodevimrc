@@ -1,0 +1,9 @@
+" Easy navigation of wrapped lines
+nnoremap j gj
+nnoremap k gk
+nnoremap <expr> k v:count == 0 ? 'gk' : 'k'
+nnoremap <expr> j v:count == 0 ? 'gj' : 'j'
+xnoremap <expr> k v:count == 0 ? 'gk' : 'k'
+xnoremap <expr> j v:count == 0 ? 'gj' : 'j'
+
+nnoremap <silent> <Leader>/ :nohlsearch<CR>
