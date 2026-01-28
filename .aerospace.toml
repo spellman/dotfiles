@@ -248,6 +248,15 @@ down = "volume down"
 up = "volume up"
 shift-down = ["volume set 0", "mode main"]
 
+# Vivaldi browser          -> 1
+[[on-window-detected]]
+if.app-id = "com.vivaldi.Vivaldi"
+run = "move-node-to-workspace 1"
+
+# Safari browser           -> 1
+[[on-window-detected]]
+if.app-id = "com.apple.Safari"
+run = "move-node-to-workspace 1"
 
 # Zen browser           -> 1
 [[on-window-detected]]
