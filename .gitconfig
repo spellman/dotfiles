@@ -1,44 +1,14 @@
 [user]
   name = Cort Spellman
   email = spellman.cort@gmail.com
-[credential]
-  helper = cache --timeout=7200
-[diff]
-  colorMoved = default
-  # tool = diffmerge
-[difftool "diffmerge"]
-  # cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
-[merge]
-  conflictstyle = diff3
-  # tool = diffmerge
-# [mergetool "diffmerge"]
-  # cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
-  # trustExitCode = true
-[gui]
-  editor = vim
-  fontui = -family \"DejaVu Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-  fontdiff = -family Monaco -size 10 -weight normal -slant roman -underline 0 -overstrike 0
-[push]
-  default = simple
-[github]
-  user = spellman
-[interactive]
-  diffFilter = delta --color-only
-[magithub]
-  online = false
-[magithub "status"]
-  includeStatusHeader = false
-  includePullRequestsSection = false
-  includeIssuesSection = false
+[checkout]
+  defaultremote = origin
 [core]
   autocrlf = input
   excludesfile = /Users/cort/.gitignore
   pager = delta
-[pager]
-  diff = delta
-  log = delta
-  reflog = delta
-  show = delta
+[credential]
+  helper = cache --timeout=7200
 [delta]
   ; syntax-theme = Dracula
   ; plus-style = "syntax #012800"
@@ -48,13 +18,40 @@
   line-numbers = true
   side-by-side = true
   decorations = true
-[alias]
-  magic = autofixup @{u}
-[checkout]
-  defaultremote = origin
+[diff]
+  colorMoved = default
+[difftool "diffmerge"]
+  # cmd = diffmerge \"$LOCAL\" \"$REMOTE\"
 [fetch]
   prune = true
   prunetags = true
+[github]
+  user = spellman
+[gui]
+  editor = vim
+  fontui = -family \"DejaVu Sans\" -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+  fontdiff = -family Monaco -size 10 -weight normal -slant roman -underline 0 -overstrike 0
+[merge]
+  conflictstyle = diff3
+  # tool = diffmerge
+# [mergetool "diffmerge"]
+  # cmd = "diffmerge --merge --result=\"$MERGED\" \"$LOCAL\" \"$(if test -f \"$BASE\"; then echo \"$BASE\"; else echo \"$LOCAL\"; fi)\" \"$REMOTE\""
+  # trustExitCode = true
+[interactive]
+  diffFilter = delta --color-only
+[magithub]
+  online = false
+[magithub "status"]
+  includeStatusHeader = false
+  includePullRequestsSection = false
+  includeIssuesSection = false
+[pager]
+  diff = delta
+  log = delta
+  reflog = delta
+  show = delta
+[push]
+  default = simple
 [pull]
   rebase = true
 [rebase]
