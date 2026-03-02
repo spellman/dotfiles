@@ -51,7 +51,8 @@ hs.hotkey.bind(hyper, "d", function()
 end)
 
 hs.hotkey.bind(hyper, "e", function()
-	launchOrFocusOrRotate("com.googlecode.iterm2")
+	-- launchOrFocusOrRotate("com.googlecode.iterm2")
+	launchOrFocusOrRotate("org.gnu.Emacs")
 end)
 
 hs.hotkey.bind(hyper, "g", function()
