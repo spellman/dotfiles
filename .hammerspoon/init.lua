@@ -9,12 +9,10 @@ end
 
 local function launchOrFocusOrRotate(appBundleID)
 	local focusedWindow = hs.window.focusedWindow()
-	local focusedWindowApp = focusedWindow:application()
-	local focusedWindowAppBundleID = focusedWindowApp:bundleID()
 
-	if focusedWindow and focusedWindowAppBundleID == appBundleID then
+	if focusedWindow and focusedWindow:application():bundleID() == appBundleID then
 		-- If already focused.
-		local appWindows = hs.application.get(focusedWindowAppBundleID):allWindows()
+		local appWindows = hs.application.get(appBundleID):allWindows()
 
 		if #appWindows > 0 then
 			-- It seems that this list order changes after one window get focus.
