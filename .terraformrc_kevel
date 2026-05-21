@@ -1,0 +1,22 @@
+# plugin_cache_dir, plugin_cache_may_break_dependency_lock_file:
+#
+# Currently INERT. Terraform ignores plugin_cache_* settings whenever a provider_installation block is present, because that block declares the complete installation policy and replaces the default one.
+#
+# Roles (when active, i.e. without provider_installation):
+#   plugin_cache_dir — directory of extracted provider binaries. Terraform copies/symlinks from here on `terraform init` instead of redownloading the binary. Does not avoid the registry metadata call.
+#   plugin_cache_may_break_dependency_lock_file — lets Terraform use a cached binary even when it can't produce the lock file's h1: hash locally. The cache holds extracted binaries, not the original zip, and h1: is dirhash.Hash1 over the zip's contents, so without this flag Terraform would re-download the zip just to verify.
+#
+# Left configured so removing the provider_installation block (e.g. for debugging) restores sensible cache behavior automatically. Populated by ~/.terraform.d/populate-plugin-cache.sh.
+plugin_cache_dir                            = "$HOME/.terraform.d/plugin-cache"
+plugin_cache_may_break_dependency_lock_file = true
+
+provider_installation {
+  filesystem_mirror {
+    path    = "/Users/cort/.terraform.d/mirror"
+    include = ["registry.terraform.io/*/*"]
+  }
+  direct {
+    exclude = ["registry.terraform.io/*/*"]
+  }
+}
+
