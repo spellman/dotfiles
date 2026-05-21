@@ -327,3 +327,5 @@ Source: https://emacs.stackexchange.com/a/82271"
   (setq cider-clojure-cli-parameters "-A:dev:test"))
 
 (setq cider-eval-result-duration 'change)
+
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))

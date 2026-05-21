@@ -47,8 +47,6 @@
 ;; (unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;; (unpin! t)
-(package! coffee-mode)
-
 (package! evil-collection)
 
 (package! evil-snipe :disable t)
@@ -65,3 +63,5 @@
 (package! sourcemap)
 
 (package! vundo)
+
+(package! nov)
