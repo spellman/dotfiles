@@ -52,20 +52,11 @@ hs.hotkey.bind(hyper, "d", function()
 end)
 
 hs.hotkey.bind(hyper, "e", function()
-	-- launchOrFocusOrRotate("com.googlecode.iterm2")
 	launchOrFocusOrRotate("org.gnu.Emacs")
 end)
 
-hs.hotkey.bind(hyper, "g", function()
-	launchOrFocusOrRotate("com.openai.chat")
-end)
-
 hs.hotkey.bind(hyper, "m", function()
-	launchOrFocusOrRotate("com.electron.realtimeboard")
-end)
-
-hs.hotkey.bind(hyper, "n", function()
-	launchOrFocusOrRotate("com.mitchellh.ghostty")
+	launchOrFocusOrRotate("com.electron.realtimeboard") -- Miro
 end)
 
 hs.hotkey.bind(hyper, "p", function()
@@ -81,8 +72,7 @@ hs.hotkey.bind(hyper, "t", function()
 end)
 
 hs.hotkey.bind(hyper, "v", function()
-  -- Cursor
-	launchOrFocusOrRotate("com.todesktop.230313mzl4w4u92")
+	launchOrFocusOrRotate("com.microsoft.VSCode")
 end)
 
 hs.hotkey.bind(hyper, "z", function()
