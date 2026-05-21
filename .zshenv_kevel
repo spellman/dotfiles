@@ -1,0 +1,33 @@
+source "$HOME/Projects/dotfiles/env_functions"
+
+export EDITOR='vim'
+
+path_prepend /usr/local/bin PATH
+path_prepend "${HOME}/.local/bin" PATH
+
+# Java
+export JAVA_8_HOME=$(/usr/libexec/java_home -v 8)
+export JAVA_11_HOME=$(/usr/libexec/java_home -v 11)
+export JAVA_17_HOME=$(/usr/libexec/java_home -v 17)
+export JAVA_21_HOME=$(/usr/libexec/java_home -v 21)
+export JAVA_25_HOME=$(/usr/libexec/java_home -v 25)
+
+# AWS
+export AWS_CONFIGURE_DEFAULT_REGION=us-east-1
+export AWS_CONFIG_FILE=~/.aws/config
+export AWS_DEFAULT_SSO_REGION=us-east-1
+export AWS_DEFAULT_SSO_START_URL=https://kevel.awsapps.com/start
+
+# Granted tool for assuming AWS profiles
+# https://docs.commonfate.io/granted/introduction
+alias assume=". assume"
+
+path_append "${HOME}/Projects/cli-tools/micha" PATH
+path_append "${HOME}/.config/emacs/bin" PATH
+path_prepend "${HOME}/go/bin" PATH
+path_prepend "${HOME}/.deno/bin" PATH
+path_prepend "${HOME}/.cargo/bin" PATH
+. "$HOME/.cargo/env"
+
+# CDKTF (Terraform)
+export TERRAFORM_BINARY_NAME="$HOME/.terraform.d/bin/terraform-fs-mirror-wrapper.sh"
