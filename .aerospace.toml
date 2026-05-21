@@ -257,6 +257,11 @@ down = "volume down"
 up = "volume up"
 shift-down = ["volume set 0", "mode main"]
 
+# Arc browser              -> 1
+[[on-window-detected]]
+if.app-id = "company.thebrowser.Browser"
+run = "move-node-to-workspace 1"
+
 # Vivaldi browser          -> 1
 [[on-window-detected]]
 if.app-id = "com.vivaldi.Vivaldi"

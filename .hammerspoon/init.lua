@@ -39,7 +39,8 @@ end
 hs.hotkey.bind(hyper, "b", function()
 	-- launchOrFocusOrRotate("app.zen-browser.zen")
 	-- launchOrFocusOrRotate("com.apple.Safari")
-	launchOrFocusOrRotate("com.vivaldi.Vivaldi")
+	-- launchOrFocusOrRotate("com.vivaldi.Vivaldi")
+	launchOrFocusOrRotate("company.thebrowser.Browser") -- Arc browser
 end)
 
 hs.hotkey.bind(hyper, "c", function()
