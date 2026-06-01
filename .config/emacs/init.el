@@ -120,15 +120,40 @@ If the new path's directories does not exist, create them."
 ;; For help, see: https://www.masteringemacs.org/article/understanding-minibuffer-completion
 
 (setopt enable-recursive-minibuffers t)                ; Use the minibuffer whilst in the minibuffer
+
+;; Controls how the *Completions* list is offered. An integer N means:
+;; cycle (complete in place, with no popup) when there are N or fewer
+;; candidates; otherwise pop up the *Completions* buffer. With 1, a
+;; unique completion is inserted silently and anything ambiguous shows
+;; the list. (nil never cycles; t always cycles.)
 (setopt completion-cycle-threshold 1)                  ; TAB cycles candidates
 (setopt completions-detailed t)                        ; Show annotations
+
+;; Makes TAB do double duty: it first tries to indent the line, and if
+;; the line is already indented, it instead completes the symbol at
+;; point. Combined with completion-cycle-threshold above, a single TAB
+;; either indents, silently finishes a unique completion, or pops up
+;; the *Completions* buffer.
 (setopt tab-always-indent 'complete)                   ; When I hit TAB, try to complete, otherwise, indent
 (setopt completion-styles '(basic initials substring)) ; Different styles to match input to candidates
 
 (setopt completion-auto-help 'always)                  ; Open completion always; `lazy' another option
 (setopt completions-max-height 20)                     ; This is arbitrary
+
+;; Lay out the *Completions* buffer one candidate per line, top to
+;; bottom (vs. 'horizontal rows or 'vertical newspaper columns).
+;; Easiest to scan and to navigate with the arrow keys.
 (setopt completions-format 'one-column)
+
+;; Cluster candidates under category headings (commands, variables,
+;; files, ...) rather than one flat list. Only visible when the
+;; completion source supplies categories.
 (setopt completions-group t)
+
+;; Controls keyboard focus into the *Completions* buffer. 'second-tab:
+;; the first TAB pops up the list, the second TAB moves the cursor into
+;; it so you can pick with the arrow keys / RET. (nil never jumps in;
+;; t jumps in as soon as the list appears.)
 (setopt completion-auto-select 'second-tab)            ; Much more eager
 ;(setopt completion-auto-select t)                     ; See `C-h v completion-auto-select' for more possible values
 
