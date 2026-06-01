@@ -79,12 +79,12 @@
 (defun bedrock--backup-file-name (fpath)
   "Return a new file path of a given file path.
 If the new path's directories does not exist, create them."
-  (let* ((backupRootDir (concat user-emacs-directory "emacs-backup/"))
-         (filePath (replace-regexp-in-string "[A-Za-z]:" "" fpath )) ; remove Windows driver letter in path
-         (backupFilePath (replace-regexp-in-string "//" "/" (concat backupRootDir filePath "~") )))
-    (make-directory (file-name-directory backupFilePath) (file-name-directory backupFilePath))
-    backupFilePath))
-(setopt make-backup-file-name-function 'bedrock--backup-file-name)
+  (let* ((backup-root-dir (concat user-emacs-directory "emacs-backup/"))
+         (file-path (replace-regexp-in-string "[A-Za-z]:" "" fpath)) ; remove Windows drive letter in path
+         (backup-file-path (replace-regexp-in-string "//" "/" (concat backup-root-dir file-path "~"))))
+    (make-directory (file-name-directory backup-file-path) t)
+    backup-file-path))
+(setopt make-backup-file-name-function #'bedrock--backup-file-name)
 
 ;; The above creates nested directories in the backup folder. If
 ;; instead you would like all backup files in a flat structure, albeit
@@ -102,7 +102,7 @@ If the new path's directories does not exist, create them."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Show the help buffer after startup
-(add-hook 'after-init-hook 'help-quick)
+(add-hook 'after-init-hook #'help-quick)
 
 ;; which-key: shows a popup of available keybindings when typing a long key
 ;; sequence (e.g. C-x ...)
@@ -157,7 +157,7 @@ If the new path's directories does not exist, create them."
 (setopt completion-auto-select 'second-tab)            ; Much more eager
 ;(setopt completion-auto-select t)                     ; See `C-h v completion-auto-select' for more possible values
 
-(keymap-set minibuffer-mode-map "TAB" 'minibuffer-complete) ; TAB acts more like how it does in the shell
+(keymap-set minibuffer-mode-map "TAB" #'minibuffer-complete) ; TAB acts more like how it does in the shell
 
 ;; For a fancier built-in completion option, try ido-mode,
 ;; icomplete-vertical, or fido-mode. See also the file extras/base.el
@@ -203,15 +203,15 @@ If the new path's directories does not exist, create them."
 (xterm-mouse-mode 1)
 
 ;; Display line numbers in programming mode
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (setopt display-line-numbers-width 3)           ; Set a minimum width
 
 ;; Nice line wrapping when working with text
-(add-hook 'text-mode-hook 'visual-line-mode)
+(add-hook 'text-mode-hook #'visual-line-mode)
 
 ;; Modes to highlight the current line with
 (let ((hl-line-hooks '(text-mode-hook prog-mode-hook)))
-  (mapc (lambda (hook) (add-hook hook 'hl-line-mode)) hl-line-hooks))
+  (mapc (lambda (hook) (add-hook hook #'hl-line-mode)) hl-line-hooks))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
