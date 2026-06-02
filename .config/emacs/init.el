@@ -225,9 +225,13 @@ If the new path's directories does not exist, create them."
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package emacs
+(use-package doom-themes
+  :ensure t
+  :demand t
   :config
-  (load-theme 'modus-vivendi))          ; for light theme, use modus-operandi
+  ;; The second argument (NO-CONFIRM) loads the theme without prompting,
+  ;; which is needed for third-party themes that aren't pre-trusted.
+  (load-theme 'doom-one-light t))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
