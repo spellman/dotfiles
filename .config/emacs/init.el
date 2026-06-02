@@ -194,6 +194,13 @@ If the new path's directories does not exist, create them."
 (blink-cursor-mode -1)                                ; Steady cursor
 (pixel-scroll-precision-mode)                         ; Smooth scrolling
 
+;; Visual bell: pulse the current line instead of beeping or flashing the
+;; whole frame. pulse.el is built in (it's what xref uses to highlight a
+;; jump target), so this needs no extra package. (ring-bell-function is not
+;; a user option, hence setq rather than setopt.)
+(require 'pulse)
+(setq ring-bell-function (lambda () (pulse-momentary-highlight-one-line (point))))
+
 ;; Use common keystrokes by default
 (cua-mode)
 
