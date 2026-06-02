@@ -47,9 +47,9 @@
   ((prog-mode . electric-pair-mode)))
 
 (use-package project
-  :custom
+  :config
   (when (>= emacs-major-version 30)
-    (project-mode-line t)))         ; show project name in modeline
+    (setopt project-mode-line t)))         ; show project name in modeline
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
