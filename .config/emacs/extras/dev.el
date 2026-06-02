@@ -28,6 +28,46 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package project
+  :config
+  (when (>= emacs-major-version 30)
+    (setopt project-mode-line t)))         ; show project name in modeline
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Version Control
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Magit: best Git client to ever exist
+(use-package magit
+  :ensure t
+  :defer t
+  :bind (("C-x g" . magit-status)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Programming and Data
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package markdown-mode
+  :ensure t
+  :defer t
+  :hook ((markdown-mode . visual-line-mode)))
+
+(use-package yaml-mode
+  :ensure t
+  :defer t)
+
+(use-package json-mode
+  :ensure t
+  :defer t)
+
+;; Emacs ships with a lot of popular programming language modes. If it's not
+;; built in, you're almost certain to find a mode for the language you're
+;; looking for with a quick Internet search.
+
 (use-package emacs
   :config
   ;; Treesitter config
@@ -46,42 +86,6 @@
   ;; Auto parenthesis matching
   ((prog-mode . electric-pair-mode)))
 
-(use-package project
-  :config
-  (when (>= emacs-major-version 30)
-    (setopt project-mode-line t)))         ; show project name in modeline
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;;   Version Control
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; Magit: best Git client to ever exist
-(use-package magit
-  :ensure t
-  :bind (("C-x g" . magit-status)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;
-;;;   Common file types
-;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(use-package markdown-mode
-  :ensure t
-  :hook ((markdown-mode . visual-line-mode)))
-
-(use-package yaml-mode
-  :ensure t)
-
-(use-package json-mode
-  :ensure t)
-
-;; Emacs ships with a lot of popular programming language modes. If it's not
-;; built in, you're almost certain to find a mode for the language you're
-;; looking for with a quick Internet search.
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Eglot, the built-in LSP client for Emacs
@@ -93,6 +97,7 @@
 ;;  - https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
 
 (use-package eglot
+  :defer t
   ;; no :ensure t here because it's built-in
 
   ;; Configure hooks to automatically turn-on eglot for selected modes
@@ -118,6 +123,7 @@
 
 (use-package tempel
   :ensure t
+  :defer t
   ;; By default, tempel looks at the file "templates" in
   ;; user-emacs-directory, but you can customize that with the
   ;; tempel-path variable:

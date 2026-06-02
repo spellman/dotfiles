@@ -108,6 +108,7 @@ If the new path's directories does not exist, create them."
 ;; sequence (e.g. C-x ...)
 (use-package which-key
   :ensure t
+  :demand t
   :config
   (which-key-mode))
 

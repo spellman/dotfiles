@@ -77,6 +77,8 @@
 ;;     https://protesilaos.com/emacs/denote
 ;;
 (use-package denote
+  :ensure t
+  :demand t
   :config
   (denote-rename-buffer-mode)
   (require 'denote-journal-extras))
@@ -84,6 +86,7 @@
 ;; Integrate citar and Denote: take notes on bibliographic entries
 ;; through Denote
 (use-package citar-denote
+  :ensure t
   :after (:any citar denote)
   :custom
   (citar-denote-file-type 'org)

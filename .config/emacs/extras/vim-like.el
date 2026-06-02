@@ -17,6 +17,7 @@
 ;; Evil: vi emulation
 (use-package evil
   :ensure t
+  :demand t
 
   :init
   (setq evil-respect-visual-line-mode t)

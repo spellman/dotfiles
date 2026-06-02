@@ -98,7 +98,8 @@
 ;; Vertico: better vertical completion for minibuffer commands
 (use-package vertico
   :ensure t
-  :init
+  :demand t
+  :config
   ;; You'll want to make sure that e.g. fido-mode isn't enabled
   (vertico-mode))
 
@@ -111,19 +112,20 @@
 ;; Marginalia: annotations for minibuffer
 (use-package marginalia
   :ensure t
+  :demand t
   :config
   (marginalia-mode))
 
 ;; Corfu: Popup completion-at-point
 (use-package corfu
   :ensure t
-  :init
-  (global-corfu-mode)
-  :bind
-  (:map corfu-map
-        ("SPC" . corfu-insert-separator)
-        ("C-n" . corfu-next)
-        ("C-p" . corfu-previous)))
+  :demand t
+  :bind (:map corfu-map
+              ("SPC" . corfu-insert-separator)
+              ("C-n" . corfu-next)
+              ("C-p" . corfu-previous))
+  :config
+  (global-corfu-mode))
 
 ;; Part of corfu
 (use-package corfu-popupinfo
@@ -132,14 +134,13 @@
   :hook (corfu-mode . corfu-popupinfo-mode)
   :custom
   (corfu-popupinfo-delay '(0.25 . 0.1))
-  (corfu-popupinfo-hide nil)
-  :config
-  (corfu-popupinfo-mode))
+  (corfu-popupinfo-hide nil))
 
 ;; Make corfu popup come up in terminal overlay
 (use-package corfu-terminal
   :if (not (display-graphic-p))
   :ensure t
+  :demand t
   :config
   (corfu-terminal-mode))
 
@@ -147,6 +148,7 @@
 ;; configure here; dive in when you're comfortable!
 (use-package cape
   :ensure t
+  :defer t
   :init
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file))
@@ -179,6 +181,7 @@
 ;; Orderless: powerful completion style
 (use-package orderless
   :ensure t
+  :demand t
   :config
   (setq completion-styles '(orderless)))
 
@@ -191,5 +194,8 @@
 ;; Modify search results en masse
 (use-package wgrep
   :ensure t
+  ;; wgrep autoloads itself onto grep-setup-hook, so it loads on the
+  ;; first grep buffer -- no eager load or explicit trigger needed.
+  :defer t
   :config
   (setq wgrep-auto-save-buffer t))
