@@ -45,6 +45,30 @@
 (elpaca elpaca-use-package
   (elpaca-use-package-mode))
 
+;; Make update commands skip pinned packages. `elpaca-fetch' already skips
+;; packages pinned with :ref/:tag/:pin, but `elpaca-merge' does not -- and
+;; `elpaca-pull'/`elpaca-update' (and their -all variants) all route through
+;; `elpaca-merge'. So updating our pinned (detached-HEAD) Elpaca runs git's
+;; update-log against a nonexistent upstream branch and fails with "HEAD does
+;; not point to a branch". This advice gives the merge path the same skip
+;; `elpaca-fetch' uses, so `elpaca-update-all' cleanly leaves Elpaca (and any
+;; other pinned package) alone. Bump a pinned package by editing its :ref.
+(with-eval-after-load 'elpaca
+  (defun bedrock--elpaca-merge-skip-pinned (orig id &optional fetch interactive)
+    "Around-advice for `elpaca-merge': skip pinned packages.
+Mirrors the pinned-package handling in `elpaca-fetch'."
+    (let ((e (elpaca-get id)))
+      (if (and e (elpaca-pinned-p e))
+          (progn
+            (elpaca--unprocess e)
+            (setf (elpaca<-build-steps e) (list #'elpaca--announce-pin))
+            (elpaca--set-status e 'queued)
+            (when interactive
+              (elpaca--maybe-log)
+              (elpaca--process e)))
+        (funcall orig id fetch interactive))))
+  (advice-add 'elpaca-merge :around #'bedrock--elpaca-merge-skip-pinned))
+
 ;; If you want to turn off the welcome screen, uncomment this
 ;(setopt inhibit-splash-screen t)
 
