@@ -32,9 +32,18 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Package initialization
-(with-eval-after-load 'package
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t))
+;; Package management: Elpaca.
+;; The installer snippet lives in its own file (bootstrap-elpaca.el) so that
+;; updating Elpaca is a whole-file replace, and it pins Elpaca to a specific
+;; commit -- see that file. MELPA, GNU, and NonGNU recipes are all available
+;; through Elpaca's default menus, so no package-archives setup is needed.
+(load (expand-file-name "bootstrap-elpaca.el" user-emacs-directory))
+
+;; Enable use-package's `:ensure' support via Elpaca. After this, a use-package
+;; block with `:ensure t' installs (asynchronously) via Elpaca; `:ensure nil'
+;; (or no `:ensure') is treated as built-in and configured immediately.
+(elpaca elpaca-use-package
+  (elpaca-use-package-mode))
 
 ;; If you want to turn off the welcome screen, uncomment this
 ;(setopt inhibit-splash-screen t)

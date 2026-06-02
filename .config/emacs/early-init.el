@@ -22,6 +22,11 @@
 (setq warning-suppress-log-types '((comp) (bytecomp)))
 (setq native-comp-async-report-warnings-errors 'silent)
 
+;; Disable the built-in package.el; we manage packages with Elpaca instead
+;; (see bootstrap-elpaca.el). This must happen in early-init, before package.el
+;; would otherwise activate packages.
+(setq package-enable-at-startup nil)
+
 ;; Silence stupid startup message
 (setq inhibit-startup-echo-area-message (user-login-name))
 
