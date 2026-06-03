@@ -39,6 +39,17 @@
 ;; through Elpaca's default menus, so no package-archives setup is needed.
 (load (expand-file-name "bootstrap-elpaca.el" user-emacs-directory))
 
+;; This Emacs build bundles several GNU ELPA "core" packages (via
+;; `package--builtin-versions'), so Elpaca treats them as built-in
+;; (`elpaca-ignored-dependencies') and won't install newer versions. But
+;; current packages need newer ones than are bundled: the Vertico/Corfu/Embark/
+;; etc. stack requires compat >= 31 (bundled 30.2.9999), and Magit requires
+;; transient >= 0.13 (bundled 0.7.2.2). Drop those from the ignored list so
+;; Elpaca installs up-to-date versions. (Add more here if another bundled
+;; dependency turns out to be too old.)
+(setopt elpaca-ignored-dependencies
+        (seq-difference elpaca-ignored-dependencies '(compat transient)))
+
 ;; Enable use-package's `:ensure' support via Elpaca. After this, a use-package
 ;; block with `:ensure t' installs (asynchronously) via Elpaca; `:ensure nil'
 ;; (or no `:ensure') is treated as built-in and configured immediately.
