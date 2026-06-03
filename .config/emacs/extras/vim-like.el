@@ -22,6 +22,10 @@
   :init
   (setq evil-respect-visual-line-mode t)
   (setq evil-undo-system 'undo-redo)
+  ;; Let evil-collection supply modal keybindings for other modes. This must
+  ;; be set before Evil loads; otherwise Evil installs its own overlapping
+  ;; integration bindings, which conflict with evil-collection.
+  (setq evil-want-keybinding nil)
 
   ;; Enable this if you want C-u to scroll up, more like pure Vim
   ;(setq evil-want-C-u-scroll t)
@@ -44,3 +48,11 @@
     (which-key-add-key-based-replacements "SPC f" "Find"))
   (evil-define-key 'normal 'global (kbd "<leader> f r") #'consult-recent-file)
   )
+
+;; Evil-Collection: Evil-friendly keybindings for many built-in and
+;; third-party modes (dired, magit, ibuffer, etc.).
+(use-package evil-collection
+  :ensure t
+  :after evil
+  :config
+  (evil-collection-init))
