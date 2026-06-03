@@ -27,21 +27,27 @@
 ;; would otherwise activate packages.
 (setq package-enable-at-startup nil)
 
-;; Silence stupid startup message
-(setq inhibit-startup-echo-area-message (user-login-name))
-
 ;; Default frame configuration: full screen, good-looking title bar on macOS
 (setq frame-resize-pixelwise t)
-(tool-bar-mode -1)                      ; All these tools are in the menu-bar anyway
 (setq default-frame-alist '((fullscreen . maximized)
+                            ; You can turn off scroll bars by uncommenting these lines:
+                            ; (vertical-scroll-bars . nil)
+                            (horizontal-scroll-bars . nil)
 
-                            ;; You can turn off scroll bars by uncommenting these lines:
-                            ;; (vertical-scroll-bars . nil)
-                            ;; (horizontal-scroll-bars . nil)
-
-                            ;; Setting the face in here prevents flashes of
-                            ;; color as the theme gets activated
+                            ; Setting the face in here prevents flashes of
+                            ; color as the theme gets activated
                             (background-color . "#ffffff")
                             (foreground-color . "#000000")
                             (ns-appearance . dark)
                             (ns-transparent-titlebar . t)))
+
+(menu-bar-mode -1) ; disables menubar
+(tool-bar-mode -1) ; disables toolbar
+(pixel-scroll-precision-mode 1) ; enable smooth scrolling
+
+(setq inhibit-startup-echo-area-message (user-login-name)
+      inhibit-splash-screen t
+      use-file-dialog nil ; don't use system file dialog
+      tab-bar-new-button-show nil ; don't show new-tab button
+      tab-bar-close-button-show nil ; don't show tab-close button
+      tab-line-close-button-show nil) ; don't show tab-close button
