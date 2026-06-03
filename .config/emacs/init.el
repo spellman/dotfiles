@@ -203,6 +203,23 @@ If the new path's directories does not exist, create them."
 
 (keymap-set minibuffer-mode-map "TAB" #'minibuffer-complete) ; TAB acts more like how it does in the shell
 
+;; Make a single press of <escape> quit/cancel like C-g -- abort the minibuffer
+;; (in one press, not the default ESC ESC ESC), clear the region or a prefix
+;; arg, exit recursive edits -- instead of <escape> acting as the Meta prefix.
+;; Unlike keyboard-escape-quit, this never rearranges windows when there's
+;; nothing to cancel. Evil binds <escape> in its insert/visual/normal state
+;; maps and those take precedence, so modal editing is unaffected; this fires
+;; where Evil doesn't claim <escape> (minibuffer, prompts, etc.).
+(defun bedrock/escape-quit ()
+  "Cancel like C-g (abort the minibuffer, clear the region or a prefix arg,
+exit recursive edits) without rearranging windows."
+  (interactive)
+  (cond ((region-active-p) (deactivate-mark))
+        ((> (minibuffer-depth) 0) (abort-recursive-edit))
+        ((> (recursion-depth) 0) (exit-recursive-edit))
+        (t (keyboard-quit))))
+(keymap-global-set "<escape>" #'bedrock/escape-quit)
+
 ;; For a fancier built-in completion option, try ido-mode,
 ;; icomplete-vertical, or fido-mode. See also the file extras/base.el
 
