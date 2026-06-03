@@ -50,6 +50,16 @@
 (setopt elpaca-ignored-dependencies
         (seq-difference elpaca-ignored-dependencies '(compat transient)))
 
+;; Pin every package to the versions recorded in elpaca.lockfile (written with
+;; `M-x elpaca-write-lockfile'). `elpaca-menu-lock-file' is already first in
+;; `elpaca-menu-functions', so pointing this at the lockfile makes its locked
+;; recipes win over the live MELPA/ELPA menus: reproducible installs, no drift.
+;; (Elpaca itself is also pinned in bootstrap-elpaca.el via an explicit :ref;
+;; that explicit recipe takes precedence over this menu, so they don't fight.)
+;; To update deliberately: temporarily unset elpaca-lock-file, fetch/merge the
+;; packages you want, then re-run `M-x elpaca-write-lockfile'.
+(setopt elpaca-lock-file (expand-file-name "elpaca.lockfile" user-emacs-directory))
+
 ;; Enable use-package's `:ensure' support via Elpaca. After this, a use-package
 ;; block with `:ensure t' installs (asynchronously) via Elpaca; `:ensure nil'
 ;; (or no `:ensure') is treated as built-in and configured immediately.
