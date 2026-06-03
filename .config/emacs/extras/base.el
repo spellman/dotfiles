@@ -62,7 +62,24 @@
          )
   :config
   ;; Narrowing lets you restrict results to certain groups of candidates
-  (setq consult-narrow-key "<"))
+  (setq consult-narrow-key "<")
+  ;; Respect .ignore/.rgignore/.fdignore but NOT .gitignore (--no-ignore-vcs),
+  ;; include hidden files, and skip .git. consult-ripgrep (grep) and consult-fd
+  ;; (file find) already default to the project root via consult--directory-prompt;
+  ;; a single C-u prompts for a different dir on the fly.
+  (setopt consult-ripgrep-args
+          (concat consult-ripgrep-args " --no-ignore-vcs --hidden --glob !.git"))
+  (setopt consult-fd-args
+          '((if (executable-find "fdfind" 'remote) "fdfind" "fd")
+            "--full-path --color=never --no-ignore-vcs --hidden --exclude .git --type file"))
+  ;; Preview only after a brief pause for the heavy commands (each candidate
+  ;; opens a different file); skimming past candidates then previews nothing.
+  (consult-customize
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   :preview-key '(:debounce 0.1 any))
+  ;; consult-buffer: preview on demand only.
+  (consult-customize consult-buffer :preview-key "M-."))
 
 (use-package embark-consult
   :ensure t)
@@ -182,8 +199,47 @@
 (use-package orderless
   :ensure t
   :demand t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion))))
+  (orderless-matching-styles
+   '(orderless-literal orderless-flex orderless-initialism orderless-regexp))
+  ;; Per-word style dispatchers: =literal ~flex ,initialism !exclude
+  (orderless-style-dispatchers '(orderless-affix-dispatch)))
+
+;; affe: grab-everything fuzzy finding. affe-find = fuzzy file finding across
+;; directories (like Telescope's find_files); affe-grep = in-memory fuzzy grep
+;; for small/medium projects. Needs fd (affe-find) and rg (affe-grep).
+(use-package affe
+  :ensure t
+  :after consult
   :config
-  (setq completion-styles '(orderless)))
+  ;; Same ignore behavior as consult: respect .ignore but not .gitignore
+  ;; (--no-ignore-vcs), include hidden files, skip .git. affe-find/affe-grep
+  ;; also default to the project root via consult--directory-prompt.
+  (setopt affe-find-command
+          "rg --color=never --files --no-ignore-vcs --hidden --glob !.git")
+  (setopt affe-grep-command
+          "rg --null --color=never --max-columns=1000 --no-heading --line-number --no-ignore-vcs --hidden --glob !.git -v ^$")
+  ;; affe-grep already previews (it uses consult--grep-state); just debounce it.
+  (consult-customize affe-grep :preview-key '(:debounce 0.1 any))
+  ;; affe-find ships a state that only opens on RET (no preview). Replace it
+  ;; with consult's file state, which previews on navigation AND opens the file
+  ;; on return (consult--file-preview alone previews but never opens). Debounce
+  ;; so a preview fires after a brief pause rather than on every move.
+  (consult-customize affe-find
+                     :state (consult--file-state)
+                     :preview-key '(:debounce 0.1 any)))
+
+;; vertico-prescient: frecency sorting (recency x frequency, so recent picks
+;; float up). Keep Orderless as the matching engine -- prescient for sorting only.
+(use-package vertico-prescient
+  :ensure t
+  :after vertico
+  :custom
+  (vertico-prescient-enable-filtering nil)
+  :config
+  (vertico-prescient-mode 1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

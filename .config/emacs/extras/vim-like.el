@@ -43,10 +43,20 @@
   ;; SPC as the leader key in normal and visual state.
   (evil-set-leader '(normal visual) (kbd "SPC"))
 
-  ;; SPC f -- a "Find" prefix for finding commands.
+  ;; SPC f -- Find (files); SPC s -- Search.
   (with-eval-after-load 'which-key
-    (which-key-add-key-based-replacements "SPC f" "Find"))
-  (evil-define-key 'normal 'global (kbd "<leader> f r") #'consult-recent-file)
+    (which-key-add-key-based-replacements
+      "SPC f" "Find"
+      "SPC s" "Search"))
+  (evil-define-key 'normal 'global
+    (kbd "<leader> f f") #'affe-find            ; project files, fuzzy (rg --files)
+    (kbd "<leader> f r") #'consult-recent-file
+    (kbd "<leader> f p") #'consult-fd           ; project files, async (fd)
+    (kbd "<leader> s s") #'consult-line
+    (kbd "<leader> s p") #'consult-ripgrep      ; project grep (rg)
+    (kbd "<leader> s f") #'affe-grep            ; project grep, fuzzy
+    (kbd "<leader> s i") #'consult-imenu
+    (kbd "<leader> /")   #'consult-ripgrep)     ; quick project grep
   )
 
 ;; Evil-Collection: Evil-friendly keybindings for many built-in and

@@ -31,7 +31,11 @@
 (use-package project
   :config
   (when (>= emacs-major-version 30)
-    (setopt project-mode-line t)))         ; show project name in modeline
+    (setopt project-mode-line t))          ; show project name in modeline
+  ;; Remember the top-level project dirs under ~/Projects -- immediate children
+  ;; only, no recursion -- so project-switch-project can reach them without
+  ;; visiting each first. Add more roots, or pass t to recurse, if useful later.
+  (project-remember-projects-under "~/Projects"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
