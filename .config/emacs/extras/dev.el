@@ -83,8 +83,10 @@
           (css-mode . css-ts-mode)
           (python-mode . python-ts-mode)))
   :hook
-  ;; Auto parenthesis matching
-  ((prog-mode . electric-pair-mode)))
+  ;; Auto parenthesis matching, buffer-local to programming buffers.
+  ;; (electric-pair-mode is global -- hooking it would turn pairing on
+  ;; everywhere, including text/Magit buffers -- so use the local variant.)
+  ((prog-mode . electric-pair-local-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
