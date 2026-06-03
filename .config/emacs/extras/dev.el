@@ -69,24 +69,25 @@
 ;; looking for with a quick Internet search.
 
 (use-package emacs
-  :config
-  ;; Treesitter config
-
-  ;; Tell Emacs to prefer the treesitter mode
-  ;; You'll want to run the command `M-x treesit-install-language-grammar' before editing.
-  (setq major-mode-remap-alist
-        '((yaml-mode . yaml-ts-mode)
-          (bash-mode . bash-ts-mode)
-          (js2-mode . js-ts-mode)
-          (typescript-mode . typescript-ts-mode)
-          (json-mode . json-ts-mode)
-          (css-mode . css-ts-mode)
-          (python-mode . python-ts-mode)))
   :hook
   ;; Auto parenthesis matching, buffer-local to programming buffers.
   ;; (electric-pair-mode is global -- hooking it would turn pairing on
   ;; everywhere, including text/Magit buffers -- so use the local variant.)
   ((prog-mode . electric-pair-local-mode)))
+
+;; treesit-auto: prefer tree-sitter modes and manage their grammars. Replaces a
+;; hand-maintained major-mode-remap-alist -- it handles the classic->ts-mode
+;; remaps and auto-mode-alist for its language set. With treesit-auto-install
+;; set to 'prompt, opening a file whose grammar is missing asks whether to
+;; install it (so you're told and can install on the spot); decline and it
+;; falls back to the classic mode rather than a broken ts-mode buffer.
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;

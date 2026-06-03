@@ -8,8 +8,9 @@
 		      (:exclude ".dir-locals.el" "test.el" "tests.el"
 				"*-test.el" "*-tests.el" "LICENSE"
 				"README*" "*-pkg.el"))
-		     :source "MELPA" :id annalist :type git :protocol
-		     https :inherit t :depth treeless :ref
+		     :source "elpaca-menu-lock-file" :id annalist
+		     :type git :protocol https :inherit t :depth
+		     treeless :ref
 		     "f83019d61b82a64e621d8dfd63a527a578ff0a11"))
  (avy :source "elpaca-menu-lock-file" :recipe
       (:package "avy" :repo "abo-abo/avy" :fetcher github :files
@@ -148,7 +149,8 @@
  (evil-collection :source "elpaca-menu-lock-file" :recipe
 		  (:package "evil-collection" :fetcher github :repo
 			    "emacs-evil/evil-collection" :files
-			    (:defaults "modes") :source "MELPA" :id
+			    (:defaults "modes") :source
+			    "elpaca-menu-lock-file" :id
 			    evil-collection :type git :protocol https
 			    :inherit t :depth treeless :ref
 			    "673b38022b8bb36185b6d54aff3f444335a032fb"))
@@ -318,6 +320,22 @@
 		      :type git :protocol https :inherit t :depth
 		      treeless :ref
 		      "1856230dc181f23dd15026b0ad21d8b299b034d1"))
+ (treesit-auto :source "elpaca-menu-lock-file" :recipe
+	       (:package "treesit-auto" :fetcher github :repo
+			 "renzmann/treesit-auto" :files
+			 ("*.el" "*.el.in" "dir" "*.info" "*.texi"
+			  "*.texinfo" "doc/dir" "doc/*.info"
+			  "doc/*.texi" "doc/*.texinfo" "lisp/*.el"
+			  "docs/dir" "docs/*.info" "docs/*.texi"
+			  "docs/*.texinfo"
+			  (:exclude ".dir-locals.el" "test.el"
+				    "tests.el" "*-test.el"
+				    "*-tests.el" "LICENSE" "README*"
+				    "*-pkg.el"))
+			 :source "MELPA" :id treesit-auto :type git
+			 :protocol https :inherit t :depth treeless
+			 :ref
+			 "31466e4ccfd4f896ce3145c95c4c1f8b59d4bfdf"))
  (vertico :source "elpaca-menu-lock-file" :recipe
 	  (:package "vertico" :repo "minad/vertico" :files
 		    (:defaults "extensions/vertico-*.el") :fetcher
