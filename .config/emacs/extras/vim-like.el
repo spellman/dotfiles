@@ -38,4 +38,9 @@
 
   ;; SPC as the leader key in normal and visual state.
   (evil-set-leader '(normal visual) (kbd "SPC"))
+
+  ;; SPC f -- a "Find" prefix for finding commands.
+  (with-eval-after-load 'which-key
+    (which-key-add-key-based-replacements "SPC f" "Find"))
+  (evil-define-key 'normal 'global (kbd "<leader> f r") #'consult-recent-file)
   )
