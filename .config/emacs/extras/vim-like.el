@@ -34,4 +34,8 @@
 
   ;; Configuring initial major mode for some modes
   (evil-set-initial-state 'eat-mode 'emacs)
-  (evil-set-initial-state 'vterm-mode 'emacs))
+  (evil-set-initial-state 'vterm-mode 'emacs)
+
+  ;; SPC as the leader key in normal and visual state.
+  (evil-set-leader '(normal visual) (kbd "SPC"))
+  )
