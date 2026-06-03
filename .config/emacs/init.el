@@ -107,6 +107,9 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
 ;; Save history of minibuffer
 (savehist-mode)
 
+; Track recently-opened files (so, e.g., consult-recent-file has candidates)
+(recentf-mode)
+
 ;; Move through windows with Ctrl-<arrow keys>
 (windmove-default-keybindings 'control) ; You can use other modifiers here
 
