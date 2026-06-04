@@ -75,7 +75,7 @@
 ;; `elpaca-fetch' uses, so `elpaca-update-all' cleanly leaves Elpaca (and any
 ;; other pinned package) alone. Bump a pinned package by editing its :ref.
 (with-eval-after-load 'elpaca
-  (defun bedrock--elpaca-merge-skip-pinned (orig id &optional fetch interactive)
+  (defun cws--elpaca-merge-skip-pinned (orig id &optional fetch interactive)
     "Around-advice for `elpaca-merge': skip pinned packages.
 Mirrors the pinned-package handling in `elpaca-fetch'."
     (let ((e (elpaca-get id)))
@@ -88,7 +88,7 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
               (elpaca--maybe-log)
               (elpaca--process e)))
         (funcall orig id fetch interactive))))
-  (advice-add 'elpaca-merge :around #'bedrock--elpaca-merge-skip-pinned))
+  (advice-add 'elpaca-merge :around #'cws--elpaca-merge-skip-pinned))
 
 ;; If you want to turn off the welcome screen, uncomment this
 ;(setopt inhibit-splash-screen t)
@@ -209,7 +209,7 @@ If the new path's directories does not exist, create them."
 ;; nothing to cancel. Evil binds <escape> in its insert/visual/normal state
 ;; maps and those take precedence, so modal editing is unaffected; this fires
 ;; where Evil doesn't claim <escape> (minibuffer, prompts, etc.).
-(defun bedrock/escape-quit ()
+(defun cws/escape-quit ()
   "Cancel like C-g (abort the minibuffer, clear the region or a prefix arg,
 exit recursive edits) without rearranging windows."
   (interactive)
@@ -217,7 +217,7 @@ exit recursive edits) without rearranging windows."
         ((> (minibuffer-depth) 0) (abort-recursive-edit))
         ((> (recursion-depth) 0) (exit-recursive-edit))
         (t (keyboard-quit))))
-(keymap-global-set "<escape>" #'bedrock/escape-quit)
+(keymap-global-set "<escape>" #'cws/escape-quit)
 
 ;; For a fancier built-in completion option, try ido-mode,
 ;; icomplete-vertical, or fido-mode. See also the file extras/base.el
