@@ -16,8 +16,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Startup speed, annoyance suppression
-(setq bedrock--initial-gc-threshold gc-cons-threshold)
-(setq gc-cons-threshold 10000000)
+;; Raise the GC threshold for the duration of startup so collections don't
+;; interrupt it. After startup, gcmh owns the threshold (see the gcmh block in
+;; init.el): it keeps GC from firing mid-keystroke and collects on idle. So
+;; there is nothing to restore here -- we no longer reset it to the tiny 800 KB
+;; default, which used to make GC fire constantly during completion.
+(setq gc-cons-threshold (* 64 1024 1024))
+;; Read more process output per chunk. The stock 4 KB buffer throttles tools
+;; that stream a lot through a process filter -- ripgrep/fd behind consult, and
+;; language servers behind eglot -- forcing many small reads. 1 MB drains them
+;; in far fewer cycles, so consult-ripgrep/consult-fd populate candidates faster.
+(setq read-process-output-max (* 1024 1024))
 (setq byte-compile-warnings '(not obsolete))
 (setq warning-suppress-log-types '((comp) (bytecomp)))
 (setq native-comp-async-report-warnings-errors 'silent)

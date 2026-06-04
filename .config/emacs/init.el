@@ -94,7 +94,6 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
 ;(setopt inhibit-splash-screen t)
 
 (setopt initial-major-mode 'fundamental-mode)  ; default mode for the *scratch* buffer
-(setopt display-time-default-load-average nil) ; this information is useless for most
 
 ;; Automatically reread from disk if the underlying file changes
 (setopt auto-revert-avoid-polling t)
@@ -289,13 +288,6 @@ exit recursive edits) without rearranging windows."
 ;; Show the tab-bar as soon as tab-bar functions are invoked
 (setopt tab-bar-show 1)
 
-;; Add the time to the tab-bar, if visible
-(add-to-list 'tab-bar-format 'tab-bar-format-align-right 'append)
-(add-to-list 'tab-bar-format 'tab-bar-format-global 'append)
-(setopt display-time-format "%a %F %T")
-(setopt display-time-interval 1)
-(display-time-mode)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Theme
@@ -353,4 +345,19 @@ exit recursive edits) without rearranging windows."
  ;; If there is more than one, they won't work right.
  )
 
-(setq gc-cons-threshold (or bedrock--initial-gc-threshold 800000))
+;; Garbage collection: hand control to gcmh ("Garbage Collector Magic Hack").
+;; It keeps gc-cons-threshold high while you are actively working -- so GC does
+;; not fire mid-keystroke during Vertico/Consult/Orderless completion or Consult
+;; preview -- and forces a single collection once Emacs goes idle, where the
+;; pause is imperceptible. This replaces the old line that reset
+;; gc-cons-threshold to the 800 KB default, which made GC fire constantly during
+;; completion. gcmh-idle-delay 'auto scales the idle wait to how long the last
+;; collection took, so a larger heap simply waits longer before the next GC.
+(use-package gcmh
+  :ensure t
+  :demand t
+  :config
+  (setopt gcmh-idle-delay 'auto)
+  (setopt gcmh-auto-idle-delay-factor 10)
+  (setopt gcmh-high-cons-threshold (* 64 1024 1024)) ; 64 MB while active
+  (gcmh-mode 1))
