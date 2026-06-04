@@ -191,6 +191,33 @@ id = "552FB77D-BF0E-4737-90A6-B5BC6986C579"
 minHeight = 320.0
 minWidth = 660.0
 
+[[appRules]]
+assignToWorkspace = "2"
+bundleId = "com.tinyspeck.slackmacgap"
+id = "B17C751A-484F-46B9-9D36-554B359570ED"
+
+[[appRules]]
+assignToWorkspace = "3"
+bundleId = "us.zoom.xos"
+id = "E1D5E511-C917-4EA0-B0E7-3878FA7FC834"
+
+[[appRules]]
+assignToWorkspace = "4"
+bundleId = "com.openai.chat"
+id = "52D9326B-8DB8-40EC-BF67-BF2A57BB2C67"
+
+[[appRules]]
+assignToWorkspace = "4"
+bundleId = "com.anthropic.claudefordesktop"
+id = "55524F54-1E63-4C85-A988-181D7D154CE4"
+
+# Docker Desktop's GUI window is owned by the Electron app nested inside Docker.app
+# (Docker.app itself, com.docker.docker, is just the launcher and owns no windows).
+[[appRules]]
+assignToWorkspace = "5"
+bundleId = "com.electron.dockerdesktop"
+id = "85FBCC5D-6940-4E47-9957-F38FDFC85C97"
+
 [[hotkeys]]
 binding = "Control+1"
 id = "switchWorkspace.0"
@@ -844,19 +871,53 @@ name = "5"
 type = "main"
 
 [[workspaces]]
-displayName = "❤️"
-id = "5953F2BF-A378-4266-91B2-287174C4FA4D"
+id = "9D250288-3A85-49EA-9137-DF56B22B9E5F"
 layoutType = "niri"
 name = "6"
 
 [workspaces.monitorAssignment]
-type = "secondary"
+type = "main"
 
 [[workspaces]]
-displayName = "🚀"
-id = "A7D5E104-6985-4516-8ED5-07F144F2A33D"
+id = "80886D14-E5F5-4756-B9F2-2DDE794CCEAF"
 layoutType = "niri"
 name = "7"
 
 [workspaces.monitorAssignment]
-type = "secondary"
+type = "main"
+
+[[workspaces]]
+id = "9F5BCFD3-0CBB-4136-BEA7-41D624CF5032"
+layoutType = "niri"
+name = "8"
+
+[workspaces.monitorAssignment]
+type = "main"
+
+[[workspaces]]
+id = "F46286F0-88DB-49AB-B1EF-993CDFA8A323"
+layoutType = "niri"
+name = "9"
+
+[workspaces.monitorAssignment]
+type = "main"
+
+# --- Former secondary-monitor workspaces, commented out. Their names ("6" and "7") are now
+# taken by main-monitor workspaces above, so rename them before re-enabling.
+# [[workspaces]]
+# displayName = "❤️"
+# id = "5953F2BF-A378-4266-91B2-287174C4FA4D"
+# layoutType = "niri"
+# name = "6"
+#
+# [workspaces.monitorAssignment]
+# type = "secondary"
+#
+# [[workspaces]]
+# displayName = "🚀"
+# id = "A7D5E104-6985-4516-8ED5-07F144F2A33D"
+# layoutType = "niri"
+# name = "7"
+#
+# [workspaces.monitorAssignment]
+# type = "secondary"
