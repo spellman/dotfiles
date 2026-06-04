@@ -48,6 +48,9 @@ top = 0.0
 animationsEnabled = true
 defaultLayoutType = "niri"
 hotkeysEnabled = true
+# Set ipcEnabled to true to drive OmniWM from scripts via omniwmctl — required for the planned
+# call-mode layout scripts (me / call-primary / call-secondary) and any other IPC/CLI
+# automation. The move-workspace-to-monitor *hotkey* does not need this; only scripting does.
 ipcEnabled = false
 preventSleepEnabled = false
 updateChecksEnabled = true
@@ -432,17 +435,33 @@ id = "consumeWindowIntoColumn"
 binding = "Unassigned"
 id = "expelWindowFromColumn"
 
+# Monitor focus on the Vim-directional grammar: Control+Command+H/L = focus the left/
+# right screen. This rebinds focusMonitorNext off Tab, freeing Control+Command+Tab to
+# pair with move-workspace-to-monitor (below). Set Next back to "Control+Command+Tab"
+# if you prefer the old binding.
 [[hotkeys]]
-binding = "Control+Command+Tab"
+binding = "Control+Command+L"
 id = "focusMonitorNext"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Control+Command+H"
 id = "focusMonitorPrevious"
 
 [[hotkeys]]
 binding = "Control+Command+`"
 id = "focusMonitorLast"
+
+# --- Ready to uncomment once move-workspace-to-monitor ships (NOT in your current build). ---
+# Monitor dimension + "move" verb: add Shift to send the whole active strip to that screen.
+# On two monitors both directions just mean "send this workspace to the other display"
+# (wrap-around). Keeps focus on the monitor you're already on (does not chase the strip).
+# [[hotkeys]]
+# binding = "Control+Command+Shift+L"
+# id = "moveWorkspaceToMonitor.right"
+#
+# [[hotkeys]]
+# binding = "Control+Command+Shift+H"
+# id = "moveWorkspaceToMonitor.left"
 
 [[hotkeys]]
 binding = "Option+Return"
@@ -763,6 +782,26 @@ id = "toggleWorkspaceLayout"
 [[hotkeys]]
 binding = "Control+Option+O"
 id = "toggleOverview"
+
+# --- Optional: fewer visible columns on the laptop than on the 32" 4K -----------------
+# The global [niri] maxVisibleColumns (3) applies to every monitor. To cap the 16"
+# MacBook display at fewer columns, add a per-monitor override. How:
+#   1. Delete the line  monitorNiriOverrides = []  near the top of this file — you can't
+#      have both that empty-array line and the [[monitorNiriOverrides]] block below.
+#   2. Uncomment the block below and fill in:
+#        - id:          any unique UUID. Generate one in a terminal with:  uuidgen
+#        - monitorName: the macOS display name. On this MacBook it is exactly
+#                       "Built-in Retina Display" (from NSScreen.localizedName).
+#        - maxVisibleColumns: 1 or 2 for the laptop.
+#   Other overridable niri fields: centerFocusedColumn ("never" | "always" | "onOverflow"),
+#   alwaysCenterSingleColumn (true/false), singleWindowAspectRatio ("none" | "16:9" |
+#   "4:3" | "21:9" | "1:1"), infiniteLoop (true/false).
+#   (columnWidthPresets and defaultColumnWidth are global only — not per-monitor.)
+#
+# [[monitorNiriOverrides]]
+# id = "PASTE-uuidgen-OUTPUT-HERE"
+# monitorName = "Built-in Retina Display"
+# maxVisibleColumns = 2
 
 [[workspaces]]
 id = "AD36F001-C57E-41A5-AC1D-DF5249D007F0"
