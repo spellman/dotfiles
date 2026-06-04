@@ -221,7 +221,7 @@
 ;; for small/medium projects. Needs fd (affe-find) and rg (affe-grep).
 (use-package affe
   :ensure t
-  :after consult
+  :after (consult orderless)
   :config
   ;; Same ignore behavior as consult: respect .ignore but not .gitignore
   ;; (--no-ignore-vcs), include hidden files, skip .git. affe-find/affe-grep
@@ -238,7 +238,23 @@
   ;; so a preview fires after a brief pause rather than on every move.
   (consult-customize affe-find
                      :state (consult--file-state)
-                     :preview-key '(:debounce 0.1 any)))
+                     :preview-key '(:debounce 0.1 any))
+  ;; Make affe's matching fuzzy in the Orderless sense. By default affe uses
+  ;; consult--regexp-compiler, which just splits the input on spaces and matches
+  ;; each piece as a plain regexp -- so "efw" looks for a literal "efw" and
+  ;; misses EngineFlightWeighting. Routing the whole query through Orderless
+  ;; instead gives flex/initialism matching (the same styles as elsewhere) over
+  ;; the *entire* input -- no consult-style "#anchor#filter" split needed.
+  ;;
+  ;; This sidesteps the `file' category override (which forces basic +
+  ;; partial-completion, dropping Orderless) precisely because affe filters with
+  ;; these regexps in its own async pipeline rather than through
+  ;; completion-styles. (orderless-compile returns (PREFIX . REGEXPS); affe wants
+  ;; just the regexps.)
+  (defun cws/affe-orderless-regexp-compiler (input _type _ignorecase)
+    (setq input (cdr (orderless-compile input)))
+    (cons input (apply-partially #'orderless--highlight input t)))
+  (setopt affe-regexp-compiler #'cws/affe-orderless-regexp-compiler))
 
 ;; vertico-prescient: frecency sorting (recency x frequency, so recent picks
 ;; float up). Keep Orderless as the matching engine -- prescient for sorting only.
