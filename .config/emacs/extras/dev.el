@@ -82,6 +82,18 @@
   :ensure t
   :defer t)
 
+;; CoffeeScript: like Terraform, there is no tree-sitter mode shipped with Emacs
+;; (no coffee-ts-mode), so this is the classic major mode. It autoloads for
+;; .coffee/.iced/.cson and Cakefile, and provides indentation plus compile and
+;; REPL commands. CoffeeScript is whitespace-significant and the community
+;; convention is two-space indentation, so pin coffee-tab-width to 2 (it
+;; otherwise defaults to the ambient tab-width).
+(use-package coffee-mode
+  :ensure t
+  :defer t
+  :custom
+  (coffee-tab-width 2))
+
 ;; Emacs ships with a lot of popular programming language modes. If it's not
 ;; built in, you're almost certain to find a mode for the language you're
 ;; looking for with a quick Internet search.
