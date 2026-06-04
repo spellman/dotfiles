@@ -78,6 +78,15 @@
    consult-ripgrep consult-git-grep consult-grep
    consult-bookmark consult-recent-file consult-xref
    :preview-key '(:debounce 0.1 any))
+  ;; consult-fd/consult-find return a filename that the command itself opens
+  ;; with find-file; consult--find registers no preview state, so by default
+  ;; these never preview. Give them a preview-only state (consult--file-preview)
+  ;; so candidates preview on navigation -- debounced like the grep commands --
+  ;; while the command still opens the chosen file on RET (no double-open).
+  (consult-customize
+   consult-fd consult-find
+   :state (consult--file-preview)
+   :preview-key '(:debounce 0.1 any))
   ;; consult-buffer: preview on demand only.
   (consult-customize consult-buffer :preview-key "M-."))
 
