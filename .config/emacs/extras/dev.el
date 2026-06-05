@@ -51,6 +51,24 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
+;;;   Syntax checking
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Flycheck: on-the-fly syntax and lint checking. Enabled per-buffer through the
+;; prog-mode hook, so it runs in programming buffers -- Emacs Lisp, the
+;; tree-sitter modes, JSON, YAML (yaml-ts-mode), Clojure, and so on -- while
+;; staying out of text, Markdown, fundamental, Magit, and other non-prog buffers.
+;; In any buffer with no applicable checker Flycheck simply does nothing, so
+;; enabling it broadly is harmless: it only acts where a checker (and the tool
+;; that checker drives) is present. The Clojure checker is supplied by
+;; flycheck-clj-kondo in the Programming and Data section below.
+(use-package flycheck
+  :ensure t
+  :hook (prog-mode . flycheck-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
 ;;;   Programming and Data
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -83,11 +101,75 @@
 ;; avoid a chicken-and-egg miss when, say, a .cljs is the first file opened.
 (use-package clojure-ts-mode
   :ensure t
+  :init
+  ;; CIDER and clj-refactor (below) depend on the classic `clojure-mode'
+  ;; package, whose autoloads add .clj/.cljc/.cljs to `auto-mode-alist' pointing
+  ;; at clojure-mode -- NOT the tree-sitter mode. Those entries and ours are both
+  ;; pushed onto `auto-mode-alist' at startup, so which one wins is an ordering
+  ;; race. Remap the classic modes to their tree-sitter counterparts so a Clojure
+  ;; file lands in clojure-ts-mode no matter which entry wins. This is the same
+  ;; `major-mode-remap-alist' mechanism the tree-sitter block below uses for
+  ;; other languages; it is set in :init so it is in place before the first
+  ;; Clojure file is visited, and it remaps onto autoloaded modes (no eager load).
+  (dolist (remap '((clojure-mode       . clojure-ts-mode)
+                   (clojurec-mode      . clojure-ts-clojurec-mode)
+                   (clojurescript-mode . clojure-ts-clojurescript-mode)))
+    (add-to-list 'major-mode-remap-alist remap))
   :mode (("\\.clj\\'"  . clojure-ts-mode)
          ("\\.cljc\\'" . clojure-ts-clojurec-mode)
          ("\\.cljs\\'" . clojure-ts-clojurescript-mode)
          ("\\.cljd\\'" . clojure-ts-clojuredart-mode)
          ("\\.edn\\'"  . clojure-ts-mode)))
+
+;; CIDER: interactive Clojure development -- a REPL (cider-jack-in / cider-connect),
+;; expression evaluation, inline results, the debugger, definition navigation, and
+;; documentation lookup. cider-mode is the buffer-local minor mode that provides
+;; all of that in a source buffer; hook it onto clojure-ts-mode. The .cljs/.cljc/
+;; .cljd tree-sitter modes derive from clojure-ts-mode, so this single hook covers
+;; them too. CIDER has supported clojure-ts-mode since version 1.14; it still pulls
+;; in the classic clojure-mode package for a few APIs not yet ported, which is
+;; expected (the remap above keeps files in the tree-sitter mode regardless). While
+;; connected, CIDER installs its own completion-at-point function, so the existing
+;; Corfu setup shows REPL-aware completions with no extra wiring.
+(use-package cider
+  :ensure t
+  :defer t
+  :hook (clojure-ts-mode . cider-mode)
+  :custom
+  (cider-repl-display-help-banner nil))  ; skip the REPL's ASCII help banner
+
+;; clj-refactor: structural refactorings for Clojure -- rename, clean/sort the
+;; namespace form, add-missing/require, introduce-let, thread/unwind threading
+;; macros, and many more. It builds on CIDER for the operations that need a live
+;; connection. clj-refactor-mode is buffer-local; hook it onto clojure-ts-mode
+;; next to cider-mode. cljr-add-keybindings-with-prefix puts every refactoring
+;; command under one prefix as a short mnemonic (e.g. <prefix> a m for
+;; add-missing-libspec). We use "C-c r": clj-refactor's historically documented
+;; default is "C-c C-m", but in a terminal that is the same key as "C-c RET",
+;; which CIDER already binds to cider-macroexpand-1 -- so "C-c r" avoids the
+;; clash. (clj-refactor can use yasnippet to fill templates for a handful of
+;; create-* refactorings; with no yasnippet here those insert without interactive
+;; placeholders, and every other refactoring is unaffected.)
+(use-package clj-refactor
+  :ensure t
+  :defer t
+  :hook (clojure-ts-mode . clj-refactor-mode)
+  :config
+  (cljr-add-keybindings-with-prefix "C-c r"))
+
+;; flycheck-clj-kondo: register the external clj-kondo linter as the Flycheck
+;; checker for Clojure. clj-kondo is a separate executable (install it yourself,
+;; e.g. `brew install borkdude/brew/clj-kondo'); this package only teaches
+;; Flycheck how to invoke it. Loading the package defines checkers for both the
+;; classic and the tree-sitter Clojure modes (clj/cljs/cljc, including
+;; clojure-ts-mode and its variants). `:after clojure-ts-mode' loads it the first
+;; time a Clojure file is visited -- before clojure-ts-mode's prog-mode hook turns
+;; on flycheck-mode and picks a checker -- and, because the package depends on
+;; flycheck, loading it pulls flycheck in as well. Flycheck itself is enabled in
+;; the Syntax checking section above.
+(use-package flycheck-clj-kondo
+  :ensure t
+  :after clojure-ts-mode)
 
 ;; Terraform: Emacs has no tree-sitter mode for it, so this is the classic
 ;; (non-tree-sitter) major mode for .tf/.tfvars files. (CDK for Terraform isn't
