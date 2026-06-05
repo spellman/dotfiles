@@ -106,8 +106,12 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
 ;; Save history of minibuffer
 (savehist-mode)
 
-; Track recently-opened files (so, e.g., consult-recent-file has candidates)
+; Track recently-opened files
+(setopt recentf-max-saved-items 250)
 (recentf-mode)
+;; recentf only saves its list on clean exit; save every 5 minutes so a crash
+;; or kill doesn't lose the session's recent files.
+(run-at-time nil 300 'recentf-save-list)
 
 ;; Move through windows with Ctrl-<arrow keys>
 (windmove-default-keybindings 'control) ; You can use other modifiers here
