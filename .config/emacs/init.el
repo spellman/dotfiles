@@ -107,11 +107,24 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
 (savehist-mode)
 
 ; Track recently-opened files
-(setopt recentf-max-saved-items 250)
+(setopt recentf-max-saved-items 100)
+;; Keep remote (TRAMP) files out of the list: recentf's auto-cleanup (which
+;; runs when the mode is enabled, i.e. at startup) stats every entry to drop
+;; dead ones, and a remote path would block Emacs on a network connection.
+;; Excluded entries are dropped without being statted.
+(setopt recentf-exclude '(file-remote-p))
 (recentf-mode)
 ;; recentf only saves its list on clean exit; save every 5 minutes so a crash
-;; or kill doesn't lose the session's recent files.
-(run-at-time nil 300 'recentf-save-list)
+;; or kill doesn't lose the session's recent files. A named function plus
+;; cancel-function-timers keeps re-evaluating init.el from stacking duplicate
+;; timers, and inhibit-message stops the "Wrote .../recentf" echo-area message
+;; from interrupting whatever is in the echo area every 5 minutes.
+(defun cws/recentf-save-list-quietly ()
+  "Save the recent-files list without echoing a message."
+  (let ((inhibit-message t))
+    (recentf-save-list)))
+(cancel-function-timers #'cws/recentf-save-list-quietly)
+(run-at-time nil 300 #'cws/recentf-save-list-quietly)
 
 ;; Move through windows with Ctrl-<arrow keys>
 (windmove-default-keybindings 'control) ; You can use other modifiers here
