@@ -68,12 +68,26 @@
   :ensure t
   :defer t)
 
-;; Clojure via tree-sitter. clojure-ts-mode autoloads for .clj/.cljs/.cljc/.edn
-;; and friends; it needs the `clojure' grammar (installed via the treesit block
-;; below / M-x cws/treesit-install-grammars).
+;; Clojure via tree-sitter. clojure-ts-mode needs the `clojure' grammar, which
+;; the package installs itself via clojure-ts-ensure-grammars (NOT our treesit
+;; block -- see the note in that block below).
+;;
+;; The file associations must be declared here with `:mode' rather than left to
+;; the package. clojure-ts-mode only registers its own auto-mode-alist entries
+;; as a side effect of *loading* the library -- that code is plain top-level
+;; code, not behind a `;;;###autoload' cookie -- so with a bare `:defer t' the
+;; library never loads, .clj is never in auto-mode-alist, and Clojure files open
+;; in fundamental-mode. `:mode' both registers the extensions and autoloads the
+;; mode, so the library loads lazily on the first Clojure file. We list the
+;; extensions explicitly (instead of relying on the library's own block) to
+;; avoid a chicken-and-egg miss when, say, a .cljs is the first file opened.
 (use-package clojure-ts-mode
   :ensure t
-  :defer t)
+  :mode (("\\.clj\\'"  . clojure-ts-mode)
+         ("\\.cljc\\'" . clojure-ts-clojurec-mode)
+         ("\\.cljs\\'" . clojure-ts-clojurescript-mode)
+         ("\\.cljd\\'" . clojure-ts-clojuredart-mode)
+         ("\\.edn\\'"  . clojure-ts-mode)))
 
 ;; Terraform: Emacs has no tree-sitter mode for it, so this is the classic
 ;; (non-tree-sitter) major mode for .tf/.tfvars files. (CDK for Terraform isn't
