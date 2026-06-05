@@ -48,15 +48,19 @@
     (which-key-add-key-based-replacements
       "SPC f" "Find"
       "SPC s" "Search"))
+  ;; All fzfa commands (see extras/base.el). Plain commands are single-pass
+  ;; fuzzy (the whole query goes to fzf); -2p variants are consult-style
+  ;; two-pass (text before the first space pre-filters via the shell tool,
+  ;; the rest goes to fzf).
   (evil-define-key 'normal 'global
-    (kbd "<leader> f f") #'affe-find            ; project files, fuzzy (rg --files)
-    (kbd "<leader> f r") #'consult-recent-file
-    (kbd "<leader> f p") #'consult-fd           ; project files, async (fd)
-    (kbd "<leader> s s") #'consult-line
-    (kbd "<leader> s p") #'consult-ripgrep      ; project grep (rg)
-    (kbd "<leader> s f") #'affe-grep            ; project grep, fuzzy
-    (kbd "<leader> s i") #'consult-imenu
-    (kbd "<leader> /")   #'consult-ripgrep)     ; quick project grep
+    (kbd "<leader> f f") #'fzfa-rg-files        ; project files, fuzzy (rg --files; was affe-find)
+    (kbd "<leader> f r") #'fzfa-recent-file     ; was consult-recent-file
+    (kbd "<leader> f p") #'fzfa-fd-2p           ; project files, two-pass (fd; was consult-fd)
+    (kbd "<leader> s s") #'fzfa-swiper          ; was consult-line
+    (kbd "<leader> s p") #'fzfa-rg-2p           ; project grep, two-pass (rg; was consult-ripgrep)
+    (kbd "<leader> s f") #'fzfa-rg              ; project grep, fuzzy (was affe-grep)
+    (kbd "<leader> s i") #'fzfa-imenu           ; was consult-imenu
+    (kbd "<leader> /")   #'fzfa-rg-2p)          ; quick project grep
   )
 
 ;; Evil-Collection: Evil-friendly keybindings for many built-in and

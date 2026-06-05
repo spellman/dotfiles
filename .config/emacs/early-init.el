@@ -23,9 +23,10 @@
 ;; default, which used to make GC fire constantly during completion.
 (setq gc-cons-threshold (* 64 1024 1024))
 ;; Read more process output per chunk. The stock 4 KB buffer throttles tools
-;; that stream a lot through a process filter -- ripgrep/fd behind consult, and
-;; language servers behind eglot -- forcing many small reads. 1 MB drains them
-;; in far fewer cycles, so consult-ripgrep/consult-fd populate candidates faster.
+;; that stream a lot through a process filter -- ripgrep/fd behind fzfa and
+;; consult, and language servers behind eglot -- forcing many small reads.
+;; 1 MB drains them in far fewer cycles, so fzfa-rg/fzfa-fd populate
+;; candidates faster.
 (setq read-process-output-max (* 1024 1024))
 (setq byte-compile-warnings '(not obsolete))
 (setq warning-suppress-log-types '((comp) (bytecomp)))
