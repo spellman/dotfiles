@@ -65,7 +65,17 @@
 ;; flycheck-clj-kondo in the Programming and Data section below.
 (use-package flycheck
   :ensure t
-  :hook (prog-mode . flycheck-mode))
+  :hook (prog-mode . flycheck-mode)
+  :custom
+  ;; Report problems only through the modeline counter (e.g. "FlyC:14|1|4") plus
+  ;; the fringe markers and underlines on the offending text. Do NOT auto-display
+  ;; the message(s) for the error under point: the default
+  ;; `flycheck-display-error-messages' spills long messages out of the echo area
+  ;; into a *Flycheck error messages* pop-up window, which steals screen space
+  ;; while editing. Setting this to nil disables that display path entirely. To
+  ;; see the full list of problems on demand, call `M-x flycheck-list-errors'
+  ;; (bound to C-c ! l), which opens the list only when you ask for it.
+  (flycheck-display-errors-function nil))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
