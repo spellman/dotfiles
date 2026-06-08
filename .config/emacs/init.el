@@ -1,3 +1,4 @@
+;;; init.el --- Emacs Bedrock init -*- lexical-binding: t; -*-
 ;;;  ________                                                _______                 __                            __
 ;;; /        |                                              /       \               /  |                          /  |
 ;;; $$$$$$$$/ _____  ____   ______   _______  _______       $$$$$$$  | ______   ____$$ | ______   ______   _______$$ |   __
@@ -18,7 +19,9 @@
 ;;;  - Interface enhancements/defaults
 ;;;  - Tab-bar configuration
 ;;;  - Theme
-;;;  - Optional extras
+;;;  - UI/UX enhancements
+;;;  - Development tools
+;;;  - Vim emulation
 ;;;  - Built-in customization framework
 
 ;;; Guardrail
@@ -237,7 +240,7 @@ exit recursive edits) without rearranging windows."
 (keymap-global-set "<escape>" #'cws/escape-quit)
 
 ;; For a fancier built-in completion option, try ido-mode,
-;; icomplete-vertical, or fido-mode. See also the file extras/base.el
+;; icomplete-vertical, or fido-mode. See also the UI/UX enhancements section below.
 
 ;(icomplete-vertical-mode)
 ;(fido-vertical-mode)
@@ -321,27 +324,905 @@ exit recursive edits) without rearranging windows."
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;;   Optional extras
+;;;   UI/UX enhancements
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Uncomment the (load-file …) lines or copy code from the extras/ elisp files
-;; as desired
+;; Minibuffer and autocompletion interface enhancements; strongly recommended.
+;;
+;; The main search/find keybindings invoke fzfa (async fzf-backed completion;
+;; see the fzfa block in the Minibuffer section below). The consult package
+;; remains installed: it provides the isearch integration, eshell history
+;; search, and is a library dependency of affe. Its full command set is still
+;; available via M-x; see:
+;;
+;;     https://github.com/minad/consult
 
-;; UI/UX enhancements mostly focused on minibuffer and autocompletion interfaces
-;; These ones are *strongly* recommended!
-(load-file (expand-file-name "extras/base.el" user-emacs-directory))
+;;;; Motion aids
 
-;; Packages for software development
-(load-file (expand-file-name "extras/dev.el" user-emacs-directory))
+(use-package avy
+  :ensure t
+  :demand t
+  :bind (("C-c j" . avy-goto-line)
+         ("s-j"   . avy-goto-char-timer)))
 
-;; Vim-bindings in Emacs (evil-mode configuration)
-(load-file (expand-file-name "extras/vim-like.el" user-emacs-directory))
+;;;; Power-ups: Embark and Consult
 
-;; Org-mode configuration
-;; WARNING: need to customize things inside the elisp file before use! See
-;; the file extras/org-intro.txt for help.
-;(load-file (expand-file-name "extras/org.el" user-emacs-directory))
+;; Consult: Misc. enhanced commands. The global search/buffer keybindings
+;; these used to claim (C-x b, M-y, M-s ...) now invoke fzfa equivalents --
+;; see the fzfa block below. Consult stays for its isearch integration here,
+;; the eshell C-r history search, and as a library affe depends on.
+(use-package consult
+  :ensure t
+  :bind (;; Isearch integration
+         :map isearch-mode-map
+         ("M-e" . consult-isearch-history)   ; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history) ; orig. isearch-edit-string
+         ("M-s l" . consult-line)            ; needed by consult-line to detect isearch
+         ("M-s L" . consult-line-multi)      ; needed by consult-line to detect isearch
+         )
+  :config
+  ;; Narrowing lets you restrict results to certain groups of candidates
+  (setq consult-narrow-key "<")
+  ;; Respect .ignore/.rgignore/.fdignore but NOT .gitignore (--no-ignore-vcs),
+  ;; include hidden files, and skip .git. consult-ripgrep (grep) and consult-fd
+  ;; (file find) already default to the project root via consult--directory-prompt;
+  ;; a single C-u prompts for a different dir on the fly.
+  (setopt consult-ripgrep-args
+          (concat consult-ripgrep-args " --no-ignore-vcs --hidden --glob !.git"))
+  (setopt consult-fd-args
+          '((if (executable-find "fdfind" 'remote) "fdfind" "fd")
+            "--full-path --color=never --no-ignore-vcs --hidden --exclude .git --type file"))
+  ;; Preview only after a brief pause for the heavy commands (each candidate
+  ;; opens a different file); skimming past candidates then previews nothing.
+  (consult-customize
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   :preview-key '(:debounce 0.1 any))
+  ;; consult-fd/consult-find return a filename that the command itself opens
+  ;; with find-file; consult--find registers no preview state, so by default
+  ;; these never preview. Give them a preview-only state (consult--file-preview)
+  ;; so candidates preview on navigation -- debounced like the grep commands --
+  ;; while the command still opens the chosen file on RET (no double-open).
+  (consult-customize
+   consult-fd consult-find
+   :state (consult--file-preview)
+   :preview-key '(:debounce 0.1 any))
+  ;; consult-buffer: preview on demand only.
+  (consult-customize consult-buffer :preview-key "M-."))
+
+(use-package embark-consult
+  :ensure t)
+
+;; Embark: supercharged context-dependent menu; kinda like a
+;; super-charged right-click.
+(use-package embark
+  :ensure t
+  :demand t
+  :after (avy embark-consult)
+  :bind (("C-c a" . embark-act))        ; bind this to an easy key to hit
+  :init
+  ;; Add the option to run embark when using avy
+  (defun bedrock/avy-action-embark (pt)
+    (unwind-protect
+        (save-excursion
+          (goto-char pt)
+          (embark-act))
+      (select-window
+       (cdr (ring-ref avy-ring 0))))
+    t)
+
+  ;; After invoking avy-goto-char-timer, hit "." to run embark at the next
+  ;; candidate you select
+  (setf (alist-get ?. avy-dispatch-alist) 'bedrock/avy-action-embark))
+
+;;;; Minibuffer and completion
+
+;; Vertico: better vertical completion for minibuffer commands
+(use-package vertico
+  :ensure t
+  :demand t
+  :config
+  ;; You'll want to make sure that e.g. fido-mode isn't enabled
+  (vertico-mode))
+
+(use-package vertico-directory
+  :ensure nil
+  :after vertico
+  :bind (:map vertico-map
+              ("M-DEL" . vertico-directory-delete-word)))
+
+;; Marginalia: annotations for minibuffer
+(use-package marginalia
+  :ensure t
+  :demand t
+  :config
+  (marginalia-mode))
+
+;; Corfu: Popup completion-at-point
+(use-package corfu
+  :ensure t
+  :demand t
+  :bind (:map corfu-map
+              ("SPC" . corfu-insert-separator)
+              ("C-n" . corfu-next)
+              ("C-p" . corfu-previous))
+  :config
+  (global-corfu-mode))
+
+;; Part of corfu
+(use-package corfu-popupinfo
+  :after corfu
+  :ensure nil
+  :hook (corfu-mode . corfu-popupinfo-mode)
+  :custom
+  (corfu-popupinfo-delay '(0.25 . 0.1))
+  (corfu-popupinfo-hide nil))
+
+;; Make corfu popup come up in terminal overlay
+(use-package corfu-terminal
+  :if (not (display-graphic-p))
+  :ensure t
+  :demand t
+  :config
+  (corfu-terminal-mode))
+
+;; Fancy completion-at-point functions; there's too much in the cape package to
+;; configure here; dive in when you're comfortable!
+(use-package cape
+  :ensure t
+  :defer t
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+  (add-to-list 'completion-at-point-functions #'cape-file))
+
+;; Pretty icons for corfu
+(use-package kind-icon
+  :if (display-graphic-p)
+  :ensure t
+  :after corfu
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+(use-package eshell
+  :init
+  (defun bedrock/setup-eshell ()
+    ;; Something funny is going on with how Eshell sets up its keymaps; this is
+    ;; a work-around to make C-r bound in the keymap
+    (keymap-set eshell-mode-map "C-r" 'consult-history))
+  :hook ((eshell-mode . bedrock/setup-eshell)))
+
+;; Eat: Emulate A Terminal
+(use-package eat
+  :ensure t
+  :custom
+  (eat-term-name "xterm")
+  :config
+  (eat-eshell-mode)                     ; use Eat to handle term codes in program output
+  (eat-eshell-visual-command-mode))     ; commands like less will be handled by Eat
+
+;; Orderless: completion-style library. No longer the active completion style
+;; (fussy below owns completion-styles now); kept installed because affe's
+;; regexp compiler (cws/affe-orderless-regexp-compiler, further below) builds
+;; its match regexps with orderless-compile, which reads these two options.
+(use-package orderless
+  :ensure t
+  :demand t
+  :custom
+  (orderless-matching-styles
+   '(orderless-literal orderless-flex orderless-initialism orderless-regexp))
+  ;; Per-word style dispatchers: =literal ~flex ,initialism !exclude
+  (orderless-style-dispatchers '(orderless-affix-dispatch)))
+
+;; fzf-native: C dynamic module exposing fzf's Smith-Waterman scoring to
+;; Emacs. It is the matching engine behind both fussy (synchronous) and fzfa
+;; (asynchronous) below. The MELPA recipe ships prebuilt binaries (bin/,
+;; including Darwin/arm64), so nothing is compiled at install time.
+(use-package fzf-native
+  :ensure t
+  :defer t)
+
+;; fussy: fzf-backed completion style. Replaces orderless as the matching and
+;; scoring engine for synchronous completion (M-x, find-file, corfu, eglot),
+;; so sync completion and fzfa's async commands filter and rank identically.
+;; fussy-setup-fzf pushes `fussy' onto completion-styles, sets
+;; completion-category-overrides, and sorts candidates by fzf match score.
+(use-package fussy
+  :ensure t
+  :demand t
+  :config
+  (fussy-setup-fzf)
+  (fussy-eglot-setup)   ; eglot defaults to flex; route it through fussy
+  (fussy-corfu-setup))  ; score corfu popup candidates with fussy too
+
+;; fzfa: async fuzzy completion -- candidates stream from a background shell
+;; command (rg, fd, ...) while fzf-native scores and sorts them across all
+;; cores. Unlike consult's two-stage matching (regexp filters the shell
+;; output, then the completion style refines), the plain fzfa commands give
+;; the whole query to fzf in a single pass. The -2p ("two-pass") variants
+;; reproduce the consult split for when a regexp pre-filter is wanted:
+;; everything before the first space goes to the shell tool, the rest to fzf.
+;; Commands default to the project root (fzfa-project-backend is `project').
+;; Installed from a fork branch (see NOTE below the block): the recipe tracks
+;; spellman/fzfa fix-preview-follow-async-refresh, so update commands fetch
+;; and merge only that branch -- upstream (jojojames/fzfa) changes arrive only
+;; when deliberately merged into the fork branch and pushed.
+(use-package fzfa
+  :ensure (fzfa :host github :repo "spellman/fzfa"
+                :branch "fix-preview-follow-async-refresh")
+  ;; All fzfa bindings live here, under the evil leader -- no Emacs-style
+  ;; bindings -- so configuration waits for evil. :defer t keeps fzfa itself
+  ;; lazy: the bindings below dispatch through autoloads, and the package
+  ;; loads on first use. Commands without a binding here (fzfa-yank-pop,
+  ;; fzfa-swiper-all, fzfa-outline, ...) are available via M-x.
+  :after (evil general)
+  :defer t
+  :init
+  ;; The *-2p commands are generated at load time by `fzfa-2p-define',
+  ;; so the package autoloads file does not know about them; point
+  ;; cold invocations at the files that define them.
+  (autoload 'fzfa-rg-2p "fzfa-rg" nil t)
+  (autoload 'fzfa-fd-2p "fzfa-fd" nil t)
+
+  ;; Plain commands are single-pass fuzzy (the whole query goes to fzf);
+  ;; *-2p commands are consult-style two-pass (text before the first
+  ;; space pre-filters via the shell tool, the rest goes to fzf).
+  ;; Each binding's extended definition `(COMMAND :which-key LABEL)'
+  ;; defines the key and its which-key label together, so they cannot
+  ;; drift. :states 'normal matches the previous evil-define-key 'normal.
+  (general-define-key
+   :states  'normal
+   :keymaps 'global
+   :prefix  "SPC"
+   "b b" '(fzfa-buffer         :which-key "Buffers")
+   "b p" '(fzfa-project-buffer :which-key "Project buffers")
+   ;; fd is for finding files. However, rg with the --files flag also
+   ;; finds files.
+   ;; Let's try using rg for searching for both files and text. The
+   ;; benefit is consistency over which files are searched. fd should
+   ;; be the same but using the same program for both means they must
+   ;; be the same.
+   "SPC" '(fzfa-rg-files       :which-key "Find files")
+   "f f" '(fzfa-fd-2p          :which-key "Find files w/filtering")
+   "f r" '(fzfa-recent-file    :which-key "Recent files")
+
+   "/"   '(fzfa-rg             :which-key "Search")
+   "s f" '(fzfa-rg-2p          :which-key "Search w/filtering")
+   "s i" '(fzfa-imenu          :which-key "iMenu")
+   "s b" '(fzfa-swiper         :which-key "Search in buffer"))
+  :custom
+  ;; Same ignore behavior as the consult/affe commands: respect
+  ;; .ignore/.rgignore/.fdignore but NOT .gitignore (--no-ignore-vcs), include
+  ;; hidden files, skip .git. The commands run through a non-interactive
+  ;; shell, so the quoting in --glob '!.git' is honored.
+  (fzfa-rg-files-command
+   "rg --files --no-ignore-vcs --hidden --glob '!.git'")
+  (fzfa-rg-command
+   "rg --line-number --no-heading --with-filename --no-ignore-vcs --hidden --glob '!.git' %s ''")
+  (fzfa-fd-command
+   "fd --full-path --no-ignore-vcs --hidden --exclude .git --type file")
+  ;; Preview after a brief pause, like the 0.1 s debounce consult used.
+  (fzfa-preview-delay 0.1)
+  ;; Drop the fzfa-buffer entry from the default preview handlers: switching
+  ;; buffers should not auto-preview (consult-buffer was preview-on-demand
+  ;; only). Files and grep/location hits keep their previews.
+  (fzfa-preview-functions
+   '((fzfa-file     :setup   fzfa--file-preview-setup
+                    :preview fzfa--file-preview
+                    :return  fzfa--file-preview-return)
+     (fzfa-grep     :preview fzfa--grep-preview)
+     (fzfa-location :preview fzfa--location-preview))))
+;; NOTE: fzfa is installed from the fork branch
+;; spellman/fzfa fix-preview-follow-async-refresh (working clone:
+;; ~/Projects/fzfa), which patches an upstream bug where previews were only
+;; scheduled from post-command-hook: a selection that changed because results
+;; streamed in (no command ran) was never previewed -- no preview on entry
+;; until the first keypress, and a stale preview when late results reordered
+;; the candidates. The patch (commit "Make live preview follow asynchronously
+;; streamed-in results") makes the async repaint (fzfa--frontend-exhibit) run
+;; the same debounced preview check. To pick up upstream changes, merge
+;; jojojames/fzfa into the fork branch and push; if upstream fixes the bug,
+;; point the recipe back at jojojames/fzfa and drop the fork branch.
+
+;; affe: grab-everything fuzzy finding. affe-find = fuzzy file finding across
+;; directories (like Telescope's find_files); affe-grep = in-memory fuzzy grep
+;; for small/medium projects. Needs fd (affe-find) and rg (affe-grep).
+(use-package affe
+  :ensure t
+  :after (consult orderless)
+  :config
+  ;; Same ignore behavior as consult: respect .ignore but not .gitignore
+  ;; (--no-ignore-vcs), include hidden files, skip .git. affe-find/affe-grep
+  ;; also default to the project root via consult--directory-prompt.
+  (setopt affe-find-command
+          "rg --color=never --files --no-ignore-vcs --hidden --glob !.git")
+  (setopt affe-grep-command
+          "rg --null --color=never --max-columns=1000 --no-heading --line-number --no-ignore-vcs --hidden --glob !.git -v ^$")
+  ;; affe-grep already previews (it uses consult--grep-state); just debounce it.
+  (consult-customize affe-grep :preview-key '(:debounce 0.1 any))
+  ;; affe-find ships a state that only opens on RET (no preview). Replace it
+  ;; with consult's file state, which previews on navigation AND opens the file
+  ;; on return (consult--file-preview alone previews but never opens). Debounce
+  ;; so a preview fires after a brief pause rather than on every move.
+  (consult-customize affe-find
+                     :state (consult--file-state)
+                     :preview-key '(:debounce 0.1 any))
+  ;; Make affe's matching fuzzy in the Orderless sense. By default affe uses
+  ;; consult--regexp-compiler, which just splits the input on spaces and matches
+  ;; each piece as a plain regexp -- so "efw" looks for a literal "efw" and
+  ;; misses EngineFlightWeighting. Routing the whole query through Orderless
+  ;; instead gives flex/initialism matching (the same styles as elsewhere) over
+  ;; the *entire* input -- no consult-style "#anchor#filter" split needed.
+  ;;
+  ;; This sidesteps the `file' category override (which forces basic +
+  ;; partial-completion, dropping Orderless) precisely because affe filters with
+  ;; these regexps in its own async pipeline rather than through
+  ;; completion-styles. (orderless-compile returns (PREFIX . REGEXPS); affe wants
+  ;; just the regexps.)
+  (defun cws/affe-orderless-regexp-compiler (input _type _ignorecase)
+    (setq input (cdr (orderless-compile input)))
+    (cons input (apply-partially #'orderless--highlight input t)))
+  (setopt affe-regexp-compiler #'cws/affe-orderless-regexp-compiler))
+
+;; vertico-prescient: frecency sorting (recency x frequency, so recent picks
+;; float up). Filtering stays off -- fussy is the matching engine. Once you
+;; type, fussy's score-based display-sort metadata takes precedence over
+;; prescient's vertico-sort-function, so prescient mainly orders the
+;; no-input candidate list (recent picks on top before you type anything).
+(use-package vertico-prescient
+  :ensure t
+  :after vertico
+  :custom
+  (vertico-prescient-enable-filtering nil)
+  :config
+  (vertico-prescient-mode 1))
+
+;;;; Misc. editing enhancements
+
+;; Modify search results en masse
+(use-package wgrep
+  :ensure t
+  ;; wgrep autoloads itself onto grep-setup-hook, so it loads on the
+  ;; first grep buffer -- no eager load or explicit trigger needed.
+  :defer t
+  :config
+  (setq wgrep-auto-save-buffer t))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Development tools
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; It is **STRONGLY** recommended that you keep the Base enhancements section
+;; above if you want to use Eglot. Lots of completion things will work better.
+;;
+;; This will try to use tree-sitter modes for many languages. Please run
+;;
+;;   M-x treesit-install-language-grammar
+;;
+;; before trying to use a treesit mode.
+
+;;;; Built-in config for developers
+
+(use-package project
+  :config
+  (when (>= emacs-major-version 30)
+    (setopt project-mode-line t))          ; show project name in modeline
+  ;; Remember the top-level project dirs under ~/Projects -- immediate children
+  ;; only, no recursion -- so project-switch-project can reach them without
+  ;; visiting each first. Add more roots, or pass t to recurse, if useful later.
+  (project-remember-projects-under "~/Projects"))
+
+;;;; Version Control
+
+;; Magit: best Git client to ever exist
+(use-package magit
+  :ensure t
+  :defer t
+  :bind (("C-x g" . magit-status)))
+
+;;;; Syntax checking
+
+;; Flycheck: on-the-fly syntax and lint checking. Enabled per-buffer through the
+;; prog-mode hook, so it runs in programming buffers -- Emacs Lisp, the
+;; tree-sitter modes, JSON, YAML (yaml-ts-mode), Clojure, and so on -- while
+;; staying out of text, Markdown, fundamental, Magit, and other non-prog buffers.
+;; In any buffer with no applicable checker Flycheck simply does nothing, so
+;; enabling it broadly is harmless: it only acts where a checker (and the tool
+;; that checker drives) is present. The Clojure checker is supplied by
+;; flycheck-clj-kondo in the Programming and Data section below.
+(use-package flycheck
+  :ensure t
+  :hook (prog-mode . flycheck-mode)
+  :custom
+  ;; Report problems only through the modeline counter (e.g. "FlyC:14|1|4") plus
+  ;; the fringe markers and underlines on the offending text. Do NOT auto-display
+  ;; the message(s) for the error under point: the default
+  ;; `flycheck-display-error-messages' spills long messages out of the echo area
+  ;; into a *Flycheck error messages* pop-up window, which steals screen space
+  ;; while editing. Setting this to nil disables that display path entirely. To
+  ;; see the full list of problems on demand, call `M-x flycheck-list-errors'
+  ;; (bound to C-c ! l), which opens the list only when you ask for it.
+  (flycheck-display-errors-function nil))
+
+;;;; Programming and Data
+
+(use-package markdown-mode
+  :ensure t
+  :defer t
+  :hook ((markdown-mode . visual-line-mode)))
+
+(use-package yaml-mode
+  :ensure t
+  :defer t)
+
+(use-package json-mode
+  :ensure t
+  :defer t)
+
+;; Clojure via tree-sitter. clojure-ts-mode needs the `clojure' grammar, which
+;; the package installs itself via clojure-ts-ensure-grammars (NOT our treesit
+;; block -- see the note in that block below).
+;;
+;; The file associations must be declared here with `:mode' rather than left to
+;; the package. clojure-ts-mode only registers its own auto-mode-alist entries
+;; as a side effect of *loading* the library -- that code is plain top-level
+;; code, not behind a `;;;###autoload' cookie -- so with a bare `:defer t' the
+;; library never loads, .clj is never in auto-mode-alist, and Clojure files open
+;; in fundamental-mode. `:mode' both registers the extensions and autoloads the
+;; mode, so the library loads lazily on the first Clojure file. We list the
+;; extensions explicitly (instead of relying on the library's own block) to
+;; avoid a chicken-and-egg miss when, say, a .cljs is the first file opened.
+(use-package clojure-ts-mode
+  :ensure t
+  :init
+  ;; CIDER and clj-refactor (below) depend on the classic `clojure-mode'
+  ;; package, whose autoloads add .clj/.cljc/.cljs to `auto-mode-alist' pointing
+  ;; at clojure-mode -- NOT the tree-sitter mode. Those entries and ours are both
+  ;; pushed onto `auto-mode-alist' at startup, so which one wins is an ordering
+  ;; race. Remap the classic modes to their tree-sitter counterparts so a Clojure
+  ;; file lands in clojure-ts-mode no matter which entry wins. This is the same
+  ;; `major-mode-remap-alist' mechanism the tree-sitter block below uses for
+  ;; other languages; it is set in :init so it is in place before the first
+  ;; Clojure file is visited, and it remaps onto autoloaded modes (no eager load).
+  (dolist (remap '((clojure-mode       . clojure-ts-mode)
+                   (clojurec-mode      . clojure-ts-clojurec-mode)
+                   (clojurescript-mode . clojure-ts-clojurescript-mode)))
+    (add-to-list 'major-mode-remap-alist remap))
+  :mode (("\\.clj\\'"  . clojure-ts-mode)
+         ("\\.cljc\\'" . clojure-ts-clojurec-mode)
+         ("\\.cljs\\'" . clojure-ts-clojurescript-mode)
+         ("\\.cljd\\'" . clojure-ts-clojuredart-mode)
+         ("\\.edn\\'"  . clojure-ts-mode)))
+
+;; CIDER: interactive Clojure development -- a REPL (cider-jack-in / cider-connect),
+;; expression evaluation, inline results, the debugger, definition navigation, and
+;; documentation lookup. cider-mode is the buffer-local minor mode that provides
+;; all of that in a source buffer; hook it onto clojure-ts-mode. The .cljs/.cljc/
+;; .cljd tree-sitter modes derive from clojure-ts-mode, so this single hook covers
+;; them too. CIDER has supported clojure-ts-mode since version 1.14; it still pulls
+;; in the classic clojure-mode package for a few APIs not yet ported, which is
+;; expected (the remap above keeps files in the tree-sitter mode regardless). While
+;; connected, CIDER installs its own completion-at-point function, so the existing
+;; Corfu setup shows REPL-aware completions with no extra wiring.
+(use-package cider
+  :ensure t
+  :defer t
+  :hook (clojure-ts-mode . cider-mode)
+  :custom
+  (cider-repl-display-help-banner nil))  ; skip the REPL's ASCII help banner
+
+;; clj-refactor: structural refactorings for Clojure -- rename, clean/sort the
+;; namespace form, add-missing/require, introduce-let, thread/unwind threading
+;; macros, and many more. It builds on CIDER for the operations that need a live
+;; connection. clj-refactor-mode is buffer-local; hook it onto clojure-ts-mode
+;; next to cider-mode. cljr-add-keybindings-with-prefix puts every refactoring
+;; command under one prefix as a short mnemonic (e.g. <prefix> a m for
+;; add-missing-libspec). We use "C-c r": clj-refactor's historically documented
+;; default is "C-c C-m", but in a terminal that is the same key as "C-c RET",
+;; which CIDER already binds to cider-macroexpand-1 -- so "C-c r" avoids the
+;; clash. (clj-refactor can use yasnippet to fill templates for a handful of
+;; create-* refactorings; with no yasnippet here those insert without interactive
+;; placeholders, and every other refactoring is unaffected.)
+(use-package clj-refactor
+  :ensure t
+  :defer t
+  :hook (clojure-ts-mode . clj-refactor-mode)
+  :config
+  (cljr-add-keybindings-with-prefix "C-c r"))
+
+;; flycheck-clj-kondo: register the external clj-kondo linter as the Flycheck
+;; checker for Clojure. clj-kondo is a separate executable (install it yourself,
+;; e.g. `brew install borkdude/brew/clj-kondo'); this package only teaches
+;; Flycheck how to invoke it. Loading the package defines checkers for both the
+;; classic and the tree-sitter Clojure modes (clj/cljs/cljc, including
+;; clojure-ts-mode and its variants). `:after clojure-ts-mode' loads it the first
+;; time a Clojure file is visited -- before clojure-ts-mode's prog-mode hook turns
+;; on flycheck-mode and picks a checker -- and, because the package depends on
+;; flycheck, loading it pulls flycheck in as well. Flycheck itself is enabled in
+;; the Syntax checking section above.
+(use-package flycheck-clj-kondo
+  :ensure t
+  :after clojure-ts-mode)
+
+;; Terraform: Emacs has no tree-sitter mode for it, so this is the classic
+;; (non-tree-sitter) major mode for .tf/.tfvars files. (CDK for Terraform isn't
+;; a distinct language -- those sources are .ts/.py and use the modes for those.)
+(use-package terraform-mode
+  :ensure t
+  :defer t)
+
+;; CoffeeScript: like Terraform, there is no tree-sitter mode shipped with Emacs
+;; (no coffee-ts-mode), so this is the classic major mode. It autoloads for
+;; .coffee/.iced/.cson and Cakefile, and provides indentation plus compile and
+;; REPL commands. CoffeeScript is whitespace-significant and the community
+;; convention is two-space indentation, so pin coffee-tab-width to 2 (it
+;; otherwise defaults to the ambient tab-width).
+(use-package coffee-mode
+  :ensure t
+  :defer t
+  :custom
+  (coffee-tab-width 2))
+
+;; Emacs ships with a lot of popular programming language modes. If it's not
+;; built in, you're almost certain to find a mode for the language you're
+;; looking for with a quick Internet search.
+
+(use-package emacs
+  :hook
+  ;; Auto parenthesis matching, buffer-local to programming buffers.
+  ;; (electric-pair-mode is global -- hooking it would turn pairing on
+  ;; everywhere, including text/Magit buffers -- so use the local variant.)
+  ((prog-mode . electric-pair-local-mode)))
+
+;; Tree-sitter major modes, hand-managed.
+;;
+;; We wire tree-sitter once, at startup, and only for languages whose grammar is
+;; actually installed -- so a missing grammar leaves the classic mode (or
+;; package mode) in charge rather than dropping to fundamental, and the rules
+;; live in two small tables below.
+;;
+;; To add a language: put its grammar source in `treesit-language-source-alist',
+;; add a row to `cws--treesit-remaps' (if a classic mode already owns the file)
+;; or `cws--treesit-auto-modes' (if only the *-ts-mode exists), install the
+;; grammar with `M-x cws/treesit-install-grammars', and restart.
+(use-package treesit
+  :ensure nil                           ; built in
+  :demand t
+  :config
+  ;; Where `treesit-install-language-grammar' fetches each grammar from. tsx and
+  ;; typescript live in the same repo under different source dirs.
+  (setopt treesit-language-source-alist
+          ;; NB: clojure is intentionally absent -- the clojure-ts-mode package
+          ;; pins and installs its own grammar revision (and the regex /
+          ;; markdown-inline grammars it uses for docstrings) via
+          ;; clojure-ts-ensure-grammars. Listing it here would let our install
+          ;; helper overwrite it with an incompatible version.
+          '((bash       "https://github.com/tree-sitter/tree-sitter-bash")
+            (css        "https://github.com/tree-sitter/tree-sitter-css")
+            (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+            (html       "https://github.com/tree-sitter/tree-sitter-html")
+            (java       "https://github.com/tree-sitter/tree-sitter-java")
+            (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+            (json       "https://github.com/tree-sitter/tree-sitter-json")
+            (lua        "https://github.com/tree-sitter-grammars/tree-sitter-lua")
+            (python     "https://github.com/tree-sitter/tree-sitter-python")
+            (ruby       "https://github.com/tree-sitter/tree-sitter-ruby")
+            (toml       "https://github.com/tree-sitter-grammars/tree-sitter-toml")
+            (tsx        "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+            (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+            (yaml       "https://github.com/ikatyang/tree-sitter-yaml")))
+  ;; Rows of (GRAMMAR-LANG CLASSIC-MODE TS-MODE): remap CLASSIC-MODE to TS-MODE,
+  ;; but only when the grammar is installed and TS-MODE is defined -- so an
+  ;; uninstalled grammar leaves CLASSIC-MODE in charge. CLASSIC-MODE is whatever
+  ;; already owns the file: a built-in mode, or a package (json-mode, yaml-mode).
+  ;; (clojure is handled by the clojure-ts-mode package, below; markdown stays on
+  ;; markdown-mode -- Emacs has no built-in tree-sitter markdown mode.)
+  (defvar cws--treesit-remaps
+    '((bash       sh-mode        bash-ts-mode)
+      (css        css-mode       css-ts-mode)
+      (html       mhtml-mode     html-ts-mode)
+      (html       html-mode      html-ts-mode)
+      (java       java-mode      java-ts-mode)
+      (javascript js-mode        js-ts-mode)
+      (json       json-mode      json-ts-mode)
+      (python     python-mode    python-ts-mode)
+      (ruby       ruby-mode      ruby-ts-mode)
+      (toml       conf-toml-mode toml-ts-mode)
+      (yaml       yaml-mode      yaml-ts-mode))
+    "Rows of (GRAMMAR-LANG CLASSIC-MODE TS-MODE) for tree-sitter remapping.")
+  ;; Rows of (GRAMMAR-LANG FILE-REGEXP TS-MODE) for languages with no classic
+  ;; mode in this Emacs (only the *-ts-mode exists): point the extension straight
+  ;; at the tree-sitter mode, again only when the grammar is installed.
+  (defvar cws--treesit-auto-modes
+    '((dockerfile "\\(?:Dockerfile\\|\\.dockerfile\\)\\'" dockerfile-ts-mode)
+      (lua        "\\.lua\\'"                              lua-ts-mode)
+      (typescript "\\.ts\\'"                               typescript-ts-mode)
+      (tsx        "\\.tsx\\'"                              tsx-ts-mode))
+    "Rows of (GRAMMAR-LANG FILE-REGEXP TS-MODE) for tree-sitter auto-mode.")
+  (dolist (row cws--treesit-remaps)
+    (pcase-let ((`(,lang ,classic ,ts) row))
+      (when (and (treesit-ready-p lang t)  ; QUIET: don't warn on missing grammars
+                 (fboundp ts))
+        (add-to-list 'major-mode-remap-alist (cons classic ts)))))
+  (dolist (row cws--treesit-auto-modes)
+    (pcase-let ((`(,lang ,regexp ,ts) row))
+      (when (and (treesit-ready-p lang t)
+                 (fboundp ts))
+        (add-to-list 'auto-mode-alist (cons regexp ts)))))
+  (defun cws/treesit-install-grammars (&optional force)
+    "Install every grammar in `treesit-language-source-alist' that is missing.
+With prefix arg FORCE, reinstall all of them. After installing, restart
+(or re-evaluate this block) so the remap/auto-mode tables pick them up."
+    (interactive "P")
+    (dolist (entry treesit-language-source-alist)
+      (let ((lang (car entry)))
+        (when (or force (not (treesit-language-available-p lang)))
+          (message "Installing tree-sitter grammar: %s" lang)
+          (treesit-install-language-grammar lang))))))
+
+;;;; Eglot, the built-in LSP client for Emacs
+
+;; Helpful resources:
+;;
+;;  - https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
+
+(use-package eglot
+  :defer t
+  ;; no :ensure t here because it's built-in
+
+  ;; Configure hooks to automatically turn-on eglot for selected modes
+  ; :hook
+  ; (((python-mode ruby-mode elixir-mode) . eglot-ensure))
+
+  :custom
+  (eglot-send-changes-idle-time 0.1)
+  (eglot-extend-to-xref t)              ; activate Eglot in referenced non-project files
+
+  :config
+  (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
+  ;; Sometimes you need to tell Eglot where to find the language server
+  ; (add-to-list 'eglot-server-programs
+  ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
+  )
+
+;;;; Templating
+
+(use-package tempel
+  :ensure t
+  :defer t
+  ;; By default, tempel looks at the file "templates" in
+  ;; user-emacs-directory, but you can customize that with the
+  ;; tempel-path variable:
+  ;; :custom
+  ;; (tempel-path (concat user-emacs-directory "custom_template_file"))
+  :bind (("M-*" . tempel-insert)
+         ("M-+" . tempel-complete)
+         :map tempel-map
+         ("C-c RET" . tempel-done)
+         ("C-<down>" . tempel-next)
+         ("C-<up>" . tempel-previous)
+         ("M-<down>" . tempel-next)
+         ("M-<up>" . tempel-previous))
+  :init
+  ;; Make a function that adds the tempel expansion function to the
+  ;; list of completion-at-point-functions (capf).
+  (defun tempel-setup-capf ()
+    (add-hook 'completion-at-point-functions #'tempel-expand -1 'local))
+  ;; Put tempel-expand on the list whenever you start programming or
+  ;; writing prose.
+  (add-hook 'prog-mode-hook 'tempel-setup-capf)
+  (add-hook 'text-mode-hook 'tempel-setup-capf))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;;   Vim emulation
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;; Core Packages
+
+;; Evil: vi emulation
+(use-package evil
+  :ensure t
+  :demand t
+
+  :init
+  (setq evil-respect-visual-line-mode t)
+  (setq evil-undo-system 'undo-redo)
+  ;; Let evil-collection supply modal keybindings for other modes. This must
+  ;; be set before Evil loads; otherwise Evil installs its own overlapping
+  ;; integration bindings, which conflict with evil-collection.
+  (setq evil-want-keybinding nil)
+
+  ;; Enable this if you want C-u to scroll up, more like pure Vim
+  ;(setq evil-want-C-u-scroll t)
+
+  :config
+  (evil-mode)
+
+  ;; If you use Magit, start editing in insert state
+  (add-hook 'git-commit-setup-hook 'evil-insert-state)
+
+  ;; Configuring initial major mode for some modes
+  (evil-set-initial-state 'eat-mode 'emacs)
+  (evil-set-initial-state 'vterm-mode 'emacs)
+
+  ;; SPC as the leader key in normal and visual state.
+  (evil-set-leader '(normal visual) (kbd "SPC"))
+
+  ;; SPC f -- Find (files); SPC s -- Search.
+  (with-eval-after-load 'which-key
+    (which-key-add-key-based-replacements
+      "SPC b" "Buffer"
+      "SPC f" "Find"
+      "SPC s" "Search")))
+
+;; Evil-Collection: Evil-friendly keybindings for many built-in and
+;; third-party modes (dired, magit, ibuffer, etc.).
+(use-package evil-collection
+  :ensure t
+  :after evil
+  :config
+  (evil-collection-init))
+
+;; General: one definition per leader binding carries both the command
+;; and its which-key label, so the two cannot drift. The fzfa leader
+;; bindings (see the fzfa block above) use general-define-key; fzfa is
+;; therefore :after general. The leader-prefix labels (SPC b/f/s) live
+;; in the evil block above, independent of any one command package.
+(use-package general
+  :ensure t
+  :after evil)
+
+;; Org-mode configuration (inlined but commented out -- opt-in).
+;; WARNING: customize the settings below before use, then uncomment to enable.
+;; ;;; Org-mode is a fantastically powerful package. It does a lot of things, which
+;; ;;; makes it a little difficult to understand at first.
+;; ;;;
+;; ;;; We will configure Org-mode in phases. Work with each phase as you are
+;; ;;; comfortable.
+;; ;;;
+;; ;;; YOU NEED TO CONFIGURE SOME VARIABLES! The most important variable is the
+;; ;;; `org-directory', which tells org-mode where to look to find your agenda
+;; ;;; files.
+;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;;;
+;; ;;;   Critical variables
+;; ;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; ;;; These variables need to be set for Org-mode's full power to be unlocked!
+;; ;;;
+;; ;;; You can read the documentation for any variable with `C-h v'. If you have
+;; ;;; Consult configured (see the Base enhancements section above) then it should
+;; ;;; help you find what you're looking for.
+;;
+;; ;;; Phase 1 variables
+;;
+;; ;;; Phase 2 variables
+;;
+;; ;; Agenda variables
+;; (setq org-directory "~/Documents/org/") ; Non-absolute paths for agenda and
+;;                                         ; capture templates will look here.
+;;
+;; (setq org-agenda-files '("inbox.org" "work.org"))
+;;
+;; ;; Default tags
+;; (setq org-tag-alist '(
+;;                       ;; locale
+;;                       (:startgroup)
+;;                       ("home" . ?h)
+;;                       ("work" . ?w)
+;;                       ("school" . ?s)
+;;                       (:endgroup)
+;;                       (:newline)
+;;                       ;; scale
+;;                       (:startgroup)
+;;                       ("one-shot" . ?o)
+;;                       ("project" . ?j)
+;;                       ("tiny" . ?t)
+;;                       (:endgroup)
+;;                       ;; misc
+;;                       ("meta")
+;;                       ("review")
+;;                       ("reading")))
+;;
+;; ;; Org-refile: where should org-refile look?
+;; (setq org-refile-targets 'FIXME)
+;;
+;; ;;; Phase 3 variables
+;;
+;; ;; Org-roam variables
+;; (setq org-roam-directory "~/Documents/org-roam/")
+;; (setq org-roam-index-file "~/Documents/org-roam/index.org")
+;;
+;; ;;; Optional variables
+;;
+;; ;; Advanced: Custom link types
+;; ;; This example is for linking a person's 7-character ID to their page on the
+;; ;; free genealogy website Family Search.
+;; (setq org-link-abbrev-alist
+;;       '(("family_search" . "https://www.familysearch.org/tree/person/details/%s")))
+;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;;;
+;; ;;;   Phase 1: editing and exporting files
+;; ;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; (use-package org
+;;   :hook ((org-mode . visual-line-mode)  ; wrap lines at word breaks
+;;          (org-mode . flyspell-mode))    ; spell checking!
+;;
+;;   :bind (:map global-map
+;;               ("C-c l s" . org-store-link)          ; Mnemonic: link → store
+;;               ("C-c l i" . org-insert-link-global)) ; Mnemonic: link → insert
+;;   :config
+;;   (require 'oc-csl)                     ; citation support
+;;   (add-to-list 'org-export-backends 'md)
+;;
+;;   ;; Make org-open-at-point follow file links in the same window
+;;   (setf (cdr (assoc 'file org-link-frame-setup)) 'find-file)
+;;
+;;   ;; Make exporting quotes better
+;;   (setq org-export-with-smart-quotes t)
+;;   )
+;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;;;
+;; ;;;   Phase 2: todos, agenda generation, and task tracking
+;; ;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; ;; Yes, you can have multiple use-package declarations. It's best if their
+;; ;; configs don't overlap. Once you've reached Phase 2, I'd recommend merging the
+;; ;; config from Phase 1. I've broken it up here for the sake of clarity.
+;; (use-package org
+;;   :config
+;;   ;; Instead of just two states (TODO, DONE) we set up a few different states
+;;   ;; that a task can be in. Run
+;;   ;;     M-x describe-variable RET org-todo-keywords RET
+;;   ;; for documentation on how these keywords work.
+;;   (setq org-todo-keywords
+;;         '((sequence "TODO(t)" "WAITING(w@/!)" "STARTED(s!)" "|" "DONE(d!)" "OBSOLETE(o@)")))
+;;
+;;   ;; Refile configuration
+;;   (setq org-outline-path-complete-in-steps nil)
+;;   (setq org-refile-use-outline-path 'file)
+;;
+;;   (setq org-capture-templates
+;;         '(("c" "Default Capture" entry (file "inbox.org")
+;;            "* TODO %?\n%U\n%i")
+;;           ;; Capture and keep an org-link to the thing we're currently working with
+;;           ("r" "Capture with Reference" entry (file "inbox.org")
+;;            "* TODO %?\n%U\n%i\n%a")
+;;           ;; Define a section
+;;           ("w" "Work")
+;;           ("wm" "Work meeting" entry (file+headline "work.org" "Meetings")
+;;            "** TODO %?\n%U\n%i\n%a")
+;;           ("wr" "Work report" entry (file+headline "work.org" "Reports")
+;;            "** TODO %?\n%U\n%i\n%a")))
+;;
+;;   ;; An agenda view lets you see your TODO items filtered and
+;;   ;; formatted in different ways. You can have multiple agenda views;
+;;   ;; please see the org-mode documentation for more information.
+;;   (setq org-agenda-custom-commands
+;;         '(("n" "Agenda and All Todos"
+;;            ((agenda)
+;;             (todo)))
+;;           ("w" "Work" agenda ""
+;;            ((org-agenda-files '("work.org")))))))
+;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;;;
+;; ;;;   Phase 3: extensions
+;; ;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; ;; TODO
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
