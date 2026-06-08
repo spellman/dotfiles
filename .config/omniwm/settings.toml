@@ -7,14 +7,14 @@ monitorOrientationOverrides = []
 mode = "automatic"
 
 [borders]
-enabled = true
-width = 5.0
+enabled = false
+width = 3
 
 [borders.color]
-alpha = 1.0
-blue = 0.979300037944676
-green = 1.0
-red = 0.08458520228437894
+alpha = 0.7
+blue = 1.0
+green = 0.478
+red = 0.0
 
 [clipboard]
 historyEnabled = false
@@ -36,7 +36,7 @@ followsWindowToMonitor = false
 moveMouseToFocusedWindow = false
 
 [gaps]
-size = 2.0
+size = 1.0
 
 [gaps.outer]
 bottom = 0.0
@@ -69,10 +69,12 @@ margin = 1
 monitorOrder = []
 
 [niri]
+adaptiveColumnWidths = true
 alwaysCenterSingleColumn = false
 centerFocusedColumn = "never"
 columnWidthPresets = [0.3333333333333333, 0.5, 0.6666666666666666]
-defaultColumnWidth = 0.5
+# defaultColumnWidth intentionally unset: new columns then open at 1/maxVisibleColumns
+# (currently 1/3), so a full set of visible columns always tiles the screen exactly.
 infiniteLoop = false
 maxVisibleColumns = 3
 maxWindowsPerColumn = 10
@@ -307,11 +309,11 @@ binding = "Control+H"
 id = "focus.left"
 
 [[hotkeys]]
-binding = "Control+J"
+binding = "Unassigned"
 id = "focus.down"
 
 [[hotkeys]]
-binding = "Control+K"
+binding = "Unassigned"
 id = "focus.up"
 
 [[hotkeys]]
@@ -347,15 +349,15 @@ binding = "Unassigned"
 id = "focusWindowUpOrBottom"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Control+J"
 id = "focusWindowOrWorkspaceDown"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Control+K"
 id = "focusWindowOrWorkspaceUp"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Control+Option+C"
 id = "centerColumn"
 
 [[hotkeys]]
@@ -491,7 +493,7 @@ id = "focusMonitorLast"
 # id = "moveWorkspaceToMonitor.left"
 
 [[hotkeys]]
-binding = "Option+Return"
+binding = "Unassigned"
 id = "toggleFullscreen"
 
 [[hotkeys]]
