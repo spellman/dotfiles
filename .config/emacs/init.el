@@ -44,12 +44,12 @@
 
 ;; This Emacs build bundles several GNU ELPA "core" packages (via
 ;; `package--builtin-versions'), so Elpaca treats them as built-in
-;; (`elpaca-ignored-dependencies') and won't install newer versions. But
-;; current packages need newer ones than are bundled: the Vertico/Corfu/Embark/
-;; etc. stack requires compat >= 31 (bundled 30.2.9999), and Magit requires
-;; transient >= 0.13 (bundled 0.7.2.2). Drop those from the ignored list so
-;; Elpaca installs up-to-date versions. (Add more here if another bundled
-;; dependency turns out to be too old.)
+;; (`elpaca-ignored-dependencies') and won't install newer versions. But current
+;; packages need newer ones than are bundled: the Vertico/Corfu/Embark/ etc.
+;; stack requires compat >= 31 (bundled 30.2.9999), and Magit requires transient
+;; >= 0.13 (bundled 0.7.2.2). Drop those from the ignored list so Elpaca
+;; installs up-to-date versions. (Add more here if another bundled dependency
+;; turns out to be too old.)
 (setopt elpaca-ignored-dependencies
         (seq-difference elpaca-ignored-dependencies '(compat transient)))
 
@@ -68,6 +68,28 @@
 ;; (or no `:ensure') is treated as built-in and configured immediately.
 (elpaca elpaca-use-package
   (elpaca-use-package-mode))
+
+;; General: the keybinding framework. Every keybinding in this file is defined
+;; through general -- either the `:general' use-package keyword or
+;; `general-define-key' -- so a key and its (optional) which-key label always
+;; live in one place. It is loaded synchronously here (`:ensure (:wait t)') so
+;; the `:general' keyword and `general-define-key' are available to every
+;; package and top-level binding below. (general itself does not need evil; the
+;; evil-state leader bindings are applied later, in the fzfa block, :after
+;; evil.)
+(use-package general
+  :ensure (:wait t)
+  :demand t)
+
+;; Leader keys. general supports any number of leaders; we name two and use
+;; these constants (rather than literal prefix strings) in our bindings, so a
+;; prefix is defined in exactly one place and is obvious at every use site.
+;; `cws/leader' is the global leader; `cws/local-leader' is reserved for
+;; mode-specific bindings. Pass them to general's `:prefix'.
+(defconst cws/leader "SPC"
+  "Global leader prefix key, for use with general's `:prefix'.")
+(defconst cws/local-leader ","
+  "Local (major-mode) leader prefix key, for use with general's `:prefix'.")
 
 ;; Make update commands skip pinned packages. `elpaca-fetch' already skips
 ;; packages pinned with :ref/:tag/:pin, but `elpaca-merge' does not -- and
@@ -111,14 +133,14 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
 
 ; Track recently-opened files
 (setopt recentf-max-saved-items 100)
-;; Keep remote (TRAMP) files out of the list: recentf's auto-cleanup (which
-;; runs when the mode is enabled, i.e. at startup) stats every entry to drop
-;; dead ones, and a remote path would block Emacs on a network connection.
+;; Keep remote (TRAMP) files out of the list: recentf's auto-cleanup (which runs
+;; when the mode is enabled, i.e. at startup) stats every entry to drop dead
+;; ones, and a remote path would block Emacs on a network connection.
 ;; Excluded entries are dropped without being statted.
 (setopt recentf-exclude '(file-remote-p))
 (recentf-mode)
-;; recentf only saves its list on clean exit; save every 5 minutes so a crash
-;; or kill doesn't lose the session's recent files. A named function plus
+;; recentf only saves its list on clean exit; save every 5 minutes so a crash or
+;; kill doesn't lose the session's recent files. A named function plus
 ;; cancel-function-timers keeps re-evaluating init.el from stacking duplicate
 ;; timers, and inhibit-message stops the "Wrote .../recentf" echo-area message
 ;; from interrupting whatever is in the echo area every 5 minutes.
@@ -130,10 +152,17 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
 (run-at-time nil 300 #'cws/recentf-save-list-quietly)
 
 ;; Move through windows with Ctrl-<arrow keys>
-(windmove-default-keybindings 'control) ; You can use other modifiers here
+(general-define-key
+ "C-<left>"  #'windmove-left
+ "C-<right>" #'windmove-right
+ "C-<up>"    #'windmove-up
+ "C-<down>"  #'windmove-down)
 
 ;; Fix archaic defaults
 (setopt sentence-end-double-space nil)
+;; Default hard-wrap column. Major modes can still set buffer-local values for
+;; formats with their own rules, such as git commit messages.
+(setq-default fill-column 80)
 
 ;; Make right-click do something sensible
 (when (display-graphic-p)
@@ -151,10 +180,9 @@ If the new path's directories does not exist, create them."
     backup-file-path))
 (setopt make-backup-file-name-function #'bedrock--backup-file-name)
 
-;; The above creates nested directories in the backup folder. If
-;; instead you would like all backup files in a flat structure, albeit
-;; with their full paths concatenated into a filename, then you can
-;; use the following configuration:
+;; The above creates nested directories in the backup folder. If instead you
+;; would like all backup files in a flat structure, albeit with their full paths
+;; concatenated into a filename, then you can use the following configuration:
 ;; (Run `'M-x describe-variable RET backup-directory-alist RET' for more help)
 ;;
 ;; (let ((backup-dir (expand-file-name "emacs-backup/" user-emacs-directory)))
@@ -184,51 +212,51 @@ If the new path's directories does not exist, create them."
 
 (setopt enable-recursive-minibuffers t)                ; Use the minibuffer whilst in the minibuffer
 
-;; Controls how the *Completions* list is offered. An integer N means:
-;; cycle (complete in place, with no popup) when there are N or fewer
-;; candidates; otherwise pop up the *Completions* buffer. With 1, a
-;; unique completion is inserted silently and anything ambiguous shows
-;; the list. (nil never cycles; t always cycles.)
+;; Controls how the *Completions* list is offered. An integer N means: cycle
+;; (complete in place, with no popup) when there are N or fewer candidates;
+;; otherwise pop up the *Completions* buffer. With 1, a unique completion is
+;; inserted silently and anything ambiguous shows the list. (nil never cycles; t
+;; always cycles.)
 (setopt completion-cycle-threshold 1)                  ; TAB cycles candidates
 (setopt completions-detailed t)                        ; Show annotations
 
-;; Makes TAB do double duty: it first tries to indent the line, and if
-;; the line is already indented, it instead completes the symbol at
-;; point. Combined with completion-cycle-threshold above, a single TAB
-;; either indents, silently finishes a unique completion, or pops up
-;; the *Completions* buffer.
+;; Makes TAB do double duty: it first tries to indent the line, and if the line
+;; is already indented, it instead completes the symbol at point. Combined with
+;; completion-cycle-threshold above, a single TAB either indents, silently
+;; finishes a unique completion, or pops up the *Completions* buffer.
 (setopt tab-always-indent 'complete)                   ; When I hit TAB, try to complete, otherwise, indent
 (setopt completion-styles '(basic initials substring)) ; Different styles to match input to candidates
 
 (setopt completion-auto-help 'always)                  ; Open completion always; `lazy' another option
 (setopt completions-max-height 20)                     ; This is arbitrary
 
-;; Lay out the *Completions* buffer one candidate per line, top to
-;; bottom (vs. 'horizontal rows or 'vertical newspaper columns).
-;; Easiest to scan and to navigate with the arrow keys.
+;; Lay out the *Completions* buffer one candidate per line, top to bottom (vs.
+;; 'horizontal rows or 'vertical newspaper columns). Easiest to scan and to
+;; navigate with the arrow keys.
 (setopt completions-format 'one-column)
 
-;; Cluster candidates under category headings (commands, variables,
-;; files, ...) rather than one flat list. Only visible when the
-;; completion source supplies categories.
+;; Cluster candidates under category headings (commands, variables, files, ...)
+;; rather than one flat list. Only visible when the completion source supplies
+;; categories.
 (setopt completions-group t)
 
-;; Controls keyboard focus into the *Completions* buffer. 'second-tab:
-;; the first TAB pops up the list, the second TAB moves the cursor into
-;; it so you can pick with the arrow keys / RET. (nil never jumps in;
-;; t jumps in as soon as the list appears.)
+;; Controls keyboard focus into the *Completions* buffer. 'second-tab: the first
+;; TAB pops up the list, the second TAB moves the cursor into it so you can pick
+;; with the arrow keys / RET. (nil never jumps in; t jumps in as soon as the
+;; list appears.)
 (setopt completion-auto-select 'second-tab)            ; Much more eager
 ;(setopt completion-auto-select t)                     ; See `C-h v completion-auto-select' for more possible values
 
-(keymap-set minibuffer-mode-map "TAB" #'minibuffer-complete) ; TAB acts more like how it does in the shell
+(general-define-key :keymaps 'minibuffer-mode-map
+                    "TAB" #'minibuffer-complete) ; TAB acts more like how it does in the shell
 
 ;; Make a single press of <escape> quit/cancel like C-g -- abort the minibuffer
 ;; (in one press, not the default ESC ESC ESC), clear the region or a prefix
 ;; arg, exit recursive edits -- instead of <escape> acting as the Meta prefix.
 ;; Unlike keyboard-escape-quit, this never rearranges windows when there's
-;; nothing to cancel. Evil binds <escape> in its insert/visual/normal state
-;; maps and those take precedence, so modal editing is unaffected; this fires
-;; where Evil doesn't claim <escape> (minibuffer, prompts, etc.).
+;; nothing to cancel. Evil binds <escape> in its insert/visual/normal state maps
+;; and those take precedence, so modal editing is unaffected; this fires where
+;; Evil doesn't claim <escape> (minibuffer, prompts, etc.).
 (defun cws/escape-quit ()
   "Cancel like C-g (abort the minibuffer, clear the region or a prefix arg,
 exit recursive edits) without rearranging windows."
@@ -237,7 +265,7 @@ exit recursive edits) without rearranging windows."
         ((> (minibuffer-depth) 0) (abort-recursive-edit))
         ((> (recursion-depth) 0) (exit-recursive-edit))
         (t (keyboard-quit))))
-(keymap-global-set "<escape>" #'cws/escape-quit)
+(general-define-key "<escape>" #'cws/escape-quit)
 
 ;; For a fancier built-in completion option, try ido-mode,
 ;; icomplete-vertical, or fido-mode. See also the UI/UX enhancements section below.
@@ -274,10 +302,10 @@ exit recursive edits) without rearranging windows."
 (blink-cursor-mode -1)                                ; Steady cursor
 (pixel-scroll-precision-mode)                         ; Smooth scrolling
 
-;; Visual bell: pulse the current line instead of beeping or flashing the
-;; whole frame. pulse.el is built in (it's what xref uses to highlight a
-;; jump target), so this needs no extra package. (ring-bell-function is not
-;; a user option, hence setq rather than setopt.)
+;; Visual bell: pulse the current line instead of beeping or flashing the whole
+;; frame. pulse.el is built in (it's what xref uses to highlight a jump target),
+;; so this needs no extra package. (ring-bell-function is not a user option,
+;; hence setq rather than setopt.)
 (require 'pulse)
 (setq ring-bell-function (lambda () (pulse-momentary-highlight-one-line (point))))
 
@@ -343,31 +371,26 @@ exit recursive edits) without rearranging windows."
 (use-package avy
   :ensure t
   :demand t
-  :bind (("C-c j" . avy-goto-line)
-         ("s-j"   . avy-goto-char-timer)))
+  :general
+  ("C-c j" #'avy-goto-line
+   "s-j"   #'avy-goto-char-timer))
 
 ;;;; Power-ups: Embark and Consult
 
-;; Consult: Misc. enhanced commands. The global search/buffer keybindings
-;; these used to claim (C-x b, M-y, M-s ...) now invoke fzfa equivalents --
-;; see the fzfa block below. Consult stays for its isearch integration here,
-;; the eshell C-r history search, and as a library affe depends on.
+;; Consult: Misc. enhanced commands. The global search/buffer keybindings these
+;; used to claim (C-x b, M-y, M-s ...) now invoke fzfa equivalents -- see the
+;; fzfa block below. Consult stays for its isearch integration here, the eshell
+;; C-r history search, and as a library affe depends on.
 (use-package consult
   :ensure t
-  :bind (;; Isearch integration
-         :map isearch-mode-map
-         ("M-e" . consult-isearch-history)   ; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history) ; orig. isearch-edit-string
-         ("M-s l" . consult-line)            ; needed by consult-line to detect isearch
-         ("M-s L" . consult-line-multi)      ; needed by consult-line to detect isearch
-         )
   :config
   ;; Narrowing lets you restrict results to certain groups of candidates
   (setq consult-narrow-key "<")
   ;; Respect .ignore/.rgignore/.fdignore but NOT .gitignore (--no-ignore-vcs),
   ;; include hidden files, and skip .git. consult-ripgrep (grep) and consult-fd
-  ;; (file find) already default to the project root via consult--directory-prompt;
-  ;; a single C-u prompts for a different dir on the fly.
+  ;; (file find) already default to the project root via
+  ;; consult--directory-prompt; a single C-u prompts for a different dir on the
+  ;; fly.
   (setopt consult-ripgrep-args
           (concat consult-ripgrep-args " --no-ignore-vcs --hidden --glob !.git"))
   (setopt consult-fd-args
@@ -400,7 +423,7 @@ exit recursive edits) without rearranging windows."
   :ensure t
   :demand t
   :after (avy embark-consult)
-  :bind (("C-c a" . embark-act))        ; bind this to an easy key to hit
+  :general ("C-c a" #'embark-act)       ; bind this to an easy key to hit
   :init
   ;; Add the option to run embark when using avy
   (defun bedrock/avy-action-embark (pt)
@@ -429,8 +452,8 @@ exit recursive edits) without rearranging windows."
 (use-package vertico-directory
   :ensure nil
   :after vertico
-  :bind (:map vertico-map
-              ("M-DEL" . vertico-directory-delete-word)))
+  :general (:keymaps 'vertico-map
+            "M-DEL" #'vertico-directory-delete-word))
 
 ;; Marginalia: annotations for minibuffer
 (use-package marginalia
@@ -443,10 +466,10 @@ exit recursive edits) without rearranging windows."
 (use-package corfu
   :ensure t
   :demand t
-  :bind (:map corfu-map
-              ("SPC" . corfu-insert-separator)
-              ("C-n" . corfu-next)
-              ("C-p" . corfu-previous))
+  :general (:keymaps 'corfu-map
+            "SPC" #'corfu-insert-separator
+            "C-n" #'corfu-next
+            "C-p" #'corfu-previous)
   :config
   (global-corfu-mode))
 
@@ -489,7 +512,7 @@ exit recursive edits) without rearranging windows."
   (defun bedrock/setup-eshell ()
     ;; Something funny is going on with how Eshell sets up its keymaps; this is
     ;; a work-around to make C-r bound in the keymap
-    (keymap-set eshell-mode-map "C-r" 'consult-history))
+    (general-define-key :keymaps 'eshell-mode-map "C-r" #'consult-history))
   :hook ((eshell-mode . bedrock/setup-eshell)))
 
 ;; Eat: Emulate A Terminal
@@ -514,8 +537,8 @@ exit recursive edits) without rearranging windows."
   ;; Per-word style dispatchers: =literal ~flex ,initialism !exclude
   (orderless-style-dispatchers '(orderless-affix-dispatch)))
 
-;; fzf-native: C dynamic module exposing fzf's Smith-Waterman scoring to
-;; Emacs. It is the matching engine behind both fussy (synchronous) and fzfa
+;; fzf-native: C dynamic module exposing fzf's Smith-Waterman scoring to Emacs.
+;; It is the matching engine behind both fussy (synchronous) and fzfa
 ;; (asynchronous) below. The MELPA recipe ships prebuilt binaries (bin/,
 ;; including Darwin/arm64), so nothing is compiled at install time.
 (use-package fzf-native
@@ -523,8 +546,8 @@ exit recursive edits) without rearranging windows."
   :defer t)
 
 ;; fussy: fzf-backed completion style. Replaces orderless as the matching and
-;; scoring engine for synchronous completion (M-x, find-file, corfu, eglot),
-;; so sync completion and fzfa's async commands filter and rank identically.
+;; scoring engine for synchronous completion (M-x, find-file, corfu, eglot), so
+;; sync completion and fzfa's async commands filter and rank identically.
 ;; fussy-setup-fzf pushes `fussy' onto completion-styles, sets
 ;; completion-category-overrides, and sorts candidates by fzf match score.
 (use-package fussy
@@ -537,51 +560,51 @@ exit recursive edits) without rearranging windows."
 
 ;; fzfa: async fuzzy completion -- candidates stream from a background shell
 ;; command (rg, fd, ...) while fzf-native scores and sorts them across all
-;; cores. Unlike consult's two-stage matching (regexp filters the shell
-;; output, then the completion style refines), the plain fzfa commands give
-;; the whole query to fzf in a single pass. The -2p ("two-pass") variants
-;; reproduce the consult split for when a regexp pre-filter is wanted:
-;; everything before the first space goes to the shell tool, the rest to fzf.
-;; Commands default to the project root (fzfa-project-backend is `project').
-;; Installed from a fork branch (see NOTE below the block): the recipe tracks
-;; spellman/fzfa fix-preview-follow-async-refresh, so update commands fetch
-;; and merge only that branch -- upstream (jojojames/fzfa) changes arrive only
-;; when deliberately merged into the fork branch and pushed.
+;; cores. Unlike consult's two-stage matching (regexp filters the shell output,
+;; then the completion style refines), the plain fzfa commands give the whole
+;; query to fzf in a single pass. The -2p ("two-pass") variants reproduce the
+;; consult split for when a regexp pre-filter is wanted: everything before the
+;; first space goes to the shell tool, the rest to fzf. Commands default to the
+;; project root (fzfa-project-backend is `project'). Installed from a fork
+;; branch (see NOTE below the block): the recipe tracks spellman/fzfa
+;; fix-preview-follow-async-refresh, so update commands fetch and merge only
+;; that branch -- upstream (jojojames/fzfa) changes arrive only when
+;; deliberately merged into the fork branch and pushed.
 (use-package fzfa
   :ensure (fzfa :host github :repo "spellman/fzfa"
                 :branch "fix-preview-follow-async-refresh")
-  ;; All fzfa bindings live here, under the evil leader -- no Emacs-style
-  ;; bindings -- so configuration waits for evil. :defer t keeps fzfa itself
-  ;; lazy: the bindings below dispatch through autoloads, and the package
-  ;; loads on first use. Commands without a binding here (fzfa-yank-pop,
-  ;; fzfa-swiper-all, fzfa-outline, ...) are available via M-x.
+  ;; All fzfa bindings live here, under `cws/leader' in Evil normal state.
+  ;; No Emacs-style fzfa bindings are defined here, so configuration waits for
+  ;; Evil. :defer t keeps fzfa itself lazy: the bindings below dispatch through
+  ;; autoloads, and the package loads on first use. Commands without a binding
+  ;; here (fzfa-yank-pop, fzfa-swiper-all, fzfa-outline, ...) are available via
+  ;; M-x.
   :after (evil general)
   :defer t
   :init
-  ;; The *-2p commands are generated at load time by `fzfa-2p-define',
-  ;; so the package autoloads file does not know about them; point
-  ;; cold invocations at the files that define them.
+  ;; The *-2p commands are generated at load time by `fzfa-2p-define', so the
+  ;; package autoloads file does not know about them; point cold invocations at
+  ;; the files that define them.
   (autoload 'fzfa-rg-2p "fzfa-rg" nil t)
   (autoload 'fzfa-fd-2p "fzfa-fd" nil t)
 
-  ;; Plain commands are single-pass fuzzy (the whole query goes to fzf);
-  ;; *-2p commands are consult-style two-pass (text before the first
-  ;; space pre-filters via the shell tool, the rest goes to fzf).
-  ;; Each binding's extended definition `(COMMAND :which-key LABEL)'
-  ;; defines the key and its which-key label together, so they cannot
-  ;; drift. :states 'normal matches the previous evil-define-key 'normal.
+  ;; Plain commands are single-pass fuzzy (the whole query goes to fzf); *-2p
+  ;; commands are consult-style two-pass (text before the first space
+  ;; pre-filters via the shell tool, the rest goes to fzf). Each binding's
+  ;; extended definition `(COMMAND :which-key LABEL)' defines the key and its
+  ;; which-key label together, so they cannot drift. :states 'normal matches the
+  ;; previous evil-define-key 'normal.
   (general-define-key
    :states  'normal
    :keymaps 'global
-   :prefix  "SPC"
+   :prefix  cws/leader
    "b b" '(fzfa-buffer         :which-key "Buffers")
    "b p" '(fzfa-project-buffer :which-key "Project buffers")
-   ;; fd is for finding files. However, rg with the --files flag also
-   ;; finds files.
-   ;; Let's try using rg for searching for both files and text. The
-   ;; benefit is consistency over which files are searched. fd should
-   ;; be the same but using the same program for both means they must
-   ;; be the same.
+   ;; fd is for finding files. However, rg with the --files flag also finds
+   ;; files.
+   ;; Let's try using rg for searching for both files and text. The benefit is
+   ;; consistency over which files are searched. fd should be the same but using
+   ;; the same program for both means they must be the same.
    "SPC" '(fzfa-rg-files       :which-key "Find files")
    "f f" '(fzfa-fd-2p          :which-key "Find files w/filtering")
    "f r" '(fzfa-recent-file    :which-key "Recent files")
@@ -593,8 +616,8 @@ exit recursive edits) without rearranging windows."
   :custom
   ;; Same ignore behavior as the consult/affe commands: respect
   ;; .ignore/.rgignore/.fdignore but NOT .gitignore (--no-ignore-vcs), include
-  ;; hidden files, skip .git. The commands run through a non-interactive
-  ;; shell, so the quoting in --glob '!.git' is honored.
+  ;; hidden files, skip .git. The commands run through a non-interactive shell,
+  ;; so the quoting in --glob '!.git' is honored.
   (fzfa-rg-files-command
    "rg --files --no-ignore-vcs --hidden --glob '!.git'")
   (fzfa-rg-command
@@ -612,17 +635,17 @@ exit recursive edits) without rearranging windows."
                     :return  fzfa--file-preview-return)
      (fzfa-grep     :preview fzfa--grep-preview)
      (fzfa-location :preview fzfa--location-preview))))
-;; NOTE: fzfa is installed from the fork branch
-;; spellman/fzfa fix-preview-follow-async-refresh (working clone:
-;; ~/Projects/fzfa), which patches an upstream bug where previews were only
-;; scheduled from post-command-hook: a selection that changed because results
-;; streamed in (no command ran) was never previewed -- no preview on entry
-;; until the first keypress, and a stale preview when late results reordered
-;; the candidates. The patch (commit "Make live preview follow asynchronously
-;; streamed-in results") makes the async repaint (fzfa--frontend-exhibit) run
-;; the same debounced preview check. To pick up upstream changes, merge
-;; jojojames/fzfa into the fork branch and push; if upstream fixes the bug,
-;; point the recipe back at jojojames/fzfa and drop the fork branch.
+;; NOTE: fzfa is installed from the fork branch spellman/fzfa
+;; fix-preview-follow-async-refresh (working clone: ~/Projects/fzfa), which
+;; patches an upstream bug where previews were only scheduled from
+;; post-command-hook: a selection that changed because results streamed in (no
+;; command ran) was never previewed -- no preview on entry until the first
+;; keypress, and a stale preview when late results reordered the candidates. The
+;; patch (commit "Make live preview follow asynchronously streamed-in results")
+;; makes the async repaint (fzfa--frontend-exhibit) run the same debounced
+;; preview check. To pick up upstream changes, merge jojojames/fzfa into the
+;; fork branch and push; if upstream fixes the bug, point the recipe back at
+;; jojojames/fzfa and drop the fork branch.
 
 ;; affe: grab-everything fuzzy finding. affe-find = fuzzy file finding across
 ;; directories (like Telescope's find_files); affe-grep = in-memory fuzzy grep
@@ -657,8 +680,8 @@ exit recursive edits) without rearranging windows."
   ;; This sidesteps the `file' category override (which forces basic +
   ;; partial-completion, dropping Orderless) precisely because affe filters with
   ;; these regexps in its own async pipeline rather than through
-  ;; completion-styles. (orderless-compile returns (PREFIX . REGEXPS); affe wants
-  ;; just the regexps.)
+  ;; completion-styles. (orderless-compile returns (PREFIX . REGEXPS); affe
+  ;; wants just the regexps.)
   (defun cws/affe-orderless-regexp-compiler (input _type _ignorecase)
     (setq input (cdr (orderless-compile input)))
     (cons input (apply-partially #'orderless--highlight input t)))
@@ -667,8 +690,8 @@ exit recursive edits) without rearranging windows."
 ;; vertico-prescient: frecency sorting (recency x frequency, so recent picks
 ;; float up). Filtering stays off -- fussy is the matching engine. Once you
 ;; type, fussy's score-based display-sort metadata takes precedence over
-;; prescient's vertico-sort-function, so prescient mainly orders the
-;; no-input candidate list (recent picks on top before you type anything).
+;; prescient's vertico-sort-function, so prescient mainly orders the no-input
+;; candidate list (recent picks on top before you type anything).
 (use-package vertico-prescient
   :ensure t
   :after vertico
@@ -682,8 +705,8 @@ exit recursive edits) without rearranging windows."
 ;; Modify search results en masse
 (use-package wgrep
   :ensure t
-  ;; wgrep autoloads itself onto grep-setup-hook, so it loads on the
-  ;; first grep buffer -- no eager load or explicit trigger needed.
+  ;; wgrep autoloads itself onto grep-setup-hook, so it loads on the first grep
+  ;; buffer -- no eager load or explicit trigger needed.
   :defer t
   :config
   (setq wgrep-auto-save-buffer t))
@@ -720,25 +743,25 @@ exit recursive edits) without rearranging windows."
 (use-package magit
   :ensure t
   :defer t
-  :bind (("C-x g" . magit-status)))
+  :general ("C-x g" #'magit-status))
 
 ;;;; Syntax checking
 
 ;; Flycheck: on-the-fly syntax and lint checking. Enabled per-buffer through the
 ;; prog-mode hook, so it runs in programming buffers -- Emacs Lisp, the
 ;; tree-sitter modes, JSON, YAML (yaml-ts-mode), Clojure, and so on -- while
-;; staying out of text, Markdown, fundamental, Magit, and other non-prog buffers.
-;; In any buffer with no applicable checker Flycheck simply does nothing, so
-;; enabling it broadly is harmless: it only acts where a checker (and the tool
-;; that checker drives) is present. The Clojure checker is supplied by
-;; flycheck-clj-kondo in the Programming and Data section below.
+;; staying out of text, Markdown, fundamental, Magit, and other non-prog
+;; buffers. In any buffer with no applicable checker Flycheck simply does
+;; nothing, so enabling it broadly is harmless: it only acts where a checker
+;; (and the tool that checker drives) is present. The Clojure checker is
+;; supplied by flycheck-clj-kondo in the Programming and Data section below.
 (use-package flycheck
   :ensure t
   :hook (prog-mode . flycheck-mode)
   :custom
   ;; Report problems only through the modeline counter (e.g. "FlyC:14|1|4") plus
-  ;; the fringe markers and underlines on the offending text. Do NOT auto-display
-  ;; the message(s) for the error under point: the default
+  ;; the fringe markers and underlines on the offending text. Do NOT
+  ;; auto-display the message(s) for the error under point: the default
   ;; `flycheck-display-error-messages' spills long messages out of the echo area
   ;; into a *Flycheck error messages* pop-up window, which steals screen space
   ;; while editing. Setting this to nil disables that display path entirely. To
@@ -779,13 +802,14 @@ exit recursive edits) without rearranging windows."
   :init
   ;; CIDER and clj-refactor (below) depend on the classic `clojure-mode'
   ;; package, whose autoloads add .clj/.cljc/.cljs to `auto-mode-alist' pointing
-  ;; at clojure-mode -- NOT the tree-sitter mode. Those entries and ours are both
-  ;; pushed onto `auto-mode-alist' at startup, so which one wins is an ordering
-  ;; race. Remap the classic modes to their tree-sitter counterparts so a Clojure
-  ;; file lands in clojure-ts-mode no matter which entry wins. This is the same
-  ;; `major-mode-remap-alist' mechanism the tree-sitter block below uses for
-  ;; other languages; it is set in :init so it is in place before the first
-  ;; Clojure file is visited, and it remaps onto autoloaded modes (no eager load).
+  ;; at clojure-mode -- NOT the tree-sitter mode. Those entries and ours are
+  ;; both pushed onto `auto-mode-alist' at startup, so which one wins is an
+  ;; ordering race. Remap the classic modes to their tree-sitter counterparts so
+  ;; a Clojure file lands in clojure-ts-mode no matter which entry wins. This is
+  ;; the same `major-mode-remap-alist' mechanism the tree-sitter block below
+  ;; uses for other languages; it is set in :init so it is in place before the
+  ;; first Clojure file is visited, and it remaps onto autoloaded modes (no
+  ;; eager load).
   (dolist (remap '((clojure-mode       . clojure-ts-mode)
                    (clojurec-mode      . clojure-ts-clojurec-mode)
                    (clojurescript-mode . clojure-ts-clojurescript-mode)))
@@ -796,16 +820,17 @@ exit recursive edits) without rearranging windows."
          ("\\.cljd\\'" . clojure-ts-clojuredart-mode)
          ("\\.edn\\'"  . clojure-ts-mode)))
 
-;; CIDER: interactive Clojure development -- a REPL (cider-jack-in / cider-connect),
-;; expression evaluation, inline results, the debugger, definition navigation, and
-;; documentation lookup. cider-mode is the buffer-local minor mode that provides
-;; all of that in a source buffer; hook it onto clojure-ts-mode. The .cljs/.cljc/
-;; .cljd tree-sitter modes derive from clojure-ts-mode, so this single hook covers
-;; them too. CIDER has supported clojure-ts-mode since version 1.14; it still pulls
-;; in the classic clojure-mode package for a few APIs not yet ported, which is
-;; expected (the remap above keeps files in the tree-sitter mode regardless). While
-;; connected, CIDER installs its own completion-at-point function, so the existing
-;; Corfu setup shows REPL-aware completions with no extra wiring.
+;; CIDER: interactive Clojure development -- a REPL (cider-jack-in /
+;; cider-connect), expression evaluation, inline results, the debugger,
+;; definition navigation, and documentation lookup. cider-mode is the
+;; buffer-local minor mode that provides all of that in a source buffer; hook it
+;; onto clojure-ts-mode. The .cljs/.cljc/ .cljd tree-sitter modes derive from
+;; clojure-ts-mode, so this single hook covers them too. CIDER has supported
+;; clojure-ts-mode since version 1.14; it still pulls in the classic
+;; clojure-mode package for a few APIs not yet ported, which is expected (the
+;; remap above keeps files in the tree-sitter mode regardless). While connected,
+;; CIDER installs its own completion-at-point function, so the existing Corfu
+;; setup shows REPL-aware completions with no extra wiring.
 (use-package cider
   :ensure t
   :defer t
@@ -823,8 +848,8 @@ exit recursive edits) without rearranging windows."
 ;; default is "C-c C-m", but in a terminal that is the same key as "C-c RET",
 ;; which CIDER already binds to cider-macroexpand-1 -- so "C-c r" avoids the
 ;; clash. (clj-refactor can use yasnippet to fill templates for a handful of
-;; create-* refactorings; with no yasnippet here those insert without interactive
-;; placeholders, and every other refactoring is unaffected.)
+;; create-* refactorings; with no yasnippet here those insert without
+;; interactive placeholders, and every other refactoring is unaffected.)
 (use-package clj-refactor
   :ensure t
   :defer t
@@ -837,18 +862,19 @@ exit recursive edits) without rearranging windows."
 ;; e.g. `brew install borkdude/brew/clj-kondo'); this package only teaches
 ;; Flycheck how to invoke it. Loading the package defines checkers for both the
 ;; classic and the tree-sitter Clojure modes (clj/cljs/cljc, including
-;; clojure-ts-mode and its variants). `:after clojure-ts-mode' loads it the first
-;; time a Clojure file is visited -- before clojure-ts-mode's prog-mode hook turns
-;; on flycheck-mode and picks a checker -- and, because the package depends on
-;; flycheck, loading it pulls flycheck in as well. Flycheck itself is enabled in
-;; the Syntax checking section above.
+;; clojure-ts-mode and its variants). `:after clojure-ts-mode' loads it the
+;; first time a Clojure file is visited -- before clojure-ts-mode's prog-mode
+;; hook turns on flycheck-mode and picks a checker -- and, because the package
+;; depends on flycheck, loading it pulls flycheck in as well. Flycheck itself is
+;; enabled in the Syntax checking section above.
 (use-package flycheck-clj-kondo
   :ensure t
   :after clojure-ts-mode)
 
 ;; Terraform: Emacs has no tree-sitter mode for it, so this is the classic
 ;; (non-tree-sitter) major mode for .tf/.tfvars files. (CDK for Terraform isn't
-;; a distinct language -- those sources are .ts/.py and use the modes for those.)
+;; a distinct language -- those sources are .ts/.py and use the modes for
+;; those.)
 (use-package terraform-mode
   :ensure t
   :defer t)
@@ -916,9 +942,10 @@ exit recursive edits) without rearranging windows."
   ;; Rows of (GRAMMAR-LANG CLASSIC-MODE TS-MODE): remap CLASSIC-MODE to TS-MODE,
   ;; but only when the grammar is installed and TS-MODE is defined -- so an
   ;; uninstalled grammar leaves CLASSIC-MODE in charge. CLASSIC-MODE is whatever
-  ;; already owns the file: a built-in mode, or a package (json-mode, yaml-mode).
-  ;; (clojure is handled by the clojure-ts-mode package, below; markdown stays on
-  ;; markdown-mode -- Emacs has no built-in tree-sitter markdown mode.)
+  ;; already owns the file: a built-in mode, or a package (json-mode,
+  ;; yaml-mode). (clojure is handled by the clojure-ts-mode package, below;
+  ;; markdown stays on markdown-mode -- Emacs has no built-in tree-sitter
+  ;; markdown mode.)
   (defvar cws--treesit-remaps
     '((bash       sh-mode        bash-ts-mode)
       (css        css-mode       css-ts-mode)
@@ -933,8 +960,8 @@ exit recursive edits) without rearranging windows."
       (yaml       yaml-mode      yaml-ts-mode))
     "Rows of (GRAMMAR-LANG CLASSIC-MODE TS-MODE) for tree-sitter remapping.")
   ;; Rows of (GRAMMAR-LANG FILE-REGEXP TS-MODE) for languages with no classic
-  ;; mode in this Emacs (only the *-ts-mode exists): point the extension straight
-  ;; at the tree-sitter mode, again only when the grammar is installed.
+  ;; mode in this Emacs (only the *-ts-mode exists): point the extension
+  ;; straight at the tree-sitter mode, again only when the grammar is installed.
   (defvar cws--treesit-auto-modes
     '((dockerfile "\\(?:Dockerfile\\|\\.dockerfile\\)\\'" dockerfile-ts-mode)
       (lua        "\\.lua\\'"                              lua-ts-mode)
@@ -992,26 +1019,26 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
 (use-package tempel
   :ensure t
   :defer t
-  ;; By default, tempel looks at the file "templates" in
-  ;; user-emacs-directory, but you can customize that with the
-  ;; tempel-path variable:
+  ;; By default, tempel looks at the file "templates" in user-emacs-directory,
+  ;; but you can customize that with the tempel-path variable:
   ;; :custom
   ;; (tempel-path (concat user-emacs-directory "custom_template_file"))
-  :bind (("M-*" . tempel-insert)
-         ("M-+" . tempel-complete)
-         :map tempel-map
-         ("C-c RET" . tempel-done)
-         ("C-<down>" . tempel-next)
-         ("C-<up>" . tempel-previous)
-         ("M-<down>" . tempel-next)
-         ("M-<up>" . tempel-previous))
+  :general
+  ("M-*" #'tempel-insert
+   "M-+" #'tempel-complete)
+  (:keymaps 'tempel-map
+   "C-c RET" #'tempel-done
+   "C-<down>" #'tempel-next
+   "C-<up>" #'tempel-previous
+   "M-<down>" #'tempel-next
+   "M-<up>" #'tempel-previous)
   :init
-  ;; Make a function that adds the tempel expansion function to the
-  ;; list of completion-at-point-functions (capf).
+  ;; Make a function that adds the tempel expansion function to the list of
+  ;; completion-at-point-functions (capf).
   (defun tempel-setup-capf ()
     (add-hook 'completion-at-point-functions #'tempel-expand -1 'local))
-  ;; Put tempel-expand on the list whenever you start programming or
-  ;; writing prose.
+  ;; Put tempel-expand on the list whenever you start programming or writing
+  ;; prose.
   (add-hook 'prog-mode-hook 'tempel-setup-capf)
   (add-hook 'text-mode-hook 'tempel-setup-capf))
 
@@ -1031,8 +1058,8 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
   :init
   (setq evil-respect-visual-line-mode t)
   (setq evil-undo-system 'undo-redo)
-  ;; Let evil-collection supply modal keybindings for other modes. This must
-  ;; be set before Evil loads; otherwise Evil installs its own overlapping
+  ;; Let evil-collection supply modal keybindings for other modes. This must be
+  ;; set before Evil loads; otherwise Evil installs its own overlapping
   ;; integration bindings, which conflict with evil-collection.
   (setq evil-want-keybinding nil)
 
@@ -1049,15 +1076,12 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
   (evil-set-initial-state 'eat-mode 'emacs)
   (evil-set-initial-state 'vterm-mode 'emacs)
 
-  ;; SPC as the leader key in normal and visual state.
-  (evil-set-leader '(normal visual) (kbd "SPC"))
-
-  ;; SPC f -- Find (files); SPC s -- Search.
+  ;; Leader prefix labels for which-key.
   (with-eval-after-load 'which-key
     (which-key-add-key-based-replacements
-      "SPC b" "Buffer"
-      "SPC f" "Find"
-      "SPC s" "Search")))
+      (format "%s b" cws/leader) "Buffer"
+      (format "%s f" cws/leader) "Find"
+      (format "%s s" cws/leader) "Search")))
 
 ;; Evil-Collection: Evil-friendly keybindings for many built-in and
 ;; third-party modes (dired, magit, ibuffer, etc.).
@@ -1067,14 +1091,10 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
   :config
   (evil-collection-init))
 
-;; General: one definition per leader binding carries both the command
-;; and its which-key label, so the two cannot drift. The fzfa leader
-;; bindings (see the fzfa block above) use general-define-key; fzfa is
-;; therefore :after general. The leader-prefix labels (SPC b/f/s) live
-;; in the evil block above, independent of any one command package.
-(use-package general
-  :ensure t
-  :after evil)
+;; general is declared early (in Basic settings) so its `:general' keyword and
+;; `general-define-key' are available throughout this file. The evil-state
+;; leader bindings are applied in the fzfa block above, which is :after evil.
+;; The leader-prefix labels (SPC b/f/s) live in the evil block above.
 
 ;; Org-mode configuration (inlined but commented out -- opt-in).
 ;; WARNING: customize the settings below before use, then uncomment to enable.
@@ -1243,9 +1263,9 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
  ;; If there is more than one, they won't work right.
  )
 
-;; Garbage collection: hand control to gcmh ("Garbage Collector Magic Hack").
-;; It keeps gc-cons-threshold high while you are actively working -- so GC does
-;; not fire mid-keystroke during Vertico/Consult/Orderless completion or Consult
+;; Garbage collection: hand control to gcmh ("Garbage Collector Magic Hack"). It
+;; keeps gc-cons-threshold high while you are actively working -- so GC does not
+;; fire mid-keystroke during Vertico/Consult/Orderless completion or Consult
 ;; preview -- and forces a single collection once Emacs goes idle, where the
 ;; pause is imperceptible. This replaces the old line that reset
 ;; gc-cons-threshold to the 800 KB default, which made GC fire constantly during
