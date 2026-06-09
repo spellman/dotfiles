@@ -182,6 +182,26 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
  "s-w" #'cws/delete-frame-force
  [remap delete-frame] #'cws/delete-frame-force)
 
+;;;; Undo
+
+;; This gets its own section because undo behavior is important and buggy undo
+;; setups are painful.
+(setopt undo-limit 67108864) ; 64 MB
+(setopt undo-strong-limit 100663296) ; 96 MB
+(setopt undo-outer-limit 1006632960) ; 960 MB
+
+;; undo-fu: linear undo/redo backend. Evil uses this below via
+;; `evil-undo-system'.
+(use-package undo-fu
+  :ensure t
+  :defer t)
+
+;; vundo: visualize and navigate the undo tree when linear undo/redo is not
+;; enough.
+(use-package vundo
+  :ensure t
+  :commands vundo)
+
 ;; Reopen recently closed frames with `undelete-frame'. For example,
 ;; `C-u 2 M-x undelete-frame' restores the second-to-last deleted frame.
 (when (fboundp 'undelete-frame-mode)
@@ -1120,7 +1140,7 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
 
   :init
   (setq evil-respect-visual-line-mode t)
-  (setq evil-undo-system 'undo-redo)
+  (setq evil-undo-system 'undo-fu)
   ;; Let evil-collection supply modal keybindings for other modes. This must be
   ;; set before Evil loads; otherwise Evil installs its own overlapping
   ;; integration bindings, which conflict with evil-collection.
