@@ -602,15 +602,34 @@ exit recursive edits) without rearranging windows."
   (autoload 'fzfa-rg-2p "fzfa-rg" nil t)
   (autoload 'fzfa-fd-2p "fzfa-fd" nil t)
 
+  (defun cws/fzfa-project-switch-project-dired (&rest _args)
+    "Switch to a known project root and open it in Dired."
+    (interactive)
+    (let ((roots (project-known-project-roots)))
+      (unless roots
+        (user-error "No known projects"))
+      (when-let* ((sel (fzfa-sync-completing-read
+                        :candidates (mapcar #'abbreviate-file-name roots)
+                        :prompt "switch project: "
+                        :category 'fzfa-file)))
+        (dired (file-name-as-directory (expand-file-name sel))))))
+
+  ;; `fzfa-project-switch-project' normally selects a project root with fzfa,
+  ;; then delegates to `project-switch-project', which asks what project action
+  ;; to run. Keep the fzfa root picker but go straight to Dired at the root.
+  (with-eval-after-load 'fzfa-project
+    (advice-add 'fzfa-project-switch-project
+                :override #'cws/fzfa-project-switch-project-dired))
+
   ;; Plain commands are single-pass fuzzy (the whole query goes to fzf); *-2p
   ;; commands are consult-style two-pass (text before the first space
   ;; pre-filters via the shell tool, the rest goes to fzf). Each binding's
   ;; extended definition `(COMMAND :which-key LABEL)' defines the key and its
-  ;; which-key label together, so they cannot drift. :states 'normal matches the
-  ;; previous evil-define-key 'normal.
+  ;; which-key label together, so they cannot drift. The override keymap keeps
+  ;; the leader available in modes such as Dired that bind SPC locally.
   (general-define-key
    :states  'normal
-   :keymaps 'global
+   :keymaps 'override
    :prefix  cws/leader
    "b b" '(fzfa-buffer         :which-key "Buffers")
    "b p" '(fzfa-project-buffer :which-key "Project buffers")
@@ -622,6 +641,8 @@ exit recursive edits) without rearranging windows."
    "SPC" '(fzfa-rg-files       :which-key "Find files")
    "f f" '(fzfa-fd-2p          :which-key "Find files w/filtering")
    "f r" '(fzfa-recent-file    :which-key "Recent files")
+
+   "p"   '(fzfa-project-switch-project :which-key "Projects")
 
    "/"   '(fzfa-rg             :which-key "Search")
    "s f" '(fzfa-rg-2p          :which-key "Search w/filtering")
