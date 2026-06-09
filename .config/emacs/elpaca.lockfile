@@ -286,13 +286,13 @@
 				  (:exclude "*test*"))
 		       :source "MELPA" :id fzf-native :type git
 		       :protocol https :inherit t :depth treeless :ref
-		       "503907809112e5c7d4cd3f0b57248e8cd57c5976"))
+		       "0c29a421217dfa61e74b2e1ce2dd99e8d4d9df17"))
  (fzfa :source "elpaca-menu-lock-file" :recipe
        (:source nil :package "fzfa" :id fzfa :host github :repo
 		"spellman/fzfa" :branch
-		"fix-preview-follow-async-refresh" :type git :protocol
+		"highlight-matches-for-fzfa-grep-commands" :type git :protocol
 		https :inherit t :depth treeless :ref
-		"f2ef93665fb454406bcae56940a0767c7b4cead0"))
+		"94d49336d5c7050fd97b1c17a9438059d620401a"))
  (gcmh :source "elpaca-menu-lock-file" :recipe
        (:package "gcmh" :repo "koral/gcmh" :fetcher gitlab :files
 		 ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"

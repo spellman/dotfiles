@@ -53,14 +53,28 @@
 (setopt elpaca-ignored-dependencies
         (seq-difference elpaca-ignored-dependencies '(compat transient)))
 
-;; Pin every package to the versions recorded in elpaca.lockfile (written with
-;; `M-x elpaca-write-lockfile'). `elpaca-menu-lock-file' is already first in
+;; Pin packages to the versions recorded in elpaca.lockfile (written with
+;; `M-x elpaca-write-lock-file'). `elpaca-menu-lock-file' is already first in
 ;; `elpaca-menu-functions', so pointing this at the lockfile makes its locked
 ;; recipes win over the live MELPA/ELPA menus: reproducible installs, no drift.
 ;; (Elpaca itself is also pinned in bootstrap-elpaca.el via an explicit :ref;
 ;; that explicit recipe takes precedence over this menu, so they don't fight.)
-;; To update deliberately: temporarily unset elpaca-lock-file, fetch/merge the
-;; packages you want, then re-run `M-x elpaca-write-lockfile'.
+;;
+;; Package-update cadence:
+;; 1. Temporarily set this to nil, or comment out the setopt below, before
+;;    package declarations are evaluated; restart Emacs so Elpaca resolves live
+;;    menu recipes instead of lockfile recipes.
+;; 2. Run `M-x elpaca-update RET PACKAGE RET' for each package to advance, or
+;;    use `M-x elpaca-manager' and mark packages with `p' then execute with `x'.
+;; 3. Exercise the updated package set. If it is good, write the new last-known
+;;    good state with:
+;;    `M-: (elpaca-write-lock-file (expand-file-name "elpaca.lockfile" user-emacs-directory)) RET'
+;; 4. Restore the setopt below and restart Emacs so future installs and rebuilds
+;;    use the lockfile again.
+;;
+;; Do not add package-level :ref/:tag/:pin values unless the package really
+;; should stay fixed independently of the lockfile. Elpaca treats those as pins,
+;; so update commands skip them while the pin remains in the recipe.
 (setopt elpaca-lock-file (expand-file-name "elpaca.lockfile" user-emacs-directory))
 
 ;; Enable use-package's `:ensure' support via Elpaca. After this, a use-package
@@ -572,7 +586,7 @@ exit recursive edits) without rearranging windows."
 ;; deliberately merged into the fork branch and pushed.
 (use-package fzfa
   :ensure (fzfa :host github :repo "spellman/fzfa"
-                :branch "fix-preview-follow-async-refresh")
+                :branch "highlight-matches-for-fzfa-grep-commands")
   ;; All fzfa bindings live here, under `cws/leader' in Evil normal state.
   ;; No Emacs-style fzfa bindings are defined here, so configuration waits for
   ;; Evil. :defer t keeps fzfa itself lazy: the bindings below dispatch through
@@ -636,16 +650,19 @@ exit recursive edits) without rearranging windows."
      (fzfa-grep     :preview fzfa--grep-preview)
      (fzfa-location :preview fzfa--location-preview))))
 ;; NOTE: fzfa is installed from the fork branch spellman/fzfa
-;; fix-preview-follow-async-refresh (working clone: ~/Projects/fzfa), which
-;; patches an upstream bug where previews were only scheduled from
-;; post-command-hook: a selection that changed because results streamed in (no
-;; command ran) was never previewed -- no preview on entry until the first
-;; keypress, and a stale preview when late results reordered the candidates. The
-;; patch (commit "Make live preview follow asynchronously streamed-in results")
-;; makes the async repaint (fzfa--frontend-exhibit) run the same debounced
-;; preview check. To pick up upstream changes, merge jojojames/fzfa into the
-;; fork branch and push; if upstream fixes the bug, point the recipe back at
-;; jojojames/fzfa and drop the fork branch.
+;; highlight-matches-for-fzfa-grep-commands (working clone: ~/Projects/fzfa).
+;; This branch carries the preview-follow fix (commit "Make live preview follow
+;; asynchronously streamed-in results"), which patches an upstream bug where
+;; previews were only scheduled from post-command-hook: a selection that changed
+;; because results streamed in (no command ran) was never previewed -- no
+;; preview on entry until the first keypress, and a stale preview when late
+;; results reordered the candidates. The patch makes the async repaint
+;; (fzfa--frontend-exhibit) run the same debounced preview check. On top of that
+;; the branch adds match highlighting in grep-style and in-Emacs previews and in
+;; the minibuffer, and ivy/helm-style :apply persistent actions. To pick up
+;; upstream changes, merge jojojames/fzfa into the fork branch and push; if
+;; upstream lands this work, point the recipe back at jojojames/fzfa and drop
+;; the fork branch.
 
 ;; affe: grab-everything fuzzy finding. affe-find = fuzzy file finding across
 ;; directories (like Telescope's find_files); affe-grep = in-memory fuzzy grep
