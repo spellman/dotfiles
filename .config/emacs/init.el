@@ -172,6 +172,15 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
  "C-<up>"    #'windmove-up
  "C-<down>"  #'windmove-down)
 
+;; dired-x: extra Dired commands. `dired-jump' opens Dired at the current file's
+;; containing directory, with point on the file.
+(use-package dired-x
+  :ensure nil
+  :commands dired-jump
+  ;; Doom equivalent: (map! :n "-" 'dired-jump)
+  :general (:states 'normal
+            "-" #'dired-jump))
+
 ;; Fix archaic defaults
 (setopt sentence-end-double-space nil)
 ;; Default hard-wrap column. Major modes can still set buffer-local values for
