@@ -182,6 +182,11 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
  "s-w" #'cws/delete-frame-force
  [remap delete-frame] #'cws/delete-frame-force)
 
+;; Reopen recently closed frames with `undelete-frame'. For example,
+;; `C-u 2 M-x undelete-frame' restores the second-to-last deleted frame.
+(when (fboundp 'undelete-frame-mode)
+  (undelete-frame-mode 1))
+
 ;; dired-x: extra Dired commands. `dired-jump' opens Dired at the current file's
 ;; containing directory, with point on the file.
 (use-package dired-x
