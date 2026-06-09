@@ -172,6 +172,16 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
  "C-<up>"    #'windmove-up
  "C-<down>"  #'windmove-down)
 
+;; Close the selected frame when explicitly asked, even when Emacs thinks it is
+;; the last visible frame. On macOS, Command-W is `s-w'.
+(defun cws/delete-frame-force ()
+  "Delete the selected frame, forcing deletion if it is the last frame."
+  (interactive)
+  (delete-frame nil t))
+(general-define-key
+ "s-w" #'cws/delete-frame-force
+ [remap delete-frame] #'cws/delete-frame-force)
+
 ;; dired-x: extra Dired commands. `dired-jump' opens Dired at the current file's
 ;; containing directory, with point on the file.
 (use-package dired-x
