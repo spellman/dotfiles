@@ -632,7 +632,8 @@ exit recursive edits) without rearranging windows."
    :keymaps 'override
    :prefix  cws/leader
    "b b" '(fzfa-buffer         :which-key "Buffers")
-   "b p" '(fzfa-project-buffer :which-key "Project buffers")
+   "b p" '(fzfa-project-buffer :which-key "Buffers in project")
+
    ;; fd is for finding files. However, rg with the --files flag also finds
    ;; files.
    ;; Let's try using rg for searching for both files and text. The benefit is
