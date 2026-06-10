@@ -807,6 +807,22 @@ exit recursive edits) without rearranging windows."
 
 ;;;; Misc. editing enhancements
 
+;; Treat underscore as a word character in text and programming modes so that
+;; word-motion commands (Evil's w/b/e, forward-word, etc.) cross it.
+(defun cws/consider-underscore-word-character ()
+  (modify-syntax-entry ?_ "w"))
+
+;; Treat hyphen as a word character in Lisp modes, where kebab-case identifiers
+;; are idiomatic.
+(defun cws/consider-hyphen-word-character ()
+  (modify-syntax-entry ?- "w"))
+
+(add-hook 'text-mode-hook #'cws/consider-underscore-word-character)
+(add-hook 'prog-mode-hook #'cws/consider-underscore-word-character)
+(dolist (hook '(emacs-lisp-mode-hook lisp-mode-hook clojure-ts-mode-hook))
+  (add-hook hook #'cws/consider-underscore-word-character)
+  (add-hook hook #'cws/consider-hyphen-word-character))
+
 ;; Modify search results en masse
 (use-package wgrep
   :ensure t
