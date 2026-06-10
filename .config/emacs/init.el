@@ -264,6 +264,14 @@ If the new path's directories does not exist, create them."
 (use-package which-key
   :ensure t
   :demand t
+  :custom
+  (which-key-popup-type 'side-window)
+  (which-key-side-window-location 'bottom)
+  (which-key-sort-order 'which-key-key-order-alpha)
+  (which-key-separator " ")
+  (which-key-prefix-prefix "")
+  (which-key-add-column-padding 3)
+  (which-key-max-description-length 36)
   :config
   (which-key-mode))
 
