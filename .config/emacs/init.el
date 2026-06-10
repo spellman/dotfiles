@@ -868,7 +868,10 @@ exit recursive edits) without rearranging windows."
 (use-package magit
   :ensure t
   :defer t
-  :general ("C-x g" #'magit-status)
+  :general (:states 'normal
+            :keymaps 'override
+            :prefix  cws/leader
+            "g g" '(magit-status :which-key "Magit status"))
   :custom
   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
   (magit-bury-buffer-function    #'magit-restore-window-configuration)
@@ -1271,6 +1274,7 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
     (which-key-add-key-based-replacements
       (format "%s b" cws/leader) "Buffer"
       (format "%s f" cws/leader) "Find"
+      (format "%s g" cws/leader) "Git"
       (format "%s s" cws/leader) "Search")))
 
 ;; Evil-Collection: Evil-friendly keybindings for many built-in and
