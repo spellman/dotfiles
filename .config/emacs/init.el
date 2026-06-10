@@ -651,8 +651,7 @@ exit recursive edits) without rearranging windows."
 ;; that branch -- upstream (jojojames/fzfa) changes arrive only when
 ;; deliberately merged into the fork branch and pushed.
 (use-package fzfa
-  :ensure (fzfa :host github :repo "spellman/fzfa"
-                :branch "highlight-matches-for-fzfa-grep-commands")
+  :ensure (fzfa :host github :repo "spellman/fzfa" :branch "local")
   ;; All fzfa bindings live here, under `cws/leader' in Evil normal state.
   ;; No Emacs-style fzfa bindings are defined here, so configuration waits for
   ;; Evil. :defer t keeps fzfa itself lazy: the bindings below dispatch through
