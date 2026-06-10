@@ -140,6 +140,8 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
 ;; https://todo.sr.ht/~ashton314/emacs-bedrock/11
 (setopt auto-revert-interval 5)
 (setopt auto-revert-check-vc-info t)
+;; Revert Dired and other buffers
+(setq global-auto-revert-non-file-buffers t)
 (global-auto-revert-mode)
 
 ;; Save history of minibuffer
