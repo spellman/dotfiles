@@ -240,6 +240,11 @@ If the new path's directories does not exist, create them."
     backup-file-path))
 (setopt make-backup-file-name-function #'bedrock--backup-file-name)
 
+;; ediff: disable auto-save in merge buffers so Emacs never writes
+;; #*ediff-merge*#...# temp files to the working directory.
+(with-eval-after-load 'ediff-util
+  (add-hook 'ediff-mode-hook (lambda () (auto-save-mode -1))))
+
 ;; The above creates nested directories in the backup folder. If instead you
 ;; would like all backup files in a flat structure, albeit with their full paths
 ;; concatenated into a filename, then you can use the following configuration:
