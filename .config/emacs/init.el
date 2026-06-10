@@ -53,6 +53,13 @@
 (setopt elpaca-ignored-dependencies
         (seq-difference elpaca-ignored-dependencies '(compat transient)))
 
+;; GUI Emacs on macOS does not inherit the shell's PATH, so tools like rg, fd,
+;; and node are invisible. exec-path-from-shell copies the shell environment
+;; into Emacs at startup.
+(elpaca exec-path-from-shell
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize)))
+
 ;; Pin packages to the versions recorded in elpaca.lockfile (written with
 ;; `M-x elpaca-write-lock-file'). `elpaca-menu-lock-file' is already first in
 ;; `elpaca-menu-functions', so pointing this at the lockfile makes its locked
