@@ -387,6 +387,12 @@ exit recursive edits) without rearranging windows."
 (let ((hl-line-hooks '(text-mode-hook prog-mode-hook)))
   (mapc (lambda (hook) (add-hook hook #'hl-line-mode)) hl-line-hooks))
 
+;; Scroll With Cursor One Line At A Time
+;; Instead of the default of half a screen at a time.
+;; Note that 0 is the default, which makes Emacs scroll half a screen when point goes off-screen.
+(setq scroll-step 1
+      scroll-conservatively 10000)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   Tab-bar configuration
