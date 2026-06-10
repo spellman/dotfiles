@@ -416,6 +416,10 @@ exit recursive edits) without rearranging windows."
   ;; which is needed for third-party themes that aren't pre-trusted.
   (load-theme 'doom-one-light t))
 
+(set-face-attribute 'default nil        :family "Monaco"    :height 130 :weight 'medium)
+(set-face-attribute 'variable-pitch nil :family "Fira Sans" :height 130)
+(set-fontset-font t nil (font-spec :family "JetBrainsMono Nerd Font") nil 'append)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   UI/UX enhancements
