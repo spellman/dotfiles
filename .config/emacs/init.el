@@ -1167,6 +1167,16 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
   (evil-set-initial-state 'eat-mode 'emacs)
   (evil-set-initial-state 'vterm-mode 'emacs)
 
+  ;; Evil's `/` in-buffer search uses Emacs isearch (the default
+  ;; `evil-search-module'). isearch keeps a ring of past search terms but binds
+  ;; history to M-p/M-n; the arrow keys are unbound and simply exit the search.
+  ;; Bind the arrows to the ring commands so up recalls the previous (older)
+  ;; search term, up again recalls the one before it, and down moves to the next
+  ;; (newer) term. This applies to all isearch, including C-s.
+  (with-eval-after-load 'isearch
+    (define-key isearch-mode-map (kbd "<up>") #'isearch-ring-retreat)
+    (define-key isearch-mode-map (kbd "<down>") #'isearch-ring-advance))
+
   ;; Leader prefix labels for which-key.
   (with-eval-after-load 'which-key
     (which-key-add-key-based-replacements
