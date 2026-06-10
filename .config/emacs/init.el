@@ -848,7 +848,14 @@ exit recursive edits) without rearranging windows."
 (use-package magit
   :ensure t
   :defer t
-  :general ("C-x g" #'magit-status))
+  :general ("C-x g" #'magit-status)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+  (magit-bury-buffer-function    #'magit-restore-window-configuration)
+  (magit-no-confirm              '(trash))
+  (magit-section-initial-visibility-alist '((untracked . show)))
+  ;; %Y year, %m month, %d day, %H 24h hour, %M minute
+  (magit-log-margin '(t "%Y-%m-%d %H:%M" magit-log-margin-width t 18)))
 
 ;;;; Syntax checking
 
