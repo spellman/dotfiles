@@ -1153,6 +1153,10 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
   ;; set before Evil loads; otherwise Evil installs its own overlapping
   ;; integration bindings, which conflict with evil-collection.
   (setq evil-want-keybinding nil)
+  ;; Use evil's own search module (not isearch) so that all matches stay
+  ;; highlighted persistently, the current match gets a distinct highlight, and
+  ;; highlights only clear on :noh -- matching Vim/Neovim search behavior.
+  (setq evil-search-module 'evil)
 
   ;; Enable this if you want C-u to scroll up, more like pure Vim
   ;(setq evil-want-C-u-scroll t)
@@ -1167,15 +1171,59 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
   (evil-set-initial-state 'eat-mode 'emacs)
   (evil-set-initial-state 'vterm-mode 'emacs)
 
-  ;; Evil's `/` in-buffer search uses Emacs isearch (the default
-  ;; `evil-search-module'). isearch keeps a ring of past search terms but binds
-  ;; history to M-p/M-n; the arrow keys are unbound and simply exit the search.
-  ;; Bind the arrows to the ring commands so up recalls the previous (older)
-  ;; search term, up again recalls the one before it, and down moves to the next
-  ;; (newer) term. This applies to all isearch, including C-s.
+  ;; In normal state, <escape> should clear search highlights (like Vim's :noh)
+  ;; in addition to the existing cws/escape-quit behavior (deactivate region,
+  ;; abort recursive edits, etc.). Evil's normal-state binding otherwise claims
+  ;; <escape> and cws/escape-quit never fires.
+  (defun cws/normal-state-escape ()
+    "Clear search highlights and run cws/escape-quit."
+    (interactive)
+    (evil-ex-nohighlight)
+    (cws/escape-quit))
+  (general-define-key :states 'normal "<escape>" #'cws/normal-state-escape)
+
+  ;; Evil's `/` search (evil-search-module 'evil) reads input via the minibuffer
+  ;; using evil-ex-search-keymap. Bind arrows to history navigation so up
+  ;; recalls the previous (older) search term and down moves to the next
+  ;; (newer) term.
+  (general-define-key :keymaps 'evil-ex-search-keymap
+                      "<up>" #'previous-history-element
+                      "<down>" #'next-history-element)
+
+  ;; C-s still uses Emacs isearch. isearch binds history to M-p/M-n; bind the
+  ;; arrows too for consistency with `/` search above.
   (with-eval-after-load 'isearch
-    (define-key isearch-mode-map (kbd "<up>") #'isearch-ring-retreat)
-    (define-key isearch-mode-map (kbd "<down>") #'isearch-ring-advance))
+    (general-define-key :keymaps 'isearch-mode-map
+                        "<up>" #'isearch-ring-retreat
+                        "<down>" #'isearch-ring-advance))
+
+  ;; Evil's current-match overlay (evil-ex-search face, priority 1001) is only
+  ;; created during the interactive search session and deleted when the
+  ;; minibuffer exits. After confirming a search or navigating with n/N, no
+  ;; distinct overlay exists for the current match, so it looks the same as the
+  ;; other matches (evil-ex-lazy-highlight face, priority 1000). Re-create the
+  ;; overlay after each navigation so the current match is always visually
+  ;; distinct. Also clean it up when :noh clears the search, since
+  ;; evil-ex-nohighlight only deletes the all-matches overlays.
+  (defun cws/evil-update-current-match-overlay (&rest _)
+    (when (and evil-ex-search-match-beg evil-ex-search-match-end)
+      (if evil-ex-search-overlay
+          (move-overlay evil-ex-search-overlay
+                        evil-ex-search-match-beg
+                        evil-ex-search-match-end)
+        (setq evil-ex-search-overlay
+              (make-overlay evil-ex-search-match-beg evil-ex-search-match-end))
+        (overlay-put evil-ex-search-overlay 'priority 1001)
+        (overlay-put evil-ex-search-overlay 'face 'evil-ex-search))))
+
+  (defun cws/evil-nohighlight-cleanup (&rest _)
+    (when evil-ex-search-overlay
+      (delete-overlay evil-ex-search-overlay)
+      (setq evil-ex-search-overlay nil)))
+
+  (advice-add 'evil-ex-search      :after #'cws/evil-update-current-match-overlay)
+  (advice-add 'evil-ex-start-search :after #'cws/evil-update-current-match-overlay)
+  (advice-add 'evil-ex-nohighlight  :after #'cws/evil-nohighlight-cleanup)
 
   ;; Leader prefix labels for which-key.
   (with-eval-after-load 'which-key
