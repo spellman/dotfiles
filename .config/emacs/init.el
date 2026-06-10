@@ -420,6 +420,15 @@ exit recursive edits) without rearranging windows."
 (set-face-attribute 'variable-pitch nil :family "Fira Sans" :height 130)
 (set-fontset-font t nil (font-spec :family "JetBrainsMono Nerd Font") nil 'append)
 
+;; The doom-one-light cursor and evil-ex-search both default to the highlight
+;; color, making the character at the current match invisible under the cursor.
+;; Override evil-ex-search to use orange (a conventional current-match color)
+;; so it differs from the blue cursor. doom-themes-set-faces resolves symbolic
+;; color names (orange, bg) from the active Doom theme at load time.
+(with-eval-after-load 'evil
+  (doom-themes-set-faces 'user
+    '(evil-ex-search :background orange :foreground bg :weight 'bold)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   UI/UX enhancements
