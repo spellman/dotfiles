@@ -419,6 +419,7 @@ exit recursive edits) without rearranging windows."
 (set-face-attribute 'default nil        :family "Monaco"    :height 130 :weight 'medium)
 (set-face-attribute 'variable-pitch nil :family "Fira Sans" :height 130)
 (set-fontset-font t nil (font-spec :family "JetBrainsMono Nerd Font") nil 'append)
+(setq-default line-spacing 0.4) ; 40% of line-height
 
 ;; The doom-one-light cursor and evil-ex-search both default to the highlight
 ;; color, making the character at the current match invisible under the cursor.
