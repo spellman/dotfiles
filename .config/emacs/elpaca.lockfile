@@ -341,8 +341,8 @@
 		     "docs/*.texinfo"
 		     (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el"
 			       "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
-		    :source "MELPA" :id hl-todo :type git :protocol https
-		    :inherit t :depth treeless :ref
+		    :source "elpaca-menu-lock-file" :id hl-todo :type git
+		    :protocol https :inherit t :depth treeless :ref
 		    "527d545b8c2f36243194cbe4a8d0e6ac9d50e6a7"))
  (hydra :source "elpaca-menu-lock-file" :recipe
 	(:package "hydra" :repo "abo-abo/hydra" :fetcher github :files
@@ -547,6 +547,19 @@
 		  ("*" (:exclude ".git")) :source "elpaca-menu-lock-file" :id
 		  queue :type git :protocol https :inherit t :depth treeless
 		  :ref "f986fb68e75bdae951efb9e11a3012ab6bd408ee"))
+ (rainbow-delimiters :source "elpaca-menu-lock-file" :recipe
+		     (:package "rainbow-delimiters" :fetcher github :repo
+			       "Fanael/rainbow-delimiters" :files
+			       ("*.el" "*.el.in" "dir" "*.info" "*.texi"
+				"*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi"
+				"doc/*.texinfo" "lisp/*.el" "docs/dir"
+				"docs/*.info" "docs/*.texi" "docs/*.texinfo"
+				(:exclude ".dir-locals.el" "test.el" "tests.el"
+					  "*-test.el" "*-tests.el" "LICENSE"
+					  "README*" "*-pkg.el"))
+			       :source "MELPA" :id rainbow-delimiters :type git
+			       :protocol https :inherit t :depth treeless :ref
+			       "f40ece58df8b2f0fb6c8576b527755a552a5e763"))
  (s :source "elpaca-menu-lock-file" :recipe
     (:package "s" :fetcher github :repo "magnars/s.el" :files
 	      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir"

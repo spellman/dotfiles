@@ -485,6 +485,10 @@ exit recursive edits) without rearranging windows."
           ("DEPRECATED" font-lock-doc-face bold)
           ("QUESTION"   font-lock-constant-face bold))))
 
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   UI/UX enhancements
