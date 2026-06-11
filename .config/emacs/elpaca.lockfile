@@ -42,7 +42,8 @@
 		 https :inherit t :depth treeless :ref
 		 "c99911b08831c26179145686b4beffa96f1f8a68"))
  (cider :source "elpaca-menu-lock-file" :recipe
-	(:package "cider" :fetcher github :repo "clojure-emacs/cider" :files
+	(:package #("cider" 0 1 (completion-score 16)) :fetcher github :repo
+		  "clojure-emacs/cider" :files
 		  ("lisp/*.el" "bin/*.sh" "*.el" "clojure.sh" "lein.sh"
 		   (:exclude ".dir-locals.el"))
 		  :old-names (nrepl) :source "elpaca-menu-lock-file" :id cider
@@ -56,13 +57,14 @@
 			 :protocol https :inherit t :depth treeless :ref
 			 "39c9688c79e1d00965621d04c04fe1ddde4b571f"))
  (clojure-mode :source "elpaca-menu-lock-file" :recipe
-	       (:package "clojure-mode" :repo "clojure-emacs/clojure-mode"
-			 :fetcher github :files ("clojure-mode.el") :source
-			 "elpaca-menu-lock-file" :id clojure-mode :type git
-			 :protocol https :inherit t :depth treeless :ref
+	       (:package #("clojure-mode" 0 1 (completion-score 16)) :repo
+			 "clojure-emacs/clojure-mode" :fetcher github :files
+			 ("clojure-mode.el") :source "elpaca-menu-lock-file" :id
+			 clojure-mode :type git :protocol https :inherit t
+			 :depth treeless :ref
 			 "c3b039ecf85e343edbc67c5856322654381dbc3e"))
  (clojure-ts-mode :source "elpaca-menu-lock-file" :recipe
-		  (:package "clojure-ts-mode" :repo
+		  (:package #("clojure-ts-mode" 0 1 (completion-score 16)) :repo
 			    "clojure-emacs/clojure-ts-mode" :fetcher github
 			    :files
 			    ("*.el" "*.el.in" "dir" "*.info" "*.texi"
@@ -76,8 +78,8 @@
 			    :type git :protocol https :inherit t :depth treeless
 			    :ref "ba6de87b0acb5aa5483f6012611b30f6bf0414f3"))
  (coffee-mode :source "elpaca-menu-lock-file" :recipe
-	      (:package "coffee-mode" :repo "defunkt/coffee-mode" :fetcher
-			github :files
+	      (:package #("coffee-mode" 0 1 (completion-score 16)) :repo
+			"defunkt/coffee-mode" :fetcher github :files
 			("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
 			 "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo"
 			 "lisp/*.el" "docs/dir" "docs/*.info" "docs/*.texi"
@@ -159,7 +161,8 @@
 			git :protocol https :inherit t :depth treeless :ref
 			"53645a905dfb3055db52f5d418d5ef612027e062"))
  (eat :source "elpaca-menu-lock-file" :recipe
-      (:package "eat" :repo ("https://codeberg.org/akib/emacs-eat" . "eat") :tar
+      (:package #("eat" 0 1 (face completions-common-part completion-score 32))
+		:repo ("https://codeberg.org/akib/emacs-eat" . "eat") :tar
 		"0.9.4" :host nongnu :files ("*" (:exclude ".git")) :source
 		"elpaca-menu-lock-file" :id eat :type git :protocol https
 		:inherit t :depth treeless :ref
@@ -262,6 +265,19 @@
 			       flycheck-clj-kondo :type git :protocol https
 			       :inherit t :depth treeless :ref
 			       "e38c67ba9db1ea1cbe1b61ab39b506c05efdcdbf"))
+ (fringe-helper :source "elpaca-menu-lock-file" :recipe
+		(:package "fringe-helper" :fetcher github :repo
+			  "nschum/fringe-helper.el" :files
+			  ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
+			   "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo"
+			   "lisp/*.el" "docs/dir" "docs/*.info" "docs/*.texi"
+			   "docs/*.texinfo"
+			   (:exclude ".dir-locals.el" "test.el" "tests.el"
+				     "*-test.el" "*-tests.el" "LICENSE"
+				     "README*" "*-pkg.el"))
+			  :source "MELPA" :id fringe-helper :type git :protocol
+			  https :inherit t :depth treeless :ref
+			  "ef4a9c023bae18ec1ddd7265f1f2d6d2e775efdd"))
  (fussy :source "elpaca-menu-lock-file" :recipe
 	(:package "fussy" :fetcher github :repo "jojojames/fussy" :files
 		  ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
@@ -308,8 +324,9 @@
 		    git :protocol https :inherit t :depth treeless :ref
 		    "a48768f85a655fe77b5f45c2880b420da1b1b9c3"))
  (git-timemachine :source "elpaca-menu-lock-file" :recipe
-		  (:package "git-timemachine" :fetcher codeberg :repo
-			    "pidu/git-timemachine" :files
+		  (:package #("git-timemachine" 0 1 (completion-score 16))
+			    :fetcher codeberg :repo "pidu/git-timemachine"
+			    :files
 			    ("*.el" "*.el.in" "dir" "*.info" "*.texi"
 			     "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi"
 			     "doc/*.texinfo" "lisp/*.el" "docs/dir"
@@ -334,8 +351,8 @@
 		     :protocol https :inherit t :depth treeless :ref
 		     "72f556524b88e9d30dc7fc5b0dc32078c166fda7"))
  (hcl-mode :source "elpaca-menu-lock-file" :recipe
-	   (:package "hcl-mode" :repo "hcl-emacs/hcl-mode" :fetcher github
-		     :files
+	   (:package #("hcl-mode" 0 1 (completion-score 16)) :repo
+		     "hcl-emacs/hcl-mode" :fetcher github :files
 		     ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
 		      "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo"
 		      "lisp/*.el" "docs/dir" "docs/*.info" "docs/*.texi"
@@ -369,8 +386,8 @@
 			:protocol https :inherit t :depth treeless :ref
 			"55caa66a7cc6e0b1a76143fd40eff38416928941"))
  (json-mode :source "elpaca-menu-lock-file" :recipe
-	    (:package "json-mode" :fetcher github :repo "json-emacs/json-mode"
-		      :files
+	    (:package #("json-mode" 0 1 (completion-score 16)) :fetcher github
+		      :repo "json-emacs/json-mode" :files
 		      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
 		       "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo"
 		       "lisp/*.el" "docs/dir" "docs/*.info" "docs/*.texi"
@@ -442,8 +459,8 @@
 		       :protocol https :inherit t :depth treeless :ref
 		       "feb66c02bbd88dba867cdd92b94fe24279ed578a"))
  (markdown-mode :source "elpaca-menu-lock-file" :recipe
-		(:package "markdown-mode" :fetcher github :repo
-			  "jrblevin/markdown-mode" :files
+		(:package #("markdown-mode" 0 1 (completion-score 16)) :fetcher
+			  github :repo "jrblevin/markdown-mode" :files
 			  ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
 			   "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo"
 			   "lisp/*.el" "docs/dir" "docs/*.info" "docs/*.texi"
@@ -575,13 +592,13 @@
 			       :inherit t :depth treeless :ref
 			       "f40ece58df8b2f0fb6c8576b527755a552a5e763"))
  (rainbow-mode :source "elpaca-menu-lock-file" :recipe
-	       (:package "rainbow-mode" :repo
+	       (:package #("rainbow-mode" 0 1 (completion-score 16)) :repo
 			 ("https://github.com/emacsmirror/gnu_elpa"
 			  . "rainbow-mode")
 			 :tar "1.0.6" :host gnu :branch "externals/rainbow-mode"
-			 :files ("*" (:exclude ".git")) :source "GNU ELPA" :id
-			 rainbow-mode :type git :protocol https :inherit t
-			 :depth treeless :ref
+			 :files ("*" (:exclude ".git")) :source
+			 "elpaca-menu-lock-file" :id rainbow-mode :type git
+			 :protocol https :inherit t :depth treeless :ref
 			 "f7db3b5919f70420a91eb199f8663468de3033f3"))
  (s :source "elpaca-menu-lock-file" :recipe
     (:package "s" :fetcher github :repo "magnars/s.el" :files
@@ -643,8 +660,8 @@
 		   :protocol https :inherit t :depth treeless :ref
 		   "ab6d67c2e8abcb9bd20bfe56cba930a5ea093ae0"))
  (terraform-mode :source "elpaca-menu-lock-file" :recipe
-		 (:package "terraform-mode" :repo "hcl-emacs/terraform-mode"
-			   :fetcher github :files
+		 (:package #("terraform-mode" 0 1 (completion-score 16)) :repo
+			   "hcl-emacs/terraform-mode" :fetcher github :files
 			   ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
 			    "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo"
 			    "lisp/*.el" "docs/dir" "docs/*.info" "docs/*.texi"
@@ -667,6 +684,31 @@
 		      :source "elpaca-menu-lock-file" :id transient :type git
 		      :protocol https :inherit t :depth treeless :ref
 		      "1856230dc181f23dd15026b0ad21d8b299b034d1"))
+ (tree-sitter :source "elpaca-menu-lock-file" :recipe
+	      (:package "tree-sitter" :fetcher github :repo
+			"emacs-tree-sitter/elisp-tree-sitter" :branch "release"
+			:files
+			("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
+			 "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo"
+			 "lisp/*.el" "docs/dir" "docs/*.info" "docs/*.texi"
+			 "docs/*.texinfo"
+			 (:exclude ".dir-locals.el" "test.el" "tests.el"
+				   "*-test.el" "*-tests.el" "LICENSE" "README*"
+				   "*-pkg.el"))
+			:source "MELPA" :id tree-sitter :type git :protocol
+			https :inherit t :depth treeless :ref
+			"8f0bd387ad7a1cf7e8fdd5977d386a17ea70a82d"))
+ (ts-fold :source "elpaca-menu-lock-file" :recipe
+	  (:source nil :package "ts-fold" :id ts-fold :host github :repo
+		   "emacs-tree-sitter/ts-fold" :type git :protocol https
+		   :inherit t :depth treeless :ref
+		   "9563e4e9501ed3c95a372148844ba6a89f959d54"))
+ (tsc :source "elpaca-menu-lock-file" :recipe
+      (:package "tsc" :fetcher github :repo
+		"emacs-tree-sitter/elisp-tree-sitter" :branch "release" :files
+		("core/*.el" "core/Cargo.toml" "core/Cargo.lock" "core/src")
+		:source "MELPA" :id tsc :type git :protocol https :inherit t
+		:depth treeless :ref "8f0bd387ad7a1cf7e8fdd5977d386a17ea70a82d"))
  (undo-fu :source "elpaca-menu-lock-file" :recipe
 	  (:package "undo-fu" :fetcher codeberg :repo "ideasman42/emacs-undo-fu"
 		    :files
@@ -689,9 +731,9 @@
 			     (:exclude ".dir-locals.el" "test.el" "tests.el"
 				       "*-test.el" "*-tests.el" "LICENSE"
 				       "README*" "*-pkg.el"))
-			    :source "MELPA" :id undo-fu-session :type git
-			    :protocol https :inherit t :depth treeless :ref
-			    "92d733a5b162a70c572fac17b9f9e872426df547"))
+			    :source "elpaca-menu-lock-file" :id undo-fu-session
+			    :type git :protocol https :inherit t :depth treeless
+			    :ref "92d733a5b162a70c572fac17b9f9e872426df547"))
  (vertico :source "elpaca-menu-lock-file" :recipe
 	  (:package "vertico" :repo "minad/vertico" :files
 		    (:defaults "extensions/vertico-*.el") :fetcher github
@@ -742,8 +784,8 @@
 	     https :inherit t :depth treeless :ref
 	     "cdf2ac2314042243fae385bb8c2821ec9c3888ae"))
  (yaml-mode :source "elpaca-menu-lock-file" :recipe
-	    (:package "yaml-mode" :repo "yoshiki/yaml-mode" :fetcher github
-		      :files
+	    (:package #("yaml-mode" 0 1 (completion-score 16)) :repo
+		      "yoshiki/yaml-mode" :fetcher github :files
 		      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
 		       "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo"
 		       "lisp/*.el" "docs/dir" "docs/*.info" "docs/*.texi"

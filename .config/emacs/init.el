@@ -424,6 +424,37 @@ exit recursive edits) without rearranging windows."
 (let ((hl-line-hooks '(text-mode-hook prog-mode-hook)))
   (mapc (lambda (hook) (add-hook hook #'hl-line-mode)) hl-line-hooks))
 
+;; Code folding: treesit-fold (tree-sitter-aware) > hideshow (regexp-based) >
+;; outline-minor-mode (heading/section folds). Evil's za/zc/zo/zM/zR dispatch
+;; through `evil-fold-list' in order; hideshow and outline are already there, so
+;; we prepend treesit-fold so it wins in tree-sitter buffers.
+(use-package treesit-fold
+  :ensure (treesit-fold :host github :repo "emacs-tree-sitter/treesit-fold")
+  :after evil
+  :hook (prog-mode . cws/maybe-enable-treesit-fold)
+  :init
+  (defun cws/maybe-enable-treesit-fold ()
+    "Enable treesit-fold-mode only when the buffer has a tree-sitter parser."
+    (when (treesit-parser-list)
+      (treesit-fold-mode 1)))
+  :config
+  (push '((treesit-fold-mode)
+          :open-all   treesit-fold-open-all
+          :close-all  treesit-fold-close-all
+          :toggle     treesit-fold-toggle
+          :open       treesit-fold-open
+          :open-rec   treesit-fold-open-recursively
+          :close      treesit-fold-close)
+        evil-fold-list))
+(add-hook 'prog-mode-hook #'hs-minor-mode)
+(add-hook 'prog-mode-hook #'outline-minor-mode)
+(defun cws/hs-display-line-count (ov)
+  "Show the number of hidden lines in a hideshow fold overlay."
+  (overlay-put ov 'display
+               (propertize (format " ... (%d lines) " (count-lines (overlay-start ov) (overlay-end ov)))
+                           'face 'font-lock-comment-face)))
+(setq hs-set-up-overlay #'cws/hs-display-line-count)
+
 ;; Scroll With Cursor One Line At A Time
 ;; Instead of the default of half a screen at a time.
 ;; Note that 0 is the default, which makes Emacs scroll half a screen when point goes off-screen.
