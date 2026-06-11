@@ -389,9 +389,6 @@ exit recursive edits) without rearranging windows."
 (require 'pulse)
 (setq ring-bell-function (lambda () (pulse-momentary-highlight-one-line (point))))
 
-;; Use common keystrokes by default
-(cua-mode)
-
 ;; For terminal users, make the mouse more useful
 
 (xterm-mouse-mode 1)
