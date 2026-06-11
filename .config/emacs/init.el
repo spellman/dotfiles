@@ -224,6 +224,12 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
 (when (fboundp 'undelete-frame-mode)
   (undelete-frame-mode 1))
 
+;; winner-mode: record window configuration history so `winner-undo' /
+;; `winner-redo' can restore a layout after a help or compile buffer blows it
+;; away.
+(winner-mode 1)
+(general-define-key :states 'normal "C-w u" #'winner-undo)
+
 ;; dired-x: extra Dired commands. `dired-jump' opens Dired at the current file's
 ;; containing directory, with point on the file.
 (use-package dired-x
