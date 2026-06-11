@@ -64,7 +64,7 @@ hs.hotkey.bind(hyper, "p", function()
 end)
 
 hs.hotkey.bind(hyper, "s", function()
-	launchOrFocusOrRotate("com.tinyspeck.slackmacgap")
+	launchOrFocusOrRotate("com.tinyspeck.slackmacgap") -- Slack
 end)
 
 hs.hotkey.bind(hyper, "t", function()
