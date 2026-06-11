@@ -68,7 +68,8 @@ hs.hotkey.bind(hyper, "s", function()
 end)
 
 hs.hotkey.bind(hyper, "t", function()
-	launchOrFocusOrRotate("com.googlecode.iterm2")
+	-- launchOrFocusOrRotate("com.googlecode.iterm2")
+	launchOrFocusOrRotate("com.mitchellh.ghostty")
 end)
 
 hs.hotkey.bind(hyper, "v", function()
