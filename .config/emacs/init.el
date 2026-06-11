@@ -230,6 +230,10 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
 (winner-mode 1)
 (general-define-key :states 'normal "C-w u" #'winner-undo)
 
+;; editorconfig: apply per-project indent style, tab width, trailing whitespace
+;; cleanup, etc. from .editorconfig files. Built in since Emacs 29.
+(editorconfig-mode 1)
+
 ;; dired-x: extra Dired commands. `dired-jump' opens Dired at the current file's
 ;; containing directory, with point on the file.
 (use-package dired-x
