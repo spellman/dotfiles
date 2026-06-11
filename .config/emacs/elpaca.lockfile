@@ -670,6 +670,19 @@
 		    :source "elpaca-menu-lock-file" :id undo-fu :type git
 		    :protocol https :inherit t :depth treeless :ref
 		    "5684ef2aef5f60176472916b21869cf221e018cc"))
+ (undo-fu-session :source "elpaca-menu-lock-file" :recipe
+		  (:package "undo-fu-session" :fetcher codeberg :repo
+			    "ideasman42/emacs-undo-fu-session" :files
+			    ("*.el" "*.el.in" "dir" "*.info" "*.texi"
+			     "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi"
+			     "doc/*.texinfo" "lisp/*.el" "docs/dir"
+			     "docs/*.info" "docs/*.texi" "docs/*.texinfo"
+			     (:exclude ".dir-locals.el" "test.el" "tests.el"
+				       "*-test.el" "*-tests.el" "LICENSE"
+				       "README*" "*-pkg.el"))
+			    :source "MELPA" :id undo-fu-session :type git
+			    :protocol https :inherit t :depth treeless :ref
+			    "92d733a5b162a70c572fac17b9f9e872426df547"))
  (vertico :source "elpaca-menu-lock-file" :recipe
 	  (:package "vertico" :repo "minad/vertico" :files
 		    (:defaults "extensions/vertico-*.el") :fetcher github

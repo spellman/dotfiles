@@ -211,6 +211,14 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
   :ensure t
   :commands vundo)
 
+(use-package undo-fu-session
+  :ensure t
+  :demand t
+  :custom
+  (undo-fu-session-incompatible-files '("/COMMIT_EDITMSG\\'" "/git-rebase-todo\\'"))
+  :config
+  (undo-fu-session-global-mode 1))
+
 ;; Reopen recently closed frames with `undelete-frame'. For example,
 ;; `C-u 2 M-x undelete-frame' restores the second-to-last deleted frame.
 (when (fboundp 'undelete-frame-mode)
