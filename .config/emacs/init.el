@@ -453,6 +453,25 @@ exit recursive edits) without rearranging windows."
   (doom-themes-set-faces 'user
     '(evil-ex-search :background orange :foreground bg :weight 'bold)))
 
+(use-package nerd-icons
+  :ensure t)
+
+(use-package doom-modeline
+  :ensure t
+  :demand t
+  :config
+  (setq doom-modeline-buffer-file-name-style 'relative-to-project
+        doom-modeline-buffer-encoding nil
+        doom-modeline-env-version nil)
+  (doom-modeline-def-modeline 'main
+    '(eldoc bar window-state workspace-name window-number modals matches follow buffer-info remote-host buffer-position word-count parrot selection-info)
+    '(compilation objed-state misc-info project-name persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info process vcs check time))
+  (doom-modeline-mode 1))
+
+(use-package nerd-icons-dired
+  :ensure t
+  :hook (dired-mode . nerd-icons-dired-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   UI/UX enhancements

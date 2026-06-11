@@ -139,6 +139,19 @@
 		 ("dash.el" "dash.texi") :source "elpaca-menu-lock-file" :id
 		 dash :type git :protocol https :inherit t :depth treeless :ref
 		 "d3a84021dbe48dba63b52ef7665651e0cf02e915"))
+ (doom-modeline :source "elpaca-menu-lock-file" :recipe
+		(:package "doom-modeline" :repo "seagle0128/doom-modeline"
+			  :fetcher github :files
+			  ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
+			   "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo"
+			   "lisp/*.el" "docs/dir" "docs/*.info" "docs/*.texi"
+			   "docs/*.texinfo"
+			   (:exclude ".dir-locals.el" "test.el" "tests.el"
+				     "*-test.el" "*-tests.el" "LICENSE"
+				     "README*" "*-pkg.el"))
+			  :source "MELPA" :id doom-modeline :type git :protocol
+			  https :inherit t :depth treeless :ref
+			  "c692b65cd9ea21c3fb8cd84302fb9d0152dd7fd0"))
  (doom-themes :source "elpaca-menu-lock-file" :recipe
 	      (:package "doom-themes" :fetcher github :repo "doomemacs/themes"
 			:files
@@ -211,6 +224,15 @@
 				 :source "MELPA" :id exec-path-from-shell :type
 				 git :protocol https :inherit t :depth treeless
 				 :ref "58b33fefdcd90726c3ea7175b2abc68eccae46e1"))
+ (f :source "elpaca-menu-lock-file" :recipe
+    (:package "f" :fetcher github :repo "rejeep/f.el" :files
+	      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir"
+	       "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el" "docs/dir"
+	       "docs/*.info" "docs/*.texi" "docs/*.texinfo"
+	       (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el"
+			 "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
+	      :source "MELPA" :id f :type git :protocol https :inherit t :depth
+	      treeless :ref "931b6d0667fe03e7bf1c6c282d6d8d7006143c52"))
  (flx :source "elpaca-menu-lock-file" :recipe
       (:package "flx" :repo "lewang/flx" :fetcher github :files ("flx.el")
 		:source "elpaca-menu-lock-file" :id flx :type git :protocol
@@ -424,6 +446,26 @@
 			     multiple-cursors :type git :protocol https :inherit
 			     t :depth treeless :ref
 			     "94b8b07a4bab87f803123723b68227565429dfa1"))
+ (nerd-icons :source "elpaca-menu-lock-file" :recipe
+	     (:package "nerd-icons" :repo "rainstormstudio/nerd-icons.el"
+		       :fetcher github :files (:defaults "data") :source "MELPA"
+		       :id nerd-icons :type git :protocol https :inherit t
+		       :depth treeless :ref
+		       "d33d12f5dcb6bf2fb23c3f75df5de85beb4afd95"))
+ (nerd-icons-dired :source "elpaca-menu-lock-file" :recipe
+		   (:package "nerd-icons-dired" :repo
+			     "rainstormstudio/nerd-icons-dired" :fetcher github
+			     :files
+			     ("*.el" "*.el.in" "dir" "*.info" "*.texi"
+			      "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi"
+			      "doc/*.texinfo" "lisp/*.el" "docs/dir"
+			      "docs/*.info" "docs/*.texi" "docs/*.texinfo"
+			      (:exclude ".dir-locals.el" "test.el" "tests.el"
+					"*-test.el" "*-tests.el" "LICENSE"
+					"README*" "*-pkg.el"))
+			     :source "MELPA" :id nerd-icons-dired :type git
+			     :protocol https :inherit t :depth treeless :ref
+			     "104acd8879528b8115589f35f1bbcbe231ad732f"))
  (orderless :source "elpaca-menu-lock-file" :recipe
 	    (:package "orderless" :repo "oantolin/orderless" :fetcher github
 		      :files
@@ -495,6 +537,15 @@
 		  ("*" (:exclude ".git")) :source "elpaca-menu-lock-file" :id
 		  queue :type git :protocol https :inherit t :depth treeless
 		  :ref "f986fb68e75bdae951efb9e11a3012ab6bd408ee"))
+ (s :source "elpaca-menu-lock-file" :recipe
+    (:package "s" :fetcher github :repo "magnars/s.el" :files
+	      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir"
+	       "doc/*.info" "doc/*.texi" "doc/*.texinfo" "lisp/*.el" "docs/dir"
+	       "docs/*.info" "docs/*.texi" "docs/*.texinfo"
+	       (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el"
+			 "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
+	      :source "MELPA" :id s :type git :protocol https :inherit t :depth
+	      treeless :ref "7393fa6fa305403e628058c0ec78c35d610fab05"))
  (sesman :source "elpaca-menu-lock-file" :recipe
 	 (:package "sesman" :repo "vspinu/sesman" :fetcher github :files
 		   ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
@@ -506,6 +557,19 @@
 		   :source "elpaca-menu-lock-file" :id sesman :type git
 		   :protocol https :inherit t :depth treeless :ref
 		   "7bca68dbbab0af26a6a23be1ff5fa97f9a18e022"))
+ (shrink-path :source "elpaca-menu-lock-file" :recipe
+	      (:package "shrink-path" :fetcher gitlab :repo
+			"bennya/shrink-path.el" :files
+			("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
+			 "doc/dir" "doc/*.info" "doc/*.texi" "doc/*.texinfo"
+			 "lisp/*.el" "docs/dir" "docs/*.info" "docs/*.texi"
+			 "docs/*.texinfo"
+			 (:exclude ".dir-locals.el" "test.el" "tests.el"
+				   "*-test.el" "*-tests.el" "LICENSE" "README*"
+				   "*-pkg.el"))
+			:source "MELPA" :id shrink-path :type git :protocol
+			https :inherit t :depth treeless :ref
+			"c14882c8599aec79a6e8ef2d06454254bb3e1e41"))
  (spinner :source "elpaca-menu-lock-file" :recipe
 	  (:package "spinner" :repo
 		    ("https://github.com/Malabarba/spinner.el" . "spinner") :tar
@@ -583,7 +647,7 @@
 			      treeless :ref
 			      "87e2d2f2ddf24f591a5f70cc90d2afb4537caa18"))
  (vundo :source "elpaca-menu-lock-file" :recipe
-	(:package #("vundo" 0 1 (completion-score 16)) :repo
+	(:package #("vundo" 0 1 (completion-score 29)) :repo
 		  ("https://github.com/casouri/vundo" . "vundo") :tar "2.4.0"
 		  :host gnu :files ("*" (:exclude ".git" "test")) :source
 		  "elpaca-menu-lock-file" :id vundo :type git :protocol https
