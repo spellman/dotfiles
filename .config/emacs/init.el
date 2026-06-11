@@ -497,6 +497,10 @@ exit recursive edits) without rearranging windows."
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
 
+(use-package rainbow-mode
+  :ensure t
+  :hook (prog-mode . rainbow-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   UI/UX enhancements
