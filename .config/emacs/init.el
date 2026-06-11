@@ -458,11 +458,12 @@ exit recursive edits) without rearranging windows."
 
 ;; Minibuffer and autocompletion interface enhancements; strongly recommended.
 ;;
-;; The main search/find keybindings invoke fzfa (async fzf-backed completion;
-;; see the fzfa block in the Minibuffer section below). The consult package
-;; remains installed: it provides the isearch integration, eshell history
-;; search, and is a library dependency of affe. Its full command set is still
-;; available via M-x; see:
+;; File-finding keybindings invoke fzfa (async fzf-backed completion; see the
+;; fzfa block in the Minibuffer section below). Content search (leader-/) uses
+;; consult-ripgrep, which sends the query to rg so filtering is by file content
+;; rather than file path. Consult also provides isearch integration, eshell
+;; history search, and is a library dependency of affe. Its full command set is
+;; still available via M-x; see:
 ;;
 ;;     https://github.com/minad/consult
 
@@ -477,13 +478,19 @@ exit recursive edits) without rearranging windows."
 
 ;;;; Power-ups: Embark and Consult
 
-;; Consult: Misc. enhanced commands. The global search/buffer keybindings these
-;; used to claim (C-x b, M-y, M-s ...) now invoke fzfa equivalents -- see the
-;; fzfa block below. Consult stays for its isearch integration here, the eshell
-;; C-r history search, and as a library affe depends on.
+;; Consult: Misc. enhanced commands. Content search (leader-/) uses
+;; consult-ripgrep; buffer/file-finding keybindings use fzfa equivalents (see
+;; the fzfa block below). Consult also provides isearch integration, eshell C-r
+;; history search, and is a library dependency of affe.
 (use-package consult
   :ensure t
+  :after (evil general)
   :config
+  (general-define-key
+   :states  'normal
+   :keymaps 'override
+   :prefix  cws/leader
+   "/"   '(consult-ripgrep      :which-key "Search"))
   ;; Narrowing lets you restrict results to certain groups of candidates
   (setq consult-narrow-key "<")
   ;; Respect .ignore/.rgignore/.fdignore but NOT .gitignore (--no-ignore-vcs),
@@ -684,7 +691,6 @@ exit recursive edits) without rearranging windows."
   ;; The *-2p commands are generated at load time by `fzfa-2p-define', so the
   ;; package autoloads file does not know about them; point cold invocations at
   ;; the files that define them.
-  (autoload 'fzfa-rg-2p "fzfa-rg" nil t)
   (autoload 'fzfa-fd-2p "fzfa-fd" nil t)
 
   (defun cws/fzfa-project-switch-project-dired (&rest _args)
@@ -706,12 +712,6 @@ exit recursive edits) without rearranging windows."
     (advice-add 'fzfa-project-switch-project
                 :override #'cws/fzfa-project-switch-project-dired))
 
-  ;; Plain commands are single-pass fuzzy (the whole query goes to fzf); *-2p
-  ;; commands are consult-style two-pass (text before the first space
-  ;; pre-filters via the shell tool, the rest goes to fzf). Each binding's
-  ;; extended definition `(COMMAND :which-key LABEL)' defines the key and its
-  ;; which-key label together, so they cannot drift. The override keymap keeps
-  ;; the leader available in modes such as Dired that bind SPC locally.
   (general-define-key
    :states  'normal
    :keymaps 'override
@@ -730,8 +730,6 @@ exit recursive edits) without rearranging windows."
 
    "p"   '(fzfa-project-switch-project :which-key "Projects")
 
-   "/"   '(fzfa-rg             :which-key "Search")
-   "s f" '(fzfa-rg-2p          :which-key "Search w/filtering")
    "s i" '(fzfa-imenu          :which-key "iMenu")
    "s b" '(fzfa-swiper         :which-key "Search in buffer"))
   :custom
@@ -741,8 +739,6 @@ exit recursive edits) without rearranging windows."
   ;; so the quoting in --glob '!.git' is honored.
   (fzfa-rg-files-command
    "rg --files --no-ignore-vcs --hidden --glob '!.git'")
-  (fzfa-rg-command
-   "rg --line-number --no-heading --with-filename --no-ignore-vcs --hidden --glob '!.git' %s ''")
   (fzfa-fd-command
    "fd --full-path --no-ignore-vcs --hidden --exclude .git --type file")
   ;; Preview after a brief pause, like the 0.1 s debounce consult used.
@@ -776,8 +772,13 @@ exit recursive edits) without rearranging windows."
 ;; for small/medium projects. Needs fd (affe-find) and rg (affe-grep).
 (use-package affe
   :ensure t
-  :after (consult orderless)
+  :after (consult orderless evil general)
   :config
+  (general-define-key
+   :states  'normal
+   :keymaps 'override
+   :prefix  cws/leader
+   "s f" '(affe-grep :which-key "Search fuzzy"))
   ;; Same ignore behavior as consult: respect .ignore but not .gitignore
   ;; (--no-ignore-vcs), include hidden files, skip .git. affe-find/affe-grep
   ;; also default to the project root via consult--directory-prompt.
