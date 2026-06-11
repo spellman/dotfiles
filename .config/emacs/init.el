@@ -225,6 +225,12 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
   :general (:states 'normal
             "-" #'dired-jump))
 
+;; macOS ls doesn't support --dired; use GNU ls from coreutils.
+(when (eq system-type 'darwin)
+  (setq dired-use-ls-dired t
+        insert-directory-program "gls"
+        dired-listing-switches "-ahl"))
+
 ;; Fix archaic defaults
 (setopt sentence-end-double-space nil)
 ;; Default hard-wrap column. Major modes can still set buffer-local values for
