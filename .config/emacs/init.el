@@ -472,6 +472,19 @@ exit recursive edits) without rearranging windows."
   :ensure t
   :hook (dired-mode . nerd-icons-dired-mode))
 
+(use-package hl-todo
+  :ensure t
+  :hook ((prog-mode org-mode) . hl-todo-mode)
+  :config
+  (setq hl-todo-keyword-faces
+        '(("TODO"       warning bold)
+          ("FIXME"      error bold)
+          ("HACK"       font-lock-constant-face bold)
+          ("REVIEW"     font-lock-keyword-face bold)
+          ("NOTE"       success bold)
+          ("DEPRECATED" font-lock-doc-face bold)
+          ("QUESTION"   font-lock-constant-face bold))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
 ;;;   UI/UX enhancements
