@@ -275,9 +275,9 @@
 			   (:exclude ".dir-locals.el" "test.el" "tests.el"
 				     "*-test.el" "*-tests.el" "LICENSE"
 				     "README*" "*-pkg.el"))
-			  :source "MELPA" :id fringe-helper :type git :protocol
-			  https :inherit t :depth treeless :ref
-			  "ef4a9c023bae18ec1ddd7265f1f2d6d2e775efdd"))
+			  :source "elpaca-menu-lock-file" :id fringe-helper
+			  :type git :protocol https :inherit t :depth treeless
+			  :ref "ef4a9c023bae18ec1ddd7265f1f2d6d2e775efdd"))
  (fussy :source "elpaca-menu-lock-file" :recipe
 	(:package "fussy" :fetcher github :repo "jojojames/fussy" :files
 		  ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
@@ -506,6 +506,20 @@
 			     nerd-icons-dired :type git :protocol https :inherit
 			     t :depth treeless :ref
 			     "104acd8879528b8115589f35f1bbcbe231ad732f"))
+ (nerd-icons-ibuffer :source "elpaca-menu-lock-file" :recipe
+		     (:package "nerd-icons-ibuffer" :repo
+			       "seagle0128/nerd-icons-ibuffer" :fetcher github
+			       :files
+			       ("*.el" "*.el.in" "dir" "*.info" "*.texi"
+				"*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi"
+				"doc/*.texinfo" "lisp/*.el" "docs/dir"
+				"docs/*.info" "docs/*.texi" "docs/*.texinfo"
+				(:exclude ".dir-locals.el" "test.el" "tests.el"
+					  "*-test.el" "*-tests.el" "LICENSE"
+					  "README*" "*-pkg.el"))
+			       :source "MELPA" :id nerd-icons-ibuffer :type git
+			       :protocol https :inherit t :depth treeless :ref
+			       "13007b941ebfa471122f0658a2315040b8eb4aa4"))
  (orderless :source "elpaca-menu-lock-file" :recipe
 	    (:package "orderless" :repo "oantolin/orderless" :fetcher github
 		      :files
@@ -695,20 +709,21 @@
 			 (:exclude ".dir-locals.el" "test.el" "tests.el"
 				   "*-test.el" "*-tests.el" "LICENSE" "README*"
 				   "*-pkg.el"))
-			:source "MELPA" :id tree-sitter :type git :protocol
-			https :inherit t :depth treeless :ref
+			:source "elpaca-menu-lock-file" :id tree-sitter :type
+			git :protocol https :inherit t :depth treeless :ref
 			"8f0bd387ad7a1cf7e8fdd5977d386a17ea70a82d"))
  (ts-fold :source "elpaca-menu-lock-file" :recipe
-	  (:source nil :package "ts-fold" :id ts-fold :host github :repo
-		   "emacs-tree-sitter/ts-fold" :type git :protocol https
-		   :inherit t :depth treeless :ref
+	  (:source "elpaca-menu-lock-file" :package "ts-fold" :id ts-fold :host
+		   github :repo "emacs-tree-sitter/ts-fold" :type git :protocol
+		   https :inherit t :depth treeless :ref
 		   "9563e4e9501ed3c95a372148844ba6a89f959d54"))
  (tsc :source "elpaca-menu-lock-file" :recipe
       (:package "tsc" :fetcher github :repo
 		"emacs-tree-sitter/elisp-tree-sitter" :branch "release" :files
 		("core/*.el" "core/Cargo.toml" "core/Cargo.lock" "core/src")
-		:source "MELPA" :id tsc :type git :protocol https :inherit t
-		:depth treeless :ref "8f0bd387ad7a1cf7e8fdd5977d386a17ea70a82d"))
+		:source "elpaca-menu-lock-file" :id tsc :type git :protocol
+		https :inherit t :depth treeless :ref
+		"8f0bd387ad7a1cf7e8fdd5977d386a17ea70a82d"))
  (undo-fu :source "elpaca-menu-lock-file" :recipe
 	  (:package "undo-fu" :fetcher codeberg :repo "ideasman42/emacs-undo-fu"
 		    :files

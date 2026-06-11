@@ -521,6 +521,10 @@ exit recursive edits) without rearranging windows."
   :ensure t
   :hook (dired-mode . nerd-icons-dired-mode))
 
+(use-package nerd-icons-ibuffer
+  :ensure t
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+
 (use-package hl-todo
   :ensure t
   :hook ((prog-mode org-mode) . hl-todo-mode)
