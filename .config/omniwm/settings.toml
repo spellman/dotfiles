@@ -493,7 +493,7 @@ id = "focusMonitorLast"
 # id = "moveWorkspaceToMonitor.left"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Control+Option+Command+Shift+F"
 id = "toggleFullscreen"
 
 [[hotkeys]]
