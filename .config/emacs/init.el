@@ -935,6 +935,14 @@ exit recursive edits) without rearranging windows."
   ;; %Y year, %m month, %d day, %H 24h hour, %M minute
   (magit-log-margin '(t "%Y-%m-%d %H:%M" magit-log-margin-width t 18)))
 
+(use-package git-timemachine
+  :ensure t
+  :defer t
+  :general (:states 'normal
+            :keymaps 'override
+            :prefix  cws/leader
+            "g t" '(git-timemachine :which-key "Git timemachine")))
+
 ;;;; Syntax checking
 
 ;; Flycheck: on-the-fly syntax and lint checking. Enabled per-buffer through the

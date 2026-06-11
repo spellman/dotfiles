@@ -307,6 +307,19 @@
 		    :source "elpaca-menu-lock-file" :id general :wait t :type
 		    git :protocol https :inherit t :depth treeless :ref
 		    "a48768f85a655fe77b5f45c2880b420da1b1b9c3"))
+ (git-timemachine :source "elpaca-menu-lock-file" :recipe
+		  (:package "git-timemachine" :fetcher codeberg :repo
+			    "pidu/git-timemachine" :files
+			    ("*.el" "*.el.in" "dir" "*.info" "*.texi"
+			     "*.texinfo" "doc/dir" "doc/*.info" "doc/*.texi"
+			     "doc/*.texinfo" "lisp/*.el" "docs/dir"
+			     "docs/*.info" "docs/*.texi" "docs/*.texinfo"
+			     (:exclude ".dir-locals.el" "test.el" "tests.el"
+				       "*-test.el" "*-tests.el" "LICENSE"
+				       "README*" "*-pkg.el"))
+			    :source "MELPA" :id git-timemachine :type git
+			    :protocol https :inherit t :depth treeless :ref
+			    "d1346a76122595aeeb7ebb292765841c6cfd417b"))
  (goto-chg :source "elpaca-menu-lock-file" :recipe
 	   (:package "goto-chg" :repo "emacs-evil/goto-chg" :fetcher github
 		     :files
@@ -557,8 +570,9 @@
 				(:exclude ".dir-locals.el" "test.el" "tests.el"
 					  "*-test.el" "*-tests.el" "LICENSE"
 					  "README*" "*-pkg.el"))
-			       :source "MELPA" :id rainbow-delimiters :type git
-			       :protocol https :inherit t :depth treeless :ref
+			       :source "elpaca-menu-lock-file" :id
+			       rainbow-delimiters :type git :protocol https
+			       :inherit t :depth treeless :ref
 			       "f40ece58df8b2f0fb6c8576b527755a552a5e763"))
  (s :source "elpaca-menu-lock-file" :recipe
     (:package "s" :fetcher github :repo "magnars/s.el" :files
