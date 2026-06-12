@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+launchctl unload ~/Library/LaunchAgents/emacs.plist
+launchctl load -w ~/Library/LaunchAgents/emacs.plist
