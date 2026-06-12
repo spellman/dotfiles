@@ -29,6 +29,10 @@
 ;; 1 MB drains them in far fewer cycles, so fzfa-rg/fzfa-fd populate
 ;; candidates faster.
 (setq read-process-output-max (* 1024 1024))
+;; Prefer a newer .el over an older .elc. Elpaca symlinks sources into its
+;; builds directory, so editing a package's source leaves a stale .elc behind
+;; until elpaca rebuilds; without this, load picks the stale .elc.
+(setq load-prefer-newer t)
 (setq byte-compile-warnings '(not obsolete))
 (setq warning-suppress-log-types '((comp) (bytecomp)))
 (setq native-comp-async-report-warnings-errors 'silent)
