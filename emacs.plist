@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!--
 Make a symlink to this file at `~/Library/LaunchAgents/emacs.plist`
 Then run
@@ -5,14 +7,14 @@ Then run
 launchctl unload ~/Library/LaunchAgents/emacs.plist
 launchctl load -w ~/Library/LaunchAgents/emacs.plist
 ```
---> 
+-->
 <plist version="1.0">
   <dict>
     <key>Label</key>
     <string>emacs</string>
     <key>ProgramArguments</key>
     <array>
-      <string>/opt/homebrew/opt/emacs-plus/bin/emacs</string>
+      <string>/Applications/Emacs.app/Contents/MacOS/Emacs</string>
       <string>--daemon</string>
     </array>
     <key>RunAtLoad</key>

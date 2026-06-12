@@ -79,3 +79,33 @@ end)
 hs.hotkey.bind(hyper, "z", function()
 	launchOrFocusOrRotate("us.zoom.xos")
 end)
+
+local function ghosttyCwd()
+	local ok, output = hs.osascript.applescript(
+		'tell application "Ghostty" to get working directory of focused terminal of selected tab of front window'
+	)
+	if ok and output and output ~= "" then
+		return output
+	end
+	return nil
+end
+
+hs.hotkey.bind({"ctrl", "cmd"}, "e", function()
+	local focusedWindow = hs.window.focusedWindow()
+	local dir = nil
+
+	if focusedWindow then
+		local app = focusedWindow:application()
+		if app and app:bundleID() == "com.mitchellh.ghostty" then
+			dir = ghosttyCwd()
+		end
+	end
+
+	if dir then
+		dir = dir:gsub("\\", "\\\\"):gsub('"', '\\"')
+		local elisp = '(dired "' .. dir .. '")'
+		hs.task.new("/opt/homebrew/bin/emacsclient", nil, {"--no-wait", "--create-frame", "--eval", elisp}):start()
+	else
+		hs.task.new("/opt/homebrew/bin/emacsclient", nil, {"--no-wait", "--create-frame"}):start()
+	end
+end)

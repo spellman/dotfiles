@@ -57,7 +57,7 @@
 ;; and node are invisible. exec-path-from-shell copies the shell environment
 ;; into Emacs at startup.
 (elpaca exec-path-from-shell
-  (when (memq window-system '(mac ns x))
+  (when (or (daemonp) (memq window-system '(mac ns x)))
     (exec-path-from-shell-initialize)))
 
 ;; Pin packages to the versions recorded in elpaca.lockfile (written with
