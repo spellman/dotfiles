@@ -1,12 +1,7 @@
-# OPENSPEC:START
-# OpenSpec shell completions configuration
 fpath=("/Users/cort/.zsh/completions" $fpath)
 autoload -Uz compinit
-compinit
-# OPENSPEC:END
-
-# Add deno completions to search path
-if [[ ":$FPATH:" != *":/Users/cort/.zsh/completions:"* ]]; then export FPATH="/Users/cort/.zsh/completions:$FPATH"; fi
+# Uses cached dump; run `rm -f ~/.zcompdump && compinit` to regenerate after installing new tools.
+compinit -C
 eval "$(starship init zsh)"
 
 setopt INC_APPEND_HISTORY
@@ -89,12 +84,14 @@ alias flush-dns="sudo killall -HUP mDNSResponder; sleep 2;"
 alias ipaddress="ifconfig | grep inet"
 
 # Java
-# `JAVA_*_HOME` environment variables are set and exported in ~/.zshenv
-alias java8='export JAVA_HOME=$JAVA_8_HOME'
-alias java11='export JAVA_HOME=$JAVA_11_HOME'
-alias java17='export JAVA_HOME=$JAVA_17_HOME'
-alias java21='export JAVA_HOME=$JAVA_21_HOME'
-alias java25='export JAVA_HOME=$JAVA_25_HOME'
+# JAVA_HOME is resolved when the alias runs, not at shell startup.
+# Note: java_home falls back to the newest installed JDK when the requested
+# version is not installed.
+alias java8='export JAVA_HOME=$(/usr/libexec/java_home -v 8)'
+alias java11='export JAVA_HOME=$(/usr/libexec/java_home -v 11)'
+alias java17='export JAVA_HOME=$(/usr/libexec/java_home -v 17)'
+alias java21='export JAVA_HOME=$(/usr/libexec/java_home -v 21)'
+alias java25='export JAVA_HOME=$(/usr/libexec/java_home -v 25)'
 
 # default to Java 25
 java25
@@ -196,23 +193,39 @@ alias aws-tooling-console="pacs-aws -p Tooling -f -l -t "
 # There are multiple files. I want the value from the right file :)
 alias aws-expires="jq '.expiresAt' ~/.aws/sso/cache/*.json"
 
-# cdktf tab completion
-. <(cdktf completion 2>/dev/null)
+# cdktf tab completion (cached; run `cdktf completion > ~/.zsh/completions/_cdktf` to refresh)
+[[ -s "$HOME/.zsh/completions/_cdktf" ]] && . "$HOME/.zsh/completions/_cdktf"
 
 alias ndss="put-network-deactivation-screenshot-names-in-clipboard"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 
-# If a project has .nvmrc, use it. Otherwise, fall back to the default.
-if command -v nvm >/dev/null 2>&1; then
-  if [[ -f .nvmrc ]]; then
-    nvm use --silent >/dev/null || nvm install --silent
-  else
-    nvm use --silent default >/dev/null
+# Put the latest installed node on PATH immediately so node/npm/npx
+# work without loading nvm.sh (~1.4s). When NVM loads (via the nvm
+# wrapper or .nvmrc), it takes over PATH management.
+if [[ -d "$NVM_DIR/versions/node" ]]; then
+  _nvm_latest=$(ls "$NVM_DIR/versions/node" | sort -V | tail -1)
+  if [[ -n "$_nvm_latest" ]]; then
+    path_prepend "$NVM_DIR/versions/node/$_nvm_latest/bin" PATH
   fi
+  unset _nvm_latest
+fi
+
+_load_nvm() {
+  unfunction nvm 2>/dev/null
+  [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+}
+
+nvm() {
+  _load_nvm
+  nvm "$@"
+}
+
+if [[ -f .nvmrc ]]; then
+  _load_nvm
+  nvm use --silent >/dev/null || nvm install --silent
 fi
 
 # bun completions

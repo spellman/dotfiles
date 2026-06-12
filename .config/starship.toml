@@ -6,11 +6,21 @@ command_timeout = 1000
 # Inserts a blank line between shell prompts
 add_newline = true
 
-[kubernetes]
-disabled = true
-
-[package]
-disabled = true
-
-[scala]
-disabled = true
+# Explicit module list. Modules not listed here are never computed or shown.
+# Notably, no language/toolchain modules (java, nodejs, python, ...).
+format = """
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_status\
+$aws\
+$gcloud\
+$cmd_duration\
+$line_break\
+$jobs\
+$battery\
+$status\
+$character"""

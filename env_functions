@@ -4,82 +4,29 @@
 # This allows using the Emacs package
 # https://github.com/purcell/exec-path-from-shell to set environment variables
 # for Emacs.
-
-# Source: https://heptapod.host/flowblok/shell-startup/-/blob/65940865dc584083a16b23e458ed4945920af694/.shell/env_functions
-indirect_expand () {
-    env |sed -n "s/^$1=//p"
-}
-
-# Usage: path_remove /path/to/bin [PATH]
-# Eg, to remove ~/bin from $PATH
-#     path_remove ~/bin PATH
-path_remove () {
-    local IFS=':'
-    local newpath
-    local dir
-    local var=${2:-PATH}
-    # Bash has ${!var}, but this is not portable.
-    for dir in `indirect_expand "$var"`; do
-        IFS=''
-        if [ "$dir" != "$1" ]; then
-            newpath=$newpath:$dir
-        fi
-    done
-    export $var=${newpath#:}
-}
-
-# Usage: path_prepend /path/to/bin [PATH]
-# Eg, to prepend ~/bin to $PATH
-#     path_prepend ~/bin PATH
-path_prepend () {
-    # if the path is already in the variable,
-    # remove it so we can move it to the front
-    path_remove "$1" "$2"
-    #[ -d "${1}" ] || return
-    local var="${2:-PATH}"
-    local value=`indirect_expand "$var"`
-    export ${var}="${1}${value:+:${value}}"
-}
-
-# Usage: path_append /path/to/bin [PATH]
-# Eg, to append ~/bin to $PATH
-#     path_append ~/bin PATH
-path_append () {
-    path_remove "${1}" "${2}"
-    #[ -d "${1}" ] || return
-    local var=${2:-PATH}
-    local value=`indirect_expand "$var"`
-    export $var="${value:+${value}:}${1}"
-}
-
-# Usage: source_if_exists filename
-source_if_exists () {
-    if [ -r "$1" ]; then
-        . "$1"
-    fi
-}
+#
+# These functions are zsh-specific. They use zsh parameter expansion instead of
+# spawning subprocesses (the previous implementation ran `env | sed` for every
+# call, which added ~100ms to shell startup across all the calls in the config
+# files).
 
 # Usage: indirect_expand PATH -> $PATH
 indirect_expand () {
-    env |sed -n "s/^$1=//p"
+    print -r -- "${(P)1}"
 }
 
 # Usage: path_remove /path/to/bin [PATH]
 # Eg, to remove ~/bin from $PATH
 #     path_remove ~/bin PATH
 path_remove () {
-    local IFS=':'
-    local newpath
-    local dir
     local var=${2:-PATH}
-    # Bash has ${!var}, but this is not portable.
-    for dir in `indirect_expand "$var"`; do
-        IFS=''
-        if [ "$dir" != "$1" ]; then
-            newpath=$newpath:$dir
-        fi
-    done
-    export $var=${newpath#:}
+    # Split the variable's value on colons into an array.
+    local -a dirs
+    dirs=("${(@s.:.)${(P)var}}")
+    # Drop array elements equal to $1.
+    dirs=("${(@)dirs:#$1}")
+    # Join the remaining elements with colons.
+    export $var="${(j.:.)dirs}"
 }
 
 # Usage: path_prepend /path/to/bin [PATH]
@@ -89,9 +36,8 @@ path_prepend () {
     # if the path is already in the variable,
     # remove it so we can move it to the front
     path_remove "$1" "$2"
-    #[ -d "${1}" ] || return
     local var="${2:-PATH}"
-    local value=`indirect_expand "$var"`
+    local value="${(P)var}"
     export ${var}="${1}${value:+:${value}}"
 }
 
@@ -100,9 +46,8 @@ path_prepend () {
 #     path_append ~/bin PATH
 path_append () {
     path_remove "${1}" "${2}"
-    #[ -d "${1}" ] || return
     local var=${2:-PATH}
-    local value=`indirect_expand "$var"`
+    local value="${(P)var}"
     export $var="${value:+${value}:}${1}"
 }
 
@@ -113,4 +58,3 @@ source_if_exists () {
         . "$1"
     fi
 }
-
