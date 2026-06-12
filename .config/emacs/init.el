@@ -1269,6 +1269,24 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
   ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
   )
 
+;;;; Illuminate: highlight symbol at point (treesit > LSP > regex)
+
+(use-package treesit-highlight-symbol
+  :ensure (treesit-highlight-symbol :host github :repo "spellman/treesit-highlight-symbol")
+  :defer t)
+
+(use-package illuminate
+  :ensure (illuminate :host github :repo "spellman/illuminate")
+  :after (evil general)
+  :demand t
+  :config
+  (global-illuminate-mode 1)
+  (general-define-key
+   :states  'normal
+   :keymaps 'override
+   "]h" '(illuminate-next :which-key "Next highlight")
+   "[h" '(illuminate-prev :which-key "Prev highlight")))
+
 ;;;; Templating
 
 (use-package tempel
