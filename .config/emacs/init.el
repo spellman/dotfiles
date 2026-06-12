@@ -181,6 +181,16 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
  "C-<up>"    #'windmove-up
  "C-<down>"  #'windmove-down)
 
+;; Track the last GUI frame that had OS-level focus so external tools
+;; (emacsclient --eval from Hammerspoon) can find the right frame in daemon
+;; mode, where selected-frame doesn't track OS focus.
+(defvar cws/last-focused-frame nil)
+(defun cws/track-focused-frame ()
+  (dolist (f (frame-list))
+    (when (frame-focus-state f)
+      (setq cws/last-focused-frame f))))
+(add-function :after after-focus-change-function #'cws/track-focused-frame)
+
 ;; Close the selected frame when explicitly asked, even when Emacs thinks it is
 ;; the last visible frame. On macOS, Command-W is `s-w'.
 (defun cws/delete-frame-force ()

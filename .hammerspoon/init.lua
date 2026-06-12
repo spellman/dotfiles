@@ -1,3 +1,7 @@
+-- Command-line access to this Hammerspoon instance (the `hs` CLI), so
+-- bindings can be exercised and debugged from a terminal.
+require("hs.ipc")
+
 local hyper = { "ctrl", "alt", "cmd" }
 local shift_hyper = { "ctrl", "alt", "cmd", "shift" }
 
@@ -90,6 +94,72 @@ local function ghosttyCwd()
 	return nil
 end
 
+local function shellQuote(s)
+	return "'" .. s:gsub("'", "'\\''") .. "'"
+end
+
+local function emacsProjectRoot()
+	-- The Emacs frame still holds OS focus when the hotkey fires, so ask for
+	-- the focused frame directly; fall back to the tracked frame, then to
+	-- selected-frame. Ghostty does not expand "~", so the root must be
+	-- returned as an absolute path.
+	local elisp = "(let* ((f (or (seq-find #'frame-focus-state (frame-list))" ..
+		" (and cws/last-focused-frame (frame-live-p cws/last-focused-frame) cws/last-focused-frame)" ..
+		" (selected-frame)))" ..
+		" (buf (window-buffer (frame-selected-window f))))" ..
+		" (with-current-buffer buf" ..
+		" (let ((p (project-current))) (when p (expand-file-name (project-root p))))))"
+	local output, status = hs.execute(
+		"/opt/homebrew/bin/emacsclient --eval " .. shellQuote(elisp) .. " 2>&1",
+		true
+	)
+	if not status then
+		hs.alert.show("emacsclient error: " .. (output or "no output"))
+		return nil
+	end
+	-- The interactive login shell prints rc-file noise (zle warnings, iTerm2
+	-- escape sequences, some without trailing newlines) before emacsclient's
+	-- result, so take the quoted absolute path at the END of the output.
+	if output then
+		local path = output:match('"(/[^"\n]*)"%s*$')
+		if path then
+			return path
+		end
+	end
+	return nil
+end
+
+local function openGhosttyWindow(dir)
+	local ok, result, descriptor
+	if dir then
+		dir = dir:gsub('\\', '\\\\'):gsub('"', '\\"')
+		ok, result, descriptor = hs.osascript.applescript(string.format(
+			'tell application "Ghostty"\n' ..
+			'  activate\n' ..
+			'  new window with configuration {initial working directory:"%s"}\n' ..
+			'end tell',
+			dir
+		))
+	else
+		ok, result, descriptor = hs.osascript.applescript(
+			'tell application "Ghostty"\n' ..
+			'  activate\n' ..
+			'  new window\n' ..
+			'end tell'
+		)
+	end
+	if not ok then
+		hs.alert.show("Ghostty new window failed: " .. hs.inspect(descriptor or result))
+	end
+end
+
+-- Globals so the pieces can be exercised from the `hs` CLI.
+cws = {
+	ghosttyCwd = ghosttyCwd,
+	emacsProjectRoot = emacsProjectRoot,
+	openGhosttyWindow = openGhosttyWindow,
+}
+
 hs.hotkey.bind({"ctrl", "cmd"}, "e", function()
 	local focusedWindow = hs.window.focusedWindow()
 	local dir = nil
@@ -101,11 +171,32 @@ hs.hotkey.bind({"ctrl", "cmd"}, "e", function()
 		end
 	end
 
+	-- Visiting a directory with emacsclient opens it in dired, so the new
+	-- frame lands in dired at dir with no --eval needed.
+	local cmd = "/opt/homebrew/bin/emacsclient --no-wait --create-frame"
 	if dir then
-		dir = dir:gsub("\\", "\\\\"):gsub('"', '\\"')
-		local elisp = '(dired "' .. dir .. '")'
-		hs.task.new("/opt/homebrew/bin/emacsclient", nil, {"--no-wait", "--create-frame", "--eval", elisp}):start()
-	else
-		hs.task.new("/opt/homebrew/bin/emacsclient", nil, {"--no-wait", "--create-frame"}):start()
+		cmd = cmd .. " " .. shellQuote(dir)
 	end
+	local output, status = hs.execute(cmd .. " 2>&1", true)
+	if not status then
+		hs.alert.show("emacsclient error: " .. (output or "no output"))
+	end
+end)
+
+hs.hotkey.bind({"ctrl", "cmd"}, "t", function()
+	local focusedWindow = hs.window.focusedWindow()
+	local dir = nil
+
+	if focusedWindow then
+		local app = focusedWindow:application()
+		local bundleID = app and app:bundleID()
+
+		if bundleID == "com.mitchellh.ghostty" then
+			dir = ghosttyCwd()
+		elseif bundleID == "org.gnu.Emacs" then
+			dir = emacsProjectRoot()
+		end
+	end
+
+	openGhosttyWindow(dir)
 end)
