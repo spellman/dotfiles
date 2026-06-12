@@ -1,6 +1,9 @@
 # Mac
 .DS_Store
 
+.claude
+.codex
+
 # Leiningen
 pom.xml
 pom.xml.asc
