@@ -502,6 +502,10 @@ exit recursive edits) without rearranging windows."
   (doom-themes-set-faces 'user
     '(evil-ex-search :background orange :foreground bg :weight 'bold)))
 
+(with-eval-after-load 'doom-themes
+  (doom-themes-set-faces 'user
+    '(completions-common-part :inherit 'match)))
+
 (use-package nerd-icons
   :ensure t)
 
