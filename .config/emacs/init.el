@@ -1004,7 +1004,14 @@ exit recursive edits) without rearranging windows."
   (magit-no-confirm              '(trash))
   (magit-section-initial-visibility-alist '((untracked . show)))
   ;; %Y year, %m month, %d day, %H 24h hour, %M minute
-  (magit-log-margin '(t "%Y-%m-%d %H:%M" magit-log-margin-width t 18)))
+  (magit-log-margin '(t "%Y-%m-%d %H:%M" magit-log-margin-width t 18))
+  :config
+  ;; Commit buffers inherit the global fill-column of 80, but the Git
+  ;; convention is to hard-wrap commit message bodies at 72. Override
+  ;; fill-column buffer-locally when a commit buffer is set up so auto-fill
+  ;; wraps at 72 instead of 80.
+  (add-hook 'git-commit-setup-hook
+            (lambda () (setq-local fill-column 72))))
 
 (use-package git-timemachine
   :ensure t
