@@ -102,6 +102,8 @@ useWorkspaceId = false
 [workspaceBar]
 backgroundOpacity = 0.1
 deduplicateAppIcons = false
+# Workspace bar must be enabled (and show up when Hiro starts) for the toggle
+# keybinding to work.
 enabled = true
 height = 24.0
 hideEmptyWorkspaces = false
