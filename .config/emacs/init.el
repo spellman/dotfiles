@@ -427,8 +427,9 @@ exit recursive edits) without rearranging windows."
 
 (xterm-mouse-mode 1)
 
-;; Display line numbers in programming mode
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+;; Display line numbers
+(let ((hooks '(prog-mode-hook markdown-mode-hook)))
+  (mapc (lambda (hook) (add-hook hook #'display-line-numbers-mode)) hooks))
 (setopt display-line-numbers-width 3)           ; Set a minimum width
 
 ;; Nice line wrapping when working with text
