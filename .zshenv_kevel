@@ -24,3 +24,5 @@ path_prepend "${HOME}/.cargo/bin" PATH
 
 # CDKTF (Terraform)
 export TERRAFORM_BINARY_NAME="$HOME/.terraform.d/bin/terraform-fs-mirror-wrapper.sh"
+
+export CLAUDE_CODE_NO_FLICKER=1
