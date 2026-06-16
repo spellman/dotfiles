@@ -228,9 +228,8 @@ if [[ -f .nvmrc ]]; then
   nvm use --silent >/dev/null || nvm install --silent
 fi
 
-# bun completions
-[ -s "/Users/cort/.bun/_bun" ] && source "/Users/cort/.bun/_bun"
-
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+# bun completions
+[ -s "/Users/cort/.bun/_bun" ] && source "/Users/cort/.bun/_bun"
