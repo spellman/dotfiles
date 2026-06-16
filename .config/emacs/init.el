@@ -1495,6 +1495,16 @@ A member of `eldoc-documentation-functions'.  CALLBACK is the eldoc callback."
   :config
   (evil-collection-init))
 
+;; evil-commentary: the vim-commentary `gc' operator. `gcc' comments a line,
+;; `gc' + a motion or text object comments that region, and `gc' in visual
+;; state comments the selection. Because it is a real Evil operator it composes
+;; with any text object, including ones defined by other packages.
+(use-package evil-commentary
+  :ensure t
+  :after evil
+  :config
+  (evil-commentary-mode))
+
 ;; general is declared early (in Basic settings) so its `:general' keyword and
 ;; `general-define-key' are available throughout this file. The evil-state
 ;; leader bindings are applied in the fzfa block above, which is :after evil.
