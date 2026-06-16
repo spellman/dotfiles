@@ -1281,11 +1281,17 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
 
 (use-package eglot
   :defer t
-  ;; no :ensure t here because it's built-in
 
-  ;; Configure hooks to automatically turn-on eglot for selected modes
-  ; :hook
-  ; (((python-mode ruby-mode elixir-mode) . eglot-ensure))
+  :init
+  (defun cws/eglot-clojure-setup ()
+    "Start clojure-lsp via eglot, with Flymake disabled.
+clj-kondo via Flycheck already provides diagnostics, and clojure-lsp
+uses clj-kondo internally -- both active would mean duplicate warnings."
+    (setq-local eglot-stay-out-of '(flymake))
+    (eglot-ensure))
+
+  :hook
+  ((clojure-ts-mode . cws/eglot-clojure-setup))
 
   :custom
   (eglot-send-changes-idle-time 0.1)
@@ -1293,10 +1299,47 @@ With prefix arg FORCE, reinstall all of them. After installing, restart
 
   :config
   (fset #'jsonrpc--log-event #'ignore)  ; massive perf boost---don't log every event
-  ;; Sometimes you need to tell Eglot where to find the language server
-  ; (add-to-list 'eglot-server-programs
-  ;              '(haskell-mode . ("haskell-language-server-wrapper" "--lsp")))
-  )
+  ;; Eglot's built-in table maps classic clojure-mode to clojure-lsp; the
+  ;; tree-sitter modes are distinct major modes and need their own entry.
+  (add-to-list 'eglot-server-programs
+               '((clojure-ts-mode clojure-ts-clojurec-mode clojure-ts-clojurescript-mode)
+                 . ("clojure-lsp")))
+
+  ;; eldoc in eglot-managed Clojure buffers: prefer CIDER, fall back to
+  ;; clojure-lsp -- chosen by REPL connection, not per symbol.
+  ;;
+  ;; Both CIDER and eglot register eldoc functions, and eglot defaults
+  ;; `eldoc-documentation-strategy' to `eldoc-documentation-compose', which
+  ;; stacks every source. Switching to the default strategy and ordering
+  ;; `cider-eldoc' first is not enough: that strategy shows the first source
+  ;; that answers *for the symbol at point*, so the source flips per position --
+  ;; CIDER on a function call (where it has an arglist) but eglot inside a
+  ;; binding vector like [n] (where `cider-eldoc' returns nil and eglot's
+  ;; signature fills the gap). That per-position flip is the inconsistency.
+  ;;
+  ;; Replace both sides with one dispatcher that picks the source by REPL state:
+  ;; while a REPL is connected only CIDER answers (so a position CIDER has
+  ;; nothing for shows nothing, rather than eglot stepping in); with no REPL,
+  ;; clojure-lsp's signature is the fallback. Hover is never used -- for
+  ;; clojure-lsp it only duplicates the signature. (Eglot still serves hover
+  ;; over LSP for on-demand lookups such as `eldoc-doc-buffer'.)
+  (defun cws/clojure-eldoc (callback &rest _)
+    "Eldoc for Clojure: CIDER when a REPL is connected, else clojure-lsp signature.
+A member of `eldoc-documentation-functions'.  CALLBACK is the eldoc callback."
+    (if (cider-connected-p)
+        (cider-eldoc callback)
+      (eglot-signature-eldoc-function callback)))
+  (defun cws/set-up-clojure-eldoc ()
+    "Route eldoc through `cws/clojure-eldoc' in eglot-managed Clojure buffers."
+    (when (and (eglot-managed-p)
+               (derived-mode-p 'clojure-ts-mode))
+      (setq-local eldoc-documentation-strategy #'eldoc-documentation-default)
+      (dolist (fn '(cider-eldoc
+                    eglot-signature-eldoc-function
+                    eglot-hover-eldoc-function))
+        (remove-hook 'eldoc-documentation-functions fn t))
+      (add-hook 'eldoc-documentation-functions #'cws/clojure-eldoc nil t)))
+  (add-hook 'eglot-managed-mode-hook #'cws/set-up-clojure-eldoc))
 
 ;;;; Illuminate: highlight symbol at point (treesit > LSP > regex)
 
