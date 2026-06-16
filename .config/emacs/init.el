@@ -685,6 +685,10 @@ exit recursive edits) without rearranging windows."
             "SPC" #'corfu-insert-separator
             "C-n" #'corfu-next
             "C-p" #'corfu-previous)
+  :custom
+  (corfu-auto t)
+  (corfu-no-match nil)
+  (global-corfu-modes '(prog-mode))
   :config
   (global-corfu-mode))
 
@@ -697,13 +701,31 @@ exit recursive edits) without rearranging windows."
   (corfu-popupinfo-delay '(0.25 . 0.1))
   (corfu-popupinfo-hide nil))
 
-;; Make corfu popup come up in terminal overlay
+;; Make the Corfu popup come up as an in-buffer overlay on terminal (TTY)
+;; frames, where the child frames Corfu normally uses are unavailable.
+;;
+;; The graphical test MUST be made per frame, not once at load time. Under the
+;; Emacs daemon `init.el' runs before any GUI frame exists, so
+;; `display-graphic-p' is nil while it loads. A load-time `:if'/`:config' check
+;; (the previous form) therefore enabled `corfu-terminal-mode' for the whole
+;; daemon, and it then served terminal overlay popups to GUI client frames too
+;; -- where that overlay does not render, so completion worked but no popup was
+;; visible. Toggling on each frame keeps it off in GUI frames and on in TTY
+;; frames. `server-after-make-frame-hook' covers emacsclient frames (daemon);
+;; `window-setup-hook' covers the initial frame of a direct, non-daemon launch.
 (use-package corfu-terminal
-  :if (not (display-graphic-p))
   :ensure t
-  :demand t
-  :config
-  (corfu-terminal-mode))
+  :defer t
+  :init
+  (defun cws/corfu-terminal-toggle (&optional _frame)
+    "Enable `corfu-terminal-mode' only when the selected frame is a TTY."
+    (if (display-graphic-p)
+        (when (bound-and-true-p corfu-terminal-mode)
+          (corfu-terminal-mode -1))
+      (require 'corfu-terminal)
+      (corfu-terminal-mode 1)))
+  (add-hook 'server-after-make-frame-hook #'cws/corfu-terminal-toggle)
+  (add-hook 'window-setup-hook #'cws/corfu-terminal-toggle))
 
 ;; Fancy completion-at-point functions; there's too much in the cape package to
 ;; configure here; dive in when you're comfortable!
@@ -714,9 +736,12 @@ exit recursive edits) without rearranging windows."
   (add-to-list 'completion-at-point-functions #'cape-dabbrev)
   (add-to-list 'completion-at-point-functions #'cape-file))
 
-;; Pretty icons for corfu
+;; Pretty icons for corfu.
+;; No `:if (display-graphic-p)' gate: under the daemon that test is nil at load
+;; time (see corfu-terminal above), so the whole block would be skipped and GUI
+;; client frames would get no completion icons. kind-icon falls back to text on
+;; TTY frames, so loading it unconditionally is safe.
 (use-package kind-icon
-  :if (display-graphic-p)
   :ensure t
   :after corfu
   :config
