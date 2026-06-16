@@ -416,12 +416,9 @@ exit recursive edits) without rearranging windows."
 (blink-cursor-mode -1)                                ; Steady cursor
 (pixel-scroll-precision-mode)                         ; Smooth scrolling
 
-;; Visual bell: pulse the current line instead of beeping or flashing the whole
-;; frame. pulse.el is built in (it's what xref uses to highlight a jump target),
-;; so this needs no extra package. (ring-bell-function is not a user option,
-;; hence setq rather than setopt.)
-(require 'pulse)
-(setq ring-bell-function (lambda () (pulse-momentary-highlight-one-line (point))))
+;; Disable the bell entirely. (ring-bell-function is not a user option, hence
+;; setq rather than setopt.)
+(setq ring-bell-function #'ignore)
 
 ;; For terminal users, make the mouse more useful
 
