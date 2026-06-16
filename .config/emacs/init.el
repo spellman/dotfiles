@@ -1131,6 +1131,16 @@ exit recursive edits) without rearranging windows."
   :ensure t
   :defer t
   :hook (clojure-ts-mode . clj-refactor-mode)
+  :custom
+  ;; On connect, clj-refactor compares the refactor-nrepl version reported by the
+  ;; server against `cljr-injected-middleware-version' (it does NOT use the
+  ;; version string it prints in the warning) and nags if they differ. Our
+  ;; `:nrepl' deps.edn alias loads refactor-nrepl 3.13.0, so point this at the
+  ;; same version to keep the two in sync and silence the spurious warning. Bump
+  ;; both together when updating refactor-nrepl. (The variable is named "injected"
+  ;; because `cider-jack-in' would inject this version; with `cider-connect' it
+  ;; serves only as the expected-version for the check.)
+  (cljr-injected-middleware-version "3.13.0")
   :config
   (cljr-add-keybindings-with-prefix "C-c r"))
 
