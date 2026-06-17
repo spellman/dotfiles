@@ -815,7 +815,7 @@ binding = "Control+Option+O"
 id = "toggleOverview"
 
 # --- Optional: fewer visible columns on the laptop than on the 32" 4K -----------------
-# The global [niri] maxVisibleColumns (3) applies to every monitor. To cap the 16"
+# The global [niri] maxVisibleColumns (2) applies to every monitor. To cap the 16"
 # MacBook display at fewer columns, add a per-monitor override. How:
 #   1. Delete the line  monitorNiriOverrides = []  near the top of this file — you can't
 #      have both that empty-array line and the [[monitorNiriOverrides]] block below.
