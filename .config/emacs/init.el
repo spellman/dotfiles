@@ -396,10 +396,6 @@ exit recursive edits) without rearranging windows."
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Mode line information
-(setopt line-number-mode t)                        ; Show current line in modeline
-(setopt column-number-mode t)                      ; Show column as well
-
 (setopt x-underline-at-descent-line nil)           ; Prettier underlines
 (setopt switch-to-buffer-obey-display-actions t)   ; Make switching buffers more consistent
 
@@ -519,17 +515,78 @@ exit recursive edits) without rearranging windows."
 (use-package nerd-icons
   :ensure t)
 
-(use-package doom-modeline
-  :ensure t
-  :demand t
-  :config
-  (setq doom-modeline-buffer-file-name-style 'relative-to-project
-        doom-modeline-buffer-encoding nil
-        doom-modeline-env-version nil)
-  (doom-modeline-def-modeline 'main
-    '(eldoc bar window-state workspace-name window-number modals matches follow buffer-info remote-host buffer-position word-count parrot selection-info)
-    '(compilation objed-state misc-info project-name persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info process vcs check time))
-  (doom-modeline-mode 1))
+;; Mode line: vanilla mode-line-format with :eval forms that re-evaluate on
+;; every redraw (no caching). Requires Emacs 30+ for mode-line-format-right-align.
+(setopt line-number-mode t)                        ; Show current line in modeline
+(setopt column-number-mode t)                      ; Show column as well
+
+(defun cws/mode-line-file-path ()
+  "Project-relative file path, abbreviated to directory initials when there
+isn't space to display the entire path."
+  (if-let* ((file (buffer-file-name)))
+      (let* ((proj (project-current))
+             (root (and proj (project-root proj)))
+             (rel (if root
+                      (file-relative-name file root)
+                    (abbreviate-file-name file)))
+             (threshold (max 30 (/ (window-total-width) 2))))
+        (if (<= (length rel) threshold)
+            rel
+          (let* ((dir (file-name-directory rel))
+                 (fname (file-name-nondirectory rel)))
+            (if (null dir)
+                fname
+              (concat (mapconcat (lambda (d) (substring d 0 1))
+                                 (split-string (directory-file-name dir) "/" t)
+                                 "/")
+                      "/" fname)))))
+    (buffer-name)))
+
+(defun cws/mode-line-right-side ()
+  "Right side: git branch (adaptively truncated) and flycheck diagnostics.
+Diagnostics always show in full; the branch absorbs any truncation."
+  (let* ((file-path-len (length (cws/mode-line-file-path)))
+         (left-width (+ 1 2 file-path-len 1 8 1 4))
+         (gap 1)
+         (right-budget (max 0 (- (window-total-width) left-width gap)))
+         (diag (when (bound-and-true-p flycheck-mode)
+                 (let* ((counts (flycheck-count-errors flycheck-current-errors))
+                        (errors (or (alist-get 'error counts) 0))
+                        (warnings (or (alist-get 'warning counts) 0))
+                        (infos (or (alist-get 'info counts) 0)))
+                   (concat
+                    (propertize "✖" 'face 'error) " " (number-to-string errors) " "
+                    (propertize "⚠" 'face 'warning) " " (number-to-string warnings) " "
+                    (propertize "ℹ" 'face 'success) " " (number-to-string infos)))))
+         (diag-width (if diag (string-width (substring-no-properties diag)) 0))
+         (branch-raw (when (and vc-mode (string-match "^ Git[:-]\\(.+\\)" vc-mode))
+                       (match-string 1 vc-mode)))
+         (separator (if (and branch-raw diag) 1 0))
+         (trailing 1)
+         (branch-budget (max 0 (- right-budget diag-width separator trailing)))
+         (branch (when branch-raw
+                   (if (<= (length branch-raw) branch-budget)
+                       branch-raw
+                     (when (> branch-budget 5)
+                       (concat (substring branch-raw 0 (- branch-budget 1)) "…"))))))
+    (concat (or branch "")
+            (if (and branch diag) " " "")
+            (or diag ""))))
+
+(setq-default mode-line-format
+              '(" "
+                ;; (:eval (if (bound-and-true-p evil-mode-line-tag)
+                ;;            evil-mode-line-tag
+                ;;          ""))
+                ;; " "
+                "%* "
+                (:eval (propertize (cws/mode-line-file-path)
+                                   'face 'mode-line-buffer-id
+                                   'help-echo (or (buffer-file-name) (buffer-name))))
+                " %l:%c %p"
+                mode-line-format-right-align
+                " "
+                (:eval (cws/mode-line-right-side))))
 
 (use-package nerd-icons-dired
   :ensure t
@@ -1007,7 +1064,7 @@ exit recursive edits) without rearranging windows."
 (use-package project
   :config
   (when (>= emacs-major-version 30)
-    (setopt project-mode-line t))          ; show project name in modeline
+    (setopt project-mode-line nil))
   ;; Remember the top-level project dirs under ~/Projects -- immediate children
   ;; only, no recursion -- so project-switch-project can reach them without
   ;; visiting each first. Add more roots, or pass t to recurse, if useful later.
@@ -1443,12 +1500,23 @@ A member of `eldoc-documentation-functions'.  CALLBACK is the eldoc callback."
   ;; highlighted persistently, the current match gets a distinct highlight, and
   ;; highlights only clear on :noh -- matching Vim/Neovim search behavior.
   (setq evil-search-module 'evil)
+  ;; We place the evil state tag manually in mode-line-format via :eval,
+  ;; so tell evil not to auto-insert it.
+  (setq evil-mode-line-format nil)
 
   ;; Enable this if you want C-u to scroll up, more like pure Vim
   ;(setq evil-want-C-u-scroll t)
 
   :config
   (evil-mode)
+
+  (setq evil-normal-state-tag   (propertize " N " 'face '(:foreground "#4078f2" :weight bold))
+        evil-insert-state-tag   (propertize " I " 'face '(:foreground "#50a14f" :weight bold))
+        evil-visual-state-tag   (propertize " V " 'face '(:foreground "#986801" :weight bold))
+        evil-replace-state-tag  (propertize " R " 'face '(:foreground "#e45649" :weight bold))
+        evil-operator-state-tag (propertize " O " 'face '(:foreground "#a626a4" :weight bold))
+        evil-motion-state-tag   (propertize " M " 'face '(:foreground "#a626a4" :weight bold))
+        evil-emacs-state-tag    (propertize " E " 'face '(:foreground "#a626a4" :weight bold)))
 
   ;; If you use Magit, start editing in insert state
   (add-hook 'git-commit-setup-hook 'evil-insert-state)
