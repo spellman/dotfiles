@@ -265,9 +265,11 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
 ;; formats with their own rules, such as git commit messages.
 (setq-default fill-column 80)
 
-;; Make right-click do something sensible
-(when (display-graphic-p)
-  (context-menu-mode))
+;; Make right-click do something sensible.
+;; Not gated on `(display-graphic-p)': under the daemon that is nil at load
+;; time, which would leave GUI client frames without the context menu.
+;; `context-menu-mode' is a global mode and is harmless on TTY frames.
+(context-menu-mode)
 
 ;; Don't litter file system with *~ backup files; put them all inside
 ;; ~/.emacs.d/backup or wherever
