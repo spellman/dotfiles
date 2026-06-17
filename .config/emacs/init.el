@@ -1504,6 +1504,12 @@ A member of `eldoc-documentation-functions'.  CALLBACK is the eldoc callback."
   (advice-add 'evil-ex-start-search :after #'cws/evil-update-current-match-overlay)
   (advice-add 'evil-ex-nohighlight  :after #'cws/evil-nohighlight-cleanup)
 
+  (general-define-key
+   :states  'normal
+   :keymaps 'override
+   "C-n" #'next-error
+   "C-p" #'previous-error)
+
   ;; Leader prefix labels for which-key.
   (with-eval-after-load 'which-key
     (which-key-add-key-based-replacements
