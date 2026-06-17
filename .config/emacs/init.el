@@ -1129,7 +1129,22 @@ Diagnostics always show in full; the branch absorbs any truncation."
   ;; while editing. Setting this to nil disables that display path entirely. To
   ;; see the full list of problems on demand, call `M-x flycheck-list-errors'
   ;; (bound to C-c ! l), which opens the list only when you ask for it.
-  (flycheck-display-errors-function nil))
+  (flycheck-display-errors-function nil)
+  :config
+  (defun cws/flycheck-inhibit-non-prog-p ()
+    "Prevent flycheck from running in non-programming buffers."
+    (not (derived-mode-p 'prog-mode)))
+  ;; A named function (not an anonymous lambda) so re-evaluating this block is
+  ;; idempotent: `add-hook' replaces the existing entry instead of stacking a
+  ;; second copy on `flycheck-mode-hook'.
+  (defun cws/flycheck-mode-setup ()
+    "Keep flycheck out of non-prog buffers; mirror its state to the EOL mode."
+    (if (cws/flycheck-inhibit-non-prog-p)
+        (flycheck-mode -1)
+      (cws/flycheck-eol-mode (if flycheck-mode 1 -1))))
+  (add-hook 'flycheck-mode-hook #'cws/flycheck-mode-setup))
+
+(load (expand-file-name "flycheck-eol.el" user-emacs-directory))
 
 ;;;; Programming and Data
 
