@@ -1135,7 +1135,8 @@ exit recursive edits) without rearranging windows."
   :defer t
   :hook (clojure-ts-mode . cider-mode)
   :custom
-  (cider-repl-display-help-banner nil))  ; skip the REPL's ASCII help banner
+  (cider-repl-display-help-banner nil)
+  (cider-use-tooltips nil))
 
 ;; clj-refactor: structural refactorings for Clojure -- rename, clean/sort the
 ;; namespace form, add-missing/require, introduce-let, thread/unwind threading
