@@ -1034,7 +1034,11 @@ exit recursive edits) without rearranging windows."
   ;; fill-column buffer-locally when a commit buffer is set up so auto-fill
   ;; wraps at 72 instead of 80.
   (add-hook 'git-commit-setup-hook
-            (lambda () (setq-local fill-column 72))))
+            (lambda () (setq-local fill-column 72)))
+  (add-hook 'magit-status-mode-hook
+            (lambda ()
+              (setq-local truncate-lines nil)
+              (setq-local truncate-partial-width-windows nil))))
 
 (use-package git-timemachine
   :ensure t
