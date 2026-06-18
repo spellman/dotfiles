@@ -283,6 +283,10 @@ If the new path's directories does not exist, create them."
     backup-file-path))
 (setopt make-backup-file-name-function #'bedrock--backup-file-name)
 
+(let ((auto-save-dir (expand-file-name "auto-save/" user-emacs-directory)))
+  (make-directory auto-save-dir t)
+  (setopt auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
+
 ;; ediff: disable auto-save in merge buffers so Emacs never writes
 ;; #*ediff-merge*#...# temp files to the working directory.
 (with-eval-after-load 'ediff-util
