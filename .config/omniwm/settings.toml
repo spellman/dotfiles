@@ -435,11 +435,11 @@ binding = "Control+Option+Shift+L"
 id = "move.right"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Control+Option+Command+Shift+J"
 id = "moveWindowDown"
 
 [[hotkeys]]
-binding = "Unassigned"
+binding = "Control+Option+Command+Shift+K"
 id = "moveWindowUp"
 
 [[hotkeys]]
