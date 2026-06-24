@@ -191,6 +191,10 @@ Mirrors the pinned-package handling in `elpaca-fetch'."
       (setq cws/last-focused-frame f))))
 (add-function :after after-focus-change-function #'cws/track-focused-frame)
 
+;; Start the Emacs server so emacsclient can connect. No-op if a server is
+;; already running (e.g. from a prior daemon or earlier Emacs instance).
+(server-start)
+
 ;; Close the selected frame when explicitly asked, even when Emacs thinks it is
 ;; the last visible frame. On macOS, Command-W is `s-w'.
 (defun cws/delete-frame-force ()

@@ -56,7 +56,14 @@ hs.hotkey.bind(hyper, "d", function()
 end)
 
 hs.hotkey.bind(hyper, "e", function()
-	launchOrFocusOrRotate("org.gnu.Emacs")
+	local app = hs.application.get("org.gnu.Emacs")
+	if app and #app:allWindows() > 0 then
+		launchOrFocusOrRotate("org.gnu.Emacs")
+	else
+		hs.execute(
+			"/opt/homebrew/bin/emacsclient --alternate-editor='' --create-frame --no-wait 2>&1",
+			true)
+	end
 end)
 
 hs.hotkey.bind(hyper, "m", function()
