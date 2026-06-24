@@ -889,25 +889,6 @@ Diagnostics always show in full; the branch absorbs any truncation."
   ;; the files that define them.
   (autoload 'fzfa-fd-2p "fzfa-fd" nil t)
 
-  (defun cws/fzfa-project-switch-project-dired (&rest _args)
-    "Switch to a known project root and open it in Dired."
-    (interactive)
-    (let ((roots (project-known-project-roots)))
-      (unless roots
-        (user-error "No known projects"))
-      (when-let* ((sel (fzfa-sync-completing-read
-                        :candidates (mapcar #'abbreviate-file-name roots)
-                        :prompt "switch project: "
-                        :category 'fzfa-file)))
-        (dired (file-name-as-directory (expand-file-name sel))))))
-
-  ;; `fzfa-project-switch-project' normally selects a project root with fzfa,
-  ;; then delegates to `project-switch-project', which asks what project action
-  ;; to run. Keep the fzfa root picker but go straight to Dired at the root.
-  (with-eval-after-load 'fzfa-project
-    (advice-add 'fzfa-project-switch-project
-                :override #'cws/fzfa-project-switch-project-dired))
-
   (general-define-key
    :states  'normal
    :keymaps 'override
@@ -939,11 +920,9 @@ Diagnostics always show in full; the branch absorbs any truncation."
    "fd --full-path --no-ignore-vcs --hidden --exclude .git --type file")
   ;; Preview after a brief pause, like the 0.1 s debounce consult used.
   (fzfa-preview-delay 0.1)
-  ;; Drop the fzfa-buffer entry from the default preview handlers: switching
-  ;; buffers should not auto-preview (consult-buffer was preview-on-demand
-  ;; only). Files and grep/location hits keep their previews.
   (fzfa-preview-functions
-   '((fzfa-file     :setup   fzfa--file-preview-setup
+   '((fzfa-buffer   :preview fzfa--buffer-preview)
+     (fzfa-file     :setup   fzfa--file-preview-setup
                     :preview fzfa--file-preview
                     :return  fzfa--file-preview-return)
      (fzfa-grep     :preview fzfa--grep-preview)
