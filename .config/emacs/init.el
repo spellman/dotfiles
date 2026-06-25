@@ -529,16 +529,20 @@ exit recursive edits) without rearranging windows."
 (setopt column-number-mode t)                      ; Show column as well
 
 (defun cws/mode-line-file-path ()
-  "Project-relative file path, abbreviated to directory initials when there
-isn't space to display the entire path."
+  "Project-relative file path, abbreviated to directory initials only when the
+full path would not fit in the available mode line space."
   (if-let* ((file (buffer-file-name)))
       (let* ((proj (project-current))
              (root (and proj (project-root proj)))
              (rel (if root
                       (file-relative-name file root)
                     (abbreviate-file-name file)))
-             (threshold (max 30 (/ (window-total-width) 2))))
-        (if (<= (length rel) threshold)
+             (fixed-width (+ 1 2 1 8 1 4))
+             (right-side-width (string-width
+                                (substring-no-properties
+                                 (format-mode-line '(:eval (cws/mode-line-right-side))))))
+             (budget (- (window-total-width) fixed-width right-side-width 2)))
+        (if (<= (length rel) budget)
             rel
           (let* ((dir (file-name-directory rel))
                  (fname (file-name-nondirectory rel)))
