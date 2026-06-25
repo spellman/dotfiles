@@ -1332,6 +1332,7 @@ Diagnostics always show in full; the branch absorbs any truncation."
       (html       html-mode      html-ts-mode)
       (java       java-mode      java-ts-mode)
       (javascript js-mode        js-ts-mode)
+      (javascript js-jsx-mode    js-ts-mode)
       (json       json-mode      json-ts-mode)
       (python     python-mode    python-ts-mode)
       (ruby       ruby-mode      ruby-ts-mode)
@@ -1342,10 +1343,11 @@ Diagnostics always show in full; the branch absorbs any truncation."
   ;; mode in this Emacs (only the *-ts-mode exists): point the extension
   ;; straight at the tree-sitter mode, again only when the grammar is installed.
   (defvar cws--treesit-auto-modes
-    '((dockerfile "\\(?:Dockerfile\\|\\.dockerfile\\)\\'" dockerfile-ts-mode)
-      (lua        "\\.lua\\'"                              lua-ts-mode)
-      (typescript "\\.ts\\'"                               typescript-ts-mode)
-      (tsx        "\\.tsx\\'"                              tsx-ts-mode))
+    '((dockerfile  "\\(?:Dockerfile\\|\\.dockerfile\\)\\'" dockerfile-ts-mode)
+      (javascript  "\\.mjs\\'"                             js-ts-mode)
+      (lua         "\\.lua\\'"                             lua-ts-mode)
+      (typescript  "\\.ts\\'"                              typescript-ts-mode)
+      (tsx         "\\.tsx\\'"                             tsx-ts-mode))
     "Rows of (GRAMMAR-LANG FILE-REGEXP TS-MODE) for tree-sitter auto-mode.")
   (dolist (row cws--treesit-remaps)
     (pcase-let ((`(,lang ,classic ,ts) row))
