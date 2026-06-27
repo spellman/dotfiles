@@ -1056,10 +1056,11 @@ Diagnostics always show in full; the branch absorbs any truncation."
   :config
   (when (>= emacs-major-version 30)
     (setopt project-mode-line nil))
-  ;; Remember the top-level project dirs under ~/Projects -- immediate children
-  ;; only, no recursion -- so project-switch-project can reach them without
-  ;; visiting each first. Add more roots, or pass t to recurse, if useful later.
-  (project-remember-projects-under "~/Projects"))
+  ;; A single command (not the usual list) makes project-switch-project skip its
+  ;; action menu and run that command directly. fzfa-project-switch-project
+  ;; discovers a root under ~/Projects and dispatches through
+  ;; project-switch-project, so selecting a project lands straight in Dired.
+  (setopt project-switch-commands #'project-dired))
 
 ;;;; Version Control
 
