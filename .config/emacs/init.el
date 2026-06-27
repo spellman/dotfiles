@@ -523,82 +523,170 @@ exit recursive edits) without rearranging windows."
 (use-package nerd-icons
   :ensure t)
 
-;; Mode line: vanilla mode-line-format with :eval forms that re-evaluate on
-;; every redraw (no caching). Requires Emacs 30+ for mode-line-format-right-align.
-(setopt line-number-mode t)                        ; Show current line in modeline
-(setopt column-number-mode t)                      ; Show column as well
+;; Mode line: single compute function with elastic packing, deferred to idle
+;; via mode-line-idle. Project root and branch are cached buffer-locally and
+;; recomputed only when their inputs change.
+;; Requires Emacs 30+ for mode-line-format-right-align.
 
-(defun cws/mode-line-file-path ()
-  "Project-relative file path, abbreviated to directory initials only when the
-full path would not fit in the available mode line space."
-  (if-let* ((file (buffer-file-name)))
-      (let* ((proj (project-current))
-             (root (and proj (project-root proj)))
-             (rel (if root
-                      (file-relative-name file root)
-                    (abbreviate-file-name file)))
-             (fixed-width (+ 1 2 1 8 1 4))
-             (right-side-width (string-width
-                                (substring-no-properties
-                                 (format-mode-line '(:eval (cws/mode-line-right-side))))))
-             (budget (- (window-total-width) fixed-width right-side-width 2)))
-        (if (<= (length rel) budget)
-            rel
-          (let* ((dir (file-name-directory rel))
-                 (fname (file-name-nondirectory rel)))
-            (if (null dir)
-                fname
-              (concat (mapconcat (lambda (d) (substring d 0 1))
-                                 (split-string (directory-file-name dir) "/" t)
-                                 "/")
-                      "/" fname)))))
-    (buffer-name)))
+(use-package mode-line-idle :ensure t)
 
-(defun cws/mode-line-right-side ()
-  "Right side: git branch (adaptively truncated) and flycheck diagnostics.
-Diagnostics always show in full; the branch absorbs any truncation."
-  (let* ((file-path-len (length (cws/mode-line-file-path)))
-         (left-width (+ 1 2 file-path-len 1 8 1 4))
-         (gap 1)
-         (right-budget (max 0 (- (window-total-width) left-width gap)))
-         (diag (when (bound-and-true-p flycheck-mode)
-                 (let* ((counts (flycheck-count-errors flycheck-current-errors))
-                        (errors (or (alist-get 'error counts) 0))
-                        (warnings (or (alist-get 'warning counts) 0))
-                        (infos (or (alist-get 'info counts) 0)))
-                   (concat
-                    (propertize "✖" 'face 'error) " " (number-to-string errors) " "
-                    (propertize "⚠" 'face 'warning) " " (number-to-string warnings) " "
-                    (propertize "ℹ" 'face 'success) " " (number-to-string infos)))))
+(setopt line-number-mode t)
+(setopt column-number-mode t)
+
+(defvar-local cws/mode-line--project-root nil)
+(defvar-local cws/mode-line--project-root-initialized nil)
+
+(defun cws/mode-line--project-root ()
+  "Return the project root for the current buffer, computing it only once."
+  (unless cws/mode-line--project-root-initialized
+    (setq cws/mode-line--project-root-initialized t)
+    (when-let* ((proj (project-current)))
+      (setq cws/mode-line--project-root (project-root proj))))
+  cws/mode-line--project-root)
+
+(defvar-local cws/mode-line--branch-cache nil)
+(defvar-local cws/mode-line--branch-vc-mode :unset)
+
+(defun cws/mode-line--branch-raw ()
+  "Return the raw git branch name, recomputed only when vc-mode changes."
+  (unless (equal cws/mode-line--branch-vc-mode vc-mode)
+    (setq cws/mode-line--branch-vc-mode vc-mode)
+    (setq cws/mode-line--branch-cache
+          (when (and vc-mode (string-match "^ Git[:-]\\(.+\\)" vc-mode))
+            (match-string 1 vc-mode))))
+  cws/mode-line--branch-cache)
+
+(defconst cws/mode-line--branch-min 20)
+
+(defun cws/mode-line--path-versions (path)
+  "Return progressively abbreviated versions of PATH.
+Each version abbreviates one more directory segment from the left
+to its first character. The file name is never abbreviated.
+The first element is the full path; the last is fully abbreviated."
+  (let* ((dir (file-name-directory path))
+         (fname (file-name-nondirectory path))
+         (segments (if dir (split-string (directory-file-name dir) "/" t) nil)))
+    (if (null segments)
+        (list path)
+      (let ((versions (list path))
+            (n (length segments)))
+        (dotimes (i n)
+          (let ((parts (append (mapcar (lambda (d) (substring d 0 1))
+                                       (seq-take segments (1+ i)))
+                               (seq-drop segments (1+ i)))))
+            (push (concat (string-join parts "/") "/" fname) versions)))
+        (nreverse versions)))))
+
+(defun cws/mode-line--first-fitting (versions budget)
+  "Return the first element of VERSIONS whose length is <= BUDGET, or nil."
+  (seq-find (lambda (v) (<= (length v) budget)) versions))
+
+(defun cws/mode-line--truncate-left (str width)
+  "Truncate STR from the left to fit in WIDTH characters, with a leading ellipsis."
+  (if (<= (length str) width)
+      str
+    (concat "…" (substring str (- (length str) (- width 1))))))
+
+(defun cws/mode-line--truncate-right (str width)
+  "Truncate STR from the right to fit in WIDTH characters, with a trailing ellipsis."
+  (if (<= (length str) width)
+      str
+    (concat (substring str 0 (- width 1)) "…")))
+
+(defun cws/mode-line--diag ()
+  "Return the flycheck diagnostics string with fixed-width 3-digit counts, or nil."
+  (when (bound-and-true-p flycheck-mode)
+    (let* ((counts (flycheck-count-errors flycheck-current-errors))
+           (errors (or (alist-get 'error counts) 0))
+           (warnings (or (alist-get 'warning counts) 0))
+           (infos (or (alist-get 'info counts) 0)))
+      (concat
+       (propertize "✖" 'face 'error) " " (format "%3d" errors) " "
+       (propertize "⚠" 'face 'warning) " " (format "%3d" warnings) " "
+       (propertize "ℹ" 'face 'success) " " (format "%3d" infos)))))
+
+(defvar-local cws/mode-line--path "")
+(defvar-local cws/mode-line--branch-str "")
+(defvar-local cws/mode-line--diag-str "")
+(defvar-local cws/mode-line--separator "")
+
+(defun cws/mode-line--update ()
+  "Recompute the elastic mode line segments and cache them.
+Layout cascade, operating on flexible space after fixed-width segments:
+  1. Full path + full branch? Done.
+  2. Full path + branch truncated to >= 20 chars? Done.
+  3. Path progressively abbreviated from left + branch at 20 chars? Done.
+  4. Path progressively abbreviated from left, no branch? Done.
+  5. Fully abbreviated path truncated from left, no branch? Done.
+  6. File name truncated on the right."
+  (let* ((file (buffer-file-name))
+         (root (cws/mode-line--project-root))
+         (full-path (cond
+                     ((and file root) (file-relative-name file root))
+                     (file (abbreviate-file-name file))
+                     (t (buffer-name))))
+         (branch-raw (cws/mode-line--branch-raw))
+         (diag (cws/mode-line--diag))
          (diag-width (if diag (string-width (substring-no-properties diag)) 0))
-         (branch-raw (when (and vc-mode (string-match "^ Git[:-]\\(.+\\)" vc-mode))
-                       (match-string 1 vc-mode)))
-         (separator (if (and branch-raw diag) 1 0))
-         (trailing 1)
-         (branch-budget (max 0 (- right-budget diag-width separator trailing)))
-         (branch (when branch-raw
-                   (if (<= (length branch-raw) branch-budget)
-                       branch-raw
-                     (when (> branch-budget 5)
-                       (concat (substring branch-raw 0 (- branch-budget 1)) "…"))))))
-    (concat (or branch "")
-            (if (and branch diag) " " "")
-            (or diag ""))))
+         ;; " %* " (3) + " %l:%c %p" (10) + right-align gap (1)
+         (fixed (+ 3 10 1))
+         (flexible (max 0 (- (window-total-width) fixed diag-width)))
+         (branch-len (if branch-raw (length branch-raw) 0))
+         (fname (file-name-nondirectory full-path))
+         (versions (if file (cws/mode-line--path-versions full-path) (list full-path)))
+         (most-abbreviated (car (last versions)))
+         (fit-with-branch (when branch-raw
+                            (cws/mode-line--first-fitting
+                             versions
+                             (- flexible 1 cws/mode-line--branch-min))))
+         (fit-without-branch (cws/mode-line--first-fitting versions flexible))
+         (path-str nil)
+         (branch-str nil))
+    (cond
+     ;; 1. Full path + full branch
+     ((<= (+ (length full-path) (if branch-raw (+ 1 branch-len) 0)) flexible)
+      (setq path-str full-path
+            branch-str branch-raw))
+     ;; 2. Full path + branch truncated to >= 20 chars
+     ((and branch-raw (>= (- flexible (length full-path) 1) cws/mode-line--branch-min))
+      (setq path-str full-path
+            branch-str (cws/mode-line--truncate-right branch-raw (- flexible (length full-path) 1))))
+     ;; 3. Path progressively abbreviated + branch at 20 chars
+     (fit-with-branch
+      (setq path-str fit-with-branch
+            branch-str (cws/mode-line--truncate-right branch-raw cws/mode-line--branch-min)))
+     ;; 4. Path progressively abbreviated, no branch
+     (fit-without-branch
+      (setq path-str fit-without-branch
+            branch-str nil))
+     ;; 5. Fully abbreviated path truncated from left (keeping file name)
+     ((<= (length fname) flexible)
+      (setq path-str (cws/mode-line--truncate-left most-abbreviated flexible)
+            branch-str nil))
+     ;; 6. File name truncated on the right
+     (t
+      (setq path-str (cws/mode-line--truncate-right fname flexible)
+            branch-str nil)))
+    (setq cws/mode-line--path
+          (propertize path-str
+                      'face 'mode-line-buffer-id
+                      'help-echo (or file (buffer-name))))
+    (setq cws/mode-line--branch-str (or branch-str ""))
+    (setq cws/mode-line--diag-str (or diag ""))
+    (setq cws/mode-line--separator (if (and branch-str diag) " " "")))
+  "")
+
+(defvar cws/mode-line--idle-trigger '(:eval (cws/mode-line--update)))
 
 (setq-default mode-line-format
-              '(" "
-                ;; (:eval (if (bound-and-true-p evil-mode-line-tag)
-                ;;            evil-mode-line-tag
-                ;;          ""))
-                ;; " "
-                "%* "
-                (:eval (propertize (cws/mode-line-file-path)
-                                   'face 'mode-line-buffer-id
-                                   'help-echo (or (buffer-file-name) (buffer-name))))
-                " %l:%c %p"
-                mode-line-format-right-align
-                " "
-                (:eval (cws/mode-line-right-side))))
+              (list " %* "
+                    '(:eval (mode-line-idle 0.5 cws/mode-line--idle-trigger ""))
+                    '(:eval cws/mode-line--path)
+                    " %l:%c %p"
+                    'mode-line-format-right-align
+                    '(:eval (concat cws/mode-line--branch-str
+                                    cws/mode-line--separator
+                                    cws/mode-line--diag-str))))
 
 (use-package nerd-icons-dired
   :ensure t
