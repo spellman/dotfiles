@@ -291,6 +291,9 @@ If the new path's directories does not exist, create them."
   (make-directory auto-save-dir t)
   (setopt auto-save-file-name-transforms `((".*" ,auto-save-dir t))))
 
+(setopt auto-save-visited-interval 1) ; interval in seconds
+(auto-save-visited-mode)
+
 ;; ediff: disable auto-save in merge buffers so Emacs never writes
 ;; #*ediff-merge*#...# temp files to the working directory.
 (with-eval-after-load 'ediff-util
