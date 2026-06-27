@@ -1190,6 +1190,14 @@ Layout cascade, operating on flexible space after fixed-width segments:
             :prefix  cws/leader
             "g t" '(git-timemachine :which-key "Git timemachine")))
 
+(use-package diff-hl
+  :ensure t
+  :hook (magit-post-refresh . diff-hl-magit-post-refresh)
+  :custom
+  (diff-hl-draw-borders nil)
+  :config
+  (global-diff-hl-mode))
+
 ;;;; Syntax checking
 
 ;; Flycheck: on-the-fly syntax and lint checking. Enabled per-buffer through the
